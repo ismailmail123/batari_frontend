@@ -21,6 +21,7 @@ import NotFound from '../pages/404'
 import { useEffect } from 'react';
 import { isTokenExpired } from '../lib/authUtils';
 import FormExcel from '../pages/WargabinaanForm/FormFile';
+import PengunjungLabel from '../pages/Label';
 
 
 const Index = () => {
@@ -144,6 +145,12 @@ const Index = () => {
       element: 
       // authUser == null ? <Login /> :
           <AddPengunjungForm />
+      
+    },
+    {
+      path: '/label/:kode',
+      element: 
+          <PengunjungLabel />
       
     },
     {

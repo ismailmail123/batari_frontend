@@ -24,15 +24,20 @@ export default function HomePage() {
     getNomorAntrianTerakhir,
   } = useDataStore(); // Tambahkan getNomorAntrianTerakhir
   const [searchKode, setSearchKode] = useState("");
+  const [searchKodeTitipan, setSearchKodeTitipan] = useState("");
   const [selectedPengunjung, setSelectedPengunjung] = useState(null);
+  const [selectedPengunjungTitipan, setSelectedPengunjungTitipan] = useState(null);
   const [antrian, setAntrian] = useState(null);
+  const [antrianTitipan, setAntrianTitipan] = useState(null);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isDropdownTitipanOpen, setIsDropdownTitipanOpen] = useState(false);
   const dropdownRef = useRef(null);
   const updateAntrian = useDataStore((state) => state.updateAntrian);
   const [lastAntrian, setLastAntrian] = useState("000");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const dropdownTitipanRef = useRef(null);
   const navigate = useNavigate();
   // Redirect ke halaman login jika authUser null
   useEffect(() => {
@@ -84,6 +89,46 @@ const filteredPengunjungs = pengunjungs.filter((pengunjung) => {
     setSelectedPengunjung(pengunjung);
     setIsDropdownOpen(false);
   };
+
+// Handle klik di luar dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownTitipanRef.current && !dropdownTitipanRef.current.contains(event.target)) {
+        setIsDropdownTitipanOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+// Fungsi untuk memformat tanggal ke YYYY-MM-DD
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
+// Ambil tanggal hari ini
+const today = formatDate(new Date());
+console.log("hari ini", today)
+
+// Filter pengunjung berdasarkan tanggal updatedAt yang sama dengan hari ini
+const filteredPengunjungTitipan = pengunjungs.filter((pengunjung) => {
+  const updatedAtFormatted = formatDate(pengunjung.updatedAt); // Ubah format updatedAt
+  return updatedAtFormatted === today; // Bandingkan dengan tanggal hari ini
+});
+
+console.log("Tanggal hari ini:", today);
+console.log("Pengunjung dengan updatedAt hari ini:", filteredPengunjungTitipan);
+
+  // Handle pemilihan pengunjung untuk label titipan
+  const handleSelectPengunjungTitipan = (pengunjung) => {
+    setSearchKodeTitipan(pengunjung.kode);
+    setSelectedPengunjungTitipan(pengunjung);
+    setIsDropdownTitipanOpen(false);
+  };
   
 
   // Submit nomor antrian
@@ -113,6 +158,18 @@ const filteredPengunjungs = pengunjungs.filter((pengunjung) => {
       setError("Gagal menyimpan nomor antrian");
     }
   };
+
+  // Handle pengambilan label titipan
+  const handleAmbilLabelTitipan = () => {
+    if (selectedPengunjungTitipan) {
+      navigate(`/label/${selectedPengunjungTitipan.kode}`);
+    }
+  };
+
+  // Jika authUser null, jangan render apa pun
+  if (!authUser) {
+    return null;
+  }
 
     // Jika authUser null, jangan render apa pun
     if (!authUser) {
@@ -286,7 +343,69 @@ const filteredPengunjungs = pengunjungs.filter((pengunjung) => {
                   <div className="text-green-500 mt-2">{success}</div>
                 )}
               </div>
+          {/* Card Ambil Label Titipan */}
+          <div className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200">
+            <TicketIcon className="h-12 w-12 text-yellow-600 mb-4" />
+            <h2 className="text-xl font-semibold mb-2">Ambil Label Titipan</h2>
 
+            <div className="relative" ref={dropdownTitipanRef}>
+              <input
+                type="text"
+                value={searchKodeTitipan}
+                onChange={(e) => {
+                  setSearchKodeTitipan(e.target.value);
+                  setIsDropdownTitipanOpen(true);
+                }}
+                onFocus={() => setIsDropdownTitipanOpen(true)}
+                placeholder="Masukkan kode pengunjung..."
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-2"
+              />
+
+              {isDropdownTitipanOpen && (
+                <div className="absolute z-10 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+                  {filteredPengunjungTitipan.length > 0 ? (
+                    filteredPengunjungTitipan.map((pengunjung) => (
+                      <div
+                        key={pengunjung.id}
+                        onClick={() => handleSelectPengunjungTitipan(pengunjung)}
+                        className="p-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100"
+                      >
+                        <div className="font-medium">{pengunjung.nama}</div>
+                        <div className="text-sm text-gray-500">
+                          Kode: {pengunjung.kode}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="p-3 text-gray-500">Tidak ada data</div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {selectedPengunjungTitipan && (
+              <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                <div className="mb-2">
+                  <span className="font-semibold">Nama:</span>{" "}
+                  {selectedPengunjungTitipan.nama}
+                </div>
+                <div className="mb-2">
+                  <span className="font-semibold">Kode:</span>{" "}
+                  {selectedPengunjungTitipan.kode}
+                </div>
+                <button
+                  onClick={handleAmbilLabelTitipan}
+                  className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Ambil Label Titipan
+                </button>
+              </div>
+            )}
+          
+
+          {/* Komponen lainnya */}
+        </div>
+      
               {/* Daftar Warga Binaan */}
               <Link
                 to="/wbp-list"

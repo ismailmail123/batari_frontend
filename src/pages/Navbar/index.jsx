@@ -28,32 +28,37 @@ const NavbarWbp = () => {
       setIsMenuOpen(!isMenuOpen);
     };
 
-    const handleLogout = async () => {
-      try {
-          // Panggil endpoint logout di backend
-          const response = await fetch("http://localhost:3001/api/logout", {
-              method: "POST",
-              headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${localStorage.getItem("token")}`, // Kirim token untuk validasi
-              },
-          });
+  //   const handleLogout = async () => {
+  //     try {
+  //         // Panggil endpoint logout di backend
+  //         const response = await fetch("http://localhost:3001/api/logout", {
+  //             method: "POST",
+  //             headers: {
+  //                 "Content-Type": "application/json",
+  //                 Authorization: `Bearer ${localStorage.getItem("token")}`, // Kirim token untuk validasi
+  //             },
+  //         });
   
-          if (response.ok) {
-              // Hapus token dan data pengguna dari localStorage
-              localStorage.removeItem("token");
-              localStorage.removeItem("userData");
+  //         if (response.ok) {
+  //             // Hapus token dan data pengguna dari localStorage
+  //             localStorage.removeItem("token");
+  //             localStorage.removeItem("userData");
   
-              // Redirect pengguna ke halaman login atau halaman lain
-              window.location.href = "/login"; // Contoh redirect ke halaman login
-          } else {
-              console.error("Logout failed:", await response.json());
-          }
-      } catch (error) {
-          console.error("Error during logout:", error);
-      }
-  };
+  //             // Redirect pengguna ke halaman login atau halaman lain
+  //             window.location.href = "/login"; // Contoh redirect ke halaman login
+  //         } else {
+  //             console.error("Logout failed:", await response.json());
+  //         }
+  //     } catch (error) {
+  //         console.error("Error during logout:", error);
+  //     }
+  // };
 
+  const handleLogout = () => {
+    logout();
+    // window.location.reload();
+    navigate("/login")
+  }
   return (
     <header
       className="bg-base-100 border-b border-base-300 fixed w-full top-0 z-40 
@@ -133,7 +138,7 @@ const NavbarWbp = () => {
                     <span>Tambah Warga Binaan</span>
                   </Link>
                   <Link
-                    to="/"
+                    to="/wbp-list"
                     style={{ textDecoration: "none", color: "black" }}
                     className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded-md transition-colors"
                   >

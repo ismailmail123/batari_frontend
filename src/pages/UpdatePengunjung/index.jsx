@@ -72,7 +72,7 @@ const EditPengunjungForm = () => {
     try {
       await updatePengunjung(kode, formData); // Panggil fungsi updatePengunjung dari zustand
       toast.success("Data pengunjung berhasil diperbarui!");
-      navigate(`/pengunjung/${kode}`); // Navigasi ke halaman detail
+      navigate(-1); // Navigasi ke halaman detail
     } catch (error) {
       console.error("Error: ", error);
       toast.error("Gagal memperbarui data pengunjung. Silakan coba lagi.");

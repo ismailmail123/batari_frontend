@@ -1,0 +1,21 @@
+.image-pengunjung {
+    width: calc(var(--spacing)* 52);
+    max-height: calc(var(--spacing)* 36);
+    /* margin-left: 170px; */
+    margin-top: 25px;
+}
+
+.barcode_image {
+    width: calc(var(--spacing)* 36);
+    max-height: calc(var(--spacing)* 36);
+    margin-top: -150px;
+}
+
+@media screen and (max-width: 768px) {
+    .image-pengunjung {
+        width: calc(var(--spacing)* 52);
+        max-height: calc(var(--spacing)* 36);
+        margin-top: 5px;
+        margin-left: 0;
+    }
+}
