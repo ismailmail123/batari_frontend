@@ -70,21 +70,80 @@ const AddPengunjungForm = ({ onClose }) => {
   };
 
   // Handle submit form
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   // Validasi form
+  //   if (!formData.nama || !formData.nik || !formData.hp || !formData.wbp_id) {
+  //     setError("Pastikan nama, NIK, nomor HP, dan WBP diisi.");
+  //     return;
+  //   }
+
+  //   // Reset error
+  //   setError("");
+
+  //   // Set loading state ke true
+  //   setIsSubmitting(true);
+
+  //   // Buat FormData untuk mengirim file
+  //   const formDataToSend = new FormData();
+  //   for (const key in formData) {
+  //     if (formData[key] !== null) {
+  //       formDataToSend.append(key, formData[key]);
+  //     }
+  //   }
+
+  //   // Panggil fungsi createPengunjung dari Zustand
+  //   try {
+  //     await createPengunjung(formDataToSend, setError);
+  //     toast.success("Pengunjung berhasil ditambahkan!");
+
+  //     // Reset form setelah berhasil
+  //     setFormData({
+  //       wbp_id: "",
+  //       nama: "",
+  //       jenis_kelamin: "",
+  //       nik: "",
+  //       alamat: "",
+  //       hp: "",
+  //       hubungan_keluarga: "",
+  //       pengikut_laki_laki: 0,
+  //       pengikut_perempuan: 0,
+  //       pengikut_anak_anak: 0,
+  //       pengikut_bayi: 0,
+  //       total_pengikut: 0,
+  //       keterangan: "",
+  //       photo_ktp: null,
+  //       photo_pengunjung: null,
+  //     });
+
+  //     // Tutup modal atau navigasi
+  //     if (onClose) onClose();
+  //     navigate("/pengunjung")
+  //   } catch (err) {
+  //     console.error("Error saat menambahkan pengunjung:", err);
+  //   } finally {
+  //     // Set loading state ke false setelah selesai
+  //     setIsSubmitting(false);
+  //   }
+  // };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     // Validasi form
     if (!formData.nama || !formData.nik || !formData.hp || !formData.wbp_id) {
       setError("Pastikan nama, NIK, nomor HP, dan WBP diisi.");
       return;
     }
-
+  
     // Reset error
     setError("");
-
+  
     // Set loading state ke true
     setIsSubmitting(true);
-
+  
     // Buat FormData untuk mengirim file
     const formDataToSend = new FormData();
     for (const key in formData) {
@@ -92,12 +151,17 @@ const AddPengunjungForm = ({ onClose }) => {
         formDataToSend.append(key, formData[key]);
       }
     }
-
+  
+    // Debug: Periksa isi formDataToSend
+    for (let [key, value] of formDataToSend.entries()) {
+      console.log(key, value);
+    }
+  
     // Panggil fungsi createPengunjung dari Zustand
     try {
       await createPengunjung(formDataToSend, setError);
       toast.success("Pengunjung berhasil ditambahkan!");
-
+  
       // Reset form setelah berhasil
       setFormData({
         wbp_id: "",
@@ -116,10 +180,10 @@ const AddPengunjungForm = ({ onClose }) => {
         photo_ktp: null,
         photo_pengunjung: null,
       });
-
+  
       // Tutup modal atau navigasi
       if (onClose) onClose();
-      navigate("/pengunjung")
+      navigate("/pengunjung");
     } catch (err) {
       console.error("Error saat menambahkan pengunjung:", err);
     } finally {

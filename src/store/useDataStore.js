@@ -1,7 +1,7 @@
 // import { create } from "zustand";
 // import axios from "axios";
 // import toast from "react-hot-toast";
-// import { axiosInstance } from "../lib/axios";
+// import { axios } from "../lib/axios";
 
 // const getUserDataFromCookie = () => {
 //     try {
@@ -39,7 +39,7 @@
 //         }
 
 //         try {
-//             const response = await axiosInstance.post(
+//             const response = await axios.post(
 //                 "/wargabinaan/upload-excel",
 //                 formData, {
 //                     headers: {
@@ -102,7 +102,7 @@
 //         }
 
 //         try {
-//             const response = await axiosInstance.post("/wargabinaan", wbpData, {
+//             const response = await axios.post("/wargabinaan", wbpData, {
 //                 withCredentials: true,
 //             });
 //             console.log("Create wbp response:", response.data);
@@ -145,7 +145,7 @@
 //     //             return;
 //     //         }
 
-//     //         const response = await axiosInstance.get("/wargabinaan", );
+//     //         const response = await axios.get("/wargabinaan", );
 //     //         set({ wargabinaans: response.data.data });
 //     //         console.log("Fetched wargabinaans successfully:", response.data.data);
 //     //     } catch (error) {
@@ -168,7 +168,7 @@
 //             set({ loading: true, error: null });
 
 //             // Lakukan request ke endpoint dengan pagination
-//             const response = await axiosInstance.get("/wargabinaan", {
+//             const response = await axios.get("/wargabinaan", {
 //                 params: {
 //                     page,
 //                     limit,
@@ -203,7 +203,7 @@
 //         }
 
 //         try {
-//             const response = await axiosInstance.get(`/wargabinaan/${wbpId}`);
+//             const response = await axios.get(`/wargabinaan/${wbpId}`);
 //             set({ wbpById: response.data.data || [] }); // Handle jika response kosong
 //         } catch (error) {
 //             console.error("Fetch wargabinaan error:", error);
@@ -219,7 +219,7 @@
 //                 throw new Error("User data not found. Unable to update wbp data.");
 //             }
 
-//             const response = await axiosInstance.put(`/wargabinaan/${wbpId}`, newData);
+//             const response = await axios.put(`/wargabinaan/${wbpId}`, newData);
 
 //             if (response.status !== 200) {
 //                 throw new Error("Failed to update data");
@@ -244,7 +244,7 @@
 
 //         try {
 //             // Kirim permintaan DELETE ke backend
-//             const response = await axiosInstance.delete(`/wargabinaan/${wbpId}`, {
+//             const response = await axios.delete(`/wargabinaan/${wbpId}`, {
 //                 withCredentials: true, // Izinkan pengiriman credentials (cookie/token)
 //             });
 
@@ -285,7 +285,7 @@
 //                 return;
 //             }
 
-//             const response = await axiosInstance.get("/wargabinaan/list", );
+//             const response = await axios.get("/wargabinaan/list", );
 //             set({ wbpList: response.data.data });
 //             console.log("Fetched wargabinaans successfully:", response.data.data);
 //         } catch (error) {
@@ -301,7 +301,7 @@
 //                 return;
 //             }
 
-//             const response = await axiosInstance.get("/pengunjung", );
+//             const response = await axios.get("/pengunjung", );
 //             set({ pengunjungs: response.data.data });
 //             console.log("Fetched pengunjungs successfully:", response.data.data);
 //         } catch (error) {
@@ -317,7 +317,7 @@
 //                 return;
 //             }
 
-//             const response = await axiosInstance.get("/pengunjung/user", );
+//             const response = await axios.get("/pengunjung/user", );
 //             set({ pengunjungUser: response.data.data });
 //             console.log("Fetched pengunjungs successfully:", response.data.data);
 //         } catch (error) {
@@ -327,7 +327,7 @@
 
 //     // verify: async(data) => {
 //     //     try {
-//     //         const res = await axiosInstance.post("/pengunjung/kode-verifikasi", data);
+//     //         const res = await axios.post("/pengunjung/kode-verifikasi", data);
 //     //         if (res.data && res.data.data) {
 //     //             document.cookie = `user_data=${encodeURIComponent(JSON.stringify(res.data.data))}; path=/; max-age=86400;`;
 
@@ -342,7 +342,7 @@
 
 //     // verify: async(data) => {
 //     //     try {
-//     //         const res = await axiosInstance.post("/pengunjung/kode-verifikasi", data);
+//     //         const res = await axios.post("/pengunjung/kode-verifikasi", data);
 
 //     //         console.log("ini dizustand", res).message
 
@@ -376,7 +376,7 @@
 
 //     verify: async(data) => {
 //         try {
-//             const res = await axiosInstance.post("/pengunjung/kode-verifikasi", data);
+//             const res = await axios.post("/pengunjung/kode-verifikasi", data);
 
 //             console.log("Response dari API:", res); // Perbaiki console.log
 
@@ -423,7 +423,7 @@
 //             }
 
 //             // Kirim kode di request body menggunakan POST
-//             const response = await axiosInstance.get(`/pengunjung/${ kode }`); // Sesuaikan dengan endpoint backend
+//             const response = await axios.get(`/pengunjung/${ kode }`); // Sesuaikan dengan endpoint backend
 //             set({ pengunjungByCode: response.data.data }); // Simpan data pengunjung ke state
 //             console.log("Fetched pengunjung by code successfully:", response.data.data);
 //             return response.data.data; // Return data untuk digunakan di komponen
@@ -441,7 +441,7 @@
 //                 throw new Error("User data not found. Unable to update pengunjung data.");
 //             }
 
-//             const response = await axiosInstance.put(`/pengunjung/${kode}`, newData);
+//             const response = await axios.put(`/pengunjung/${kode}`, newData);
 
 //             if (response.status !== 200) {
 //                 throw new Error("Failed to update data");
@@ -466,7 +466,7 @@
 //         }
 
 //         try {
-//             const response = await axiosInstance.post("/barang-titipan", titipanData, {
+//             const response = await axios.post("/barang-titipan", titipanData, {
 //                 withCredentials: true,
 //             });
 //             console.log("Create titipan response:", response.data);
@@ -508,7 +508,7 @@
 //         }
 
 //         try {
-//             const response = await axiosInstance.post("/pengunjung", formData, {
+//             const response = await axios.post("/pengunjung", formData, {
 //                 headers: {
 //                     "Content-Type": "multipart/form-data", // Untuk upload file
 //                 },
@@ -530,7 +530,7 @@
 
 //     //     try {
 //     //         // Kirim permintaan ke backend untuk update antrian
-//     //         const response = await axiosInstance.put("/pengunjung/update-antrian", { kode, antrian });
+//     //         const response = await axios.put("/pengunjung/update-antrian", { kode, antrian });
 
 //     //         if (response.status === 200) {
 //     //             // Update state pengunjungs dengan data terbaru
@@ -560,7 +560,7 @@
 //     //         console.log("Data yang dikirim:", { kode, antrian }); // Debugging
 
 //     //         // Kirim permintaan ke backend untuk update antrian
-//     //         const response = await axiosInstance.put("/pengunjung/update-antrian", { kode, antrian });
+//     //         const response = await axios.put("/pengunjung/update-antrian", { kode, antrian });
 
 //     //         console.log("Respons dari backend:", response.data); // Debugging
 
@@ -590,7 +590,7 @@
 //     updateAntrian: async(kode) => {
 //         set({ loading: true, error: null });
 //         try {
-//             const response = await axiosInstance.put('/pengunjung/update-antrian', { kode });
+//             const response = await axios.put('/pengunjung/update-antrian', { kode });
 //             if (response.status === 200) {
 //                 set((state) => ({
 //                     pengunjungs: state.pengunjungs.map((pengunjung) =>
@@ -621,7 +621,7 @@
 //     //         }
 
 //     //         // Kirim permintaan GET ke endpoint backend
-//     //         const response = await axiosInstance.get("/pengunjung/antrian-terakhir");
+//     //         const response = await axios.get("/pengunjung/antrian-terakhir");
 
 //     //         // Pastikan respons memiliki data yang diharapkan
 //     //         if (response.data && response.data.lastNumber !== undefined) {
@@ -654,7 +654,7 @@
 //             }
 
 //             // Kirim permintaan GET ke endpoint backend
-//             const response = await axiosInstance.get("/pengunjung/antrian-terakhir");
+//             const response = await axios.get("/pengunjung/antrian-terakhir");
 
 //             // Pastikan respons memiliki data yang diharapkan
 //             if (response.data && response.data.lastNumber !== undefined) {
@@ -689,7 +689,6 @@
 import { create } from "zustand";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { axiosInstance } from "../lib/axios";
 
 const useDataStore = create((set, get) => ({
     user: null,
@@ -710,7 +709,7 @@ const useDataStore = create((set, get) => ({
     // Fungsi untuk login dan menyimpan token di local storage
     login: async(credentials, navigate, setError) => {
         try {
-            const response = await axiosInstance.post("/auth/login", credentials);
+            const response = await axios.post("https://api-invitation.xyz/api/auth/login", credentials);
             const data = response.data;
             set({ user: data.data });
             localStorage.setItem("token", data.token); // Simpan token di local storage
@@ -745,7 +744,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axiosInstance.get("/user", {
+            const response = await axios.get("https://api-invitation.xyz/api/user", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -766,7 +765,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axiosInstance.post("/wargabinaan/upload-excel", formData, {
+            const response = await axios.post("https://api-invitation.xyz/api/wargabinaan/upload-excel", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${token}`,
@@ -814,7 +813,7 @@ const useDataStore = create((set, get) => ({
 
             set({ loading: true, error: null });
 
-            const response = await axiosInstance.get("/wargabinaan", {
+            const response = await axios.get("https://api-invitation.xyz/api/wargabinaan", {
                 params: { page, limit },
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -846,7 +845,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axiosInstance.get(`/wargabinaan/${wbpId}`, {
+            const response = await axios.get(`https://api-invitation.xyz/api/wargabinaan/${wbpId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -866,7 +865,7 @@ const useDataStore = create((set, get) => ({
                 throw new Error("User data not found. Unable to update wbp data.");
             }
 
-            const response = await axiosInstance.put(`/wargabinaan/${wbpId}`, newData, {
+            const response = await axios.put(`https://api-invitation.xyz/api/wargabinaan/${wbpId}`, newData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -894,7 +893,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axiosInstance.delete(`/wargabinaan/${wbpId}`, {
+            const response = await axios.delete(`https://api-invitation.xyz/api/wargabinaan/${wbpId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -928,7 +927,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axiosInstance.get("/wargabinaan/list", {
+            const response = await axios.get("https://api-invitation.xyz/api/wargabinaan/list", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -949,7 +948,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axiosInstance.get("/pengunjung", {
+            const response = await axios.get("https://api-invitation.xyz/api/pengunjung", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -970,7 +969,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axiosInstance.get(`/pengunjung/${kode}`, {
+            const response = await axios.get(`https://api-invitation.xyz/api/pengunjung/${kode}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -992,7 +991,7 @@ const useDataStore = create((set, get) => ({
                 throw new Error("Token not found. Unable to update pengunjung data.");
             }
 
-            const response = await axiosInstance.put(`/pengunjung/${kode}`, newData, {
+            const response = await axios.put(`https://api-invitation.xyz/api/pengunjung/${kode}`, newData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1017,7 +1016,7 @@ const useDataStore = create((set, get) => ({
             }
 
             // Kirim permintaan GET ke endpoint backend
-            const response = await axiosInstance.get("/pengunjung/antrian-terakhir", {
+            const response = await axios.get("https://api-invitation.xyz/api/pengunjung/antrian-terakhir", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1051,7 +1050,69 @@ const useDataStore = create((set, get) => ({
         }
     },
 
-    createWargabinaan: async(formData, setError) => {
+    // createWargabinaan: async(formData, setError) => {
+    //     const token = get().token;
+    //     if (!token) {
+    //         console.error("Token not found. Unable to fetch wargabinaans.");
+    //         set({ error: "User data not found. Please login again." });
+    //         return;
+    //     }
+
+    //     try {
+    //         const response = await axios.post(
+    //             "/wargabinaan/upload-excel",
+    //             formData, {
+    //                 headers: {
+    //                     "Content-Type": "multipart/form-data", // Set header untuk file upload
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //                 withCredentials: true, // Izinkan pengiriman credentials (cookie/token)
+    //             }
+    //         );
+
+    //         console.log("Create wbp response:", response.data);
+
+    //         // Periksa apakah upload berhasil berdasarkan response dari backend
+    //         if (response.data.message === "Proses upload file Excel selesai.") {
+    //             const newWbp = response.data.data;
+
+    //             set((state) => ({
+    //                 wargabinaans: [...state.wargabinaans, newWbp],
+    //             }));
+
+    //             toast.success("Data WBP berhasil diupload!"); // Notifikasi sukses
+    //         } else {
+    //             // Jika backend mengembalikan pesan error
+    //             const errorMessage = response.data.message || "Terjadi kesalahan saat mengupload file.";
+    //             set({ errorMessage });
+    //             toast.error(errorMessage);
+    //             if (setError) {
+    //                 setError(errorMessage);
+    //             }
+    //         }
+    //     } catch (error) {
+    //         console.error("Create wbp error:", error);
+
+    //         // Ambil pesan error dari response API
+    //         const errorMessage =
+    //             error.response.data.message ||
+    //             error.message ||
+    //             "Terjadi kesalahan saat mengupload file. Silakan coba lagi.";
+
+    //         // Set pesan error ke state
+    //         set({ errorMessage });
+
+    //         // Tampilkan pesan error menggunakan toast
+    //         toast.error(errorMessage);
+
+    //         // Jika menggunakan setError (misalnya dari react-hook-form), set pesan error
+    //         if (setError) {
+    //             setError(errorMessage);
+    //         }
+    //     }
+    // },
+
+    formCreateWargabinaan: async(pengunjungData, setError) => {
         const token = get().token;
         if (!token) {
             console.error("Token not found. Unable to fetch wargabinaans.");
@@ -1060,80 +1121,18 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axiosInstance.post(
-                "/wargabinaan/upload-excel",
-                formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data", // Set header untuk file upload
-                        Authorization: `Bearer ${token}`,
-                    },
-                    withCredentials: true, // Izinkan pengiriman credentials (cookie/token)
-                }
-            );
-
-            console.log("Create wbp response:", response.data);
-
-            // Periksa apakah upload berhasil berdasarkan response dari backend
-            if (response.data.message === "Proses upload file Excel selesai.") {
-                const newWbp = response.data.data;
-
-                set((state) => ({
-                    wargabinaans: [...state.wargabinaans, newWbp],
-                }));
-
-                toast.success("Data WBP berhasil diupload!"); // Notifikasi sukses
-            } else {
-                // Jika backend mengembalikan pesan error
-                const errorMessage = response.data.message || "Terjadi kesalahan saat mengupload file.";
-                set({ errorMessage });
-                toast.error(errorMessage);
-                if (setError) {
-                    setError(errorMessage);
-                }
-            }
-        } catch (error) {
-            console.error("Create wbp error:", error);
-
-            // Ambil pesan error dari response API
-            const errorMessage =
-                error.response.data.message ||
-                error.message ||
-                "Terjadi kesalahan saat mengupload file. Silakan coba lagi.";
-
-            // Set pesan error ke state
-            set({ errorMessage });
-
-            // Tampilkan pesan error menggunakan toast
-            toast.error(errorMessage);
-
-            // Jika menggunakan setError (misalnya dari react-hook-form), set pesan error
-            if (setError) {
-                setError(errorMessage);
-            }
-        }
-    },
-
-    formCreateWargabinaan: async(wbpData, setError) => {
-        const token = get().token;
-        if (!token) {
-            console.error("Token not found. Unable to fetch wargabinaans.");
-            set({ error: "User data not found. Please login again." });
-            return;
-        }
-
-        try {
-            const response = await axiosInstance.post("/wargabinaan", wbpData, {
+            const response = await axios.post("https://api-invitation.xyz/api/wargabinaan", pengunjungData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
             console.log("Create wbp response:", response.data);
-            const newWbp = response.data;
+            const newPengunjung = response.data;
 
-            console.log("newWbp", response);
+            console.log("newPengunjung", response);
 
             set((state) => ({
-                wargabinaans: [...state.wargabinaans, newWbp],
+                pengunjungs: [...state.pengunjungs, newPengunjung],
                 cartItems: [], // Kosongkan keranjang setelah wbp sukses
             }));
 
@@ -1167,7 +1166,7 @@ const useDataStore = create((set, get) => ({
     //             return;
     //         }
 
-    //         const response = await axiosInstance.get("/wargabinaan", );
+    //         const response = await axios.get("/wargabinaan", );
     //         set({ wargabinaans: response.data.data });
     //         console.log("Fetched wargabinaans successfully:", response.data.data);
     //     } catch (error) {
@@ -1189,7 +1188,7 @@ const useDataStore = create((set, get) => ({
     //         set({ loading: true, error: null });
 
     //         // Lakukan request ke endpoint dengan pagination
-    //         const response = await axiosInstance.get("/wargabinaan", {
+    //         const response = await axios.get("/wargabinaan", {
     //             params: {
     //                 page,
     //                 limit,
@@ -1224,7 +1223,7 @@ const useDataStore = create((set, get) => ({
     //     }
 
     //     try {
-    //         const response = await axiosInstance.get(`/wargabinaan/${wbpId}`, {
+    //         const response = await axios.get(`/wargabinaan/${wbpId}`, {
     //             headers: {
     //                 Authorization: `Bearer ${token}`,
     //             },
@@ -1245,7 +1244,7 @@ const useDataStore = create((set, get) => ({
     //             return;
     //         }
 
-    //         const response = await axiosInstance.put(`/wargabinaan/${wbpId}`, newData, {
+    //         const response = await axios.put(`/wargabinaan/${wbpId}`, newData, {
     //             headers: {
     //                 Authorization: `Bearer ${token}`,
     //             },
@@ -1273,7 +1272,7 @@ const useDataStore = create((set, get) => ({
 
     //     try {
     //         // Kirim permintaan DELETE ke backend
-    //         const response = await axiosInstance.delete(`/wargabinaan/${wbpId}`, {
+    //         const response = await axios.delete(`/wargabinaan/${wbpId}`, {
     //             headers: {
     //                 Authorization: `Bearer ${token}`,
     //             },
@@ -1316,7 +1315,7 @@ const useDataStore = create((set, get) => ({
     //             return;
     //         }
 
-    //         const response = await axiosInstance.get("/wargabinaan/list", {
+    //         const response = await axios.get("/wargabinaan/list", {
     //             headers: {
     //                 Authorization: `Bearer ${token}`,
     //             },
@@ -1336,7 +1335,7 @@ const useDataStore = create((set, get) => ({
     //             return;
     //         }
 
-    //         const response = await axiosInstance.get("/pengunjung", {
+    //         const response = await axios.get("/pengunjung", {
     //             headers: {
     //                 Authorization: `Bearer ${token}`,
     //             },
@@ -1356,7 +1355,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axiosInstance.get("/pengunjung/user", {
+            const response = await axios.get("https://api-invitation.xyz/api/pengunjung/user", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1370,7 +1369,7 @@ const useDataStore = create((set, get) => ({
 
     // verify: async(data) => {
     //     try {
-    //         const res = await axiosInstance.post("/pengunjung/kode-verifikasi", data);
+    //         const res = await axios.post("/pengunjung/kode-verifikasi", data);
     //         if (res.data && res.data.data) {
     //             document.cookie = `user_data=${encodeURIComponent(JSON.stringify(res.data.data))}; path=/; max-age=86400;`;
 
@@ -1385,7 +1384,7 @@ const useDataStore = create((set, get) => ({
 
     // verify: async(data) => {
     //     try {
-    //         const res = await axiosInstance.post("/pengunjung/kode-verifikasi", data);
+    //         const res = await axios.post("/pengunjung/kode-verifikasi", data);
 
     //         console.log("ini dizustand", res).message
 
@@ -1426,7 +1425,7 @@ const useDataStore = create((set, get) => ({
             return;
         }
         try {
-            const res = await axiosInstance.post("/pengunjung/kode-verifikasi", data, {
+            const res = await axios.post("https://api-invitation.xyz/api/pengunjung/kode-verifikasi", data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1477,7 +1476,7 @@ const useDataStore = create((set, get) => ({
     //         }
 
     //         // Kirim kode di request body menggunakan POST
-    //         const response = await axiosInstance.get(`/pengunjung/${ kode }`, {
+    //         const response = await axios.get(`/pengunjung/${ kode }`, {
     //             headers: {
     //                 Authorization: `Bearer ${token}`,
     //             },
@@ -1500,7 +1499,7 @@ const useDataStore = create((set, get) => ({
     //             return;
     //         }
 
-    //         const response = await axiosInstance.put(`/pengunjung/${kode}`, newData, {
+    //         const response = await axios.put(`/pengunjung/${kode}`, newData, {
     //             headers: {
     //                 Authorization: `Bearer ${token}`,
     //             },
@@ -1527,7 +1526,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axiosInstance.post("/barang-titipan", titipanData, {
+            const response = await axios.post("https://api-invitation.xyz/api/barang-titipan", titipanData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1563,32 +1562,117 @@ const useDataStore = create((set, get) => ({
         }
     },
 
-    createPengunjung: async(formData, setError) => {
+    // createPengunjung: async(formData, setError) => {
+    //     const token = get().token;
+    //     if (!token) {
+    //         console.error("Token not found. Unable to fetch wargabinaans.");
+    //         set({ error: "User data not found. Please login again." });
+    //         return;
+    //     }
+    //     try {
+    //         const response = await axios.post("/pengunjung", formData, {
+    //             headers: {
+    //                 "Content-Type": "multipart/form-data", // Untuk upload file
+
+
+    //                 Authorization: `Bearer ${token}`,
+
+
+    //             },
+    //             withCredentials: true,
+    //         });
+
+    //         toast.success("Pengunjung berhasil ditambahkan!");
+    //         get().fetchPengunjung(); // Refresh data pengunjung
+    //     } catch (error) {
+    //         console.error("Error saat menambahkan pengunjung:", error);
+    //         toast.error(error.response.data.message || "Terjadi kesalahan.");
+    //         if (setError) setError(error.response.data.message);
+    //     }
+    // },
+
+    // createPengunjung: async(formData, setError) => {
+    //     const token = get().token;
+    //     if (!token) {
+    //         console.error("Token not found. Unable to create pengunjung.");
+    //         set({ error: "User data not found. Please login again." });
+    //         return;
+    //     }
+
+    //     try {
+    //         const response = await axios.post("https://api-invitation.xyz/api/pengunjung", formData, {
+    //             headers: {
+    //                 "Content-Type": "multipart/form-data", // Untuk upload file
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //             withCredentials: true,
+    //         });
+
+    //         toast.success("Pengunjung berhasil ditambahkan!");
+    //         get().fetchPengunjung(); // Refresh data pengunjung
+    //     } catch (error) {
+    //         console.error("Error saat menambahkan pengunjung:", error);
+
+    //         // Handle different types of errors
+    //         if (error.response) {
+    //             // Server responded with a status code outside the 2xx range
+    //             toast.error(error.response.data.message || "Terjadi kesalahan.");
+    //             if (setError) setError(error.response.data.message);
+    //         } else if (error.request) {
+    //             // No response received (e.g., network error)
+    //             toast.error("Tidak ada respons dari server. Periksa koneksi internet Anda.");
+    //             if (setError) setError("Tidak ada respons dari server. Periksa koneksi internet Anda.");
+    //         } else {
+    //             // Something else happened
+    //             toast.error("Terjadi kesalahan. Silakan coba lagi.");
+    //             if (setError) setError("Terjadi kesalahan. Silakan coba lagi.");
+    //         }
+    //     }
+    // },
+
+    createPengunjung: async(wbpData, setError) => {
         const token = get().token;
         if (!token) {
             console.error("Token not found. Unable to fetch wargabinaans.");
             set({ error: "User data not found. Please login again." });
             return;
         }
+
         try {
-            const response = await axiosInstance.post("/pengunjung", formData, {
+            const response = await axios.post("https://api-invitation.xyz/api/pengunjung", wbpData, {
                 headers: {
-                    "Content-Type": "multipart/form-data", // Untuk upload file
-
-
                     Authorization: `Bearer ${token}`,
-
-
                 },
-                withCredentials: true,
             });
+            console.log("Create wbp response:", response.data);
+            const newWbp = response.data;
 
-            toast.success("Pengunjung berhasil ditambahkan!");
-            get().fetchPengunjung(); // Refresh data pengunjung
+            console.log("newWbp", response);
+
+            set((state) => ({
+                pengunjungs: [...state.pengunjungs, newWbp],
+                cartItems: [], // Kosongkan keranjang setelah wbp sukses
+            }));
+
+            toast.success("wbp created successfully!"); // Notifikasi sukses
+
         } catch (error) {
-            console.error("Error saat menambahkan pengunjung:", error);
-            toast.error(error.response.data.message || "Terjadi kesalahan.");
-            if (setError) setError(error.response.data.message);
+            console.error("Create wbp error:", error);
+
+            // Penanganan error yang lebih baik
+            if (error.response) {
+                // Error dari server (4xx atau 5xx)
+                toast.error(error.response.data.message || "wbp creation failed.");
+                setError(error.response.data.message || "wbp creation failed. Please try again.");
+            } else if (error.request) {
+                // Tidak ada respons dari server
+                toast.error("No response from server. Please check your connection.");
+                setError("No response from server. Please check your connection.");
+            } else {
+                // Error lainnya (misalnya, error JavaScript)
+                toast.error("An unexpected error occurred. Please try again.");
+                setError("An unexpected error occurred. Please try again.");
+            }
         }
     },
 
@@ -1598,7 +1682,7 @@ const useDataStore = create((set, get) => ({
 
     //     try {
     //         // Kirim permintaan ke backend untuk update antrian
-    //         const response = await axiosInstance.put("/pengunjung/update-antrian", { kode, antrian });
+    //         const response = await axios.put("/pengunjung/update-antrian", { kode, antrian });
 
     //         if (response.status === 200) {
     //             // Update state pengunjungs dengan data terbaru
@@ -1628,7 +1712,7 @@ const useDataStore = create((set, get) => ({
     //         console.log("Data yang dikirim:", { kode, antrian }); // Debugging
 
     //         // Kirim permintaan ke backend untuk update antrian
-    //         const response = await axiosInstance.put("/pengunjung/update-antrian", { kode, antrian });
+    //         const response = await axios.put("/pengunjung/update-antrian", { kode, antrian });
 
     //         console.log("Respons dari backend:", response.data); // Debugging
 
@@ -1664,7 +1748,7 @@ const useDataStore = create((set, get) => ({
             return;
         }
         try {
-            const response = await axiosInstance.put('/pengunjung/update-antrian', { kode }, {
+            const response = await axios.put('https://api-invitation.xyz/api/pengunjung/update-antrian', { kode }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1699,7 +1783,7 @@ const useDataStore = create((set, get) => ({
     //         }
 
     //         // Kirim permintaan GET ke endpoint backend
-    //         const response = await axiosInstance.get("/pengunjung/antrian-terakhir");
+    //         const response = await axios.get("/pengunjung/antrian-terakhir");
 
     //         // Pastikan respons memiliki data yang diharapkan
     //         if (response.data && response.data.lastNumber !== undefined) {
@@ -1731,7 +1815,7 @@ const useDataStore = create((set, get) => ({
     //         }
 
     //         // Kirim permintaan GET ke endpoint backend
-    //         const response = await axiosInstance.get("/pengunjung/antrian-terakhir", {
+    //         const response = await axios.get("/pengunjung/antrian-terakhir", {
     //             headers: {
     //                 Authorization: `Bearer ${token}`,
     //             },

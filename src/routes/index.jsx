@@ -39,9 +39,9 @@ const Index = () => {
     {
       path: '/',
       element:  
-      // authUser === null ? 
-      // <Login /> 
-      // :
+      authUser === null ? 
+      <Login /> 
+      :
           <HomePage /> 
       
     },
@@ -61,14 +61,18 @@ const Index = () => {
     },
     {
       path: '/register',
-      element: !authUser ?
-          <Register /> : <HomePage />
+      element:
+      //  !authUser ?
+          <Register /> 
+          // : <HomePage />
       
     },
     {
       path: '/login',
-      element: !authUser ?
-          <Login /> : <HomePage />
+      element: 
+      // !authUser ?
+          <Login /> 
+          // : <HomePage />
       
     },
     {
