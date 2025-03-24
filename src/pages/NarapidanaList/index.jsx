@@ -260,7 +260,8 @@ const WargabinaanList = () => {
         </div>
 
         {/* Navigasi Pagination */}
-        {pagination && (
+{/* Navigasi Pagination */}
+{pagination && (
   <div className="flex justify-center mt-8">
     <nav className="inline-flex rounded-md shadow-sm">
       {/* Tombol Previous */}
@@ -273,18 +274,20 @@ const WargabinaanList = () => {
       </button>
 
       {/* Tombol-tombol angka halaman */}
-      {Array.from({ length: 5 }, (_, index) => {
-        // Hitung nomor halaman yang akan ditampilkan
+      {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, index) => {
         let pageNumber;
-        if (currentPage <= 3) {
-          // Jika currentPage di awal (1, 2, 3), tampilkan halaman 1-5
+        if (pagination.totalPages <= 5) {
+          // Jika total halaman kurang dari atau sama dengan 5, tampilkan semua halaman
           pageNumber = index + 1;
-        } else if (currentPage >= pagination.totalPages - 2) {
-          // Jika currentPage di akhir, tampilkan 5 halaman terakhir
-          pageNumber = pagination.totalPages - 4 + index;
         } else {
-          // Jika currentPage di tengah, tampilkan halaman sekitar currentPage
-          pageNumber = currentPage - 2 + index;
+          // Jika total halaman lebih dari 5, tampilkan 5 halaman sekitar currentPage
+          if (currentPage <= 3) {
+            pageNumber = index + 1;
+          } else if (currentPage >= pagination.totalPages - 2) {
+            pageNumber = pagination.totalPages - 4 + index;
+          } else {
+            pageNumber = currentPage - 2 + index;
+          }
         }
 
         return (
