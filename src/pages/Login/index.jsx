@@ -39,8 +39,8 @@ const LoginPage = () => {
               <div className="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center">
                 <img src={logoimipas} className="w-7 h-7 text-blue-600 rounded-full" />
               </div>
-              <h1 className="text-3xl font-bold mt-4 text-gray-900">Welcome Back</h1>
-              <p className="text-gray-500">Sign in to your account</p>
+              <h1 className="text-3xl font-bold mt-4 text-gray-900">Selamat Datang !</h1>
+              <p className="text-gray-500">Masuk ke akun anda</p>
             </div>
           </div>
 
@@ -100,10 +100,10 @@ const LoginPage = () => {
               {isLoggingIn ? (
                 <div className="flex items-center justify-center gap-2">
                   <Loader2 className="h-5 w-5 animate-spin" />
-                  Loading...
+                  Memuat...
                 </div>
               ) : (
-                "Sign in"
+                "Masuk"
               )}
             </button>
           </form>
@@ -111,9 +111,9 @@ const LoginPage = () => {
           {/* Sign Up Link */}
           <div className="text-center mt-6">
             <p className="text-gray-600">
-              Don&apos;t have an account?{" "}
+             Tidak memiliki akun?{" "}
               <Link to="/register" className="text-blue-600 hover:text-blue-700 font-semibold">
-                Create account
+                Buat akun
               </Link>
             </p>
           </div>
@@ -123,8 +123,8 @@ const LoginPage = () => {
       {/* Right Side - Image/Pattern */}
       <div className="flex-1 hidden lg:flex items-center justify-center bg-gradient-to-r from-blue-600 to-purple-600">
         <AuthImagePattern
-          title={"Welcome back!"}
-          subtitle={"Sign in to continue your conversations and catch up with your messages."}
+          title={"Selamat datang Kembali!"}
+          subtitle={"Masuk dan bergabung dengan komunitas kami dan mulai berbagi.."}
         />
       </div>
     </div>
