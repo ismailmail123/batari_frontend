@@ -24,8 +24,6 @@ const EditPengunjungForm = () => {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  console.log("pengunjungByCode", pengunjungByCode);
-
   // Ambil data pengunjung yang sudah ada
   useEffect(() => {
     const loadData = async () => {

@@ -30,11 +30,9 @@ const PengunjungDetail = () => {
   useEffect(() => {
     fetchPengunjungByCode(kode);
   }, [kode, fetchPengunjungByCode]);
-  console.log("auth user:", authUser);
 
   const handleVerify = () => {
     setIsLoading(true);
-    console.log("Mengirim ID:", pengunjungByCode);
 
     verify({ id: pengunjungByCode.id })
       .then((response) => {
@@ -54,7 +52,6 @@ const PengunjungDetail = () => {
       })
       .catch((error) => {
         console.error("Error saat verifikasi:", error);
-        console.log("Detail error:", error.response);
 
         // Tampilkan pesan error dari backend jika ada
         if (

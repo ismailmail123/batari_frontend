@@ -30,7 +30,6 @@ const PengunjungLabel = () => {
   useEffect(() => {
     fetchPengunjungByCode(kode);
   }, [kode, fetchPengunjungByCode]);
-  console.log("auth user:", authUser);
 
   const navigate = useNavigate();
 

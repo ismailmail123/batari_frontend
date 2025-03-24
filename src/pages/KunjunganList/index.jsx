@@ -18,8 +18,6 @@ const PengunjungList = () => {
     fetchPengunjung(); // Ambil semua data pengunjung tanpa paging
     fetchPengunjungUser();
   }, [fetchPengunjung, fetchPengunjungUser]);
-  console.log("pengunjung user", pengunjungUser);
-  console.log("user", authUser.user?.role);
 
   // Fungsi untuk memfilter data berdasarkan pencarian dan tanggal
   const filteredPengunjungs = pengunjungs.filter((pengunjung) => {

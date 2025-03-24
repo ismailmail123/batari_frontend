@@ -46,8 +46,6 @@ export default function HomePage() {
     }
   }, [authUser, navigate]);
 
-  console.log("auth user", authUser)
-
 
   useEffect(() => {
     const fetchLastAntrian = async () => {
@@ -112,7 +110,6 @@ const formatDate = (dateString) => {
 
 // Ambil tanggal hari ini
 const today = formatDate(new Date());
-console.log("hari ini", today)
 
 // Filter pengunjung berdasarkan tanggal updatedAt yang sama dengan hari ini
 const filteredPengunjungTitipan = pengunjungs.filter((pengunjung) => {
@@ -120,8 +117,6 @@ const filteredPengunjungTitipan = pengunjungs.filter((pengunjung) => {
   return updatedAtFormatted === today; // Bandingkan dengan tanggal hari ini
 });
 
-console.log("Tanggal hari ini:", today);
-console.log("Pengunjung dengan updatedAt hari ini:", filteredPengunjungTitipan);
 
   // Handle pemilihan pengunjung untuk label titipan
   const handleSelectPengunjungTitipan = (pengunjung) => {

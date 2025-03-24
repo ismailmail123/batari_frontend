@@ -110,6 +110,7 @@ const WargabinaanForm = () => {
                 photo: null,
                 keterangan: "",
             });
+            window.location.reload();
         } catch (err) {
             setError("Terjadi kesalahan saat menambahkan data. Silakan coba lagi.");
             console.log("error dari komponen", error)

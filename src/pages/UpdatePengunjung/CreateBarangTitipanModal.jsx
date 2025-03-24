@@ -14,8 +14,6 @@ const CreateBarangTitipanModal = ({ isOpen, onClose, pengunjungs }) => {
   });
   const [error, setError] = useState("");
 
-  console.log("pengunjungs ini", pengunjungs);
-
   // Handle perubahan input
   const handleInputChange = (e) => {
     const { name, value } = e.target;

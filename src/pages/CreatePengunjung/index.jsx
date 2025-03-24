@@ -30,7 +30,6 @@ const AddPengunjungForm = ({ onClose }) => {
     const dropdownRef = useRef(null);
     const navigate = useNavigate();
 
-  console.log("wargabinaan", wbpList);
 
   // Fetch data WBP saat komponen dimuat
   useEffect(() => {
@@ -152,10 +151,10 @@ const AddPengunjungForm = ({ onClose }) => {
       }
     }
   
-    // Debug: Periksa isi formDataToSend
-    for (let [key, value] of formDataToSend.entries()) {
-      console.log(key, value);
-    }
+    // // Debug: Periksa isi formDataToSend
+    // for (let [key, value] of formDataToSend.entries()) {
+    //   console.log(key, value);
+    // }
   
     // Panggil fungsi createPengunjung dari Zustand
     try {
