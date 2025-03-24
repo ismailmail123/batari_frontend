@@ -283,43 +283,43 @@ const PengunjungDetail = () => {
   //   {/* Baris Nama Pengunjung */}
   //   <View style={[styles.row, {lineHeight: 0.01}]}>
   //     <Text style={styles.label}>Nama pengunjung</Text>
-  //     <Text style={styles.value}>: {pengunjungByCode?.nama}</Text>
+  //     <Text style={styles.value}>: {pengunjungByCode?.nama || ""}</Text>
   //   </View>
 
   //   {/* Baris Jenis Kelamin */}
   //   <View style={[styles.row, {lineHeight: 0.01}]}>
   //     <Text style={styles.label}>Jenis Kelamin</Text>
-  //     <Text style={styles.value}>: {pengunjungByCode?.jenis_kelamin}</Text>
+  //     <Text style={styles.value}>: {pengunjungByCode?.jenis_kelamin || ""}</Text>
   //   </View>
 
   //   {/* Baris No. KTP */}
   //   <View style={[styles.row, {lineHeight: 0.01}]}>
   //     <Text style={styles.label}>No. KTP</Text>
-  //     <Text style={styles.value}>: {pengunjungByCode?.nik}</Text>
+  //     <Text style={styles.value}>: {pengunjungByCode?.nik || ""}</Text>
   //   </View>
 
   //   {/* Baris Alamat */}
   //   <View style={[styles.row, {lineHeight: 0.01}]}>
   //     <Text style={styles.label}>Alamat</Text>
-  //     <Text style={styles.value}>: {pengunjungByCode?.alamat}</Text>
+  //     <Text style={styles.value}>: {pengunjungByCode?.alamat || ""}</Text>
   //   </View>
 
   //   {/* Baris No. Telepon */}
   //   <View style={[styles.row, {lineHeight: 0.01}]}>
   //     <Text style={styles.label}>No. Telepon</Text>
-  //     <Text style={styles.value}>: {pengunjungByCode?.hp}</Text>
+  //     <Text style={styles.value}>: {pengunjungByCode?.hp || ""}</Text>
   //   </View>
 
   //   {/* Baris Hubungan dengan WBP */}
   //   <View style={[styles.row, {lineHeight: 0.01}]}>
   //     <Text style={styles.label}>Hubungan Dengan WBP</Text>
-  //     <Text style={styles.value}>: {pengunjungByCode?.hubungan_keluarga}</Text>
+  //     <Text style={styles.value}>: {pengunjungByCode?.hubungan_keluarga || ""}</Text>
   //   </View>
 
   //   {/* Baris WBP Yang Dikunjungi */}
   //   <View style={[styles.row, {lineHeight: 0.01}]}>
   //     <Text style={styles.label}>WBP Yang Dikunjungi</Text>
-  //     <Text style={styles.value}>: {pengunjungByCode?.warga_binaan?.nama}</Text>
+  //     <Text style={styles.value}>: {pengunjungByCode?.warga_binaan?.nama || ""}</Text>
   //   </View>
 
   //   {/* Baris Tanggal Daftar */}
@@ -347,38 +347,38 @@ const PengunjungDetail = () => {
       {/* Baris Nama Pengunjung */}
       <View style={[[styles.row, { lineHeight: 0.01 }], { lineHeight: 0.01 }]}>
         <Text style={styles.label}>Nama pengunjung</Text>
-        <Text style={styles.value}>: {pengunjungByCode?.nama}</Text>
+        <Text style={styles.value}>: {pengunjungByCode?.nama || "" || ""}</Text>
       </View>
 
       {/* Baris Jenis Kelamin */}
       <View style={[[styles.row, { lineHeight: 0.01 }], { lineHeight: 0.01 }]}>
         <Text style={styles.label}>Jenis Kelamin</Text>
-        <Text style={styles.value}>: {pengunjungByCode?.jenis_kelamin}</Text>
+        <Text style={styles.value}>: {pengunjungByCode?.jenis_kelamin || "" || ""}</Text>
       </View>
 
       {/* Baris No. KTP */}
       <View style={[styles.row, { lineHeight: 0.01 }]}>
         <Text style={styles.label}>No. KTP</Text>
-        <Text style={styles.value}>: {pengunjungByCode?.nik}</Text>
+        <Text style={styles.value}>: {pengunjungByCode?.nik || "" || ""}</Text>
       </View>
 
       {/* Baris Alamat */}
       <View style={[styles.row, { lineHeight: 0.01 }]}>
         <Text style={styles.label}>Alamat</Text>
-        <Text style={styles.value}>: {pengunjungByCode?.alamat}</Text>
+        <Text style={styles.value}>: {pengunjungByCode?.alamat || "" || ""}</Text>
       </View>
 
       {/* Baris No. Telepon */}
       <View style={[styles.row, { lineHeight: 0.01 }]}>
         <Text style={styles.label}>No. Telepon</Text>
-        <Text style={styles.value}>: {pengunjungByCode?.hp}</Text>
+        <Text style={styles.value}>: {pengunjungByCode?.hp || "" || ""}</Text>
       </View>
 
       {/* Baris Hubungan dengan WBP */}
       <View style={[styles.row, { lineHeight: 0.01 }]}>
         <Text style={styles.label}>Hubungan Dengan WBP</Text>
         <Text style={styles.value}>
-          : {pengunjungByCode?.hubungan_keluarga}
+          : {pengunjungByCode?.hubungan_keluarga || "" || ""}
         </Text>
       </View>
 
@@ -397,7 +397,7 @@ const PengunjungDetail = () => {
                   day: "numeric",
                 }
               )
-            : "Tanggal tidak tersedia"}
+            : "Tanggal tidak tersedia" || ""}
         </Text>
       </View>
       <View style={[[styles.row, { lineHeight: 0.01 }], { marginBottom: -10 }]}>
@@ -405,7 +405,7 @@ const PengunjungDetail = () => {
         <View style={[styles.row, { lineHeight: 0.01 }]}>
           <Text style={styles.label}>: Laki-laki</Text>
           <Text style={styles.value}>
-            : {pengunjungByCode?.pengikut_laki_laki}
+            : {pengunjungByCode?.pengikut_laki_laki | ""}
           </Text>
         </View>
       </View>
@@ -414,7 +414,7 @@ const PengunjungDetail = () => {
         <View style={[styles.row, { lineHeight: 0.01 }]}>
           <Text style={styles.label}> Perempuan</Text>
           <Text style={styles.value}>
-            : {pengunjungByCode?.pengikut_perempuan}
+            : {pengunjungByCode?.pengikut_perempuan | ""}
           </Text>
         </View>
       </View>
@@ -423,7 +423,7 @@ const PengunjungDetail = () => {
         <View style={[styles.row, { lineHeight: 0.01 }]}>
           <Text style={styles.label}> Anak-anak</Text>
           <Text style={styles.value}>
-            : {pengunjungByCode?.pengikut_anak_anak}
+            : {pengunjungByCode?.pengikut_anak_anak | ""}
           </Text>
         </View>
       </View>
@@ -431,7 +431,7 @@ const PengunjungDetail = () => {
         <Text style={styles.label}></Text>
         <View style={[styles.row, { lineHeight: 0.01 }]}>
           <Text style={styles.label}> Bayi</Text>
-          <Text style={styles.value}>: {pengunjungByCode?.pengikut_bayi}</Text>
+          <Text style={styles.value}>: {pengunjungByCode?.pengikut_bayi || "" || ""}</Text>
         </View>
       </View>
 
@@ -589,7 +589,7 @@ const PengunjungDetail = () => {
       <View style={[styles.row, { lineHeight: 0.01 }]}>
         <Text style={styles.label_wbp}>Nama</Text>
         <Text style={styles.value}>
-          : {pengunjungByCode.warga_binaan?.nama}
+          : {pengunjungByCode.warga_binaan?.nama || ""}
         </Text>
       </View>
 
@@ -597,7 +597,7 @@ const PengunjungDetail = () => {
       <View style={[styles.row, { lineHeight: 0.01 }]}>
         <Text style={styles.label_wbp}>Perkara</Text>
         <Text style={styles.value}>
-          : {pengunjungByCode.warga_binaan?.jenis_kejahatan}
+          : {pengunjungByCode.warga_binaan?.jenis_kejahatan || ""}
         </Text>
       </View>
 
@@ -605,21 +605,21 @@ const PengunjungDetail = () => {
       <View style={[styles.row, { lineHeight: 0.01 }]}>
         <Text style={styles.label_wbp}>Blok Kamar Hunian</Text>
         <Text style={styles.value}>
-          : Blok {pengunjungByCode.warga_binaan?.lokasi_blok}
+          : Blok {pengunjungByCode.warga_binaan?.lokasi_blok || ""}
         </Text>
       </View>
 
       {/* Baris No. Telepon */}
       <View style={[styles.row, { lineHeight: 0.01 }]}>
         <Text style={styles.label_wbp}>No. Telepon</Text>
-        <Text style={styles.value}>: {pengunjungByCode?.hp}</Text>
+        <Text style={styles.value}>: {pengunjungByCode?.hp || ""}</Text>
       </View>
 
       {/* Baris Hubungan dengan WBP */}
       <View style={[styles.row, { lineHeight: 0.01 }]}>
         <Text style={styles.label_wbp}>Hubungan Dengan WBP</Text>
         <Text style={styles.value}>
-          : {pengunjungByCode?.hubungan_keluarga}
+          : {pengunjungByCode?.hubungan_keluarga || ""}
         </Text>
       </View>
     </View>
@@ -685,7 +685,7 @@ const PengunjungDetail = () => {
                 }}
               >
                 <Text style={{ fontSize: 7 }}>
-                  Nomor Antrian : {pengunjungByCode.antrian}
+                  Nomor Antrian : {pengunjungByCode.antrian || ""}
                 </Text>
               </View>
               <PengunjungImage />
@@ -712,7 +712,7 @@ const PengunjungDetail = () => {
             Status
           </Text>
           <Text style={styles.value}>
-            : {pengunjungByCode?.warga_binaan?.keterangan}
+            : {pengunjungByCode?.warga_binaan?.keterangan | ""}
           </Text>
         </View>
         <View style={styles.kop}>
@@ -821,32 +821,32 @@ const PengunjungDetail = () => {
                     Nama WBP
                   </Text>
                   <Text style={styles.value}>
-                    : {pengunjungByCode?.warga_binaan.nama}
+                    : {pengunjungByCode?.warga_binaan.nama || ""}
                   </Text>
                 </View>
                 <View style={[styles.row, { lineHeight: 0.01 }]}>
                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 6 }}>
                     Pengirim
                   </Text>
-                  <Text style={styles.value}>: {pengunjungByCode.nama}</Text>
+                  <Text style={styles.value}>: {pengunjungByCode.nama || ""}</Text>
                 </View>
                 <View style={[styles.row, { lineHeight: 0.01 }]}>
                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 6 }}>
                     Alamat
                   </Text>
-                  <Text style={styles.value}>: {pengunjungByCode.alamat}</Text>
+                  <Text style={styles.value}>: {pengunjungByCode.alamat || ""}</Text>
                 </View>
                 <View style={[styles.row, { lineHeight: 0.01 }]}>
                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 6 }}>
                     Jenis Barang
                   </Text>
-                  <Text style={styles.value}>: {titipan.jenis_barang}</Text>
+                  <Text style={styles.value}>: {titipan.jenis_barang || ""}</Text>
                 </View>
                 <View style={[styles.row, { lineHeight: 0.01 }]}>
                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 6 }}>
                     Jumlah
                   </Text>
-                  <Text style={styles.value}>: {titipan.jumlah}</Text>
+                  <Text style={styles.value}>: {titipan.jumlah || ""}</Text>
                 </View>
               </View>
             ))
@@ -909,7 +909,7 @@ const PengunjungDetail = () => {
                   }}
                 >
                   <Text style={{ fontSize: 7 }}>
-                    Nomor Antrian : {pengunjungByCode.antrian}
+                    Nomor Antrian : {pengunjungByCode.antrian || ""}
                   </Text>
                 </View>
                 <PengunjungImage />
@@ -1045,34 +1045,34 @@ const PengunjungDetail = () => {
                       Nama WBP
                     </Text>
                     <Text style={styles.value}>
-                      : {pengunjungByCode?.warga_binaan.nama}
+                      : {pengunjungByCode?.warga_binaan.nama || ""}
                     </Text>
                   </View>
                   <View style={[styles.row, { lineHeight: 0.01 }]}>
                     <Text style={{ width: "45%", paddingLeft: 5, fontSize: 6 }}>
                       Pengirim
                     </Text>
-                    <Text style={styles.value}>: {pengunjungByCode.nama}</Text>
+                    <Text style={styles.value}>: {pengunjungByCode.nama || ""}</Text>
                   </View>
                   <View style={[styles.row, { lineHeight: 0.01 }]}>
                     <Text style={{ width: "45%", paddingLeft: 5, fontSize: 6 }}>
                       Alamat
                     </Text>
                     <Text style={styles.value}>
-                      : {pengunjungByCode.alamat}
+                      : {pengunjungByCode.alamat || ""}
                     </Text>
                   </View>
                   <View style={[styles.row, { lineHeight: 0.01 }]}>
                     <Text style={{ width: "45%", paddingLeft: 5, fontSize: 6 }}>
                       Jenis Barang
                     </Text>
-                    <Text style={styles.value}>: {titipan.jenis_barang}</Text>
+                    <Text style={styles.value}>: {titipan.jenis_barang || ""}</Text>
                   </View>
                   <View style={[styles.row, { lineHeight: 0.01 }]}>
                     <Text style={{ width: "45%", paddingLeft: 5, fontSize: 6 }}>
                       Jumlah
                     </Text>
-                    <Text style={styles.value}>: {titipan.jumlah}</Text>
+                    <Text style={styles.value}>: {titipan.jumlah || ""}</Text>
                   </View>
                 </View>
               ))
@@ -1156,31 +1156,31 @@ const PengunjungDetail = () => {
               {/* Baris dengan flex untuk meratakan titik dua */}
               <div className="flex">
                 <span className="font-semibold w-48">Nama pengunjung</span>
-                <span>: {pengunjungByCode.nama}</span>
+                <span>: {pengunjungByCode.nama || ""}</span>
               </div>
               <div className="flex">
                 <span className="font-semibold w-48">Jenis Kelamin</span>
-                <span>: {pengunjungByCode.jenis_kelamin}</span>
+                <span>: {pengunjungByCode.jenis_kelamin || ""}</span>
               </div>
               <div className="flex">
                 <span className="font-semibold w-48">NIK</span>
-                <span>: {pengunjungByCode.nik}</span>
+                <span>: {pengunjungByCode.nik || ""}</span>
               </div>
               <div className="flex">
                 <span className="font-semibold w-48">Alamat</span>
-                <span>: {pengunjungByCode.alamat}</span>
+                <span>: {pengunjungByCode.alamat || ""}</span>
               </div>
               <div className="flex">
                 <span className="font-semibold w-48">No. Telepon</span>
-                <span>: {pengunjungByCode.hp}</span>
+                <span>: {pengunjungByCode.hp || ""}</span>
               </div>
               <div className="flex">
                 <span className="font-semibold w-48">Hubungan Dengan WBP</span>
-                <span>: {pengunjungByCode.hubungan_keluarga}</span>
+                <span>: {pengunjungByCode.hubungan_keluarga || ""}</span>
               </div>
               <div className="flex">
                 <span className="font-semibold w-48">WBP Yang Dikunjungi</span>
-                <span>: {pengunjungByCode.warga_binaan?.nama}</span>
+                <span>: {pengunjungByCode.warga_binaan?.nama || ""}</span>
               </div>
               <p className="font-semibold w-48">Photo Warga Binaan :</p>
               <img
@@ -1280,13 +1280,13 @@ const PengunjungDetail = () => {
               </p>
               <div className="flex justify-center w-full">
                 <img
-                  src={pengunjungByCode.barcode}
+                  src={pengunjungByCode.barcode || ""}
                   alt="Barcode"
                   className="h-20 w-20 object-contain"
                 />
               </div>
-              <p className="text-center">{pengunjungByCode?.kode}</p>
-              <p className="text-center">{pengunjungByCode?.status}</p>
+              <p className="text-center">{pengunjungByCode?.kode || ""}</p>
+              <p className="text-center">{pengunjungByCode?.status || ""}</p>
             </div>
           </div>
           {/* Barcode */}
