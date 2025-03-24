@@ -460,6 +460,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import AuthImagePattern from "../Login/AuthImagePattern";
 import toast from "react-hot-toast";
+import logoimipas from "../../assets/logokemenimipas.png";
 
 const SignUpPage = () => {
   const [step, setStep] = useState(1); // Langkah saat ini
@@ -563,7 +564,7 @@ const SignUpPage = () => {
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2">
               <div className="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center">
-                <MessageSquare className="w-7 h-7 text-blue-600" />
+                <img src={logoimipas} className="w-7 h-7 text-blue-600" />
               </div>
               <h1 className="text-3xl font-bold mt-4 text-gray-900">
                 Buat Akun
