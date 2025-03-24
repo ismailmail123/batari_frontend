@@ -564,7 +564,7 @@ const SignUpPage = () => {
           <div className="text-center mb-8">
             <div className="flex flex-col items-center gap-2">
               <div className="w-14 h-14 rounded-xl bg-blue-100 flex items-center justify-center">
-                <img src={logoimipas} className="w-7 h-7 text-blue-600" />
+                <img src={logoimipas} className="w-7 h-7 text-blue-600 rounded-full" />
               </div>
               <h1 className="text-3xl font-bold mt-4 text-gray-900">
                 Buat Akun
