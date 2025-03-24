@@ -1,36 +1,56 @@
 import { Link, useNavigate } from "react-router-dom";
 
-
 const Index = () => {
     const navigate = useNavigate();
 
-    return(
-       <>
-        <div className="container-fluid page-header py-5">
-        <h1 className="text-center text-white display-6">404 Error</h1>
-        <ol className="breadcrumb justify-content-center mb-0">
-            <li className="breadcrumb-item"><Link onClick={()=> navigate('/')}>Home</Link></li>
-            <li className="breadcrumb-item"><Link onClick={() => navigate(-1)}>Pages</Link></li>
-            <li className="breadcrumb-item active text-white">404</li>
-        </ol>
-    </div>
-    <div className="container-fluid ">
-        <div className="container py-5 text-center">
-            <div className="row justify-content-center">
-                <div className="col-lg-6">
-                    <i className="bi bi-exclamation-triangle display-1 text-secondary"></i>
-                    <h1 className="display-1">404</h1>
-                    <h1 className="mb-4">Page Not Found</h1>
-                    <p className="mb-4">We’re sorry, the page you have looked for does not exist in our website! Maybe go to our home page or try to use a search?</p>
-                    <Link 
-                    onClick={()=> navigate('/')}
-                    className="btn border-secondary rounded-pill py-3 px-5" href="index.html">Go Back To Home</Link>
+    return (
+        <>
+            {/* Background Gradient */}
+            <div className="min-h-screen bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 flex flex-col items-center justify-center p-6">
+                {/* Animated Illustration */}
+                <div className="relative w-64 h-64 mb-8 animate-float">
+                    <div className="absolute w-full h-full bg-purple-500 rounded-full opacity-20 animate-pulse"></div>
+                    <div className="absolute w-3/4 h-3/4 bg-indigo-500 rounded-full opacity-30 animate-pulse animation-delay-1000 top-1/4 left-1/4"></div>
+                    <div className="absolute w-1/2 h-1/2 bg-blue-500 rounded-full opacity-40 animate-pulse animation-delay-2000 top-1/2 left-1/2"></div>
+                    <div className="absolute w-1/4 h-1/4 bg-white rounded-full opacity-50 animate-pulse animation-delay-3000 top-3/4 left-3/4"></div>
+                </div>
+
+                {/* 404 Text */}
+                <h1 className="text-9xl font-bold text-white mb-4 animate-bounce">
+                    404
+                </h1>
+
+                {/* Error Message */}
+                <h2 className="text-4xl font-semibold text-white mb-6">
+                    Oops! Page Not Found
+                </h2>
+                <p className="text-lg text-gray-300 mb-8 text-center max-w-2xl">
+                    It looks like the page you're trying to reach doesn't exist. Maybe it was moved or deleted. Don't worry, let's get you back on track!
+                </p>
+
+                {/* Action Buttons */}
+                <div className="flex space-x-4">
+                    <Link
+                        onClick={() => navigate('/')}
+                        className="bg-white text-purple-900 font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-purple-100 hover:shadow-xl transition duration-300 transform hover:scale-105"
+                    >
+                        Go Back Home
+                    </Link>
+                    <Link
+                        onClick={() => navigate(-1)}
+                        className="bg-transparent border-2 border-white text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-white hover:text-purple-900 hover:shadow-xl transition duration-300 transform hover:scale-105"
+                    >
+                        Previous Page
+                    </Link>
+                </div>
+
+                {/* Footer */}
+                <div className="mt-12 text-center text-gray-400">
+                    <p>Need help? <a href="/contact" className="text-white hover:underline">Contact us</a></p>
                 </div>
             </div>
-        </div>
-    </div>
-       </>
-    )
-}
+        </>
+    );
+};
 
 export default Index;
