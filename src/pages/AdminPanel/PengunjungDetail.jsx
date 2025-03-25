@@ -1017,7 +1017,7 @@ const PengunjungDetail = () => {
               lineHeight: 0.25,
             }}
           >
-            {pengunjungByCode.barang_titipan.length > 0 ? (
+            {pengunjungByCode.barang_titipan?.length > 0 ? (
               pengunjungByCode.barang_titipan.map((titipan) => (
                 <View
                   key={titipan.id}
@@ -1042,34 +1042,34 @@ const PengunjungDetail = () => {
                       Nama WBP
                     </Text>
                     <Text style={styles.value}>
-                      : {pengunjungByCode?.warga_binaan.nama || ""}
+                      : {pengunjungByCode.warga_binaan?.nama}
                     </Text>
                   </View>
                   <View style={[styles.row, { lineHeight: 0.01 }]}>
                     <Text style={{ width: "45%", paddingLeft: 5, fontSize: 6 }}>
                       Pengirim
                     </Text>
-                    <Text style={styles.value}>: {pengunjungByCode.nama || ""}</Text>
+                    <Text style={styles.value}>: {pengunjungByCode.nama}</Text>
                   </View>
                   <View style={[styles.row, { lineHeight: 0.01 }]}>
                     <Text style={{ width: "45%", paddingLeft: 5, fontSize: 6 }}>
                       Alamat
                     </Text>
                     <Text style={styles.value}>
-                      : {pengunjungByCode.alamat || ""}
+                      : {pengunjungByCode.alamat}
                     </Text>
                   </View>
                   <View style={[styles.row, { lineHeight: 0.01 }]}>
                     <Text style={{ width: "45%", paddingLeft: 5, fontSize: 6 }}>
                       Jenis Barang
                     </Text>
-                    <Text style={styles.value}>: {titipan.jenis_barang || ""}</Text>
+                    <Text style={styles.value}>: {titipan.jenis_barang}</Text>
                   </View>
                   <View style={[styles.row, { lineHeight: 0.01 }]}>
                     <Text style={{ width: "45%", paddingLeft: 5, fontSize: 6 }}>
                       Jumlah
                     </Text>
-                    <Text style={styles.value}>: {titipan.jumlah || ""}</Text>
+                    <Text style={styles.value}>: {titipan.jumlah}</Text>
                   </View>
                 </View>
               ))
