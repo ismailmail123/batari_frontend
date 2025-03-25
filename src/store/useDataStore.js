@@ -21,7 +21,7 @@ const useDataStore = create((set, get) => ({
     // Fungsi untuk login dan menyimpan token di local storage
     login: async(credentials, navigate, setError) => {
         try {
-            const response = await axios.post("https://api-invitation.x/api/auth/login", credentials);
+            const response = await axios.post("https://api-invitation.xyz/api/auth/login", credentials);
             const data = response.data;
             set({ user: data.data });
             localStorage.setItem("token", data.token); // Simpan token di local storage

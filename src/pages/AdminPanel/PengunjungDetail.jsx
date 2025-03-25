@@ -818,7 +818,7 @@ const PengunjungDetail = () => {
                     Nama WBP
                   </Text>
                   <Text style={styles.value}>
-                    : {pengunjungByCode?.warga_binaan.nama || ""}
+                    : {pengunjungByCode.warga_binaan?.nama || ""}
                   </Text>
                 </View>
                 <View style={[styles.row, { lineHeight: 0.01 }]}>
