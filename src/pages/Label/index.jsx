@@ -73,6 +73,7 @@ const PengunjungLabel = () => {
     },
     table: {
       width: "100%",
+      height: "100%"
       // marginBottom: 15,
     },
     row: {
@@ -101,8 +102,9 @@ const PengunjungLabel = () => {
       marginLeft: -30,
     },
     value: {
-      width: "40%", // Lebar kolom nilai
+      width: "80%", // Lebar kolom nilai
       fontSize: 9,
+      flexWrap: "wrap"
     },
     barcodeContainer: {
       marginTop: 20,
@@ -415,7 +417,7 @@ const PengunjungLabel = () => {
 
   const PDFPreview = () => (
     <Document>
-      <Page size="A7" style={styles.page}>
+      <Page size={[226.772, 164.41]} style={styles.page}>
         <View
           style={{
             justifyContent: "space-between",
@@ -523,7 +525,7 @@ const PengunjungLabel = () => {
   const handleDownloadPDF = async () => {
     const blob = await pdf(
       <Document>
-        <Page size="A7" style={styles.page}>
+        <Page size={[226.772, 164.41]} style={styles.page}>
           <View
             style={{
               justifyContent: "space-between",
