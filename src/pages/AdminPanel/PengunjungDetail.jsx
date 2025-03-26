@@ -789,8 +789,10 @@ const PengunjungDetail = () => {
           style={{
             justifyContent: "space-between",
             flexDirection: "row", // Baris disusun secara horizontal
-            marginBottom: -20,
+            // marginBottom: -20,
+            marginTop: 30,
             lineHeight: 0.25,
+            maxWidth: "100%"
           }}
         >
           {pengunjungByCode.barang_titipan.length > 0 ? (
@@ -1013,7 +1015,8 @@ const PengunjungDetail = () => {
             style={{
               justifyContent: "space-between",
               flexDirection: "row", // Baris disusun secara horizontal
-              marginBottom: -20,
+              // marginBottom: -20,
+              marginTop: 20,
               lineHeight: 0.25,
             }}
           >
@@ -1109,7 +1112,7 @@ const PengunjungDetail = () => {
             to="/"
             className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            <FaHome className="font-bold size-3.5" />
+            <FaHome className="font-bold text-black size-7" />
           </Link>
         </div>
         {/* Institutional Header */}
