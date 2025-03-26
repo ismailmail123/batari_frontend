@@ -1320,13 +1320,13 @@ const PengunjungDetail = () => {
                 onClick={() => navigate(`/update-pengunjung/${kode}`)}
                 className="bg-blue-600 text-black px-4 py-2 rounded hover:bg-blue-700"
               >
-                Update
+                Perbarui
               </button>
               <button
                 onClick={() => setShowPreview(true)}
                 className="bg-green-600 text-black px-4 py-2 rounded hover:bg-green-700"
               >
-                Preview PDF
+                Cetak
               </button>
               <button
                 onClick={handleDownloadPDF}
@@ -1365,7 +1365,7 @@ const PengunjungDetail = () => {
                 onClick={() => setShowPreview(true)}
                 className="bg-green-600 text-black px-4 py-2 rounded hover:bg-green-700"
               >
-                Preview PDF
+                Cetak
               </button>
               <button
                 onClick={handleDownloadPDF}
@@ -1381,7 +1381,7 @@ const PengunjungDetail = () => {
                 onClick={() => navigate(`/update-pengunjung/${kode}`)}
                 className="bg-blue-600 text-black px-4 py-2 rounded hover:bg-blue-700"
               >
-                Update
+                Perbarui
               </button>
               <button
                 onClick={handleDownloadPDF}
@@ -1399,7 +1399,7 @@ const PengunjungDetail = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[90vh] overflow-hidden">
             <div className="flex justify-between items-center p-4 border-b">
-              <h2 className="text-xl font-semibold">PDF Preview</h2>
+              <h2 className="text-xl font-semibold">PDF Cetak</h2>
               <button
                 onClick={() => setShowPreview(false)}
                 className="text-black hover:text-gray-700"
