@@ -85,7 +85,7 @@ const EditWargabinaanForm = () => {
 	  toast.success("Data berhasil diperbarui!");
 	  
 	  // Navigasi ke halaman detail (opsional)
-	  navigate(`/detail-wargabinaan/${id}`);
+	  // navigate(`/detail-wargabinaan/${id}`);
 	} catch (error) {
 	  // Jika terjadi error, tampilkan pesan error
 	  console.error("Error: ", error);
