@@ -165,6 +165,9 @@ const WargabinaanList = () => {
                   Status
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Keterangan
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Aksi
                 </th>
               </tr>
@@ -232,6 +235,9 @@ const WargabinaanList = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {warga.status}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {warga.keterangan}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 sticky-action-column">
                     <button

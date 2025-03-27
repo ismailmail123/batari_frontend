@@ -48,6 +48,7 @@ const EditWargabinaanForm = () => {
         status: wbpById.status || "",
         nama_ayah: wbpById.nama_ayah || "",
         nama_ibu: wbpById.nama_ibu || "",
+        keterangan: wbpById.keterangan || "",
         photo: null,
       });
     }
@@ -146,7 +147,7 @@ const EditWargabinaanForm = () => {
             {/* Input Data Dasar */}
             {[
               'nama', 'alamat', 'tempat_lahir', 'tanggal_lahir',
-              'jenis_kelamin', 'warga_negara', 'agama'
+              'jenis_kelamin', 'warga_negara', 'agama', 'keterangan'
             ].map((field) => (
               <div key={field} className="space-y-1">
                 <label className="block text-sm font-medium text-gray-700 capitalize">
@@ -171,7 +172,18 @@ const EditWargabinaanForm = () => {
                     onChange={handleInputChange}
                     className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
-                ) : (
+                ) : field === 'keterangan' ? (
+                  <select
+                    name={field}
+                    value={formData[field]}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">Pilih Status Penahanan</option>
+                    <option value="Narapidana">Narapidana</option>
+                    <option value="Tahanan">Tahanan</option>
+                  </select>
+                  ) : (
                   <input
                     type="text"
                     name={field}
@@ -216,15 +228,13 @@ const EditWargabinaanForm = () => {
                       <>
                         <option value="">Pilih Status</option>
                         <option value="Aktif">Aktif</option>
-                        <option value="Non-Aktif">Non-Aktif</option>
+                        <option value="Tidak aktif">Non-Aktif</option>
                       </>
                     ) : (
                       <>
                         <option value="">Pilih Status</option>
                         <option value="belum menikah">Belum menikah</option>
                         <option value="menikah">Menikah</option>
-                        <option value="Cerai Hidup">Cerai Hidup</option>
-                        <option value="Cerai Mati">Cerai Mati</option>
                       </>
                     )}
                   </select>

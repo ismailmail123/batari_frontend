@@ -76,7 +76,7 @@ export default function HomePage() {
 
 // Filter pengunjung berdasarkan kode dan yang belum memiliki nomor antrian
 const filteredPengunjungs = pengunjungs.filter((pengunjung) => {
-  const isKodeMatch = pengunjung.kode.toLowerCase().includes(searchKode.toLowerCase());
+  const isKodeMatch = pengunjung.nama.toLowerCase().includes(searchKode.toLowerCase());
   const hasNoAntrian = !pengunjung.antrian; // Hanya tampilkan pengunjung yang belum memiliki antrian
   return isKodeMatch && hasNoAntrian;
 });
@@ -111,10 +111,13 @@ const formatDate = (dateString) => {
 // Ambil tanggal hari ini
 const today = formatDate(new Date());
 
-// Filter pengunjung berdasarkan tanggal updatedAt yang sama dengan hari ini
+// Filter pengunjung berdasarkan tanggal updatedAt yang sama dengan hari ini DAN pencarian kode
 const filteredPengunjungTitipan = pengunjungs.filter((pengunjung) => {
-  const updatedAtFormatted = formatDate(pengunjung.updatedAt); // Ubah format updatedAt
-  return updatedAtFormatted === today; // Bandingkan dengan tanggal hari ini
+  const updatedAtFormatted = formatDate(pengunjung.updatedAt);
+  const isToday = updatedAtFormatted === today;
+  const isKodeMatch = pengunjung.nama.toLowerCase().includes(searchKodeTitipan.toLowerCase());
+  
+  return isToday && (searchKodeTitipan === '' || isKodeMatch);
 });
 
 
@@ -344,39 +347,41 @@ const filteredPengunjungTitipan = pengunjungs.filter((pengunjung) => {
             <h2 className="text-xl font-semibold mb-2">Ambil Label Titipan</h2>
 
             <div className="relative" ref={dropdownTitipanRef}>
-              <input
-                type="text"
-                value={searchKodeTitipan}
-                onChange={(e) => {
-                  setSearchKodeTitipan(e.target.value);
-                  setIsDropdownTitipanOpen(true);
-                }}
-                onFocus={() => setIsDropdownTitipanOpen(true)}
-                placeholder="Masukkan kode pengunjung..."
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-2"
-              />
+  <input
+    type="text"
+    value={searchKodeTitipan}
+    onChange={(e) => {
+      setSearchKodeTitipan(e.target.value);
+      setIsDropdownTitipanOpen(true);
+    }}
+    onFocus={() => setIsDropdownTitipanOpen(true)}
+    placeholder="Masukkan kode pengunjung..."
+    className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-2"
+  />
 
-              {isDropdownTitipanOpen && (
-                <div className="absolute z-10 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                  {filteredPengunjungTitipan.length > 0 ? (
-                    filteredPengunjungTitipan.map((pengunjung) => (
-                      <div
-                        key={pengunjung.id}
-                        onClick={() => handleSelectPengunjungTitipan(pengunjung)}
-                        className="p-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100"
-                      >
-                        <div className="font-medium">{pengunjung.nama}</div>
-                        <div className="text-sm text-gray-500">
-                          Kode: {pengunjung.kode}
-                        </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="p-3 text-gray-500">Tidak ada data</div>
-                  )}
-                </div>
-              )}
+  {isDropdownTitipanOpen && (
+    <div className="absolute z-10 w-full bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+      {filteredPengunjungTitipan.length > 0 ? (
+        filteredPengunjungTitipan.map((pengunjung) => (
+          <div
+            key={pengunjung.id}
+            onClick={() => handleSelectPengunjungTitipan(pengunjung)}
+            className="p-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100"
+          >
+            <div className="font-medium">{pengunjung.nama}</div>
+            <div className="text-sm text-gray-500">
+              Kode: {pengunjung.kode} | Antrian: {pengunjung.antrian}
             </div>
+          </div>
+        ))
+      ) : (
+        <div className="p-3 text-gray-500">
+          {searchKodeTitipan ? "Tidak ditemukan" : "Tidak ada data hari ini"}
+        </div>
+      )}
+    </div>
+  )}
+</div>
 
             {selectedPengunjungTitipan && (
               <div className="mt-4 p-4 bg-gray-50 rounded-lg">
