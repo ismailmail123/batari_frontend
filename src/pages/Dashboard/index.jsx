@@ -13,7 +13,7 @@ import useDataStore from "../../store/useDataStore";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { FaHome } from "react-icons/fa";
-import { BaggageClaim, LogOut, Settings, Wallet } from "lucide-react";
+import { BaggageClaim, LogOut, ScrollText, Settings, Wallet } from "lucide-react";
 
 export default function HomePage() {
   const { authUser, logout } = useAuthStore();
@@ -463,6 +463,17 @@ const filteredPengunjungTitipan = pengunjungs.filter((pengunjung) => {
                 <ShieldCheckIcon className="h-12 w-12 text-red-600 mb-4" />
                 <h2 className="text-xl font-semibold mb-2">Admin Panel</h2>
                 <p className="text-gray-600">Pengaturan sistem dan pengguna</p>
+              </Link>
+              {/* Tambah Pengunjung */}
+              <Link
+                to="/create-pengunjung"
+                className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200"
+              >
+                <ScrollText className="h-12 w-12 text-orange-600 mb-4" />
+                <h2 className="text-xl font-semibold mb-2">
+                  Laporan
+                </h2>
+                <p className="text-gray-600">Buat laporan Harian Kunjungan</p>
               </Link>
             </div>
           </main>

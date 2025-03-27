@@ -19,6 +19,8 @@ const PengunjungList = () => {
     fetchPengunjungUser();
   }, [fetchPengunjung, fetchPengunjungUser]);
 
+  console.log("pengunjungs", pengunjungs)
+
   // Fungsi untuk memfilter data berdasarkan pencarian dan tanggal
   const filteredPengunjungs = pengunjungs.filter((pengunjung) => {
     const value = pengunjung[searchBy]?.toLowerCase() || ""; // Ambil nilai berdasarkan kriteria pencarian
@@ -26,7 +28,7 @@ const PengunjungList = () => {
     
     // Jika filter tanggal diisi, lakukan filter berdasarkan updated_at (hanya tahun, bulan, dan tanggal)
     const isDateMatch = filterDate
-    ? new Date(pengunjung.updatedAt).toISOString().split('T')[0] === new Date(filterDate).toISOString().split('T')[0]
+    ? new Date(pengunjung.createdAt).toISOString().split('T')[0] === new Date(filterDate).toISOString().split('T')[0]
     : true;
   
   return isMatch && isDateMatch;
@@ -35,9 +37,9 @@ const PengunjungList = () => {
     const value = pengunjung[searchBy]?.toLowerCase() || ""; // Ambil nilai berdasarkan kriteria pencarian
     const isMatch = value.includes(searchQuery.toLowerCase()); // Filter berdasarkan kata kunci
     
-    // Jika filter tanggal diisi, lakukan filter berdasarkan updated_at (hanya tahun, bulan, dan tanggal)
+    // Jika filter tanggal diisi, lakukan filter berdasarkan created_at (hanya tahun, bulan, dan tanggal)
     const isDateMatch = filterDate
-    ? new Date(pengunjung.updatedAt).toISOString().split('T')[0] === new Date(filterDate).toISOString().split('T')[0]
+    ? new Date(pengunjung.createdAt).toISOString().split('T')[0] === new Date(filterDate).toISOString().split('T')[0]
     : true;
   
   return isMatch && isDateMatch;
