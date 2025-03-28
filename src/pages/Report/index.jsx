@@ -4,6 +4,10 @@ import useDataStore from "../../store/useDataStore";
 import NavbarWbp from "../Navbar";
 import "./style.css";
 import useAuthStore from "../../store/useAuthStore";
+import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
+import PDFReport from './PdfReport';
+import { saveAs } from 'file-saver';
+import { pdf } from '@react-pdf/renderer';
 
 const Report = () => {
   const { authUser } = useAuthStore();
@@ -11,12 +15,44 @@ const Report = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchBy, setSearchBy] = useState("nama");
   const [filterDate, setFilterDate] = useState("");
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [showPdfPreview, setShowPdfPreview] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     fetchPengunjung();
     fetchPengunjungUser();
   }, [fetchPengunjung, fetchPengunjungUser]);
+
+  const handleExportPdf = async () => {
+    setIsGeneratingPdf(true);
+    
+    try {
+      const pdfData = {
+        filteredPengunjungs,
+        totals,
+        barangTitipan,
+        rekapPengunjung,
+        rekapPenitipan
+      };
+      
+      // Generate PDF blob
+      const blob = await pdf(<PDFReport data={pdfData} />).toBlob();
+      
+      // Download PDF
+      saveAs(blob, `Laporan_Kunjungan_${new Date().toISOString().split('T')[0]}.pdf`);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
+
+  // Fungsi untuk handle preview PDF
+  const handlePreviewPdf = () => {
+    setShowPdfPreview(true);
+  };
+
 
   // Fungsi untuk menghitung total
   const calculateTotals = (data) => {
@@ -58,6 +94,41 @@ const Report = () => {
     );
   };
 
+  // Fungsi untuk menghitung rekap pengunjung
+  const calculateRekapPengunjung = (data) => {
+    return data.reduce(
+      (acc, curr) => {
+        if (curr.tujuan === "Berkunjung") {
+          if (curr.warga_binaan?.keterangan === "Tahanan Aktif") {
+            acc.narapidanaAktif++;
+          } else if (curr.warga_binaan?.keterangan === "Tahanan") {
+            acc.tahanan++;
+          }
+        }
+        return acc;
+      },
+      { narapidanaAktif: 0, tahanan: 0 }
+    );
+  };
+
+  // Fungsi untuk menghitung rekap penitipan barang
+  const calculateRekapPenitipan = (data) => {
+    return data.reduce(
+      (acc, curr) => {
+        if (curr.tujuan === "Menitip barang") {
+          if (curr.warga_binaan?.keterangan === "Tahanan Aktif") {
+            acc.narapidanaAktif++;
+          } else if (curr.warga_binaan?.keterangan === "Tahanan") {
+            acc.tahanan++;
+          }
+        }
+        return acc;
+      },
+      { narapidanaAktif: 0, tahanan: 0 }
+    );
+  };
+
+
   // Filter data
   const filteredPengunjungs = pengunjungs.filter((pengunjung) => {
     const value = pengunjung[searchBy]?.toLowerCase() || "";
@@ -68,9 +139,16 @@ const Report = () => {
       : true;
     return isMatch && isDateMatch;
   });
+  console.log("filter pengunjung", filteredPengunjungs)
 
-  const totals = calculateTotals(filteredPengunjungs);
-  const barangTitipan = calculateBarangTitipan(filteredPengunjungs);
+  // const totals = calculateTotals(filteredPengunjungs);
+  // const barangTitipan = calculateBarangTitipan(filteredPengunjungs);
+   // Hitung semua total
+   const totals = calculateTotals(filteredPengunjungs);
+   const barangTitipan = calculateBarangTitipan(filteredPengunjungs);
+   const rekapPengunjung = calculateRekapPengunjung(filteredPengunjungs);
+   const rekapPenitipan = calculateRekapPenitipan(filteredPengunjungs);
+ 
 
   // Hitung jumlah narapidana dan tahanan
   const jumlahNarapidana = filteredPengunjungs.filter(
@@ -89,6 +167,8 @@ const Report = () => {
     return <div className="text-center py-8 text-red-500">Error: {error}</div>;
   }
 
+  
+
   return (
     <>
       <NavbarWbp />
@@ -97,8 +177,9 @@ const Report = () => {
           Laporan Kunjungan
         </h1>
 
-        {/* Form Pencarian */}
+        {/* Form Pencarian dan Tombol Export */}
         <div className="flex justify-between mb-8">
+        {/* Form Pencarian */}
           <div className="flex flex-wrap gap-4">
             <input
               type="text"
@@ -122,7 +203,54 @@ const Report = () => {
               className="px-4 py-2 border rounded-md"
             />
           </div>
+          <div className="flex gap-2">
+            <button
+              onClick={handlePreviewPdf}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              disabled={isGeneratingPdf}
+            >
+              {isGeneratingPdf ? 'Membuat PDF...' : 'Preview PDF'}
+            </button>
+            <button
+              onClick={handleExportPdf}
+              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+              disabled={isGeneratingPdf}
+            >
+              {isGeneratingPdf ? 'Mengekspor...' : 'Export PDF'}
+            </button>
+          </div>
+          {/* Modal Preview PDF */}
+        {showPdfPreview && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-lg shadow-xl w-full h-full max-w-6xl flex flex-col">
+              <div className="flex justify-between items-center p-4 border-b">
+                <h2 className="text-xl font-bold">Preview Laporan PDF</h2>
+                <button
+                  onClick={() => setShowPdfPreview(false)}
+                  className="text-gray-500 hover:text-gray-700 text-2xl"
+                >
+                  &times;
+                </button>
+              </div>
+              <div className="flex-1">
+                <PDFViewer width="100%" height="100%">
+                  <PDFReport data={{
+                    filteredPengunjungs,
+                    totals,
+                    barangTitipan,
+                    rekapPengunjung,
+                    rekapPenitipan
+                  }} />
+                </PDFViewer>
+              </div>
+            </div>
+          </div>
+        )}
+  
         </div>
+
+
+
 
         {/* Tabel Utama */}
         <div className="bg-white rounded-lg shadow-lg overflow-x-auto mb-8">
@@ -162,14 +290,40 @@ const Report = () => {
         </div>
 
         {/* Rekapan Data */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          {/* <div className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold mb-4">Rekap Pengunjung</h2>
             <div className="space-y-2">
               <p>Narapidana Aktif: {jumlahNarapidana}</p>
               <p>Tahanan: {jumlahTahanan}</p>
             </div>
           </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl font-semibold mb-4">Rekap Penitip Barang</h2>
+            <div className="space-y-2">
+              <p>Narapidana Aktif: {jumlahNarapidana}</p>
+              <p>Tahanan: {jumlahTahanan}</p>
+            </div>
+          </div> */}
+
+          {/* Rekapan Data */}
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl font-semibold mb-4">Rekap Pengunjung</h2>
+            <div className="space-y-2">
+              <p>Narapidana Aktif: {rekapPengunjung.narapidanaAktif}</p>
+              <p>Tahanan: {rekapPengunjung.tahanan}</p>
+            </div>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-lg">
+            <h2 className="text-xl font-semibold mb-4">Rekap Penitipan Barang</h2>
+            <div className="space-y-2">
+              <p>Narapidana Aktif: {rekapPenitipan.narapidanaAktif}</p>
+              <p>Tahanan: {rekapPenitipan.tahanan}</p>
+            </div>
+          </div>
+
 
           <div className="bg-white p-6 rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold mb-4">Barang Titipan</h2>

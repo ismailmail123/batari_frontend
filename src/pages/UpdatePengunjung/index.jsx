@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import useDataStore from "../../store/useDataStore";
 import toast from "react-hot-toast";
 import CreateBarangTitipanModal from "./CreateBarangTitipanModal";
+import { User } from "lucide-react";
 
 const EditPengunjungForm = () => {
   const { kode } = useParams(); // Ambil ID pengunjung dari URL
@@ -16,6 +17,7 @@ const EditPengunjungForm = () => {
     alamat: "",
     hp: "",
     hubungan_keluarga: "",
+    tujuan: "",
     pengikut_laki_laki: 0,
     pengikut_perempuan: 0,
     pengikut_anak_anak: 0,
@@ -47,6 +49,7 @@ const EditPengunjungForm = () => {
         alamat: pengunjungByCode.alamat || "",
         hp: pengunjungByCode.hp || "",
         hubungan_keluarga: pengunjungByCode.hubungan_keluarga || "",
+        tujuan: pengunjungByCode.tujuan || "",
         pengikut_laki_laki: pengunjungByCode.pengikut_laki_laki || 0,
         pengikut_perempuan: pengunjungByCode.pengikut_perempuan || 0,
         pengikut_anak_anak: pengunjungByCode.pengikut_anak_anak || 0,
@@ -106,6 +109,7 @@ const EditPengunjungForm = () => {
               "alamat",
               "hp",
               "hubungan_keluarga",
+              "tujuan",
             ].map((field) => (
               <div key={field} className="space-y-1">
                 <label className="block text-sm font-medium text-gray-700 capitalize">
@@ -122,7 +126,18 @@ const EditPengunjungForm = () => {
                     <option value="laki-laki">Laki-laki</option>
                     <option value="perempuan">Perempuan</option>
                   </select>
-                ) : (
+                ) : field === "tujuan" ?(
+                  <select
+                    name={field}
+                    value={formData[field]}
+                    onChange={handleInputChange}
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="">Pilih Jenis Tujuan</option>
+                <option value="Berkunjung">Berkunjung</option>
+                <option value="Menitip barang">Menitip barang</option>
+                  </select>
+                ): (
                   <input
                     type={field === "nik" || field === "hp" ? "number" : "text"}
                     name={field}
@@ -178,7 +193,7 @@ const EditPengunjungForm = () => {
         </form>
         <button
         onClick={() => setIsModalOpen(true)}
-         className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-70"
+         className="w-full py-3 mt-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-70"
       >
         + Tambah Barang Titipan
       </button>
