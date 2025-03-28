@@ -471,7 +471,7 @@ const filteredPengunjungTitipan = pengunjungs.filter((pengunjung) => {
               </Link>
               {/* Tambah Pengunjung */}
               <Link
-                to="/create-pengunjung"
+                to="/report"
                 className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200"
               >
                 <ScrollText className="h-12 w-12 text-orange-600 mb-4" />
