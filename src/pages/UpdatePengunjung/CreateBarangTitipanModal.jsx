@@ -102,15 +102,28 @@ const CreateBarangTitipanModal = ({ isOpen, onClose, pengunjungs }) => {
                 <FaBoxOpen className="inline-block mr-2" />
                 Jenis Barang
               </label>
-              <input
-                type="text"
+              <select
                 name="jenis_barang"
                 value={formData.jenis_barang}
                 onChange={handleInputChange}
                 className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                placeholder="Masukkan Jenis Barang"
                 required
-              />
+              >
+                <option value="">Pilih Jenis Barang</option>
+                
+                  <option  value="Makanan">
+                    Makanan
+                  </option>
+                  <option  value="Obat">
+                    Obat
+                  </option>
+                  <option  value="Alat mandi">
+                    Alat mandi
+                  </option>
+                  <option  value="Uang">
+                    Uang
+                  </option>
+              </select>
             </div>
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">

@@ -1,0 +1,12 @@
+/* styles.css */
+
+.sticky-action-column {
+    position: sticky;
+    right: 0;
+    background-color: white;
+    z-index: 1;
+}
+
+.overflow-x-auto {
+    overflow-x: auto;
+}

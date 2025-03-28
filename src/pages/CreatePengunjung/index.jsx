@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 import useDataStore from "../../store/useDataStore";
 import { FaUser, FaIdCard, FaPhone, FaHome, FaVenusMars, FaQrcode, FaUpload, FaSpinner } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import { User } from "lucide-react";
 
 const AddPengunjungForm = ({ onClose }) => {
   const { createPengunjung, fetchWbpList, wbpList } = useDataStore();
@@ -170,6 +171,7 @@ const AddPengunjungForm = ({ onClose }) => {
         alamat: "",
         hp: "",
         hubungan_keluarga: "",
+        tujuan: "",
         pengikut_laki_laki: 0,
         pengikut_perempuan: 0,
         pengikut_anak_anak: 0,
@@ -329,6 +331,21 @@ const AddPengunjungForm = ({ onClose }) => {
                 <option value="">Pilih Jenis Kelamin</option>
                 <option value="laki-laki">Laki-laki</option>
                 <option value="perempuan">Perempuan</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                <User className="inline-block mr-2" /> Tujuan
+              </label>
+              <select
+                name="tujuan"
+                value={formData.tujuan}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              >
+                <option value="">Pilih Jenis Tujuan</option>
+                <option value="Berkunjung">Berkunjung</option>
+                <option value="Menitip barang">Menitip barang</option>
               </select>
             </div>
 

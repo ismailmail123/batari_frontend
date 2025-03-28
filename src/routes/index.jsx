@@ -22,6 +22,7 @@ import { useEffect } from 'react';
 import { isTokenExpired } from '../lib/authUtils';
 import FormExcel from '../pages/WargabinaanForm/FormFile';
 import PengunjungLabel from '../pages/Label';
+import Report from '../pages/Report';
 
 
 const Index = () => {
@@ -157,6 +158,12 @@ const Index = () => {
       path: '/otp',
       element: 
           <OTPPage />
+      
+    },
+    {
+      path: '/report',
+      element: 
+          <Report />
       
     },
     {
