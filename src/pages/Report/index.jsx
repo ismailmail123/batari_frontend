@@ -341,12 +341,24 @@ const Report = () => {
         </div>
 
         {/* Tanda Tangan */}
-        <div className="grid grid-cols-2 gap-4 mt-8">
-          <div className="text-center">
+        <div className="flex justify-end gap-4 mt-8 ">
+          {/* <div className="text-center">
             <p className="mb-8">Kepala Pelayanan Tahanan</p>
             <p className="border-t pt-8">(.......................................)</p>
-          </div>
-          <div className="text-center">
+          </div> */}
+          <div className="text-start leading-1.5">
+            <p >Dikeluarkan di Bantaeng</p>
+            <p >Pada Tanggal {filterDate
+                  ? new Date(filterDate).toLocaleDateString(
+                      "id-ID",
+                      {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }
+                    )
+                  : "Tanggal tidak tersedia"} </p>
             <p className="mb-8">Kepala Rutan</p>
             <p className="border-t pt-8">(.......................................)</p>
           </div>

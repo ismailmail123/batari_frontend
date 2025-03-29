@@ -862,7 +862,7 @@ const PengunjungDetail = () => {
     content: () => componentRef.current,
   });
 
-  // Handle Download PDF
+  // Handle Export PDF
   const handleDownloadPDF = async () => {
     const blob = await pdf(
       <Document>
@@ -1335,7 +1335,7 @@ const PengunjungDetail = () => {
                 onClick={handleDownloadPDF}
                 className="bg-purple-600 text-black px-4 py-2 rounded hover:bg-purple-700"
               >
-                Download PDF
+                Export PDF
               </button>
             </>
           )}
@@ -1374,7 +1374,7 @@ const PengunjungDetail = () => {
                 onClick={handleDownloadPDF}
                 className="bg-purple-600 text-black px-4 py-2 rounded hover:bg-purple-700"
               >
-                Download PDF
+                Export PDF
               </button>
             </>
           )}
@@ -1390,7 +1390,7 @@ const PengunjungDetail = () => {
                 onClick={handleDownloadPDF}
                 className="bg-purple-600 text-black px-4 py-2 rounded hover:bg-purple-700"
               >
-                Download PDF
+                Export PDF
               </button>
             </>
           )}

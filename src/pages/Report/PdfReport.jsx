@@ -105,13 +105,17 @@ Font.register({
 	  marginBottom: 5,
 	},
 	signatureContainer: {
+    display: 'flex',
+    width: "100%",
 	  flexDirection: 'row',
-	  justifyContent: 'space-between',
+	  justifyContent: 'end',
+    alignItems: 'end',
 	  marginTop: 40,
+    marginLeft: 350
 	},
 	signatureBox: {
 	  width: '45%',
-	  textAlign: 'center',
+	  textAlign: 'flex-end',
 	},
 	signatureLine: {
 	  // borderTopStyle: 'solid',
@@ -207,18 +211,7 @@ const PDFReport = ({ data }) => {
 					<Text>Laporan</Text>
 					<Text>Tentang</Text>
 					<Text>Laporan kunjungan dan Penitipan Barang</Text>
-					<Text>{" "}
-                {filterDate
-                  ? new Date(filterDate).toLocaleDateString(
-                      "id-ID",
-                      {
-                        weekday: "long",
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      }
-                    )
-                  : "Tanggal tidak tersedia"} </Text>
+					
 				</View>
 
         {/* Tabel Utama */}
@@ -327,14 +320,27 @@ const PDFReport = ({ data }) => {
 
         {/* Tanda Tangan */}
         <View style={styles.signatureContainer}>
-          <View style={styles.signatureBox}>
+          {/* <View style={styles.signatureBox}>
             <Text>Kepala Sub Bagian Pelayanan Tahanan</Text>
             <View style={styles.signatureLine}>
               <Text>Ashadi</Text>
             </View>
-          </View>
+          </View> */}
           
           <View style={styles.signatureBox}>
+            <Text>Dikeluarkan di Bantaeng</Text>
+            <Text>Pada tanggal {" "}
+                {filterDate
+                  ? new Date(filterDate).toLocaleDateString(
+                      "id-ID",
+                      {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }
+                    )
+                  : "Tanggal tidak tersedia"} </Text>
             <Text>Karutan</Text>
             <View style={styles.signatureLine}>
               <Text>Ambo Asse A.</Text>
