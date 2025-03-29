@@ -4,19 +4,20 @@ import moment from 'moment';
 import logo from "../../assets/logokemenimipas.png";
 
 // Register font
+// Register font
 Font.register({
-	family: 'Roboto',
-	fonts: [
-	  {
-		src: 'https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Mu4mxP.ttf',
-		fontWeight: 'normal',
-	  },
-	  {
-		src: 'https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmEU9fBBc9.ttf',
-		fontWeight: 'bold',
-	  },
-	],
-  });
+  family: 'Roboto',
+  fonts: [
+    {
+      src: 'https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Mu4mxP.ttf',
+      fontWeight: 'normal',
+    },
+    {
+      src: 'https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmEU9fBBc9.ttf',
+      fontWeight: 'bold',
+    },
+  ],
+});
   
   // Create styles
   const styles = StyleSheet.create({
@@ -63,7 +64,7 @@ Font.register({
 	  display: "table",
 	  width: "100%",
 	  borderStyle: "solid",
-	  borderWidth: 1,
+	  borderWidth: 0.5,
 	  borderColor: '#000',
 	  marginBottom: 20,
 	},
@@ -73,15 +74,16 @@ Font.register({
 	tableColHeader: {
 	  width: "16.66%",
 	  borderStyle: "solid",
-	  borderWidth: 1,
+	  borderWidth: 0.5,
 	  borderColor: '#000',
 	  backgroundColor: '#f3f4f6',
 	  padding: 5,
+    fontWeight:"bold"
 	},
 	tableCol: {
 	  width: "16.66%",
 	  borderStyle: "solid",
-	  borderWidth: 1,
+	  borderWidth: 0.25,
 	  borderColor: '#000',
 	  padding: 5,
 	},
@@ -93,7 +95,7 @@ Font.register({
 	summaryBox: {
 	  width: '30%',
 	  borderStyle: 'solid',
-	  borderWidth: 1,
+	  borderWidth: 0.5,
 	  borderColor: '#000',
 	  padding: 10,
 	},
@@ -112,9 +114,9 @@ Font.register({
 	  textAlign: 'center',
 	},
 	signatureLine: {
-	  borderTopStyle: 'solid',
-	  borderTopWidth: 1,
-	  borderTopColor: '#000',
+	  // borderTopStyle: 'solid',
+	  // borderTopWidth: 1,
+	  // borderTopColor: '#000',
 	  paddingTop: 30,
 	  marginTop: 30,
 	},
@@ -131,6 +133,29 @@ Font.register({
       marginRight: 10, // Jarak antara gambar dan teks
       marginBottom: 10,
     },
+    footer: {
+      position: 'absolute',
+      bottom: 5, // Posisi dari bawah halaman
+      left: 30,
+      right: 30,
+      textAlign: 'start',
+      fontSize: 6,
+      borderTopWidth: 0.5,
+      borderTopColor: '#000',
+      paddingTop: 10,
+      flexDirection: 'row',
+      gap: 3,
+      display: "flex",
+      justifyContent: "space-between"
+    },
+    footerText: {
+      fontSize: 10,
+      color: '#444',
+    },
+    pageInfo: {
+      fontSize: 10,
+      color: '#444',
+    }
   });
   
 
@@ -141,6 +166,7 @@ const PDFReport = ({ data }) => {
     barangTitipan = {},
     rekapPengunjung = {},
     rekapPenitipan = {},
+    filterDate = {}
   } = data;
 
   console.log ("ini dta dari pdf", data)
@@ -177,11 +203,22 @@ const PDFReport = ({ data }) => {
 				  {/* Komponen Teks Header */}
 				  <HeaderText />
 				</View>
-				<View style={{textAlign: "center", fontSize: 10, fontWeight: "bold"}}>
+				<View style={{textAlign: "center", fontSize: 10, fontWeight: "bold", marginBottom: 10}}>
 					<Text>Laporan</Text>
 					<Text>Tentang</Text>
 					<Text>Laporan kunjungan dan Penitipan Barang</Text>
-					<Text>Tanggal, </Text>
+					<Text>{" "}
+                {filterDate
+                  ? new Date(filterDate).toLocaleDateString(
+                      "id-ID",
+                      {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }
+                    )
+                  : "Tanggal tidak tersedia"} </Text>
 				</View>
 
         {/* Tabel Utama */}
@@ -277,22 +314,31 @@ const PDFReport = ({ data }) => {
             <Text>Uang: {barangTitipan.uang}</Text>
           </View>
         </View>
+        {/* Footer */}
+        <View style={styles.footer} fixed> {/* fixed membuat footer muncul di semua halaman */}
+          <Text style={styles.footerText}>
+            Rekapitulasi kunjungan Rutan Kelas II B Bantaeng
+          </Text>
+          <Text style={styles.pageInfo} render={({ pageNumber, totalPages }) => (
+            `Halaman ${pageNumber} dari ${totalPages}`
+          )} />
+        </View>
+
 
         {/* Tanda Tangan */}
         <View style={styles.signatureContainer}>
           <View style={styles.signatureBox}>
-            <Text>Kepala LAPAS</Text>
-            <View style={styles.signatureLine}>
-              <Text>(.......................................)</Text>
-            </View>
-            <Text>NIP. ........................</Text>
-          </View>
-          <View style={styles.signatureBox}>
             <Text>Kepala Sub Bagian Pelayanan Tahanan</Text>
             <View style={styles.signatureLine}>
-              <Text>(.......................................)</Text>
+              <Text>Ashadi</Text>
             </View>
-            <Text>NIP. ........................</Text>
+          </View>
+          
+          <View style={styles.signatureBox}>
+            <Text>Karutan</Text>
+            <View style={styles.signatureLine}>
+              <Text>Ambo Asse A.</Text>
+            </View>
           </View>
         </View>
       </Page>
@@ -301,3 +347,4 @@ const PDFReport = ({ data }) => {
 };
 
 export default PDFReport;
+

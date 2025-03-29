@@ -24,6 +24,8 @@ const Report = () => {
     fetchPengunjungUser();
   }, [fetchPengunjung, fetchPengunjungUser]);
 
+  console.log("filtered date", filterDate)
+
   const handleExportPdf = async () => {
     setIsGeneratingPdf(true);
     
@@ -239,7 +241,8 @@ const Report = () => {
                     totals,
                     barangTitipan,
                     rekapPengunjung,
-                    rekapPenitipan
+                    rekapPenitipan,
+                    filterDate
                   }} />
                 </PDFViewer>
               </div>
@@ -340,11 +343,11 @@ const Report = () => {
         {/* Tanda Tangan */}
         <div className="grid grid-cols-2 gap-4 mt-8">
           <div className="text-center">
-            <p className="mb-8">Kepala Rutan</p>
+            <p className="mb-8">Kepala Pelayanan Tahanan</p>
             <p className="border-t pt-8">(.......................................)</p>
           </div>
           <div className="text-center">
-            <p className="mb-8">Kepala Pelayanan Tahanan</p>
+            <p className="mb-8">Kepala Rutan</p>
             <p className="border-t pt-8">(.......................................)</p>
           </div>
         </div>
