@@ -26,6 +26,7 @@ const PengunjungLabel = () => {
   const componentRef = useRef();
   const [showPreview, setShowPreview] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const mmToPt = (mm) => mm * 2.83465;
 
   useEffect(() => {
     fetchPengunjungByCode(kode);
@@ -33,11 +34,14 @@ const PengunjungLabel = () => {
 
   const navigate = useNavigate();
 
+  console.log("pengunjungByCode:", pengunjungByCode);
+
   const styles = StyleSheet.create({
     page: {
       flexDirection: "column",
       backgroundColor: "#FFFFFF",
-      padding: 20,
+      padding: 2,
+      paddingRight: 10,
       fontFamily: "Helvetica",
     },
     kop: {
@@ -276,6 +280,10 @@ const PengunjungLabel = () => {
           <Text style={[styles.label, { width: "30%", fontWeight: "bold" }]}>
             Keterangan
           </Text>
+          <Image
+            src={pengunjungByCode?.barcode}
+            style={{ width: 50, height: 50, marginLeft: 5, marginTop: -15 }}  
+          />
         </View>
 
         {/* Baris Data Barang */}
@@ -331,6 +339,7 @@ const PengunjungLabel = () => {
               <Text style={[styles.value, { width: "30%", paddingLeft: 5 }]}>
                 {barang.keterangan}
               </Text>
+              
             </View>
           ))
         ) : (
@@ -417,7 +426,7 @@ const PengunjungLabel = () => {
 
   const PDFPreview = () => (
     <Document>
-      <Page size={[226.772, 164.41]} style={styles.page}>
+      <Page size={[mmToPt(80), mmToPt(80)]} style={styles.page}>
         <View
           style={{
             justifyContent: "space-between",
@@ -435,9 +444,10 @@ const PengunjungLabel = () => {
                   flexDirection: "column",
                   border: "1 dashed black",
                   padding: 3,
-                  width: "100%",
-                  paddingTop: 10,
+                  width: "85%",
+                  paddingTop: 40,
                   paddingBottom: 10,
+                  marginTop: 0,
                 }}
               >
                 {/* Content */}
@@ -479,6 +489,38 @@ const PengunjungLabel = () => {
                       : {pengunjungByCode.warga_binaan?.nama}
                     </Text>
                   </View>
+                  <View
+                    style={{
+                      lineHeight: 0.3,
+                      flexDirection: "row", // Baris disusun secara horizontal
+                      // borderBottomWidth: 1,
+                      // borderColor: '#000',
+                      paddingVertical: 5,
+                    }}
+                  >
+                    <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
+                      Status WBP
+                    </Text>
+                    <Text style={styles.value}>
+                      : {pengunjungByCode.warga_binaan?.keterangan}
+                    </Text>
+                  </View>
+                  <View
+                    style={{
+                      lineHeight: 0.3,
+                      flexDirection: "row", // Baris disusun secara horizontal
+                      // borderBottomWidth: 1,
+                      // borderColor: '#000',
+                      paddingVertical: 5,
+                    }}
+                  >
+                    <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
+                      Alamat WBP
+                    </Text>
+                    <Text style={styles.value}>
+                      : {pengunjungByCode.warga_binaan?.alamat}
+                    </Text>
+                  </View>
                   <View style={[styles.row, { lineHeight: 0.3 }]}>
                     <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
                       Pengirim
@@ -505,6 +547,12 @@ const PengunjungLabel = () => {
                     </Text>
                     <Text style={styles.value}>: {titipan.jumlah}</Text>
                   </View>
+                  <View style={[styles.row, { alignSelf: 'flex-end' }]}>
+                    <Image
+                      src={pengunjungByCode?.barcode}
+                      style={{ width: 50, height: 50, marginLeft: 5, marginTop: -15, alignSelf: 'end' }}
+                    />
+                    </View>
                 </View>
               </View>
             ))
@@ -525,7 +573,7 @@ const PengunjungLabel = () => {
   const handleDownloadPDF = async () => {
     const blob = await pdf(
       <Document>
-        <Page size={[226.772, 164.41]} style={styles.page}>
+        <Page size={[mmToPt(80), mmToPt(80)]} style={styles.page}>
           <View
             style={{
               justifyContent: "space-between",
@@ -664,11 +712,11 @@ const PengunjungLabel = () => {
             to="/"
             className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           >
-            <FaHome className="font-bold size-3.5" />
+            <FaHome className="font-bold text-black size-[30px]" />
           </Link>
         </div>
         {/* Institutional Header */}
-        <div className="p-6 flex border-b-2 border-gray-200">
+        <div className="p-6 mt-[-50px] flex border-b-2 border-gray-200">
           <span className=" p-0">
             <img src={logo} alt="kemenimipas" className="w-28"></img>
           </span>
@@ -875,3 +923,447 @@ const PengunjungLabel = () => {
 
 export default PengunjungLabel;
 
+// import React, { useEffect, useState } from "react";
+// import useDataStore from "../../store/useDataStore";
+// import { Link, useNavigate, useParams } from "react-router-dom";
+// import { FaHome, FaPrint, FaSpinner } from "react-icons/fa";
+// import useAuthStore from "../../store/useAuthStore";
+// import "./style.css";
+
+// const PengunjungLabelThermal = () => {
+//   const { kode } = useParams();
+//   const { fetchPengunjungByCode, pengunjungByCode } = useDataStore();
+//   const { authUser } = useAuthStore();
+//   const navigate = useNavigate();
+//   const [isPrinting, setIsPrinting] = useState(false);
+//   const [printStatus, setPrintStatus] = useState("");
+
+//   useEffect(() => {
+//     fetchPengunjungByCode(kode);
+//   }, [kode, fetchPengunjungByCode]);
+
+//   const directPrint = (content) => {
+//     return new Promise((resolve, reject) => {
+//       try {
+//         // Method 1: Menggunakan window.print() dengan iframe
+//         const iframe = document.createElement('iframe');
+//         iframe.style.position = 'fixed';
+//         iframe.style.right = '0';
+//         iframe.style.bottom = '0';
+//         iframe.style.width = '0';
+//         iframe.style.height = '0';
+//         iframe.style.border = 'none';
+        
+//         document.body.appendChild(iframe);
+        
+//         const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        
+//         // Konten thermal printer friendly
+//         iframeDoc.write(`
+//           <!DOCTYPE html>
+//           <html>
+//           <head>
+//             <title>Print Thermal</title>
+//             <style>
+//               @media print {
+//                 body { 
+//                   margin: 0; 
+//                   padding: 0; 
+//                   font-family: 'Courier New', monospace;
+//                   font-size: 12px;
+//                   line-height: 1.2;
+//                   width: 80mm;
+//                 }
+//                 .container { 
+//                   width: 80mm; 
+//                   padding: 2mm;
+//                   word-wrap: break-word;
+//                 }
+//                 .text-center { text-align: center; }
+//                 .text-bold { font-weight: bold; }
+//                 .border-bottom { border-bottom: 1px dashed #000; padding-bottom: 2mm; margin-bottom: 2mm; }
+//                 .line { border-top: 1px dashed #000; margin: 2mm 0; }
+//                 .barcode { image-rendering: pixelated; width: 150px; height: 50px; }
+//                 .mt-1 { margin-top: 1mm; }
+//                 .mb-1 { margin-bottom: 1mm; }
+//                 .p-1 { padding: 1mm; }
+//               }
+//               @page { margin: 0; size: 80mm auto; }
+//             </style>
+//           </head>
+//           <body>
+//             <div class="container">
+//               ${content}
+//             </div>
+//             <script>
+//               window.onload = function() {
+//                 setTimeout(function() {
+//                   window.print();
+//                   setTimeout(function() {
+//                     window.onafterprint = function() {
+//                       window.parent.postMessage('printCompleted', '*');
+//                     };
+//                   }, 100);
+//                 }, 500);
+//               };
+//             </script>
+//           </body>
+//           </html>
+//         `);
+        
+//         iframeDoc.close();
+        
+//         // Listen for print completion
+//         const handleMessage = (event) => {
+//           if (event.data === 'printCompleted') {
+//             document.body.removeChild(iframe);
+//             window.removeEventListener('message', handleMessage);
+//             resolve();
+//           }
+//         };
+        
+//         window.addEventListener('message', handleMessage);
+        
+//         // Fallback timeout
+//         setTimeout(() => {
+//           document.body.removeChild(iframe);
+//           window.removeEventListener('message', handleMessage);
+//           resolve();
+//         }, 5000);
+        
+//       } catch (error) {
+//         reject(error);
+//       }
+//     });
+//   };
+
+//   const handlePrintThermal = async () => {
+//     setIsPrinting(true);
+//     setPrintStatus("Mempersiapkan cetakan...");
+    
+//     try {
+//       const thermalContent = `
+//         <div class="text-center text-bold">
+//           <div>KEMENTERIAN IMIGRASI DAN PEMASYARAKATAN</div>
+//           <div>RUMAH TAHANAN NEGARA KELAS IIB BANTAENG</div>
+//           <div class="line"></div>
+//         </div>
+        
+//         <div class="text-center text-bold border-bottom">
+//           BUKTI KUNJUNGAN
+//         </div>
+        
+//         <div class="text-bold">DATA PENGGUNA:</div>
+//         <div>Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.nama || '-'}</div>
+//         <div>Jenis Kelamin : ${pengunjungByCode?.jenis_kelamin || '-'}</div>
+//         <div>NIK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.nik || '-'}</div>
+//         <div>Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.alamat || '-'}</div>
+//         <div>Telp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.hp || '-'}</div>
+//         <div>Hubungan&nbsp;&nbsp;: ${pengunjungByCode?.hubungan_keluarga || '-'}</div>
+        
+//         <div class="line"></div>
+        
+//         <div class="text-bold">DATA WBP:</div>
+//         <div>Nama WBP&nbsp;&nbsp;: ${pengunjungByCode?.warga_binaan?.nama || '-'}</div>
+//         <div>Perkara&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.warga_binaan?.jenis_kejahatan || '-'}</div>
+//         <div>Blok Kamar&nbsp;: Blok ${pengunjungByCode?.warga_binaan?.lokasi_blok || '-'}</div>
+        
+//         <div class="line"></div>
+        
+//         <div class="text-bold">PENGGUNA:</div>
+//         <div>Laki-laki&nbsp;&nbsp;: ${pengunjungByCode?.pengikut_laki_laki || 0}</div>
+//         <div>Perempuan&nbsp;: ${pengunjungByCode?.pengikut_perempuan || 0}</div>
+//         <div>Anak-anak&nbsp;: ${pengunjungByCode?.pengikut_anak_anak || 0}</div>
+//         <div>Bayi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.pengikut_bayi || 0}</div>
+        
+//         <div class="line"></div>
+        
+//         <div class="text-bold">BARANG TITIPAN:</div>
+//         ${pengunjungByCode?.barang_titipan?.length > 0 ? 
+//           pengunjungByCode.barang_titipan.map((barang, index) => 
+//             `<div>${index + 1}. ${barang.jenis_barang} - ${barang.jumlah} pcs</div>` +
+//             (barang.keterangan ? `<div>&nbsp;&nbsp;Ket: ${barang.keterangan}</div>` : '')
+//           ).join('') : 
+//           '<div>Tidak ada barang titipan</div>'
+//         }
+        
+//         <div class="line"></div>
+        
+//         <div class="text-center">
+//           <div class="text-bold">NOMOR ANTRIAN:</div>
+//           <div class="text-bold" style="font-size: 16px;">${pengunjungByCode?.antrian || 'BELUM ADA'}</div>
+//         </div>
+        
+//         <div class="text-center mt-1">
+//           <div>${pengunjungByCode?.created_at ? 
+//             new Date(pengunjungByCode.created_at).toLocaleDateString('id-ID', {
+//               day: '2-digit',
+//               month: 'short',
+//               year: 'numeric'
+//             }) : 'Tanggal tidak tersedia'
+//           }</div>
+//         </div>
+        
+//         <div class="text-center">
+//           <div class="text-bold">KODE: ${pengunjungByCode?.kode || '-'}</div>
+//           <div>Status: ${pengunjungByCode?.status?.toUpperCase() || '-'}</div>
+//         </div>
+        
+//         ${pengunjungByCode?.barcode ? `
+//           <div class="text-center mt-1">
+//             <img src="${pengunjungByCode.barcode}" class="barcode" alt="Barcode">
+//           </div>
+//         ` : ''}
+        
+//         <div class="text-center mt-1">
+//           <div>================================</div>
+//         </div>
+//       `;
+
+//       setPrintStatus("Membuka dialog print...");
+//       await directPrint(thermalContent);
+      
+//       setPrintStatus("Cetakan berhasil dikirim!");
+//       setTimeout(() => setPrintStatus(""), 2000);
+      
+//     } catch (error) {
+//       console.error('Print error:', error);
+//       setPrintStatus("Error: Gagal mencetak");
+//       setTimeout(() => setPrintStatus(""), 3000);
+//     } finally {
+//       setIsPrinting(false);
+//     }
+//   };
+
+//   const handlePrintLabelTitipan = async () => {
+//     if (!pengunjungByCode?.barang_titipan?.length) return;
+    
+//     setIsPrinting(true);
+//     setPrintStatus("Mempersiapkan label titipan...");
+    
+//     try {
+//       for (const titipan of pengunjungByCode.barang_titipan) {
+//         const labelContent = `
+//           <div class="text-center text-bold">
+//             <div>LABEL TITIPAN</div>
+//             <div>${titipan.jenis_barang.toUpperCase()}</div>
+//             <div class="line"></div>
+//           </div>
+          
+//           <div class="text-bold">NAMA WBP:</div>
+//           <div>${pengunjungByCode.warga_binaan?.nama || '-'}</div>
+          
+//           <div class="text-bold">PENGIRIM:</div>
+//           <div>${pengunjungByCode.nama || '-'}</div>
+          
+//           <div class="text-bold">ALAMAT:</div>
+//           <div>${pengunjungByCode.alamat || '-'}</div>
+          
+//           <div class="line"></div>
+          
+//           <div class="text-bold">JENIS BARANG:</div>
+//           <div>${titipan.jenis_barang}</div>
+          
+//           <div class="text-bold">JUMLAH:</div>
+//           <div>${titipan.jumlah} pcs</div>
+          
+//           ${titipan.keterangan ? `
+//             <div class="text-bold">KETERANGAN:</div>
+//             <div>${titipan.keterangan}</div>
+//           ` : ''}
+          
+//           <div class="line"></div>
+          
+//           <div class="text-center">
+//             <div>${new Date().toLocaleDateString('id-ID')}</div>
+//             <div>${pengunjungByCode.kode}</div>
+//           </div>
+          
+//           <div class="text-center mt-1">
+//             <div>================================</div>
+//           </div>
+//         `;
+
+//         await directPrint(labelContent);
+//         await new Promise(resolve => setTimeout(resolve, 1000)); // Delay antar label
+//       }
+      
+//       setPrintStatus("Semua label berhasil dicetak!");
+//       setTimeout(() => setPrintStatus(""), 2000);
+      
+//     } catch (error) {
+//       console.error('Label print error:', error);
+//       setPrintStatus("Error: Gagal mencetak label");
+//       setTimeout(() => setPrintStatus(""), 3000);
+//     } finally {
+//       setIsPrinting(false);
+//     }
+//   };
+
+//   // Fallback print method menggunakan window.print() langsung
+//   const fallbackPrint = () => {
+//     const printWindow = window.open('', '_blank');
+//     const content = `
+//       <!DOCTYPE html>
+//       <html>
+//       <head>
+//         <title>Print ${pengunjungByCode?.kode}</title>
+//         <style>
+//           body { 
+//             font-family: 'Courier New', monospace;
+//             font-size: 12px;
+//             line-height: 1.2;
+//             margin: 0;
+//             padding: 10px;
+//           }
+//           .text-center { text-align: center; }
+//           .text-bold { font-weight: bold; }
+//           .line { border-top: 1px dashed #000; margin: 5px 0; }
+//         </style>
+//       </head>
+//       <body>
+//         <div class="text-center text-bold">
+//           <div>BUKTI KUNJUNGAN</div>
+//           <div>${pengunjungByCode?.kode}</div>
+//         </div>
+//         <div class="line"></div>
+//         <div>Nama: ${pengunjungByCode?.nama}</div>
+//         <div>WBP: ${pengunjungByCode?.warga_binaan?.nama}</div>
+//         <div>Antrian: ${pengunjungByCode?.antrian}</div>
+//         <div class="line"></div>
+//         <div class="text-center">Silakan gunakan CTRL+P untuk mencetak</div>
+//       </body>
+//       </html>
+//     `;
+    
+//     printWindow.document.write(content);
+//     printWindow.document.close();
+//     printWindow.focus();
+//     printWindow.print();
+//     printWindow.close();
+//   };
+
+//   if (!pengunjungByCode) {
+//     return (
+//       <div className="flex justify-center items-center h-screen bg-gray-100">
+//         <p className="text-xl text-gray-700">Data pengunjung tidak ditemukan.</p>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="min-h-screen bg-gray-100 py-4 px-2">
+//       {/* Print Status Indicator */}
+//       {printStatus && (
+//         <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-4 py-2 rounded-lg shadow-lg ${
+//           printStatus.includes('Error') ? 'bg-red-500 text-white' : 'bg-green-500 text-white'
+//         }`}>
+//           {printStatus}
+//         </div>
+//       )}
+
+//       <div className="max-w-md mx-auto bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+//         {/* Header */}
+//         <div className="bg-blue-600 text-white p-3 text-center">
+//           <div className="flex justify-between items-center mb-2">
+//             <Link to="/" className="text-white hover:text-gray-200">
+//               <FaHome className="text-xl" />
+//             </Link>
+//             <h1 className="text-lg font-bold">CETAK THERMAL</h1>
+//             <div className="w-6"></div>
+//           </div>
+//           <p className="text-xs">RUTAN KELAS IIB BANTAENG</p>
+//         </div>
+
+//         {/* Content Summary */}
+//         <div className="p-4">
+//           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+//             <h3 className="font-bold text-center text-blue-800 mb-2">SUMMARY KUNJUNGAN</h3>
+//             <div className="grid grid-cols-2 gap-2 text-sm">
+//               <div>
+//                 <span className="font-medium">Kode:</span> {pengunjungByCode.kode}
+//               </div>
+//               <div>
+//                 <span className="font-medium">Status:</span> {pengunjungByCode.status}
+//               </div>
+//               <div>
+//                 <span className="font-medium">Nama:</span> {pengunjungByCode.nama}
+//               </div>
+//               <div>
+//                 <span className="font-medium">WBP:</span> {pengunjungByCode.warga_binaan?.nama}
+//               </div>
+//               <div className="col-span-2">
+//                 <span className="font-medium">Antrian:</span> {pengunjungByCode.antrian || 'Belum ada'}
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Quick Info Cards */}
+//           <div className="grid grid-cols-2 gap-3 mb-4">
+//             <div className="bg-green-50 border border-green-200 rounded p-2 text-center">
+//               <div className="text-2xl font-bold text-green-600">{pengunjungByCode.barang_titipan?.length || 0}</div>
+//               <div className="text-xs text-green-800">Barang Titipan</div>
+//             </div>
+//             <div className="bg-purple-50 border border-purple-200 rounded p-2 text-center">
+//               <div className="text-2xl font-bold text-purple-600">
+//                 {((pengunjungByCode.pengikut_laki_laki || 0) + (pengunjungByCode.pengikut_perempuan || 0) + (pengunjungByCode.pengikut_anak_anak || 0) + (pengunjungByCode.pengikut_bayi || 0))}
+//               </div>
+//               <div className="text-xs text-purple-800">Total Pengikut</div>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Action Buttons */}
+//         <div className="bg-gray-50 p-4 border-t border-gray-200">
+//           <div className="flex flex-col gap-3">
+//             <button
+//               onClick={handlePrintThermal}
+//               disabled={isPrinting}
+//               className="bg-blue-600 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700 disabled:opacity-50 transition duration-200"
+//             >
+//               {isPrinting ? <FaSpinner className="animate-spin" /> : <FaPrint />}
+//               {isPrinting ? "Mencetak..." : "Cetak Bukti Kunjungan"}
+//             </button>
+            
+//             {pengunjungByCode.barang_titipan?.length > 0 && (
+//               <button
+//                 onClick={handlePrintLabelTitipan}
+//                 disabled={isPrinting}
+//                 className="bg-green-600 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-green-700 disabled:opacity-50 transition duration-200"
+//               >
+//                 {isPrinting ? <FaSpinner className="animate-spin" /> : <FaPrint />}
+//                 {isPrinting ? "Mencetak..." : "Cetak Label Titipan"}
+//               </button>
+//             )}
+            
+//             <button
+//               onClick={fallbackPrint}
+//               className="bg-gray-600 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-700 transition duration-200"
+//             >
+//               <FaPrint />
+//               Cetak Manual (Fallback)
+//             </button>
+
+//             {authUser?.user?.role === "admin" && (
+//               <button
+//                 onClick={() => navigate(`/update-pengunjung/${kode}`)}
+//                 className="bg-orange-600 text-white py-3 px-4 rounded-lg hover:bg-orange-700 transition duration-200"
+//               >
+//                 Perbarui Data
+//               </button>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* Printing Instructions */}
+//         <div className="bg-yellow-50 border-t border-yellow-200 p-3">
+//           <div className="text-xs text-yellow-800">
+//             <strong>Petunjuk Cetak:</strong> Pastikan thermal printer sudah terhubung dan menjadi printer default.
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default PengunjungLabelThermal;

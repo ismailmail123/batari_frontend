@@ -785,11 +785,10 @@ const PengunjungDetail = () => {
             {/* Komponen Teks Header */}
           </View>
         </View>
-        <View
+        {/* <View
           style={{
             justifyContent: "space-between",
-            flexDirection: "row", // Baris disusun secara horizontal
-            // marginBottom: -20,
+            flexDirection: "row", 
             marginTop: 30,
             lineHeight: 0.25,
             maxWidth: "100%"
@@ -806,13 +805,10 @@ const PengunjungDetail = () => {
                   padding: 3,
                 }}
               >
-                {/* Komponen Gambar */}
                 <View
                   style={{
                     lineHeight: 0.01,
-                    flexDirection: "row", // Baris disusun secara horizontal
-                    // borderBottomWidth: 1,
-                    // borderColor: '#000',
+                    flexDirection: "row", 
                     paddingVertical: 5,
                   }}
                 >
@@ -852,7 +848,7 @@ const PengunjungDetail = () => {
           ) : (
             <></>
           )}
-        </View>
+        </View> */}
       </Page>
     </Document>
   );

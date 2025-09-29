@@ -139,7 +139,8 @@ const Report = () => {
       ? new Date(pengunjung.createdAt).toISOString().split("T")[0] ===
         new Date(filterDate).toISOString().split("T")[0]
       : true;
-    return isMatch && isDateMatch;
+      const hasAntrian = pengunjung.antrian !== null;
+      return isMatch && isDateMatch && hasAntrian;
   });
   console.log("filter pengunjung", filteredPengunjungs)
 

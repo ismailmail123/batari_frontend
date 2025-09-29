@@ -23,6 +23,7 @@ import { isTokenExpired } from '../lib/authUtils';
 import FormExcel from '../pages/WargabinaanForm/FormFile';
 import PengunjungLabel from '../pages/Label';
 import Report from '../pages/Report';
+import Struk from '../pages/Label/Struk';
 
 
 const Index = () => {
@@ -158,6 +159,12 @@ const Index = () => {
       path: '/otp',
       element: 
           <OTPPage />
+      
+    },
+    {
+      path: '/struk',
+      element: 
+          <Struk />
       
     },
     {
