@@ -65,7 +65,7 @@ const LoginPage = () => {
   // Simpan state sebelumnya untuk redirect setelah login
   setIsGoogleLoading(true);
   const previousPath = window.location.pathname;
-  localStorage.setItem('preLoginPath', previousPath);
+  localStorage.setItem('preLoginPath', '/');
   
   const selectedRole = 'user';
   const state = JSON.stringify({ 
