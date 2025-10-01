@@ -69,7 +69,7 @@ const useAuthStore = create(
                     localStorage.removeItem("token"); // Hapus data user dari local storage
                     localStorage.removeItem("auth-storage"); // Hapus data user dari local storage
                     toast.success("Logged out successfully");
-                    window.location.href = "/login"; // Redirect ke halaman login
+                    window.location.href = "/auth"; // Redirect ke halaman login
                 } catch (error) {
                     toast.error(error.response.data.message || "Logout failed");
                 }

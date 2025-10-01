@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuthStore from "../../store/useAuthStore";
 import AuthImagePattern from "./AuthImagePattern";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Loader2, Lock, Mail, MessageSquare } from "lucide-react";
 import toast from "react-hot-toast";
 import logoimipas from "../../assets/logokemenimipas.png";
+import { FaMotorcycle, FaBolt, FaMapMarkerAlt, FaMoneyBillWave, FaGoogle, FaFacebook } from "react-icons/fa";
+import {jwtDecode} from "jwt-decode";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,7 +15,39 @@ const LoginPage = () => {
     password: "",
   });
   const { login, isLoggingIn } = useAuthStore();
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+    useEffect(() => {
+  const queryParams = new URLSearchParams(location.search);
+  const token = queryParams.get('token');
+  const error = queryParams.get('error');
+  const message = queryParams.get('message');
+
+  if (token) {
+    const userData = jwtDecode(token);
+    localStorage.setItem("authUser", JSON.stringify({user: userData}));
+    localStorage.setItem('token', token);
+    
+    // Redirect ke halaman sebelumnya atau home
+    const preLoginPath = localStorage.getItem('preLoginPath') || '/';
+    localStorage.removeItem('preLoginPath');
+    window.location.href = preLoginPath;
+  }
+
+  if (error) {
+    if (error === 'provider_mismatch' && message) {
+      toast.error(decodeURIComponent(message));
+    } else {
+      toast.error('Google login failed');
+    }
+    
+    // Bersihkan URL dari parameter error
+    const cleanUrl = window.location.origin + window.location.pathname;
+    window.history.replaceState({}, document.title, cleanUrl);
+  }
+}, [location]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +60,23 @@ const LoginPage = () => {
       toast.error(error.message || "Login gagal. Periksa email dan password Anda."); // Tampilkan pesan error
     }
   };
+
+  const handleGoogleLogin = () => {
+  // Simpan state sebelumnya untuk redirect setelah login
+  setIsGoogleLoading(true);
+  const previousPath = window.location.pathname;
+  localStorage.setItem('preLoginPath', previousPath);
+  
+  const selectedRole = 'user';
+  const state = JSON.stringify({ 
+    role: selectedRole,
+    redirect: previousPath 
+  });
+  const encodedState = encodeURIComponent(state);
+  
+  window.location.href = `https://batarirtnbantaeng.cloud/auth/google?state=${encodedState}&role=${selectedRole}`;
+};
+
 
 
   return (
@@ -107,6 +158,32 @@ const LoginPage = () => {
               )}
             </button>
           </form>
+
+          <div className="flex flex-col space-y-3 pt-2">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white text-gray-500">Atau Lanjut Dengan</span>
+                </div>
+              </div>
+
+          <div className="flex items-center w-full justify-center mt-10">
+                <button
+  onClick={handleGoogleLogin}
+  disabled={isGoogleLoading}
+  className="w-48 inline-flex justify-center items-center gap-2 py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-all duration-200"
+>
+  {isGoogleLoading ? (
+    <Loader2 className="h-4 w-4 animate-spin" />
+  ) : (
+    <FaGoogle className="text-red-500" />
+  )}
+  Google
+</button>
+              </div>
+              </div>
 
           {/* Sign Up Link */}
           <div className="text-center mt-6">

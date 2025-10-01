@@ -71,7 +71,7 @@ const Index = () => {
       
     },
     {
-      path: '/login',
+      path: '/auth',
       element: 
       // !authUser ?
           <Login /> 
