@@ -33,7 +33,7 @@ const Index = () => {
 //     if (authUser && authUser.token) {
 //         if (isTokenExpired(authUser.token)) {
 //             logout(); // Hapus token jika expired
-//             window.location.href = '/login'; // Arahkan ke halaman login
+//             window.location.href = '/auth'; // Arahkan ke halaman login
 //         }
 //     }
 // }, []);

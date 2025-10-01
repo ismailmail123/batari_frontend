@@ -13,7 +13,7 @@ const NavbarWbp = () => {
     
     useEffect(() => {
       if (!authUser) {
-        navigate("/login");
+        navigate("/auth");
       }
     }, [authUser, navigate]);
 
@@ -31,7 +31,7 @@ const NavbarWbp = () => {
   //   const handleLogout = async () => {
   //     try {
   //         // Panggil endpoint logout di backend
-  //         const response = await fetch("http://localhost:8001/api/logout", {
+  //         const response = await fetch("https://batarirtnbantaeng.cloud/v1/logout", {
   //             method: "POST",
   //             headers: {
   //                 "Content-Type": "application/json",
@@ -45,7 +45,7 @@ const NavbarWbp = () => {
   //             localStorage.removeItem("userData");
   
   //             // Redirect pengguna ke halaman login atau halaman lain
-  //             window.location.href = "/login"; // Contoh redirect ke halaman login
+  //             window.location.href = "/auth"; // Contoh redirect ke halaman login
   //         } else {
   //             console.error("Logout failed:", await response.json());
   //         }
@@ -57,7 +57,7 @@ const NavbarWbp = () => {
   const handleLogout = () => {
     logout();
     // window.location.reload();
-    navigate("/login")
+    navigate("/auth")
   }
   return (
     <header

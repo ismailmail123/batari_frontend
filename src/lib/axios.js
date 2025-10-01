@@ -13,7 +13,7 @@
 //         if (isTokenExpired(authUser.token)) {
 //             const { logout } = useAuthStore.getState();
 //             logout(); // Hapus token jika expired
-//             // window.location.href = '/login'; // Arahkan ke halaman login
+//             // window.location.href = '/auth'; // Arahkan ke halaman login
 //         } else {
 //             config.headers.Authorization = `Bearer ${authUser.token}`; // Tambahkan token ke header
 //         }
@@ -30,7 +30,7 @@
 //             // Jika status 401 (Unauthorized), hapus token dan arahkan ke login
 //             const { logout } = useAuthStore.getState();
 //             logout(); // Hapus token dari state
-//             // window.location.href = '/login'; // Arahkan ke halaman login
+//             // window.location.href = '/auth'; // Arahkan ke halaman login
 //         }
 //         return Promise.reject(error);
 //     }
@@ -43,7 +43,7 @@ import useAuthStore from '../store/useAuthStore'; // Import store untuk akses to
 
 // Buat instance axios
 export const axiosInstance = axios.create({
-    baseURL: "http://localhost:8001/api",
+    baseURL: "https://batarirtnbantaeng.cloud/api",
     withCredentials: true, // Izinkan pengiriman credentials (cookie/token)
 });
 

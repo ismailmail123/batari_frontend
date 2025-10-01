@@ -42,7 +42,7 @@
 // // // //   // Redirect ke halaman login jika authUser null
 // // // //   useEffect(() => {
 // // // //     if (!authUser) {
-// // // //       navigate("/login");
+// // // //       navigate("/auth");
 // // // //     }
 // // // //   }, [authUser, navigate]);
 
@@ -181,7 +181,7 @@
 // // // //   const handleLogout = () => {
 // // // //     logout();
 // // // //     // window.location.reload();
-// // // //     navigate("/login")
+// // // //     navigate("/auth")
 // // // //   }
 // // // //   return (
 // // // //     <div className="min-h-screen bg-gray-50">
@@ -749,7 +749,7 @@
 // //   // Redirect ke halaman login jika authUser null
 // //   useEffect(() => {
 // //     if (!authUser) {
-// //       navigate("/login");
+// //       navigate("/auth");
 // //     }
 // //   }, [authUser, navigate]);
 
@@ -907,7 +907,7 @@
 // //   const handleLogout = () => {
 // //     logout();
 // //     // window.location.reload();
-// //     navigate("/login")
+// //     navigate("/auth")
 // //   }
 
 // //   const resetInactivityTimer = () => {
@@ -1675,7 +1675,7 @@
 //   // Redirect ke halaman login jika authUser null
 //   useEffect(() => {
 //     if (!authUser) {
-//       navigate("/login");
+//       navigate("/auth");
 //     }
 //   }, [authUser, navigate]);
 
@@ -2046,7 +2046,7 @@
 //   // Handle logout
 //   const handleLogout = () => {
 //     logout();
-//     navigate("/login");
+//     navigate("/auth");
 //   };
 
 //   // Toggle menu
@@ -2769,7 +2769,7 @@ export default function HomePage() {
   // Redirect ke halaman login jika authUser null
   useEffect(() => {
     if (!authUser) {
-      navigate("/login");
+      navigate("/auth");
     }
   }, [authUser, navigate]);
 
@@ -3107,7 +3107,7 @@ export default function HomePage() {
   // Handle logout
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/auth");
   };
 
   // Toggle menu

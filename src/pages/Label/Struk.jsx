@@ -20,7 +20,7 @@ const StrukList = () => {
   useEffect(() => {
     const fetchStruks = async () => {
       try {
-        const res = await axios.get("http://localhost:8001/api/pengunjung/struk");
+        const res = await axios.get("https://batarirtnbantaeng.cloud/v1/pengunjung/struk");
         setStruks(res.data.data);
       } catch (err) {
         console.error("Gagal mengambil daftar struk:", err);

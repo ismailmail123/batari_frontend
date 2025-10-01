@@ -57,7 +57,7 @@ const OTPPage = () => {
         setMessage("Email successfully verified!");
         // window.location.href = '/lo?in'
         toast.success("Email successfully verified!");
-        navigate("/login"); // Redirect ke dashboard setelah verifikasi berhasil
+        navigate("/auth"); // Redirect ke dashboard setelah verifikasi berhasil
         window.location.reload();
       } catch (error) {
         toast.error(error.message || "Failed to verify OTP");

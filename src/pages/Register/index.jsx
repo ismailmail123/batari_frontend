@@ -15,7 +15,7 @@
 //   MessageSquare,
 // } from "lucide-react";
 // import { Link, useNavigate } from "react-router-dom";
-// import AuthImagePattern from "../Login/AuthImagePattern";
+// import AuthImagePattern from "../auth/AuthImagePattern";
 // import toast from "react-hot-toast";
 
 // const SignUpPage = () => {
