@@ -2454,7 +2454,10 @@ import { BaggageClaim, Barcode, LogOut, ScrollText } from "lucide-react";
 const PrintAntrian = ({ pengunjung, antrian, onClose, barcode }) => {
   const printRef = useRef();
 
-  console.log("Render PrintAntrian with:", { pengunjung, antrian, barcode });
+  // Hitung nomor antrian yang akan dicetak (antrian + 1)
+  const nomorAntrianCetak = (parseInt(antrian) + 1).toString().padStart(3, '0');
+
+  console.log('Rendering PrintAntrian with:', {  nomorAntrianCetak });
 
   useEffect(() => {
     const printAntrian = () => {
@@ -2565,7 +2568,7 @@ const PrintAntrian = ({ pengunjung, antrian, onClose, barcode }) => {
                   <h2>NOMOR ANTRIAN</h2>
                 </div>
                 
-                <div class="nomor-antrian">${antrian}</div>
+                <div class="nomor-antrian">${nomorAntrianCetak}</div>
                 
                 <div class="barcode">
                   <small>Kode: ${pengunjung.kode}</small>
