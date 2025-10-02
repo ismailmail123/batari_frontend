@@ -1625,7 +1625,7 @@ const PengunjungDetail = () => {
       alignSelf: 'center',
       borderWidth: 1,
       borderColor: '#000',
-      marginTop: -100,
+      marginTop: -75,
     },
     antrianText: {
       color: '#ffffff',
