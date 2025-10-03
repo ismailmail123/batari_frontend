@@ -41,7 +41,7 @@ const PengunjungLabel = () => {
       flexDirection: "column",
       backgroundColor: "#FFFFFF",
       padding: 2,
-      paddingRight: 10,
+      // paddingRight: 10,
       fontFamily: "Helvetica",
     },
     kop: {
@@ -444,7 +444,7 @@ const PengunjungLabel = () => {
                   flexDirection: "column",
                   border: "1 dashed black",
                   padding: 3,
-                  width: "85%",
+                  width: "100%",
                   paddingTop: 40,
                   paddingBottom: 10,
                   marginTop: 0,
