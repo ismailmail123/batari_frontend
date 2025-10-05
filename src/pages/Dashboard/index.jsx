@@ -2962,7 +2962,7 @@ export default function HomePage() {
   // Redirect ke halaman login jika authUser null
   useEffect(() => {
     if (!authUser) {
-      navigate("/login");
+      navigate("/auth");
     }
   }, [authUser, navigate]);
 
@@ -3140,7 +3140,7 @@ export default function HomePage() {
   // Handle logout
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/auth");
   };
 
   // Toggle menu
