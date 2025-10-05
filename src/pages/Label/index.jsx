@@ -108,7 +108,8 @@ const PengunjungLabel = () => {
     value: {
       width: "80%", // Lebar kolom nilai
       fontSize: 9,
-      flexWrap: "wrap"
+      flexWrap: "wrap",
+      lineHeight: 0.85,
     },
     barcodeContainer: {
       marginTop: 20,
@@ -445,7 +446,8 @@ const PengunjungLabel = () => {
                   border: "1 dashed black",
                   padding: 3,
                   width: "100%",
-                  paddingTop: 40,
+                  height: "77mm",
+                  // paddingTop: 40,
                   paddingBottom: 10,
                   marginTop: 0,
                 }}
@@ -547,7 +549,7 @@ const PengunjungLabel = () => {
                     </Text>
                     <Text style={styles.value}>: {titipan.jumlah}</Text>
                   </View>
-                  <View style={[styles.row, { alignSelf: 'flex-end' }]}>
+                  <View style={[styles.row, { alignSelf: 'flex-end', position: 'fixed-button'}]}>
                     <Image
                       src={pengunjungByCode?.barcode}
                       style={{ width: 50, height: 50, marginLeft: 5, marginTop: -15, alignSelf: 'end' }}
@@ -923,447 +925,961 @@ const PengunjungLabel = () => {
 
 export default PengunjungLabel;
 
-// import React, { useEffect, useState } from "react";
-// import useDataStore from "../../store/useDataStore";
-// import { Link, useNavigate, useParams } from "react-router-dom";
-// import { FaHome, FaPrint, FaSpinner } from "react-icons/fa";
-// import useAuthStore from "../../store/useAuthStore";
-// import "./style.css";
+// // import React, { useEffect, useState } from "react";
+// // import useDataStore from "../../store/useDataStore";
+// // import { Link, useNavigate, useParams } from "react-router-dom";
+// // import { FaHome, FaPrint, FaSpinner } from "react-icons/fa";
+// // import useAuthStore from "../../store/useAuthStore";
+// // import "./style.css";
 
-// const PengunjungLabelThermal = () => {
+// // const PengunjungLabelThermal = () => {
+// //   const { kode } = useParams();
+// //   const { fetchPengunjungByCode, pengunjungByCode } = useDataStore();
+// //   const { authUser } = useAuthStore();
+// //   const navigate = useNavigate();
+// //   const [isPrinting, setIsPrinting] = useState(false);
+// //   const [printStatus, setPrintStatus] = useState("");
+
+// //   useEffect(() => {
+// //     fetchPengunjungByCode(kode);
+// //   }, [kode, fetchPengunjungByCode]);
+
+// //   const directPrint = (content) => {
+// //     return new Promise((resolve, reject) => {
+// //       try {
+// //         // Method 1: Menggunakan window.print() dengan iframe
+// //         const iframe = document.createElement('iframe');
+// //         iframe.style.position = 'fixed';
+// //         iframe.style.right = '0';
+// //         iframe.style.bottom = '0';
+// //         iframe.style.width = '0';
+// //         iframe.style.height = '0';
+// //         iframe.style.border = 'none';
+        
+// //         document.body.appendChild(iframe);
+        
+// //         const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        
+// //         // Konten thermal printer friendly
+// //         iframeDoc.write(`
+// //           <!DOCTYPE html>
+// //           <html>
+// //           <head>
+// //             <title>Print Thermal</title>
+// //             <style>
+// //               @media print {
+// //                 body { 
+// //                   margin: 0; 
+// //                   padding: 0; 
+// //                   font-family: 'Courier New', monospace;
+// //                   font-size: 12px;
+// //                   line-height: 1.2;
+// //                   width: 80mm;
+// //                 }
+// //                 .container { 
+// //                   width: 80mm; 
+// //                   padding: 2mm;
+// //                   word-wrap: break-word;
+// //                 }
+// //                 .text-center { text-align: center; }
+// //                 .text-bold { font-weight: bold; }
+// //                 .border-bottom { border-bottom: 1px dashed #000; padding-bottom: 2mm; margin-bottom: 2mm; }
+// //                 .line { border-top: 1px dashed #000; margin: 2mm 0; }
+// //                 .barcode { image-rendering: pixelated; width: 150px; height: 50px; }
+// //                 .mt-1 { margin-top: 1mm; }
+// //                 .mb-1 { margin-bottom: 1mm; }
+// //                 .p-1 { padding: 1mm; }
+// //               }
+// //               @page { margin: 0; size: 80mm auto; }
+// //             </style>
+// //           </head>
+// //           <body>
+// //             <div class="container">
+// //               ${content}
+// //             </div>
+// //             <script>
+// //               window.onload = function() {
+// //                 setTimeout(function() {
+// //                   window.print();
+// //                   setTimeout(function() {
+// //                     window.onafterprint = function() {
+// //                       window.parent.postMessage('printCompleted', '*');
+// //                     };
+// //                   }, 100);
+// //                 }, 500);
+// //               };
+// //             </script>
+// //           </body>
+// //           </html>
+// //         `);
+        
+// //         iframeDoc.close();
+        
+// //         // Listen for print completion
+// //         const handleMessage = (event) => {
+// //           if (event.data === 'printCompleted') {
+// //             document.body.removeChild(iframe);
+// //             window.removeEventListener('message', handleMessage);
+// //             resolve();
+// //           }
+// //         };
+        
+// //         window.addEventListener('message', handleMessage);
+        
+// //         // Fallback timeout
+// //         setTimeout(() => {
+// //           document.body.removeChild(iframe);
+// //           window.removeEventListener('message', handleMessage);
+// //           resolve();
+// //         }, 5000);
+        
+// //       } catch (error) {
+// //         reject(error);
+// //       }
+// //     });
+// //   };
+
+// //   const handlePrintThermal = async () => {
+// //     setIsPrinting(true);
+// //     setPrintStatus("Mempersiapkan cetakan...");
+    
+// //     try {
+// //       const thermalContent = `
+// //         <div class="text-center text-bold">
+// //           <div>KEMENTERIAN IMIGRASI DAN PEMASYARAKATAN</div>
+// //           <div>RUMAH TAHANAN NEGARA KELAS IIB BANTAENG</div>
+// //           <div class="line"></div>
+// //         </div>
+        
+// //         <div class="text-center text-bold border-bottom">
+// //           BUKTI KUNJUNGAN
+// //         </div>
+        
+// //         <div class="text-bold">DATA PENGGUNA:</div>
+// //         <div>Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.nama || '-'}</div>
+// //         <div>Jenis Kelamin : ${pengunjungByCode?.jenis_kelamin || '-'}</div>
+// //         <div>NIK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.nik || '-'}</div>
+// //         <div>Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.alamat || '-'}</div>
+// //         <div>Telp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.hp || '-'}</div>
+// //         <div>Hubungan&nbsp;&nbsp;: ${pengunjungByCode?.hubungan_keluarga || '-'}</div>
+        
+// //         <div class="line"></div>
+        
+// //         <div class="text-bold">DATA WBP:</div>
+// //         <div>Nama WBP&nbsp;&nbsp;: ${pengunjungByCode?.warga_binaan?.nama || '-'}</div>
+// //         <div>Perkara&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.warga_binaan?.jenis_kejahatan || '-'}</div>
+// //         <div>Blok Kamar&nbsp;: Blok ${pengunjungByCode?.warga_binaan?.lokasi_blok || '-'}</div>
+        
+// //         <div class="line"></div>
+        
+// //         <div class="text-bold">PENGGUNA:</div>
+// //         <div>Laki-laki&nbsp;&nbsp;: ${pengunjungByCode?.pengikut_laki_laki || 0}</div>
+// //         <div>Perempuan&nbsp;: ${pengunjungByCode?.pengikut_perempuan || 0}</div>
+// //         <div>Anak-anak&nbsp;: ${pengunjungByCode?.pengikut_anak_anak || 0}</div>
+// //         <div>Bayi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.pengikut_bayi || 0}</div>
+        
+// //         <div class="line"></div>
+        
+// //         <div class="text-bold">BARANG TITIPAN:</div>
+// //         ${pengunjungByCode?.barang_titipan?.length > 0 ? 
+// //           pengunjungByCode.barang_titipan.map((barang, index) => 
+// //             `<div>${index + 1}. ${barang.jenis_barang} - ${barang.jumlah} pcs</div>` +
+// //             (barang.keterangan ? `<div>&nbsp;&nbsp;Ket: ${barang.keterangan}</div>` : '')
+// //           ).join('') : 
+// //           '<div>Tidak ada barang titipan</div>'
+// //         }
+        
+// //         <div class="line"></div>
+        
+// //         <div class="text-center">
+// //           <div class="text-bold">NOMOR ANTRIAN:</div>
+// //           <div class="text-bold" style="font-size: 16px;">${pengunjungByCode?.antrian || 'BELUM ADA'}</div>
+// //         </div>
+        
+// //         <div class="text-center mt-1">
+// //           <div>${pengunjungByCode?.created_at ? 
+// //             new Date(pengunjungByCode.created_at).toLocaleDateString('id-ID', {
+// //               day: '2-digit',
+// //               month: 'short',
+// //               year: 'numeric'
+// //             }) : 'Tanggal tidak tersedia'
+// //           }</div>
+// //         </div>
+        
+// //         <div class="text-center">
+// //           <div class="text-bold">KODE: ${pengunjungByCode?.kode || '-'}</div>
+// //           <div>Status: ${pengunjungByCode?.status?.toUpperCase() || '-'}</div>
+// //         </div>
+        
+// //         ${pengunjungByCode?.barcode ? `
+// //           <div class="text-center mt-1">
+// //             <img src="${pengunjungByCode.barcode}" class="barcode" alt="Barcode">
+// //           </div>
+// //         ` : ''}
+        
+// //         <div class="text-center mt-1">
+// //           <div>================================</div>
+// //         </div>
+// //       `;
+
+// //       setPrintStatus("Membuka dialog print...");
+// //       await directPrint(thermalContent);
+      
+// //       setPrintStatus("Cetakan berhasil dikirim!");
+// //       setTimeout(() => setPrintStatus(""), 2000);
+      
+// //     } catch (error) {
+// //       console.error('Print error:', error);
+// //       setPrintStatus("Error: Gagal mencetak");
+// //       setTimeout(() => setPrintStatus(""), 3000);
+// //     } finally {
+// //       setIsPrinting(false);
+// //     }
+// //   };
+
+// //   const handlePrintLabelTitipan = async () => {
+// //     if (!pengunjungByCode?.barang_titipan?.length) return;
+    
+// //     setIsPrinting(true);
+// //     setPrintStatus("Mempersiapkan label titipan...");
+    
+// //     try {
+// //       for (const titipan of pengunjungByCode.barang_titipan) {
+// //         const labelContent = `
+// //           <div class="text-center text-bold">
+// //             <div>LABEL TITIPAN</div>
+// //             <div>${titipan.jenis_barang.toUpperCase()}</div>
+// //             <div class="line"></div>
+// //           </div>
+          
+// //           <div class="text-bold">NAMA WBP:</div>
+// //           <div>${pengunjungByCode.warga_binaan?.nama || '-'}</div>
+          
+// //           <div class="text-bold">PENGIRIM:</div>
+// //           <div>${pengunjungByCode.nama || '-'}</div>
+          
+// //           <div class="text-bold">ALAMAT:</div>
+// //           <div>${pengunjungByCode.alamat || '-'}</div>
+          
+// //           <div class="line"></div>
+          
+// //           <div class="text-bold">JENIS BARANG:</div>
+// //           <div>${titipan.jenis_barang}</div>
+          
+// //           <div class="text-bold">JUMLAH:</div>
+// //           <div>${titipan.jumlah} pcs</div>
+          
+// //           ${titipan.keterangan ? `
+// //             <div class="text-bold">KETERANGAN:</div>
+// //             <div>${titipan.keterangan}</div>
+// //           ` : ''}
+          
+// //           <div class="line"></div>
+          
+// //           <div class="text-center">
+// //             <div>${new Date().toLocaleDateString('id-ID')}</div>
+// //             <div>${pengunjungByCode.kode}</div>
+// //           </div>
+          
+// //           <div class="text-center mt-1">
+// //             <div>================================</div>
+// //           </div>
+// //         `;
+
+// //         await directPrint(labelContent);
+// //         await new Promise(resolve => setTimeout(resolve, 1000)); // Delay antar label
+// //       }
+      
+// //       setPrintStatus("Semua label berhasil dicetak!");
+// //       setTimeout(() => setPrintStatus(""), 2000);
+      
+// //     } catch (error) {
+// //       console.error('Label print error:', error);
+// //       setPrintStatus("Error: Gagal mencetak label");
+// //       setTimeout(() => setPrintStatus(""), 3000);
+// //     } finally {
+// //       setIsPrinting(false);
+// //     }
+// //   };
+
+// //   // Fallback print method menggunakan window.print() langsung
+// //   const fallbackPrint = () => {
+// //     const printWindow = window.open('', '_blank');
+// //     const content = `
+// //       <!DOCTYPE html>
+// //       <html>
+// //       <head>
+// //         <title>Print ${pengunjungByCode?.kode}</title>
+// //         <style>
+// //           body { 
+// //             font-family: 'Courier New', monospace;
+// //             font-size: 12px;
+// //             line-height: 1.2;
+// //             margin: 0;
+// //             padding: 10px;
+// //           }
+// //           .text-center { text-align: center; }
+// //           .text-bold { font-weight: bold; }
+// //           .line { border-top: 1px dashed #000; margin: 5px 0; }
+// //         </style>
+// //       </head>
+// //       <body>
+// //         <div class="text-center text-bold">
+// //           <div>BUKTI KUNJUNGAN</div>
+// //           <div>${pengunjungByCode?.kode}</div>
+// //         </div>
+// //         <div class="line"></div>
+// //         <div>Nama: ${pengunjungByCode?.nama}</div>
+// //         <div>WBP: ${pengunjungByCode?.warga_binaan?.nama}</div>
+// //         <div>Antrian: ${pengunjungByCode?.antrian}</div>
+// //         <div class="line"></div>
+// //         <div class="text-center">Silakan gunakan CTRL+P untuk mencetak</div>
+// //       </body>
+// //       </html>
+// //     `;
+    
+// //     printWindow.document.write(content);
+// //     printWindow.document.close();
+// //     printWindow.focus();
+// //     printWindow.print();
+// //     printWindow.close();
+// //   };
+
+// //   if (!pengunjungByCode) {
+// //     return (
+// //       <div className="flex justify-center items-center h-screen bg-gray-100">
+// //         <p className="text-xl text-gray-700">Data pengunjung tidak ditemukan.</p>
+// //       </div>
+// //     );
+// //   }
+
+// //   return (
+// //     <div className="min-h-screen bg-gray-100 py-4 px-2">
+// //       {/* Print Status Indicator */}
+// //       {printStatus && (
+// //         <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-4 py-2 rounded-lg shadow-lg ${
+// //           printStatus.includes('Error') ? 'bg-red-500 text-white' : 'bg-green-500 text-white'
+// //         }`}>
+// //           {printStatus}
+// //         </div>
+// //       )}
+
+// //       <div className="max-w-md mx-auto bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+// //         {/* Header */}
+// //         <div className="bg-blue-600 text-white p-3 text-center">
+// //           <div className="flex justify-between items-center mb-2">
+// //             <Link to="/" className="text-white hover:text-gray-200">
+// //               <FaHome className="text-xl" />
+// //             </Link>
+// //             <h1 className="text-lg font-bold">CETAK THERMAL</h1>
+// //             <div className="w-6"></div>
+// //           </div>
+// //           <p className="text-xs">RUTAN KELAS IIB BANTAENG</p>
+// //         </div>
+
+// //         {/* Content Summary */}
+// //         <div className="p-4">
+// //           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
+// //             <h3 className="font-bold text-center text-blue-800 mb-2">SUMMARY KUNJUNGAN</h3>
+// //             <div className="grid grid-cols-2 gap-2 text-sm">
+// //               <div>
+// //                 <span className="font-medium">Kode:</span> {pengunjungByCode.kode}
+// //               </div>
+// //               <div>
+// //                 <span className="font-medium">Status:</span> {pengunjungByCode.status}
+// //               </div>
+// //               <div>
+// //                 <span className="font-medium">Nama:</span> {pengunjungByCode.nama}
+// //               </div>
+// //               <div>
+// //                 <span className="font-medium">WBP:</span> {pengunjungByCode.warga_binaan?.nama}
+// //               </div>
+// //               <div className="col-span-2">
+// //                 <span className="font-medium">Antrian:</span> {pengunjungByCode.antrian || 'Belum ada'}
+// //               </div>
+// //             </div>
+// //           </div>
+
+// //           {/* Quick Info Cards */}
+// //           <div className="grid grid-cols-2 gap-3 mb-4">
+// //             <div className="bg-green-50 border border-green-200 rounded p-2 text-center">
+// //               <div className="text-2xl font-bold text-green-600">{pengunjungByCode.barang_titipan?.length || 0}</div>
+// //               <div className="text-xs text-green-800">Barang Titipan</div>
+// //             </div>
+// //             <div className="bg-purple-50 border border-purple-200 rounded p-2 text-center">
+// //               <div className="text-2xl font-bold text-purple-600">
+// //                 {((pengunjungByCode.pengikut_laki_laki || 0) + (pengunjungByCode.pengikut_perempuan || 0) + (pengunjungByCode.pengikut_anak_anak || 0) + (pengunjungByCode.pengikut_bayi || 0))}
+// //               </div>
+// //               <div className="text-xs text-purple-800">Total Pengikut</div>
+// //             </div>
+// //           </div>
+// //         </div>
+
+// //         {/* Action Buttons */}
+// //         <div className="bg-gray-50 p-4 border-t border-gray-200">
+// //           <div className="flex flex-col gap-3">
+// //             <button
+// //               onClick={handlePrintThermal}
+// //               disabled={isPrinting}
+// //               className="bg-blue-600 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700 disabled:opacity-50 transition duration-200"
+// //             >
+// //               {isPrinting ? <FaSpinner className="animate-spin" /> : <FaPrint />}
+// //               {isPrinting ? "Mencetak..." : "Cetak Bukti Kunjungan"}
+// //             </button>
+            
+// //             {pengunjungByCode.barang_titipan?.length > 0 && (
+// //               <button
+// //                 onClick={handlePrintLabelTitipan}
+// //                 disabled={isPrinting}
+// //                 className="bg-green-600 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-green-700 disabled:opacity-50 transition duration-200"
+// //               >
+// //                 {isPrinting ? <FaSpinner className="animate-spin" /> : <FaPrint />}
+// //                 {isPrinting ? "Mencetak..." : "Cetak Label Titipan"}
+// //               </button>
+// //             )}
+            
+// //             <button
+// //               onClick={fallbackPrint}
+// //               className="bg-gray-600 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-700 transition duration-200"
+// //             >
+// //               <FaPrint />
+// //               Cetak Manual (Fallback)
+// //             </button>
+
+// //             {authUser?.user?.role === "admin" && (
+// //               <button
+// //                 onClick={() => navigate(`/update-pengunjung/${kode}`)}
+// //                 className="bg-orange-600 text-white py-3 px-4 rounded-lg hover:bg-orange-700 transition duration-200"
+// //               >
+// //                 Perbarui Data
+// //               </button>
+// //             )}
+// //           </div>
+// //         </div>
+
+// //         {/* Printing Instructions */}
+// //         <div className="bg-yellow-50 border-t border-yellow-200 p-3">
+// //           <div className="text-xs text-yellow-800">
+// //             <strong>Petunjuk Cetak:</strong> Pastikan thermal printer sudah terhubung dan menjadi printer default.
+// //           </div>
+// //         </div>
+// //       </div>
+// //     </div>
+// //   );
+// // };
+
+// // export default PengunjungLabelThermal;
+
+// import React, { useEffect, useRef, useState } from "react";
+// import useDataStore from "../../store/useDataStore";
+// import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+// import { useReactToPrint } from "react-to-print";
+// import {
+//   pdf,
+//   Document,
+//   Page,
+//   Text,
+//   View,
+//   StyleSheet,
+//   Image,
+// } from "@react-pdf/renderer";
+// import { PDFViewer } from "@react-pdf/renderer";
+// import logo from "../../assets/logokemenimipas.png";
+// import { icons } from "lucide-react";
+// import "./style.css";
+// import useAuthStore from "../../store/useAuthStore";
+// import { FaHome } from "react-icons/fa";
+// import IconUser from "../../assets/avatar.jpg";
+
+// const PengunjungLabel = () => {
 //   const { kode } = useParams();
-//   const { fetchPengunjungByCode, pengunjungByCode } = useDataStore();
+//   const { fetchPengunjungByCode, pengunjungByCode, verify } = useDataStore();
 //   const { authUser } = useAuthStore();
-//   const navigate = useNavigate();
-//   const [isPrinting, setIsPrinting] = useState(false);
-//   const [printStatus, setPrintStatus] = useState("");
+//   const componentRef = useRef();
+//   const [showPreview, setShowPreview] = useState(false);
+//   const [isLoading, setIsLoading] = useState(false);
+//   const mmToPt = (mm) => mm * 2.83465;
 
 //   useEffect(() => {
 //     fetchPengunjungByCode(kode);
 //   }, [kode, fetchPengunjungByCode]);
 
-//   const directPrint = (content) => {
-//     return new Promise((resolve, reject) => {
-//       try {
-//         // Method 1: Menggunakan window.print() dengan iframe
-//         const iframe = document.createElement('iframe');
-//         iframe.style.position = 'fixed';
-//         iframe.style.right = '0';
-//         iframe.style.bottom = '0';
-//         iframe.style.width = '0';
-//         iframe.style.height = '0';
-//         iframe.style.border = 'none';
-        
-//         document.body.appendChild(iframe);
-        
-//         const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-        
-//         // Konten thermal printer friendly
-//         iframeDoc.write(`
-//           <!DOCTYPE html>
-//           <html>
-//           <head>
-//             <title>Print Thermal</title>
-//             <style>
-//               @media print {
-//                 body { 
-//                   margin: 0; 
-//                   padding: 0; 
-//                   font-family: 'Courier New', monospace;
-//                   font-size: 12px;
-//                   line-height: 1.2;
-//                   width: 80mm;
-//                 }
-//                 .container { 
-//                   width: 80mm; 
-//                   padding: 2mm;
-//                   word-wrap: break-word;
-//                 }
-//                 .text-center { text-align: center; }
-//                 .text-bold { font-weight: bold; }
-//                 .border-bottom { border-bottom: 1px dashed #000; padding-bottom: 2mm; margin-bottom: 2mm; }
-//                 .line { border-top: 1px dashed #000; margin: 2mm 0; }
-//                 .barcode { image-rendering: pixelated; width: 150px; height: 50px; }
-//                 .mt-1 { margin-top: 1mm; }
-//                 .mb-1 { margin-bottom: 1mm; }
-//                 .p-1 { padding: 1mm; }
-//               }
-//               @page { margin: 0; size: 80mm auto; }
-//             </style>
-//           </head>
-//           <body>
-//             <div class="container">
-//               ${content}
-//             </div>
-//             <script>
-//               window.onload = function() {
-//                 setTimeout(function() {
-//                   window.print();
-//                   setTimeout(function() {
-//                     window.onafterprint = function() {
-//                       window.parent.postMessage('printCompleted', '*');
-//                     };
-//                   }, 100);
-//                 }, 500);
-//               };
-//             </script>
-//           </body>
-//           </html>
-//         `);
-        
-//         iframeDoc.close();
-        
-//         // Listen for print completion
-//         const handleMessage = (event) => {
-//           if (event.data === 'printCompleted') {
-//             document.body.removeChild(iframe);
-//             window.removeEventListener('message', handleMessage);
-//             resolve();
-//           }
-//         };
-        
-//         window.addEventListener('message', handleMessage);
-        
-//         // Fallback timeout
-//         setTimeout(() => {
-//           document.body.removeChild(iframe);
-//           window.removeEventListener('message', handleMessage);
-//           resolve();
-//         }, 5000);
-        
-//       } catch (error) {
-//         reject(error);
-//       }
-//     });
+//   const navigate = useNavigate();
+
+//   console.log("pengunjungByCode:", pengunjungByCode);
+
+//   // Styles untuk PDF dengan font size dinamis
+//   const styles = StyleSheet.create({
+//     page: {
+//       flexDirection: "column",
+//       backgroundColor: "#FFFFFF",
+//       padding: 3,
+//       fontFamily: "Helvetica",
+//       width: mmToPt(80),
+//       height: mmToPt(80),
+//     },
+//     adaptiveContainer: {
+//       flex: 1,
+//       justifyContent: 'flex-start',
+//       padding: 2,
+//     },
+//     adaptiveTitle: {
+//       textAlign: "center",
+//       fontSize: 7,
+//       fontWeight: "bold",
+//       marginBottom: 4,
+//       textDecoration: "underline",
+//     },
+//     adaptiveRow: {
+//       flexDirection: "row",
+//       marginBottom: 2,
+//       flexWrap: 'wrap',
+//       alignItems: 'flex-start',
+//     },
+//     adaptiveLabel: {
+//       fontWeight: "bold",
+//       width: '35%',
+//       paddingRight: 2,
+//     },
+//     adaptiveValue: {
+//       width: '65%',
+//       flexWrap: 'wrap',
+//       flex: 1,
+//     },
+//     adaptiveBarcode: {
+//       alignSelf: 'flex-end',
+//       marginTop: 'auto',
+//       paddingTop: 5,
+//     },
+//     smallBarcode: {
+//       width: 35,
+//       height: 35,
+//     },
+//     noDataContainer: {
+//       flex: 1,
+//       justifyContent: 'center',
+//       alignItems: 'center',
+//     },
+//     noDataText: {
+//       fontSize: 8,
+//       textAlign: 'center',
+//     },
+//     kop: {
+//       flexDirection: "row",
+//       alignItems: "center",
+//       marginBottom: 10,
+//     },
+//     headerContainer: {
+//       flex: 1,
+//       alignItems: "center",
+//       padding: 0,
+//       marginLeft: -50,
+//       borderBottom: 1,
+//     },
+//     header: {
+//       fontSize: 7,
+//       marginBottom: 5,
+//       textAlign: "center",
+//       fontWeight: "bold",
+//       lineHeight: 0.7,
+//     },
+//     address: {
+//       fontSize: 5,
+//       textAlign: "center",
+//       marginBottom: 10,
+//       lineHeight: 0.2,
+//     },
+//     icon_image: {
+//       width: 50,
+//       height: 50,
+//       marginRight: 10,
+//       marginBottom: 10,
+//     },
+//   });
+
+//   // Komponen untuk menghitung font size dinamis
+//   const calculateFontSize = (text, maxLength = 30) => {
+//     const baseSize = 6;
+//     if (!text) return baseSize;
+    
+//     // Kurangi font size jika teks terlalu panjang
+//     if (text.length > maxLength) {
+//       const reduction = Math.floor((text.length - maxLength) / 10);
+//       return Math.max(4, baseSize - reduction);
+//     }
+//     return baseSize;
 //   };
 
-//   const handlePrintThermal = async () => {
-//     setIsPrinting(true);
-//     setPrintStatus("Mempersiapkan cetakan...");
+//   // Komponen Adaptive Row
+//   const AdaptiveRow = ({ label, value }) => {
+//     const labelFontSize = calculateFontSize(label, 20);
+//     const valueFontSize = calculateFontSize(value, 40);
     
-//     try {
-//       const thermalContent = `
-//         <div class="text-center text-bold">
-//           <div>KEMENTERIAN IMIGRASI DAN PEMASYARAKATAN</div>
-//           <div>RUMAH TAHANAN NEGARA KELAS IIB BANTAENG</div>
-//           <div class="line"></div>
-//         </div>
-        
-//         <div class="text-center text-bold border-bottom">
-//           BUKTI KUNJUNGAN
-//         </div>
-        
-//         <div class="text-bold">DATA PENGGUNA:</div>
-//         <div>Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.nama || '-'}</div>
-//         <div>Jenis Kelamin : ${pengunjungByCode?.jenis_kelamin || '-'}</div>
-//         <div>NIK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.nik || '-'}</div>
-//         <div>Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.alamat || '-'}</div>
-//         <div>Telp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.hp || '-'}</div>
-//         <div>Hubungan&nbsp;&nbsp;: ${pengunjungByCode?.hubungan_keluarga || '-'}</div>
-        
-//         <div class="line"></div>
-        
-//         <div class="text-bold">DATA WBP:</div>
-//         <div>Nama WBP&nbsp;&nbsp;: ${pengunjungByCode?.warga_binaan?.nama || '-'}</div>
-//         <div>Perkara&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.warga_binaan?.jenis_kejahatan || '-'}</div>
-//         <div>Blok Kamar&nbsp;: Blok ${pengunjungByCode?.warga_binaan?.lokasi_blok || '-'}</div>
-        
-//         <div class="line"></div>
-        
-//         <div class="text-bold">PENGGUNA:</div>
-//         <div>Laki-laki&nbsp;&nbsp;: ${pengunjungByCode?.pengikut_laki_laki || 0}</div>
-//         <div>Perempuan&nbsp;: ${pengunjungByCode?.pengikut_perempuan || 0}</div>
-//         <div>Anak-anak&nbsp;: ${pengunjungByCode?.pengikut_anak_anak || 0}</div>
-//         <div>Bayi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.pengikut_bayi || 0}</div>
-        
-//         <div class="line"></div>
-        
-//         <div class="text-bold">BARANG TITIPAN:</div>
-//         ${pengunjungByCode?.barang_titipan?.length > 0 ? 
-//           pengunjungByCode.barang_titipan.map((barang, index) => 
-//             `<div>${index + 1}. ${barang.jenis_barang} - ${barang.jumlah} pcs</div>` +
-//             (barang.keterangan ? `<div>&nbsp;&nbsp;Ket: ${barang.keterangan}</div>` : '')
-//           ).join('') : 
-//           '<div>Tidak ada barang titipan</div>'
-//         }
-        
-//         <div class="line"></div>
-        
-//         <div class="text-center">
-//           <div class="text-bold">NOMOR ANTRIAN:</div>
-//           <div class="text-bold" style="font-size: 16px;">${pengunjungByCode?.antrian || 'BELUM ADA'}</div>
-//         </div>
-        
-//         <div class="text-center mt-1">
-//           <div>${pengunjungByCode?.created_at ? 
-//             new Date(pengunjungByCode.created_at).toLocaleDateString('id-ID', {
-//               day: '2-digit',
-//               month: 'short',
-//               year: 'numeric'
-//             }) : 'Tanggal tidak tersedia'
-//           }</div>
-//         </div>
-        
-//         <div class="text-center">
-//           <div class="text-bold">KODE: ${pengunjungByCode?.kode || '-'}</div>
-//           <div>Status: ${pengunjungByCode?.status?.toUpperCase() || '-'}</div>
-//         </div>
-        
-//         ${pengunjungByCode?.barcode ? `
-//           <div class="text-center mt-1">
-//             <img src="${pengunjungByCode.barcode}" class="barcode" alt="Barcode">
-//           </div>
-//         ` : ''}
-        
-//         <div class="text-center mt-1">
-//           <div>================================</div>
-//         </div>
-//       `;
+//     return (
+//       <View style={styles.adaptiveRow}>
+//         <Text style={[styles.adaptiveLabel, { fontSize: labelFontSize }]}>
+//           {label}
+//         </Text>
+//         <Text style={[styles.adaptiveValue, { fontSize: valueFontSize }]}>
+//           : {value || '-'}
+//         </Text>
+//       </View>
+//     );
+//   };
 
-//       setPrintStatus("Membuka dialog print...");
-//       await directPrint(thermalContent);
+//   // Komponen Adaptive Label untuk setiap barang titipan
+//   const AdaptiveLabel = ({ titipan }) => (
+//     <View style={styles.adaptiveContainer}>
+//       <Text style={styles.adaptiveTitle}>
+//         LABEL TITIPAN {titipan?.jenis_barang?.toUpperCase() || 'BARANG'}
+//       </Text>
       
-//       setPrintStatus("Cetakan berhasil dikirim!");
-//       setTimeout(() => setPrintStatus(""), 2000);
+//       <AdaptiveRow 
+//         label="Nama WBP" 
+//         value={pengunjungByCode?.warga_binaan?.nama}
+//       />
+//       <AdaptiveRow 
+//         label="Status WBP" 
+//         value={pengunjungByCode?.warga_binaan?.keterangan}
+//       />
+//       <AdaptiveRow 
+//         label="Alamat WBP" 
+//         value={pengunjungByCode?.warga_binaan?.alamat}
+//       />
+//       <AdaptiveRow 
+//         label="Pengirim" 
+//         value={pengunjungByCode?.nama}
+//       />
+//       <AdaptiveRow 
+//         label="Alamat" 
+//         value={pengunjungByCode?.alamat}
+//       />
+//       <AdaptiveRow 
+//         label="Jenis Barang" 
+//         value={titipan?.jenis_barang}
+//       />
+//       <AdaptiveRow 
+//         label="Jumlah" 
+//         value={titipan?.jumlah?.toString()}
+//       />
+//       {titipan?.keterangan && (
+//         <AdaptiveRow 
+//           label="Keterangan" 
+//           value={titipan?.keterangan}
+//         />
+//       )}
       
+//       <View style={styles.adaptiveBarcode}>
+//         <Image
+//           src={pengunjungByCode?.barcode}
+//           style={styles.smallBarcode}
+//         />
+//       </View>
+//     </View>
+//   );
+
+//   // PDF Preview dengan Adaptive Layout
+//   const PDFPreview = () => (
+//     <Document>
+//       {pengunjungByCode?.barang_titipan?.length > 0 ? (
+//         pengunjungByCode.barang_titipan.map((titipan) => (
+//           <Page 
+//             key={titipan.id} 
+//             size={[mmToPt(80), mmToPt(80)]} 
+//             style={styles.page}
+//             wrap={false}
+//           >
+//             <AdaptiveLabel titipan={titipan} />
+//           </Page>
+//         ))
+//       ) : (
+//         <Page size={[mmToPt(80), mmToPt(80)]} style={styles.page}>
+//           <View style={styles.noDataContainer}>
+//             <Text style={styles.noDataText}>
+//               TIDAK ADA BARANG TITIPAN
+//             </Text>
+//           </View>
+//         </Page>
+//       )}
+//     </Document>
+//   );
+
+//   // Handle Print
+//   const handlePrint = useReactToPrint({
+//     content: () => componentRef.current,
+//   });
+
+//   // Handle Export PDF
+//   const handleDownloadPDF = async () => {
+//     setIsLoading(true);
+//     try {
+//       const blob = await pdf(<PDFPreview />).toBlob();
+//       const url = URL.createObjectURL(blob);
+//       const link = document.createElement("a");
+//       link.href = url;
+//       link.download = `label-titipan-${kode}.pdf`;
+//       link.click();
+//       URL.revokeObjectURL(url);
 //     } catch (error) {
-//       console.error('Print error:', error);
-//       setPrintStatus("Error: Gagal mencetak");
-//       setTimeout(() => setPrintStatus(""), 3000);
+//       console.error("Error generating PDF:", error);
 //     } finally {
-//       setIsPrinting(false);
+//       setIsLoading(false);
 //     }
 //   };
 
-//   const handlePrintLabelTitipan = async () => {
-//     if (!pengunjungByCode?.barang_titipan?.length) return;
-    
-//     setIsPrinting(true);
-//     setPrintStatus("Mempersiapkan label titipan...");
-    
-//     try {
-//       for (const titipan of pengunjungByCode.barang_titipan) {
-//         const labelContent = `
-//           <div class="text-center text-bold">
-//             <div>LABEL TITIPAN</div>
-//             <div>${titipan.jenis_barang.toUpperCase()}</div>
-//             <div class="line"></div>
-//           </div>
-          
-//           <div class="text-bold">NAMA WBP:</div>
-//           <div>${pengunjungByCode.warga_binaan?.nama || '-'}</div>
-          
-//           <div class="text-bold">PENGIRIM:</div>
-//           <div>${pengunjungByCode.nama || '-'}</div>
-          
-//           <div class="text-bold">ALAMAT:</div>
-//           <div>${pengunjungByCode.alamat || '-'}</div>
-          
-//           <div class="line"></div>
-          
-//           <div class="text-bold">JENIS BARANG:</div>
-//           <div>${titipan.jenis_barang}</div>
-          
-//           <div class="text-bold">JUMLAH:</div>
-//           <div>${titipan.jumlah} pcs</div>
-          
-//           ${titipan.keterangan ? `
-//             <div class="text-bold">KETERANGAN:</div>
-//             <div>${titipan.keterangan}</div>
-//           ` : ''}
-          
-//           <div class="line"></div>
-          
-//           <div class="text-center">
-//             <div>${new Date().toLocaleDateString('id-ID')}</div>
-//             <div>${pengunjungByCode.kode}</div>
-//           </div>
-          
-//           <div class="text-center mt-1">
-//             <div>================================</div>
-//           </div>
-//         `;
+//   // Komponen untuk tampilan web (tetap sama)
+//   const DataPengunjung = () => (
+//     <View style={styles.table}>
+//       {/* ... (kode DataPengunjung tetap sama seperti sebelumnya) */}
+//     </View>
+//   );
 
-//         await directPrint(labelContent);
-//         await new Promise(resolve => setTimeout(resolve, 1000)); // Delay antar label
-//       }
-      
-//       setPrintStatus("Semua label berhasil dicetak!");
-//       setTimeout(() => setPrintStatus(""), 2000);
-      
-//     } catch (error) {
-//       console.error('Label print error:', error);
-//       setPrintStatus("Error: Gagal mencetak label");
-//       setTimeout(() => setPrintStatus(""), 3000);
-//     } finally {
-//       setIsPrinting(false);
-//     }
-//   };
+//   const DataWbp = () => (
+//     <View style={[styles.table, { marginLeft: 30, marginTop: -10 }]}>
+//       {/* ... (kode DataWbp tetap sama seperti sebelumnya) */}
+//     </View>
+//   );
 
-//   // Fallback print method menggunakan window.print() langsung
-//   const fallbackPrint = () => {
-//     const printWindow = window.open('', '_blank');
-//     const content = `
-//       <!DOCTYPE html>
-//       <html>
-//       <head>
-//         <title>Print ${pengunjungByCode?.kode}</title>
-//         <style>
-//           body { 
-//             font-family: 'Courier New', monospace;
-//             font-size: 12px;
-//             line-height: 1.2;
-//             margin: 0;
-//             padding: 10px;
-//           }
-//           .text-center { text-align: center; }
-//           .text-bold { font-weight: bold; }
-//           .line { border-top: 1px dashed #000; margin: 5px 0; }
-//         </style>
-//       </head>
-//       <body>
-//         <div class="text-center text-bold">
-//           <div>BUKTI KUNJUNGAN</div>
-//           <div>${pengunjungByCode?.kode}</div>
-//         </div>
-//         <div class="line"></div>
-//         <div>Nama: ${pengunjungByCode?.nama}</div>
-//         <div>WBP: ${pengunjungByCode?.warga_binaan?.nama}</div>
-//         <div>Antrian: ${pengunjungByCode?.antrian}</div>
-//         <div class="line"></div>
-//         <div class="text-center">Silakan gunakan CTRL+P untuk mencetak</div>
-//       </body>
-//       </html>
-//     `;
-    
-//     printWindow.document.write(content);
-//     printWindow.document.close();
-//     printWindow.focus();
-//     printWindow.print();
-//     printWindow.close();
-//   };
+//   const WbpImage = () => (
+//     <View style={[[styles.row, { lineHeight: 0.3 }]]}>
+//       <Image
+//         src={pengunjungByCode?.warga_binaan?.photo || IconUser}
+//         style={{ width: 100, height: 50 }}
+//       />
+//     </View>
+//   );
 
 //   if (!pengunjungByCode) {
 //     return (
 //       <div className="flex justify-center items-center h-screen bg-gray-100">
-//         <p className="text-xl text-gray-700">Data pengunjung tidak ditemukan.</p>
+//         <p className="text-xl text-gray-700">
+//           Data pengunjung tidak ditemukan.
+//         </p>
 //       </div>
 //     );
 //   }
 
 //   return (
-//     <div className="min-h-screen bg-gray-100 py-4 px-2">
-//       {/* Print Status Indicator */}
-//       {printStatus && (
-//         <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-4 py-2 rounded-lg shadow-lg ${
-//           printStatus.includes('Error') ? 'bg-red-500 text-white' : 'bg-green-500 text-white'
-//         }`}>
-//           {printStatus}
+//     <div className="min-h-screen bg-gray-100 py-8 px-4 sm:px-6 lg:px-8">
+//       <div
+//         ref={componentRef}
+//         className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden"
+//       >
+//         <div className="flex justify-end w-full pl-2">
+//           <Link
+//             to="/"
+//             className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+//           >
+//             <FaHome className="font-bold text-black size-[30px]" />
+//           </Link>
 //         </div>
-//       )}
-
-//       <div className="max-w-md mx-auto bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-//         {/* Header */}
-//         <div className="bg-blue-600 text-white p-3 text-center">
-//           <div className="flex justify-between items-center mb-2">
-//             <Link to="/" className="text-white hover:text-gray-200">
-//               <FaHome className="text-xl" />
-//             </Link>
-//             <h1 className="text-lg font-bold">CETAK THERMAL</h1>
-//             <div className="w-6"></div>
-//           </div>
-//           <p className="text-xs">RUTAN KELAS IIB BANTAENG</p>
+        
+//         {/* Institutional Header */}
+//         <div className="p-6 mt-[-50px] flex border-b-2 border-gray-200">
+//           <span className=" p-0">
+//             <img src={logo} alt="kemenimipas" className="w-28"></img>
+//           </span>
+//           <span className=" text-center">
+//             <h3 className="text-lg leading-5 font-bold">
+//               KEMENTERIAN IMIGRASI DAN PEMASYARAKATAN REPUBLIK INDONESIA
+//             </h3>
+//             <h4 className="text-md leading-5 font-bold">
+//               DIREKTORAT JENDRAL PEMASYARAKATAN
+//             </h4>
+//             <h4 className="text-md leading-5 font-bold">
+//               KANTOR WILAYAH SULAWESI SELATAN
+//             </h4>
+//             <h5 className="text-md leading-5 font-bold">
+//               RUMAH TAHANAN NEGARA KELAS IIB BANTAENG
+//             </h5>
+//             <p className="text-sm leading-3 mt-1">
+//               Jl. mawar No. 9 Kel. Pallantikan, Bantaeng. Telp (0411)2112 Kode Pos: 92411
+//             </p>
+//             <p className="text-sm leading-3 italic mt-1">
+//               Laman: rutanbantaeng.kemenkumham.go.id, Pos-EI: rutanbantaeng@ymail.com/ rtn.bantaeng@kemenkumham.go.id
+//             </p>
+//           </span>
 //         </div>
 
-//         {/* Content Summary */}
-//         <div className="p-4">
-//           <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-//             <h3 className="font-bold text-center text-blue-800 mb-2">SUMMARY KUNJUNGAN</h3>
-//             <div className="grid grid-cols-2 gap-2 text-sm">
-//               <div>
-//                 <span className="font-medium">Kode:</span> {pengunjungByCode.kode}
+//         {/* Main Content */}
+//         <div className="p-6">
+//           <h3 className="font-bold text-center underline mb-6">
+//             DETAIL KUNJUNGAN
+//           </h3>
+
+//           {/* Visitor Info Table */}
+//           <div className="grid grid-cols-2 gap-4 mb-6">
+//             <div className="col-span-2 sm:col-span-1">
+//               <div className="flex">
+//                 <span className="font-semibold w-48">Nama pengunjung</span>
+//                 <span>: {pengunjungByCode.nama}</span>
 //               </div>
-//               <div>
-//                 <span className="font-medium">Status:</span> {pengunjungByCode.status}
+//               <div className="flex">
+//                 <span className="font-semibold w-48">Jenis Kelamin</span>
+//                 <span>: {pengunjungByCode.jenis_kelamin}</span>
 //               </div>
-//               <div>
-//                 <span className="font-medium">Nama:</span> {pengunjungByCode.nama}
+//               <div className="flex">
+//                 <span className="font-semibold w-48">NIK</span>
+//                 <span>: {pengunjungByCode.nik}</span>
 //               </div>
-//               <div>
-//                 <span className="font-medium">WBP:</span> {pengunjungByCode.warga_binaan?.nama}
+//               <div className="flex">
+//                 <span className="font-semibold w-48">Alamat</span>
+//                 <span>: {pengunjungByCode.alamat}</span>
 //               </div>
-//               <div className="col-span-2">
-//                 <span className="font-medium">Antrian:</span> {pengunjungByCode.antrian || 'Belum ada'}
+//               <div className="flex">
+//                 <span className="font-semibold w-48">No. Telepon</span>
+//                 <span>: {pengunjungByCode.hp}</span>
+//               </div>
+//               <div className="flex">
+//                 <span className="font-semibold w-48">Hubungan Dengan WBP</span>
+//                 <span>: {pengunjungByCode.hubungan_keluarga}</span>
+//               </div>
+//               <div className="flex">
+//                 <span className="font-semibold w-48">WBP Yang Dikunjungi</span>
+//                 <span>: {pengunjungByCode.warga_binaan?.nama}</span>
+//               </div>
+//             </div>
+//             <div className="col-span-2 sm:col-span-1">
+//               <div className="border border-indigo-600 border-2 p-4 rounded-lg">
+//                 <p className="font-bold text-xl">
+//                   Nomor Antrian : {pengunjungByCode.antrian || "Belum Ada Antrian"}
+//                 </p>
 //               </div>
 //             </div>
 //           </div>
 
-//           {/* Quick Info Cards */}
-//           <div className="grid grid-cols-2 gap-3 mb-4">
-//             <div className="bg-green-50 border border-green-200 rounded p-2 text-center">
-//               <div className="text-2xl font-bold text-green-600">{pengunjungByCode.barang_titipan?.length || 0}</div>
-//               <div className="text-xs text-green-800">Barang Titipan</div>
-//             </div>
-//             <div className="bg-purple-50 border border-purple-200 rounded p-2 text-center">
-//               <div className="text-2xl font-bold text-purple-600">
-//                 {((pengunjungByCode.pengikut_laki_laki || 0) + (pengunjungByCode.pengikut_perempuan || 0) + (pengunjungByCode.pengikut_anak_anak || 0) + (pengunjungByCode.pengikut_bayi || 0))}
+//           {/* Barang Titipan Table */}
+//           <div className="overflow-x-auto">
+//             <table className="min-w-full bg-white border border-gray-200">
+//               <thead>
+//                 <tr className="bg-gray-100">
+//                   <th className="border px-4 py-2">No</th>
+//                   <th className="border px-4 py-2">Jenis Barang</th>
+//                   <th className="border px-4 py-2">Jumlah</th>
+//                   <th className="border px-4 py-2">Keterangan</th>
+//                   <th className="border px-4 py-2">Tanggal Dititipkan</th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 {pengunjungByCode.barang_titipan?.length > 0 ? (
+//                   pengunjungByCode?.barang_titipan.map((barang, index) => (
+//                     <tr key={barang.id} className="text-center">
+//                       <td className="border px-4 py-2">{index + 1}</td>
+//                       <td className="border px-4 py-2">{barang.jenis_barang}</td>
+//                       <td className="border px-4 py-2">{barang.jumlah}</td>
+//                       <td className="border px-4 py-2">{barang.keterangan}</td>
+//                       <td className="border px-4 py-2">
+//                         {new Date(barang.createdAt).toLocaleDateString("id-ID")}
+//                       </td>
+//                     </tr>
+//                   ))
+//                 ) : (
+//                   <tr>
+//                     <td colSpan="5" className="border px-4 py-2 text-center">
+//                       Tidak ada barang titipan
+//                     </td>
+//                   </tr>
+//                 )}
+//               </tbody>
+//             </table>
+            
+//             <div className="text-center m-0">
+//               <p className="text-sm text-gray-500 mt-2">
+//                 Tanggal Daftar:{" "}
+//                 {pengunjungByCode?.created_at
+//                   ? new Date(pengunjungByCode.created_at).toLocaleDateString("id-ID", {
+//                       weekday: "long",
+//                       year: "numeric",
+//                       month: "long",
+//                       day: "numeric",
+//                     })
+//                   : "Tanggal tidak tersedia"}
+//               </p>
+//               <div className="flex justify-center w-full">
+//                 <img
+//                   src={pengunjungByCode.barcode}
+//                   alt="Barcode"
+//                   className="h-20 w-20 object-contain"
+//                 />
 //               </div>
-//               <div className="text-xs text-purple-800">Total Pengikut</div>
+//               <p className="text-center">{pengunjungByCode?.kode}</p>
+//               <p className="text-center">{pengunjungByCode?.status}</p>
 //             </div>
 //           </div>
 //         </div>
 
 //         {/* Action Buttons */}
-//         <div className="bg-gray-50 p-4 border-t border-gray-200">
-//           <div className="flex flex-col gap-3">
-//             <button
-//               onClick={handlePrintThermal}
-//               disabled={isPrinting}
-//               className="bg-blue-600 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-blue-700 disabled:opacity-50 transition duration-200"
-//             >
-//               {isPrinting ? <FaSpinner className="animate-spin" /> : <FaPrint />}
-//               {isPrinting ? "Mencetak..." : "Cetak Bukti Kunjungan"}
-//             </button>
-            
-//             {pengunjungByCode.barang_titipan?.length > 0 && (
-//               <button
-//                 onClick={handlePrintLabelTitipan}
-//                 disabled={isPrinting}
-//                 className="bg-green-600 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-green-700 disabled:opacity-50 transition duration-200"
-//               >
-//                 {isPrinting ? <FaSpinner className="animate-spin" /> : <FaPrint />}
-//                 {isPrinting ? "Mencetak..." : "Cetak Label Titipan"}
-//               </button>
-//             )}
-            
-//             <button
-//               onClick={fallbackPrint}
-//               className="bg-gray-600 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2 hover:bg-gray-700 transition duration-200"
-//             >
-//               <FaPrint />
-//               Cetak Manual (Fallback)
-//             </button>
-
-//             {authUser?.user?.role === "admin" && (
+//         <div className="bg-gray-50 p-4 border-t border-gray-200 flex flex-row justify-center gap-4">
+//           {authUser.user.role === "admin" && (
+//             <>
 //               <button
 //                 onClick={() => navigate(`/update-pengunjung/${kode}`)}
-//                 className="bg-orange-600 text-white py-3 px-4 rounded-lg hover:bg-orange-700 transition duration-200"
+//                 className="bg-blue-600 text-black px-4 py-2 rounded hover:bg-blue-700"
 //               >
-//                 Perbarui Data
+//                 Perbarui
 //               </button>
-//             )}
-//           </div>
-//         </div>
-
-//         {/* Printing Instructions */}
-//         <div className="bg-yellow-50 border-t border-yellow-200 p-3">
-//           <div className="text-xs text-yellow-800">
-//             <strong>Petunjuk Cetak:</strong> Pastikan thermal printer sudah terhubung dan menjadi printer default.
-//           </div>
+//               <button
+//                 onClick={() => setShowPreview(true)}
+//                 className="bg-green-600 text-black px-4 py-2 rounded hover:bg-green-700"
+//               >
+//                 Cetak Label
+//               </button>
+//               <button
+//                 onClick={handleDownloadPDF}
+//                 disabled={isLoading}
+//                 className="bg-purple-600 text-black px-4 py-2 rounded hover:bg-purple-700 disabled:opacity-50"
+//               >
+//                 {isLoading ? "Generating..." : "Export PDF"}
+//               </button>
+//             </>
+//           )}
 //         </div>
 //       </div>
+
+//       {/* PDF Preview Modal */}
+//       {showPreview && (
+//         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50">
+//           <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[90vh] overflow-hidden">
+//             <div className="flex justify-between items-center p-4 border-b">
+//               <h2 className="text-xl font-semibold">Preview Label Titipan (80x80mm)</h2>
+//               <button
+//                 onClick={() => setShowPreview(false)}
+//                 className="text-black hover:text-gray-700"
+//               >
+//                 <svg
+//                   xmlns="http://www.w3.org/2000/svg"
+//                   className="h-6 w-6"
+//                   fill="none"
+//                   viewBox="0 0 24 24"
+//                   stroke="currentColor"
+//                 >
+//                   <path
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                     strokeWidth={2}
+//                     d="M6 18L18 6M6 6l12 12"
+//                   />
+//                 </svg>
+//               </button>
+//             </div>
+//             <div className="h-full">
+//               <PDFViewer width="100%" height="100%">
+//                 <PDFPreview />
+//               </PDFViewer>
+//             </div>
+//             <div className="flex justify-end p-4 border-t">
+//               <button
+//                 onClick={() => setShowPreview(false)}
+//                 className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700"
+//               >
+//                 Tutup
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       )}
 //     </div>
 //   );
 // };
 
-// export default PengunjungLabelThermal;
+// export default PengunjungLabel;
