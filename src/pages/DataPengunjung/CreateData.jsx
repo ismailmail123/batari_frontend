@@ -31,7 +31,7 @@ const CreatePengunjung = () => {
       await createDataPengunjung(formData);
       
       toast.success('Data pengunjung berhasil dibuat!');
-      navigate('/pengunjung');
+      navigate('/pengunjung/data');
       
     } catch (error) {
       console.error('Error creating pengunjung:', error);
@@ -65,7 +65,7 @@ const CreatePengunjung = () => {
           <div className="flex justify-between items-center mb-6">
             <h1 className="text-2xl font-bold text-gray-800">Tambah Data Pengunjung</h1>
             <button
-              onClick={() => navigate('/pengunjung')}
+              onClick={() => navigate('/pengunjung/data')}
               className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
             >
               Kembali
@@ -219,7 +219,7 @@ const CreatePengunjung = () => {
             <div className="flex justify-end space-x-4 pt-6 border-t">
               <button
                 type="button"
-                onClick={() => navigate('/pengunjung')}
+                onClick={() => navigate('/pengunjung/data')}
                 className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
               >
                 Batal
