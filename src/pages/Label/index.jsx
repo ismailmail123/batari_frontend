@@ -37,13 +37,19 @@ const PengunjungLabel = () => {
   console.log("pengunjungByCode:", pengunjungByCode);
 
   const styles = StyleSheet.create({
+    // page: {
+    //   flexDirection: "column",
+    //   backgroundColor: "#FFFFFF",
+    //   padding: 2,
+    //   // paddingRight: 10,
+    //   fontFamily: "Helvetica",
+    // },
     page: {
-      flexDirection: "column",
-      backgroundColor: "#FFFFFF",
-      padding: 2,
-      // paddingRight: 10,
-      fontFamily: "Helvetica",
-    },
+    flexDirection: "column",
+    backgroundColor: "#FFFFFF",
+    padding: 0, // Ubah dari 2 menjadi 0
+    fontFamily: "Helvetica",
+  },
     kop: {
       flexDirection: "row", // Menyusun gambar dan teks secara horizontal
       alignItems: "center", // Menyelaraskan gambar dan teks secara vertikal di tengah
@@ -92,6 +98,16 @@ const PengunjungLabel = () => {
       paddingLeft: 5,
       fontSize: 6,
     },
+    labelContainer: {
+    display: "flex",
+    flexDirection: "column",
+    border: "1 dashed black",
+    padding: 3,
+    width: "100%",
+    height: "77mm", // Pastikan tinggi sesuai
+    marginBottom: 3, // Tambahkan margin bottom
+    pageBreakInside: 'avoid', // Hindari potongan di tengah elemen
+  },
     label_wbp: {
       width: "30%", // Lebar kolom label
       paddingLeft: 5,
@@ -119,6 +135,21 @@ const PengunjungLabel = () => {
       fontSize: 5,
       marginTop: 5,
     },
+    dataRow: {
+  flexDirection: "row",
+  paddingVertical: 2,
+  lineHeight: 0.8,
+},
+dataLabel: {
+  width: "45%",
+  paddingLeft: 5,
+  fontSize: 8,
+},
+dataValue: {
+  width: "55%",
+  fontSize: 8,
+  flexWrap: "wrap",
+},
   });
 
   const DataPengunjung = () => (
@@ -425,136 +456,437 @@ const PengunjungLabel = () => {
     </View>
   );
 
+  // const PDFPreview = () => (
+  //   <Document>
+  //     <Page size={[mmToPt(80), mmToPt(80)]} style={styles.page}>
+  //       <View
+  //         style={{
+  //           justifyContent: "space-between",
+  //           flexDirection: "column", // Baris disusun secara horizontal
+  //           marginBottom: -20,
+  //           lineHeight: 0.25,
+  //           gap: 3,
+  //         }}
+  //       >
+  //         {pengunjungByCode.barang_titipan.length > 0 ? (
+  //           pengunjungByCode.barang_titipan.map((titipan) => (
+  //             <View
+  //               style={{
+  //                 display: "flex",
+  //                 flexDirection: "column",
+  //                 border: "1 dashed black",
+  //                 padding: 3,
+  //                 width: "100%",
+  //                 height: "77mm",
+  //                 // paddingTop: 40,
+  //                 paddingBottom: 10,
+  //                 marginTop: 0,
+  //               }}
+  //             >
+  //               {/* Content */}
+  //               <View style={styles.section}>
+  //                 <Text
+  //                   style={{
+  //                     textAlign: "center",
+  //                     marginBottom: 10,
+  //                     fontSize: 10,
+  //                     fontWeight: "bold",
+  //                     textDecoration: "underline",
+  //                   }}
+  //                 >
+  //                   LABEL TITIPAN {titipan?.jenis_barang?.toUpperCase()}
+  //                 </Text>
+  //               </View>
+  //               <View
+  //                 key={titipan.id}
+  //                 style={{
+  //                   display: "flex",
+  //                   flexDirection: "column",
+  //                   width: "100%",
+  //                 }}
+  //               >
+  //                 {/* Komponen Gambar */}
+  //                 <View
+  //                   style={{
+  //                     lineHeight: 0.3,
+  //                     flexDirection: "row", // Baris disusun secara horizontal
+  //                     // borderBottomWidth: 1,
+  //                     // borderColor: '#000',
+  //                     paddingVertical: 5,
+  //                   }}
+  //                 >
+  //                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
+  //                     Nama WBP
+  //                   </Text>
+  //                   <Text style={styles.value}>
+  //                     : {pengunjungByCode.warga_binaan?.nama}
+  //                   </Text>
+  //                 </View>
+  //                 <View
+  //                   style={{
+  //                     lineHeight: 0.3,
+  //                     flexDirection: "row", // Baris disusun secara horizontal
+  //                     // borderBottomWidth: 1,
+  //                     // borderColor: '#000',
+  //                     paddingVertical: 5,
+  //                   }}
+  //                 >
+  //                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
+  //                     Status WBP
+  //                   </Text>
+  //                   <Text style={styles.value}>
+  //                     : {pengunjungByCode.warga_binaan?.keterangan}
+  //                   </Text>
+  //                 </View>
+  //                 <View
+  //                   style={{
+  //                     lineHeight: 0.3,
+  //                     flexDirection: "row", // Baris disusun secara horizontal
+  //                     // borderBottomWidth: 1,
+  //                     // borderColor: '#000',
+  //                     paddingVertical: 5,
+  //                   }}
+  //                 >
+  //                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
+  //                     Alamat WBP
+  //                   </Text>
+  //                   <Text style={styles.value}>
+  //                     : {pengunjungByCode.warga_binaan?.alamat}
+  //                   </Text>
+  //                 </View>
+  //                 <View style={[styles.row, { lineHeight: 0.3 }]}>
+  //                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
+  //                     Pengirim
+  //                   </Text>
+  //                   <Text style={styles.value}>: {pengunjungByCode.nama}</Text>
+  //                 </View>
+  //                 <View style={[styles.row, { lineHeight: 0.3 }]}>
+  //                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
+  //                     Alamat
+  //                   </Text>
+  //                   <Text style={styles.value}>
+  //                     : {pengunjungByCode.alamat}
+  //                   </Text>
+  //                 </View>
+  //                 <View style={[styles.row, { lineHeight: 0.3 }]}>
+  //                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
+  //                     Jenis Barang
+  //                   </Text>
+  //                   <Text style={styles.value}>: {titipan.jenis_barang}</Text>
+  //                 </View>
+  //                 <View style={[styles.row, { lineHeight: 0.3 }]}>
+  //                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
+  //                     Jumlah
+  //                   </Text>
+  //                   <Text style={styles.value}>: {titipan.jumlah}</Text>
+  //                 </View>
+  //                 <View style={[styles.row, { alignSelf: 'flex-end', position: 'fixed-button'}]}>
+  //                   <Image
+  //                     src={pengunjungByCode?.barcode}
+  //                     style={{ width: 50, height: 50, marginLeft: 5, marginTop: -15, alignSelf: 'end' }}
+  //                   />
+  //                   </View>
+  //               </View>
+  //             </View>
+  //           ))
+  //         ) : (
+  //           <></>
+  //         )}
+  //       </View>
+  //     </Page>
+  //   </Document>
+  // );
+
+  // Handle Print
   const PDFPreview = () => (
+  <Document>
+    <Page 
+      size={[mmToPt(80), mmToPt(80)]} 
+      style={styles.page}
+      wrap={true} // Enable wrapping untuk multiple pages
+    >
+      <View style={{
+        flexDirection: "column",
+        marginBottom: 0,
+        lineHeight: 0.25,
+        gap: 2, // Kurangi gap
+      }}>
+        {pengunjungByCode.barang_titipan.length > 0 ? (
+          pengunjungByCode.barang_titipan.map((titipan, index) => (
+            <View 
+              key={titipan.id}
+              style={styles.labelContainer}
+              wrap={false} // Nonaktifkan wrap untuk container individual
+            >
+              {/* Content */}
+              <View style={{marginBottom: 5}}>
+                <Text style={{
+                  textAlign: "center",
+                  marginBottom: 5, // Kurangi margin
+                  fontSize: 10,
+                  fontWeight: "bold",
+                  textDecoration: "underline",
+                }}>
+                  LABEL TITIPAN {titipan?.jenis_barang?.toUpperCase()}
+                </Text>
+              </View>
+              
+              <View style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                flexGrow: 1,
+              }}>
+                {/* Data fields */}
+                <View style={styles.dataRow}>
+                  <Text style={styles.dataLabel}>Nama WBP</Text>
+                  <Text style={styles.dataValue}>: {pengunjungByCode.warga_binaan?.nama}</Text>
+                </View>
+                
+                <View style={styles.dataRow}>
+                  <Text style={styles.dataLabel}>Status WBP</Text>
+                  <Text style={styles.dataValue}>: {pengunjungByCode.warga_binaan?.keterangan}</Text>
+                </View>
+                
+                <View style={styles.dataRow}>
+                  <Text style={styles.dataLabel}>Alamat WBP</Text>
+                  <Text style={styles.dataValue}>: {pengunjungByCode.warga_binaan?.alamat}</Text>
+                </View>
+                
+                <View style={styles.dataRow}>
+                  <Text style={styles.dataLabel}>Pengirim</Text>
+                  <Text style={styles.dataValue}>: {pengunjungByCode.nama}</Text>
+                </View>
+                
+                <View style={styles.dataRow}>
+                  <Text style={styles.dataLabel}>Alamat</Text>
+                  <Text style={styles.dataValue}>: {pengunjungByCode.alamat}</Text>
+                </View>
+                
+                <View style={styles.dataRow}>
+                  <Text style={styles.dataLabel}>Jenis Barang</Text>
+                  <Text style={styles.dataValue}>: {titipan.jenis_barang}</Text>
+                </View>
+                
+                <View style={styles.dataRow}>
+                  <Text style={styles.dataLabel}>Jumlah</Text>
+                  <Text style={styles.dataValue}>: {titipan.jumlah}</Text>
+                </View>
+                
+                {/* Barcode di pojok kanan bawah */}
+                <View style={{
+                  position: 'absolute',
+                  right: 5,
+                  bottom: 5,
+                }}>
+                  <Image
+                    src={pengunjungByCode?.barcode}
+                    style={{ 
+                      width: 40, 
+                      height: 40,
+                    }}
+                  />
+                </View>
+              </View>
+            </View>
+          ))
+        ) : (
+          <View style={styles.labelContainer}>
+            <Text>Tidak ada barang titipan</Text>
+          </View>
+        )}
+      </View>
+    </Page>
+  </Document>
+);
+  
+  
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  // Handle Export PDF
+  // const handleDownloadPDF = async () => {
+  //   const blob = await pdf(
+  //     <Document>
+  //       <Page size={[mmToPt(80), mmToPt(80)]} style={styles.page}>
+  //         <View
+  //           style={{
+  //             justifyContent: "space-between",
+  //             flexDirection: "column", // Baris disusun secara horizontal
+  //             marginBottom: -20,
+  //             lineHeight: 0.25,
+  //             gap: 3,
+  //           }}
+  //         >
+  //           {pengunjungByCode.barang_titipan.length > 0 ? (
+  //             pengunjungByCode.barang_titipan.map((titipan) => (
+  //               <View
+  //                 style={{
+  //                   display: "flex",
+  //                   flexDirection: "column",
+  //                   border: "1 dashed black",
+  //                   padding: 3,
+  //                   width: "100%",
+  //                   paddingTop: 10,
+  //                   paddingBottom: 10,
+  //                 }}
+  //               >
+  //                 {/* Content */}
+  //                 <View style={styles.section}>
+  //                   <Text
+  //                     style={{
+  //                       textAlign: "center",
+  //                       marginBottom: 10,
+  //                       fontSize: 10,
+  //                       fontWeight: "bold",
+  //                       textDecoration: "underline",
+  //                     }}
+  //                   >
+  //                     LABEL TITIPAN {titipan?.jenis_barang?.toUpperCase()}
+  //                   </Text>
+  //                 </View>
+  //                 <View
+  //                   key={titipan.id}
+  //                   style={{
+  //                     display: "flex",
+  //                     flexDirection: "column",
+  //                     width: "100%",
+  //                   }}
+  //                 >
+  //                   {/* Komponen Gambar */}
+  //                   <View
+  //                     style={{
+  //                       lineHeight: 0.3,
+  //                       flexDirection: "row", // Baris disusun secara horizontal
+  //                       // borderBottomWidth: 1,
+  //                       // borderColor: '#000',
+  //                       paddingVertical: 5,
+  //                     }}
+  //                   >
+  //                     <Text
+  //                       style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}
+  //                     >
+  //                       Nama WBP
+  //                     </Text>
+  //                     <Text style={styles.value}>
+  //                       : {pengunjungByCode.warga_binaan?.nama}
+  //                     </Text>
+  //                   </View>
+  //                   <View style={[styles.row, { lineHeight: 0.3 }]}>
+  //                     <Text
+  //                       style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}
+  //                     >
+  //                       Pengirim
+  //                     </Text>
+  //                     <Text style={styles.value}>
+  //                       : {pengunjungByCode.nama}
+  //                     </Text>
+  //                   </View>
+  //                   <View style={[styles.row, { lineHeight: 0.3 }]}>
+  //                     <Text
+  //                       style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}
+  //                     >
+  //                       Alamat
+  //                     </Text>
+  //                     <Text style={styles.value}>
+  //                       : {pengunjungByCode.alamat}
+  //                     </Text>
+  //                   </View>
+  //                   <View style={[styles.row, { lineHeight: 0.3 }]}>
+  //                     <Text
+  //                       style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}
+  //                     >
+  //                       Jenis Barang
+  //                     </Text>
+  //                     <Text style={styles.value}>: {titipan.jenis_barang}</Text>
+  //                   </View>
+  //                   <View style={[styles.row, { lineHeight: 0.3 }]}>
+  //                     <Text
+  //                       style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}
+  //                     >
+  //                       Jumlah
+  //                     </Text>
+  //                     <Text style={styles.value}>: {titipan.jumlah}</Text>
+  //                   </View>
+  //                 </View>
+  //               </View>
+  //             ))
+  //           ) : (
+  //             <></>
+  //           )}
+  //         </View>
+  //       </Page>
+  //     </Document>
+  //   ).toBlob();
+
+  //   const url = URL.createObjectURL(blob);
+  //   const link = document.createElement("a");
+  //   link.href = url;
+  //   link.download = `bukti-kunjungan-${kode}.pdf`;
+  //   link.click();
+  // };
+  const handleDownloadPDF = async () => {
+  const blob = await pdf(
     <Document>
-      <Page size={[mmToPt(80), mmToPt(80)]} style={styles.page}>
-        <View
-          style={{
-            justifyContent: "space-between",
-            flexDirection: "column", // Baris disusun secara horizontal
-            marginBottom: -20,
-            lineHeight: 0.25,
-            gap: 3,
-          }}
-        >
+      <Page 
+        size={[mmToPt(80), mmToPt(80)]} 
+        style={styles.page}
+        wrap={true}
+      >
+        <View style={{
+          flexDirection: "column",
+          marginBottom: 0,
+          lineHeight: 0.25,
+          gap: 2,
+        }}>
           {pengunjungByCode.barang_titipan.length > 0 ? (
             pengunjungByCode.barang_titipan.map((titipan) => (
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  border: "1 dashed black",
-                  padding: 3,
-                  width: "100%",
-                  height: "77mm",
-                  // paddingTop: 40,
-                  paddingBottom: 10,
-                  marginTop: 0,
-                }}
+              <View 
+                key={titipan.id}
+                style={styles.labelContainer}
+                wrap={false}
               >
-                {/* Content */}
-                <View style={styles.section}>
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      marginBottom: 10,
-                      fontSize: 10,
-                      fontWeight: "bold",
-                      textDecoration: "underline",
-                    }}
-                  >
+                {/* Gunakan struktur yang sama dengan PDFPreview */}
+                <View style={{marginBottom: 5}}>
+                  <Text style={{
+                    textAlign: "center",
+                    marginBottom: 5,
+                    fontSize: 10,
+                    fontWeight: "bold",
+                    textDecoration: "underline",
+                  }}>
                     LABEL TITIPAN {titipan?.jenis_barang?.toUpperCase()}
                   </Text>
                 </View>
-                <View
-                  key={titipan.id}
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    width: "100%",
-                  }}
-                >
-                  {/* Komponen Gambar */}
-                  <View
-                    style={{
-                      lineHeight: 0.3,
-                      flexDirection: "row", // Baris disusun secara horizontal
-                      // borderBottomWidth: 1,
-                      // borderColor: '#000',
-                      paddingVertical: 5,
-                    }}
-                  >
-                    <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
-                      Nama WBP
-                    </Text>
-                    <Text style={styles.value}>
-                      : {pengunjungByCode.warga_binaan?.nama}
-                    </Text>
+                
+                <View style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  flexGrow: 1,
+                }}>
+                  {/* Data fields - sama seperti di PDFPreview */}
+                  <View style={styles.dataRow}>
+                    <Text style={styles.dataLabel}>Nama WBP</Text>
+                    <Text style={styles.dataValue}>: {pengunjungByCode.warga_binaan?.nama}</Text>
                   </View>
-                  <View
-                    style={{
-                      lineHeight: 0.3,
-                      flexDirection: "row", // Baris disusun secara horizontal
-                      // borderBottomWidth: 1,
-                      // borderColor: '#000',
-                      paddingVertical: 5,
-                    }}
-                  >
-                    <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
-                      Status WBP
-                    </Text>
-                    <Text style={styles.value}>
-                      : {pengunjungByCode.warga_binaan?.keterangan}
-                    </Text>
-                  </View>
-                  <View
-                    style={{
-                      lineHeight: 0.3,
-                      flexDirection: "row", // Baris disusun secara horizontal
-                      // borderBottomWidth: 1,
-                      // borderColor: '#000',
-                      paddingVertical: 5,
-                    }}
-                  >
-                    <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
-                      Alamat WBP
-                    </Text>
-                    <Text style={styles.value}>
-                      : {pengunjungByCode.warga_binaan?.alamat}
-                    </Text>
-                  </View>
-                  <View style={[styles.row, { lineHeight: 0.3 }]}>
-                    <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
-                      Pengirim
-                    </Text>
-                    <Text style={styles.value}>: {pengunjungByCode.nama}</Text>
-                  </View>
-                  <View style={[styles.row, { lineHeight: 0.3 }]}>
-                    <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
-                      Alamat
-                    </Text>
-                    <Text style={styles.value}>
-                      : {pengunjungByCode.alamat}
-                    </Text>
-                  </View>
-                  <View style={[styles.row, { lineHeight: 0.3 }]}>
-                    <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
-                      Jenis Barang
-                    </Text>
-                    <Text style={styles.value}>: {titipan.jenis_barang}</Text>
-                  </View>
-                  <View style={[styles.row, { lineHeight: 0.3 }]}>
-                    <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
-                      Jumlah
-                    </Text>
-                    <Text style={styles.value}>: {titipan.jumlah}</Text>
-                  </View>
-                  <View style={[styles.row, { alignSelf: 'flex-end', position: 'fixed-button'}]}>
+                  
+                  {/* ... tambahkan field lainnya seperti di PDFPreview */}
+                  
+                  <View style={{
+                    position: 'absolute',
+                    right: 5,
+                    bottom: 5,
+                  }}>
                     <Image
                       src={pengunjungByCode?.barcode}
-                      style={{ width: 50, height: 50, marginLeft: 5, marginTop: -15, alignSelf: 'end' }}
+                      style={{ 
+                        width: 40, 
+                        height: 40,
+                      }}
                     />
-                    </View>
+                  </View>
                 </View>
               </View>
             ))
@@ -564,134 +896,14 @@ const PengunjungLabel = () => {
         </View>
       </Page>
     </Document>
-  );
+  ).toBlob();
 
-  // Handle Print
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-
-  // Handle Export PDF
-  const handleDownloadPDF = async () => {
-    const blob = await pdf(
-      <Document>
-        <Page size={[mmToPt(80), mmToPt(80)]} style={styles.page}>
-          <View
-            style={{
-              justifyContent: "space-between",
-              flexDirection: "column", // Baris disusun secara horizontal
-              marginBottom: -20,
-              lineHeight: 0.25,
-              gap: 3,
-            }}
-          >
-            {pengunjungByCode.barang_titipan.length > 0 ? (
-              pengunjungByCode.barang_titipan.map((titipan) => (
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    border: "1 dashed black",
-                    padding: 3,
-                    width: "100%",
-                    paddingTop: 10,
-                    paddingBottom: 10,
-                  }}
-                >
-                  {/* Content */}
-                  <View style={styles.section}>
-                    <Text
-                      style={{
-                        textAlign: "center",
-                        marginBottom: 10,
-                        fontSize: 10,
-                        fontWeight: "bold",
-                        textDecoration: "underline",
-                      }}
-                    >
-                      LABEL TITIPAN {titipan?.jenis_barang?.toUpperCase()}
-                    </Text>
-                  </View>
-                  <View
-                    key={titipan.id}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      width: "100%",
-                    }}
-                  >
-                    {/* Komponen Gambar */}
-                    <View
-                      style={{
-                        lineHeight: 0.3,
-                        flexDirection: "row", // Baris disusun secara horizontal
-                        // borderBottomWidth: 1,
-                        // borderColor: '#000',
-                        paddingVertical: 5,
-                      }}
-                    >
-                      <Text
-                        style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}
-                      >
-                        Nama WBP
-                      </Text>
-                      <Text style={styles.value}>
-                        : {pengunjungByCode.warga_binaan?.nama}
-                      </Text>
-                    </View>
-                    <View style={[styles.row, { lineHeight: 0.3 }]}>
-                      <Text
-                        style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}
-                      >
-                        Pengirim
-                      </Text>
-                      <Text style={styles.value}>
-                        : {pengunjungByCode.nama}
-                      </Text>
-                    </View>
-                    <View style={[styles.row, { lineHeight: 0.3 }]}>
-                      <Text
-                        style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}
-                      >
-                        Alamat
-                      </Text>
-                      <Text style={styles.value}>
-                        : {pengunjungByCode.alamat}
-                      </Text>
-                    </View>
-                    <View style={[styles.row, { lineHeight: 0.3 }]}>
-                      <Text
-                        style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}
-                      >
-                        Jenis Barang
-                      </Text>
-                      <Text style={styles.value}>: {titipan.jenis_barang}</Text>
-                    </View>
-                    <View style={[styles.row, { lineHeight: 0.3 }]}>
-                      <Text
-                        style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}
-                      >
-                        Jumlah
-                      </Text>
-                      <Text style={styles.value}>: {titipan.jumlah}</Text>
-                    </View>
-                  </View>
-                </View>
-              ))
-            ) : (
-              <></>
-            )}
-          </View>
-        </Page>
-      </Document>
-    ).toBlob();
-
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `bukti-kunjungan-${kode}.pdf`;
-    link.click();
-  };
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `label-titipan-${kode}.pdf`;
+  link.click();
+};
 
   if (!pengunjungByCode) {
     return (
@@ -913,8 +1125,8 @@ const PengunjungLabel = () => {
             </div>
             <div className="h-full">
               <PDFViewer width="100%" height="100%">
-                <PDFPreview ref={componentRef}/>
-              </PDFViewer>
+  <PDFPreview />
+</PDFViewer>
             </div>
           </div>
         </div>

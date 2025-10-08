@@ -114,6 +114,9 @@ const CreateBarangTitipanModal = ({ isOpen, onClose, pengunjungs }) => {
                   <option  value="Makanan">
                     Makanan
                   </option>
+                  <option  value="Pakaian">
+                    Pakaian
+                  </option>
                   <option  value="Obat">
                     Obat
                   </option>

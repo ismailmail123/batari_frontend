@@ -24,6 +24,9 @@ import FormExcel from '../pages/WargabinaanForm/FormFile';
 import PengunjungLabel from '../pages/Label';
 import Report from '../pages/Report';
 import Struk from '../pages/Label/Struk';
+import PengunjungData from '../pages/DataPengunjung';
+import CreatePengunjung from '../pages/DataPengunjung/CreateData';
+import EditPengunjung from '../pages/DataPengunjung/UpdateData';
 
 
 const Index = () => {
@@ -126,6 +129,27 @@ const Index = () => {
       element:
       //  authUser == null ? <Login /> :
           <PengunjungList />
+      
+    },
+    {
+      path: '/pengunjung/data',
+      element:
+      //  authUser == null ? <Login /> :
+          <PengunjungData />
+      
+    },
+    {
+      path: '/pengunjung/data/create',
+      element:
+      //  authUser == null ? <Login /> :
+          <CreatePengunjung />
+      
+    },
+    {
+      path: '/pengunjung/data/:kode/update',
+      element:
+      //  authUser == null ? <Login /> :
+          <EditPengunjung />
       
     },
     {

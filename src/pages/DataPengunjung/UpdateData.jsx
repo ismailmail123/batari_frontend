@@ -1,0 +1,354 @@
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import useDataStore from '../../store/useDataStore';
+import toast from 'react-hot-toast';
+
+const EditPengunjung = () => {
+  const navigate = useNavigate();
+  const { kode } = useParams();
+  const { updateDataPengunjung, fetchPengunjungByKode } = useDataStore();
+  const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm();
+  
+  const [photoKtp, setPhotoKtp] = useState(null);
+  const [photoPengunjung, setPhotoPengunjung] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [pengunjung, setPengunjung] = useState(null);
+  const [error, setError] = useState(null);
+
+  // Load data pengunjung saat komponen mount
+  useEffect(() => {
+    const loadPengunjungData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        if (!kode) {
+          setError('Kode pengunjung tidak valid');
+          return;
+        }
+
+        console.log('Loading data for kode:', kode);
+        
+        const data = await fetchPengunjungByKode(kode);
+        console.log('Data received:', data);
+        
+        if (!data) {
+          setError('Data pengunjung tidak ditemukan');
+          return;
+        }
+
+        setPengunjung(data);
+        
+        // Reset form dengan data yang ada
+        reset({
+          nama: data.nama || '',
+          jenis_kelamin: data.jenis_kelamin || '',
+          nik: data.nik || '',
+          alamat: data.alamat || '',
+          hp: data.hp || '',
+          hubungan_keluarga: data.hubungan_keluarga || '',
+        });
+
+      } catch (error) {
+        console.error('Error loading pengunjung data:', error);
+        setError(error.message || 'Gagal memuat data pengunjung');
+        toast.error('Gagal memuat data pengunjung');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPengunjungData();
+  }, [kode, reset, fetchPengunjungByKode]);
+
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      
+      const formData = new FormData();
+      
+      // Append semua data form
+      Object.keys(data).forEach(key => {
+        if (data[key] !== null && data[key] !== undefined) {
+          formData.append(key, data[key]);
+        }
+      });
+
+      // Append file jika ada
+      if (photoKtp) formData.append('photo_ktp', photoKtp);
+      if (photoPengunjung) formData.append('photo_pengunjung', photoPengunjung);
+
+      await updateDataPengunjung(kode, formData);
+      
+      toast.success('Data pengunjung berhasil diupdate!');
+      navigate('/pengunjung/data');
+      
+    } catch (error) {
+      console.error('Error updating pengunjung:', error);
+      toast.error(error.message || 'Gagal mengupdate data pengunjung');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFileChange = (e, setFileFunction) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (!file.type.startsWith('image/')) {
+        toast.error('File harus berupa gambar');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error('Ukuran file maksimal 5MB');
+        return;
+      }
+      setFileFunction(file);
+    }
+  };
+
+  // Tampilkan loading hanya saat pertama kali load
+  if (loading && !pengunjung && !error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Memuat data pengunjung...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Tampilkan error
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">{error}</p>
+          <button
+            onClick={() => navigate('/pengunjung/data')}
+            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Kembali ke Daftar Pengunjung
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Pastikan pengunjung ada sebelum render form
+  if (!pengunjung) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600">Data pengunjung tidak ditemukan</p>
+          <button
+            onClick={() => navigate('/pengunjung/data')}
+            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            Kembali ke Daftar Pengunjung
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold text-gray-800">Edit Data Pengunjung</h1>
+            <button
+              onClick={() => navigate('/pengunjung/data')}
+              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+            >
+              Kembali
+            </button>
+          </div>
+
+          {/* Informasi Kode Pengunjung */}
+          <div className="mb-6 p-4 bg-blue-50 rounded-lg">
+            <p className="text-sm text-blue-700">
+              <strong>Kode Pengunjung:</strong> {pengunjung.kode}
+            </p>
+            {pengunjung.barcode && (
+              <p className="text-sm text-blue-700 mt-1">
+                <strong>Status:</strong> Barcode telah dikirim ke email
+              </p>
+            )}
+          </div>
+
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {/* Informasi Pribadi */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Nama Lengkap *
+                </label>
+                <input
+                  type="text"
+                  {...register('nama', { required: 'Nama harus diisi' })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.nama && (
+                  <p className="text-red-500 text-sm mt-1">{errors.nama.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Jenis Kelamin *
+                </label>
+                <select
+                  {...register('jenis_kelamin', { required: 'Jenis kelamin harus dipilih' })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Pilih Jenis Kelamin</option>
+                  <option value="Laki-laki">Laki-laki</option>
+                  <option value="Perempuan">Perempuan</option>
+                </select>
+                {errors.jenis_kelamin && (
+                  <p className="text-red-500 text-sm mt-1">{errors.jenis_kelamin.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  NIK *
+                </label>
+                <input
+                  type="text"
+                  {...register('nik', { 
+                    required: 'NIK harus diisi',
+                    pattern: {
+                      value: /^[0-9]{16}$/,
+                      message: 'NIK harus 16 digit angka'
+                    }
+                  })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.nik && (
+                  <p className="text-red-500 text-sm mt-1">{errors.nik.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  No. HP *
+                </label>
+                <input
+                  type="text"
+                  {...register('hp', { 
+                    required: 'No. HP harus diisi',
+                    pattern: {
+                      value: /^[0-9+]{10,15}$/,
+                      message: 'Format nomor HP tidak valid'
+                    }
+                  })}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.hp && (
+                  <p className="text-red-500 text-sm mt-1">{errors.hp.message}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Alamat */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Alamat Lengkap *
+              </label>
+              <textarea
+                {...register('alamat', { required: 'Alamat harus diisi' })}
+                rows={3}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {errors.alamat && (
+                <p className="text-red-500 text-sm mt-1">{errors.alamat.message}</p>
+              )}
+            </div>
+
+            {/* Hubungan Keluarga */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Hubungan Keluarga *
+              </label>
+              <input
+                type="text"
+                {...register('hubungan_keluarga', { required: 'Hubungan keluarga harus diisi' })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              {errors.hubungan_keluarga && (
+                <p className="text-red-500 text-sm mt-1">{errors.hubungan_keluarga.message}</p>
+              )}
+            </div>
+
+            {/* Upload Foto */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Foto KTP {pengunjung.photo_ktp && '(Sudah ada)'}
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, setPhotoKtp)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {pengunjung.photo_ktp && !photoKtp && (
+                  <p className="text-green-600 text-sm mt-1">
+                    Foto KTP saat ini: <a href={pengunjung.photo_ktp} target="_blank" rel="noopener noreferrer" className="underline">Lihat</a>
+                  </p>
+                )}
+                {photoKtp && (
+                  <p className="text-green-600 text-sm mt-1">File baru dipilih: {photoKtp.name}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Foto Pengunjung {pengunjung.photo_pengunjung && '(Sudah ada)'}
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileChange(e, setPhotoPengunjung)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {pengunjung.photo_pengunjung && !photoPengunjung && (
+                  <p className="text-green-600 text-sm mt-1">
+                    Foto saat ini: <a href={pengunjung.photo_pengunjung} target="_blank" rel="noopener noreferrer" className="underline">Lihat</a>
+                  </p>
+                )}
+                {photoPengunjung && (
+                  <p className="text-green-600 text-sm mt-1">File baru dipilih: {photoPengunjung.name}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Tombol Submit */}
+            <div className="flex justify-end space-x-4 pt-6 border-t">
+              <button
+                type="button"
+                onClick={() => navigate('/pengunjung/data')}
+                className="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+              >
+                Batal
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Menyimpan...' : 'Update Data'}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default EditPengunjung;
