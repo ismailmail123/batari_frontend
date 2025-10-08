@@ -4675,6 +4675,16 @@ export default function HomePage() {
                     <p className="text-gray-600">Registrasi pengunjung baru</p>
                   </Link>
                   <Link
+                    to="/pengunjung/data/create"
+                    className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200"
+                  >
+                    <PlusIcon className="h-12 w-12 text-orange-600 mb-4" />
+                    <h2 className="text-xl font-semibold mb-2">
+                      Tambah Data
+                    </h2>
+                    <p className="text-gray-600">Registrasi pengunjung baru</p>
+                  </Link>
+                  <Link
                     to="/pengunjung"
                     className="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200"
                   >
