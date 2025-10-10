@@ -118,7 +118,7 @@ const Index = () => {
       
     },
     {
-      path: '/pengunjung/:kode',
+      path: '/pengunjung/:id',
       element:
       //  authUser == null ? <Login /> :
           <PengunjungDetail />
@@ -153,7 +153,7 @@ const Index = () => {
       
     },
     {
-      path: '/update-pengunjung/:kode',
+      path: '/update-pengunjung/:id',
       element:
       //  authUser == null ? <Login /> :
           <EditPengunjungForm />
@@ -174,7 +174,7 @@ const Index = () => {
       
     },
     {
-      path: '/label/:kode',
+      path: '/label/:id',
       element: 
           <PengunjungLabel />
       

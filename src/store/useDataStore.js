@@ -12,6 +12,7 @@ const useDataStore = create((set, get) => ({
     pengunjungs: [],
     pengunjungUser: [],
     pengunjungByCode: [],
+    pengunjungById: [],
     wbpList: [],
     antrians: [],
     errorMessage: "",
@@ -164,10 +165,10 @@ const useDataStore = create((set, get) => ({
             // Update state dengan data yang baru
             set((state) => ({
                 pengunjungData: state.pengunjungData.map(pengunjung =>
-                    pengunjung.kode === kode ? updatedPengunjung : pengunjung
+                    pengunjung.id === id ? updatedPengunjung : pengunjung
                 ),
                 pengunjungs: state.pengunjungs.map(pengunjung =>
-                    pengunjung.kode === kode ? updatedPengunjung : pengunjung
+                    pengunjung.id === id ? updatedPengunjung : pengunjung
                 )
             }));
 
@@ -196,10 +197,38 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get(`https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data/${kode}`, {
+            const response = await axios.get(`https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data/bykode/${kode}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
+            });
+
+            console.log("ini data dari zustand", response.data.data)
+
+            return response.data.data;
+        } catch (error) {
+            console.error("Fetch pengunjung by code error:", error);
+            throw error;
+        }
+    },
+    fetchPengunjungById: async(id) => {
+        try {
+            const token = get().token;
+            if (!token) {
+                console.error("Token not found. Unable to fetch pengunjung by code.");
+                return;
+            }
+
+            const response = await axios.get(`https://batarirtnbantaeng.cloud/api/pengunjung/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            console.log("ini data dari zustand", response.data.data)
+
+            set({
+                pengunjungById: response.data.data,
             });
 
             return response.data.data;
@@ -410,7 +439,7 @@ const useDataStore = create((set, get) => ({
     },
 
     // Fungsi untuk mengambil data pengunjung berdasarkan kode
-    fetchPengunjungByCode: async(kode) => {
+    fetchPengunjungByCode: async(id) => {
         try {
             const token = get().token;
             if (!token) {
@@ -418,7 +447,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get(`https://batarirtnbantaeng.cloud/api/pengunjung/${kode}`, {
+            const response = await axios.get(`https://batarirtnbantaeng.cloud/api/pengunjung/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -432,14 +461,14 @@ const useDataStore = create((set, get) => ({
     },
 
     // Fungsi untuk memperbarui data pengunjung
-    updatePengunjung: async(kode, newData) => {
+    updatePengunjung: async(id, newData) => {
         try {
             const token = get().token;
             if (!token) {
                 throw new Error("Token not found. Unable to update pengunjung data.");
             }
 
-            const response = await axios.put(`https://batarirtnbantaeng.cloud/api/pengunjung/${kode}`, newData, {
+            const response = await axios.put(`https://batarirtnbantaeng.cloud/api/pengunjung/${id}`, newData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -455,7 +484,7 @@ const useDataStore = create((set, get) => ({
             throw error;
         }
     },
-    updateDataPengunjung: async(kode, formData, setError) => {
+    updateDataPengunjung: async(id, formData, setError) => {
         try {
             const token = get().token;
             if (!token) {
@@ -463,7 +492,7 @@ const useDataStore = create((set, get) => ({
             }
 
             const response = await axios.put(
-                `https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data/${kode}`,
+                `https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data/${id}`,
                 formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -949,7 +978,7 @@ const useDataStore = create((set, get) => ({
         }
     },
 
-    // fetchPengunjungByCode: async(kode) => {
+    // fetchPengunjungByCode: async(id) => {
     //     try {
     //         const token = get().token;
     //         if (!token) {
@@ -973,7 +1002,7 @@ const useDataStore = create((set, get) => ({
     //     }
     // },
 
-    // updatePengunjung: async(kode, newData) => {
+    // updatePengunjung: async(id, newData) => {
     //     try {
     //         const token = get().token;
     //         if (!token) {
@@ -982,7 +1011,7 @@ const useDataStore = create((set, get) => ({
     //             return;
     //         }
 
-    //         const response = await axios.put(`/pengunjung/${kode}`, newData, {
+    //         const response = await axios.put(`/pengunjung/${id}`, newData, {
     //             headers: {
     //                 Authorization: `Bearer ${token}`,
     //             },
@@ -1211,7 +1240,7 @@ const useDataStore = create((set, get) => ({
     },
 
     // Fungsi untuk update nomor antrian (menggunakan body)
-    // updateAntrian: async(kode, antrian) => {
+    // updateAntrian: async(id, antrian) => {
     //     set({ loading: true, error: null }); // Set loading state
 
     //     try {
@@ -1239,7 +1268,7 @@ const useDataStore = create((set, get) => ({
     //     }
     // },
 
-    // updateAntrian: async(kode, antrian) => {
+    // updateAntrian: async(id, antrian) => {
     //     set({ loading: true, error: null }); // Set loading state
 
     //     try {
@@ -1273,7 +1302,7 @@ const useDataStore = create((set, get) => ({
 
     // Update antrian pengunjung
     // Pada useDataStore, pastikan ada fungsi updateAntrian
-    updateAntrian: async(kode) => {
+    updateAntrian: async(id) => {
         set({ loading: true, error: null });
         const token = get().token;
         if (!token) {
@@ -1282,7 +1311,7 @@ const useDataStore = create((set, get) => ({
             return;
         }
         try {
-            const response = await axios.put('https://batarirtnbantaeng.cloud/api/pengunjung/update-antrian', { kode }, {
+            const response = await axios.put('https://batarirtnbantaeng.cloud/api/pengunjung/update-antrian', { id }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1290,7 +1319,7 @@ const useDataStore = create((set, get) => ({
             if (response.status === 200) {
                 set((state) => ({
                     pengunjungs: state.pengunjungs.map((pengunjung) =>
-                        pengunjung.kode === kode ? {...pengunjung, antrian: response.data.data.antrian } : pengunjung
+                        pengunjung.id === id ? {...pengunjung, antrian: response.data.data.antrian } : pengunjung
                     ),
                 }));
                 toast.success('Nomor antrian berhasil diupdate!');

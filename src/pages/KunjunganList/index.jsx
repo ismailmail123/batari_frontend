@@ -136,7 +136,7 @@ const PengunjungList = () => {
       <tr
         key={pengunjung.id}
         className="hover:bg-green-200 transition-colors duration-200 cursor-pointer"
-        onClick={() => navigate(`/pengunjung/${pengunjung.kode}`)} 
+        onClick={() => navigate(`/pengunjung/${pengunjung.id}`)} 
       >
         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
           {pengunjung.nama}
@@ -184,7 +184,7 @@ const PengunjungList = () => {
       <tr
         key={pengunjung.id}
         className="hover:bg-green-200 transition-colors duration-200 cursor-pointer"
-        onClick={() => navigate(`/pengunjung/${pengunjung.kode}`)} 
+        onClick={() => navigate(`/pengunjung/${pengunjung.id}`)} 
       >
         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
           {pengunjung.nama}

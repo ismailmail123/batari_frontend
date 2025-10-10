@@ -20,8 +20,8 @@ import { FaHome } from "react-icons/fa";
 import IconUser from "../../assets/avatar.jpg";
 
 const PengunjungLabel = () => {
-  const { kode } = useParams();
-  const { fetchPengunjungByCode, pengunjungByCode, verify } = useDataStore();
+  const { id } = useParams();
+  const { fetchPengunjungById, pengunjungById, verify } = useDataStore();
   const { authUser } = useAuthStore();
   const componentRef = useRef();
   const [showPreview, setShowPreview] = useState(false);
@@ -29,12 +29,12 @@ const PengunjungLabel = () => {
   const mmToPt = (mm) => mm * 2.83465;
 
   useEffect(() => {
-    fetchPengunjungByCode(kode);
-  }, [kode, fetchPengunjungByCode]);
+    fetchPengunjungById(id);
+  }, [id, fetchPengunjungById]);
 
   const navigate = useNavigate();
 
-  console.log("pengunjungByCode:", pengunjungByCode);
+  console.log("pengunjungById:", pengunjungById);
 
   const styles = StyleSheet.create({
     // page: {
@@ -47,7 +47,7 @@ const PengunjungLabel = () => {
     page: {
     flexDirection: "column",
     backgroundColor: "#FFFFFF",
-    padding: 0, // Ubah dari 2 menjadi 0
+    padding: 4, // Ubah dari 2 menjadi 0
     fontFamily: "Helvetica",
   },
     kop: {
@@ -157,38 +157,38 @@ dataValue: {
       {/* Baris Nama Pengunjung */}
       <View style={[[styles.row, { lineHeight: 0.3 }], { lineHeight: 0.3 }]}>
         <Text style={styles.label}>Nama pengunjung</Text>
-        <Text style={styles.value}>: {pengunjungByCode?.nama}</Text>
+        <Text style={styles.value}>: {pengunjungById?.nama}</Text>
       </View>
 
       {/* Baris Jenis Kelamin */}
       <View style={[[styles.row, { lineHeight: 0.3 }], { lineHeight: 0.3 }]}>
         <Text style={styles.label}>Jenis Kelamin</Text>
-        <Text style={styles.value}>: {pengunjungByCode?.jenis_kelamin}</Text>
+        <Text style={styles.value}>: {pengunjungById?.jenis_kelamin}</Text>
       </View>
 
       {/* Baris No. KTP */}
       <View style={[styles.row, { lineHeight: 0.3 }]}>
         <Text style={styles.label}>No. KTP</Text>
-        <Text style={styles.value}>: {pengunjungByCode?.nik}</Text>
+        <Text style={styles.value}>: {pengunjungById?.nik}</Text>
       </View>
 
       {/* Baris Alamat */}
       <View style={[styles.row, { lineHeight: 0.3 }]}>
         <Text style={styles.label}>Alamat</Text>
-        <Text style={styles.value}>: {pengunjungByCode?.alamat}</Text>
+        <Text style={styles.value}>: {pengunjungById?.alamat}</Text>
       </View>
 
       {/* Baris No. Telepon */}
       <View style={[styles.row, { lineHeight: 0.3 }]}>
         <Text style={styles.label}>No. Telepon</Text>
-        <Text style={styles.value}>: {pengunjungByCode?.hp}</Text>
+        <Text style={styles.value}>: {pengunjungById?.hp}</Text>
       </View>
 
       {/* Baris Hubungan dengan WBP */}
       <View style={[styles.row, { lineHeight: 0.3 }]}>
         <Text style={styles.label}>Hubungan Dengan WBP</Text>
         <Text style={styles.value}>
-          : {pengunjungByCode?.hubungan_keluarga}
+          : {pengunjungById?.hubungan_keluarga}
         </Text>
       </View>
 
@@ -197,8 +197,8 @@ dataValue: {
         <Text style={styles.label}>Tanggal Daftar</Text>
         <Text style={styles.value}>
           :{" "}
-          {pengunjungByCode?.created_at
-            ? new Date(pengunjungByCode.created_at).toLocaleDateString(
+          {pengunjungById?.created_at
+            ? new Date(pengunjungById.created_at).toLocaleDateString(
                 "id-ID",
                 {
                   weekday: "long",
@@ -215,7 +215,7 @@ dataValue: {
         <View style={[styles.row, { lineHeight: 0.3 }]}>
           <Text style={styles.label}>: Laki-laki</Text>
           <Text style={styles.value}>
-            : {pengunjungByCode?.pengikut_laki_laki}
+            : {pengunjungById?.pengikut_laki_laki}
           </Text>
         </View>
       </View>
@@ -224,7 +224,7 @@ dataValue: {
         <View style={[styles.row, { lineHeight: 0.3 }]}>
           <Text style={styles.label}> Perempuan</Text>
           <Text style={styles.value}>
-            : {pengunjungByCode?.pengikut_perempuan}
+            : {pengunjungById?.pengikut_perempuan}
           </Text>
         </View>
       </View>
@@ -233,7 +233,7 @@ dataValue: {
         <View style={[styles.row, { lineHeight: 0.3 }]}>
           <Text style={styles.label}> Anak-anak</Text>
           <Text style={styles.value}>
-            : {pengunjungByCode?.pengikut_anak_anak}
+            : {pengunjungById?.pengikut_anak_anak}
           </Text>
         </View>
       </View>
@@ -241,7 +241,7 @@ dataValue: {
         <Text style={styles.label}></Text>
         <View style={[styles.row, { lineHeight: 0.3 }]}>
           <Text style={styles.label}> Bayi</Text>
-          <Text style={styles.value}>: {pengunjungByCode?.pengikut_bayi}</Text>
+          <Text style={styles.value}>: {pengunjungById?.pengikut_bayi}</Text>
         </View>
       </View>
 
@@ -313,15 +313,15 @@ dataValue: {
             Keterangan
           </Text>
           <Image
-            src={pengunjungByCode?.barcode}
+            src={pengunjungById?.barcode}
             style={{ width: 50, height: 50, marginLeft: 5, marginTop: -15 }}  
           />
         </View>
 
         {/* Baris Data Barang */}
-        {/* {pengunjungByCode?.barang_dititipkan?.map((barang, index) => ( */}
-        {pengunjungByCode?.barang_titipan?.length > 0 ? (
-          pengunjungByCode.barang_titipan.map((barang, index) => (
+        {/* {pengunjungById?.barang_dititipkan?.map((barang, index) => ( */}
+        {pengunjungById?.barang_titipan?.length > 0 ? (
+          pengunjungById.barang_titipan.map((barang, index) => (
             <View
               key={barang.id}
               style={[
@@ -404,7 +404,7 @@ dataValue: {
       <View style={[styles.row, { lineHeight: 0.3 }]}>
         <Text style={styles.label_wbp}>Nama</Text>
         <Text style={styles.value}>
-          : {pengunjungByCode.warga_binaan?.nama}
+          : {pengunjungById.warga_binaan?.nama}
         </Text>
       </View>
 
@@ -412,7 +412,7 @@ dataValue: {
       <View style={[styles.row, { lineHeight: 0.3 }]}>
         <Text style={styles.label_wbp}>Perkara</Text>
         <Text style={styles.value}>
-          : {pengunjungByCode.warga_binaan?.jenis_kejahatan}
+          : {pengunjungById.warga_binaan?.jenis_kejahatan}
         </Text>
       </View>
 
@@ -420,21 +420,21 @@ dataValue: {
       <View style={[styles.row, { lineHeight: 0.3 }]}>
         <Text style={styles.label_wbp}>Blok Kamar Hunian</Text>
         <Text style={styles.value}>
-          : Blok {pengunjungByCode.warga_binaan?.lokasi_blok}
+          : Blok {pengunjungById.warga_binaan?.lokasi_blok}
         </Text>
       </View>
 
       {/* Baris No. Telepon */}
       <View style={[styles.row, { lineHeight: 0.3 }]}>
         <Text style={styles.label_wbp}>No. Telepon</Text>
-        <Text style={styles.value}>: {pengunjungByCode?.hp}</Text>
+        <Text style={styles.value}>: {pengunjungById?.hp}</Text>
       </View>
 
       {/* Baris Hubungan dengan WBP */}
       <View style={[styles.row, { lineHeight: 0.3 }]}>
         <Text style={styles.label_wbp}>Hubungan Dengan WBP</Text>
         <Text style={styles.value}>
-          : {pengunjungByCode?.hubungan_keluarga}
+          : {pengunjungById?.hubungan_keluarga}
         </Text>
       </View>
     </View>
@@ -445,11 +445,11 @@ dataValue: {
       {/* <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}> */}
       {/* <Text style={styles.label_photo}>Photo KTP</Text>
       <Image 
-        src={pengunjungByCode?.photo_ktp} 
+        src={pengunjungById?.photo_ktp} 
         style={{ width: 100, height: 100 }} // Sesuaikan ukuran gambar
       /> */}
       <Image
-        src={pengunjungByCode.warga_binaan?.photo || IconUser}
+        src={pengunjungById.warga_binaan?.photo || IconUser}
         style={{ width: 100, height: 50 }} // Sesuaikan ukuran gambar
       />
       {/* </View> */}
@@ -468,8 +468,8 @@ dataValue: {
   //           gap: 3,
   //         }}
   //       >
-  //         {pengunjungByCode.barang_titipan.length > 0 ? (
-  //           pengunjungByCode.barang_titipan.map((titipan) => (
+  //         {pengunjungById.barang_titipan.length > 0 ? (
+  //           pengunjungById.barang_titipan.map((titipan) => (
   //             <View
   //               style={{
   //                 display: "flex",
@@ -519,7 +519,7 @@ dataValue: {
   //                     Nama WBP
   //                   </Text>
   //                   <Text style={styles.value}>
-  //                     : {pengunjungByCode.warga_binaan?.nama}
+  //                     : {pengunjungById.warga_binaan?.nama}
   //                   </Text>
   //                 </View>
   //                 <View
@@ -535,7 +535,7 @@ dataValue: {
   //                     Status WBP
   //                   </Text>
   //                   <Text style={styles.value}>
-  //                     : {pengunjungByCode.warga_binaan?.keterangan}
+  //                     : {pengunjungById.warga_binaan?.keterangan}
   //                   </Text>
   //                 </View>
   //                 <View
@@ -551,21 +551,21 @@ dataValue: {
   //                     Alamat WBP
   //                   </Text>
   //                   <Text style={styles.value}>
-  //                     : {pengunjungByCode.warga_binaan?.alamat}
+  //                     : {pengunjungById.warga_binaan?.alamat}
   //                   </Text>
   //                 </View>
   //                 <View style={[styles.row, { lineHeight: 0.3 }]}>
   //                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
   //                     Pengirim
   //                   </Text>
-  //                   <Text style={styles.value}>: {pengunjungByCode.nama}</Text>
+  //                   <Text style={styles.value}>: {pengunjungById.nama}</Text>
   //                 </View>
   //                 <View style={[styles.row, { lineHeight: 0.3 }]}>
   //                   <Text style={{ width: "45%", paddingLeft: 5, fontSize: 9 }}>
   //                     Alamat
   //                   </Text>
   //                   <Text style={styles.value}>
-  //                     : {pengunjungByCode.alamat}
+  //                     : {pengunjungById.alamat}
   //                   </Text>
   //                 </View>
   //                 <View style={[styles.row, { lineHeight: 0.3 }]}>
@@ -582,7 +582,7 @@ dataValue: {
   //                 </View>
   //                 <View style={[styles.row, { alignSelf: 'flex-end', position: 'fixed-button'}]}>
   //                   <Image
-  //                     src={pengunjungByCode?.barcode}
+  //                     src={pengunjungById?.barcode}
   //                     style={{ width: 50, height: 50, marginLeft: 5, marginTop: -15, alignSelf: 'end' }}
   //                   />
   //                   </View>
@@ -611,8 +611,8 @@ dataValue: {
         lineHeight: 0.25,
         gap: 2, // Kurangi gap
       }}>
-        {pengunjungByCode.barang_titipan.length > 0 ? (
-          pengunjungByCode.barang_titipan.map((titipan, index) => (
+        {pengunjungById.barang_titipan.length > 0 ? (
+          pengunjungById.barang_titipan.map((titipan, index) => (
             <View 
               key={titipan.id}
               style={styles.labelContainer}
@@ -640,27 +640,27 @@ dataValue: {
                 {/* Data fields */}
                 <View style={styles.dataRow}>
                   <Text style={styles.dataLabel}>Nama WBP</Text>
-                  <Text style={styles.dataValue}>: {pengunjungByCode.warga_binaan?.nama}</Text>
+                  <Text style={styles.dataValue}>: {pengunjungById.warga_binaan?.nama}</Text>
                 </View>
                 
                 <View style={styles.dataRow}>
                   <Text style={styles.dataLabel}>Status WBP</Text>
-                  <Text style={styles.dataValue}>: {pengunjungByCode.warga_binaan?.keterangan}</Text>
+                  <Text style={styles.dataValue}>: {pengunjungById.warga_binaan?.keterangan}</Text>
                 </View>
                 
                 <View style={styles.dataRow}>
                   <Text style={styles.dataLabel}>Alamat WBP</Text>
-                  <Text style={styles.dataValue}>: {pengunjungByCode.warga_binaan?.alamat}</Text>
+                  <Text style={styles.dataValue}>: {pengunjungById.warga_binaan?.alamat}</Text>
                 </View>
                 
                 <View style={styles.dataRow}>
                   <Text style={styles.dataLabel}>Pengirim</Text>
-                  <Text style={styles.dataValue}>: {pengunjungByCode.nama}</Text>
+                  <Text style={styles.dataValue}>: {pengunjungById.nama}</Text>
                 </View>
                 
                 <View style={styles.dataRow}>
                   <Text style={styles.dataLabel}>Alamat</Text>
-                  <Text style={styles.dataValue}>: {pengunjungByCode.alamat}</Text>
+                  <Text style={styles.dataValue}>: {pengunjungById.alamat}</Text>
                 </View>
                 
                 <View style={styles.dataRow}>
@@ -680,7 +680,7 @@ dataValue: {
                   bottom: 5,
                 }}>
                   <Image
-                    src={pengunjungByCode?.barcode}
+                    src={pengunjungById?.barcode}
                     style={{ 
                       width: 40, 
                       height: 40,
@@ -719,8 +719,8 @@ dataValue: {
   //             gap: 3,
   //           }}
   //         >
-  //           {pengunjungByCode.barang_titipan.length > 0 ? (
-  //             pengunjungByCode.barang_titipan.map((titipan) => (
+  //           {pengunjungById.barang_titipan.length > 0 ? (
+  //             pengunjungById.barang_titipan.map((titipan) => (
   //               <View
   //                 style={{
   //                   display: "flex",
@@ -770,7 +770,7 @@ dataValue: {
   //                       Nama WBP
   //                     </Text>
   //                     <Text style={styles.value}>
-  //                       : {pengunjungByCode.warga_binaan?.nama}
+  //                       : {pengunjungById.warga_binaan?.nama}
   //                     </Text>
   //                   </View>
   //                   <View style={[styles.row, { lineHeight: 0.3 }]}>
@@ -780,7 +780,7 @@ dataValue: {
   //                       Pengirim
   //                     </Text>
   //                     <Text style={styles.value}>
-  //                       : {pengunjungByCode.nama}
+  //                       : {pengunjungById.nama}
   //                     </Text>
   //                   </View>
   //                   <View style={[styles.row, { lineHeight: 0.3 }]}>
@@ -790,7 +790,7 @@ dataValue: {
   //                       Alamat
   //                     </Text>
   //                     <Text style={styles.value}>
-  //                       : {pengunjungByCode.alamat}
+  //                       : {pengunjungById.alamat}
   //                     </Text>
   //                   </View>
   //                   <View style={[styles.row, { lineHeight: 0.3 }]}>
@@ -840,8 +840,8 @@ dataValue: {
           lineHeight: 0.25,
           gap: 2,
         }}>
-          {pengunjungByCode.barang_titipan.length > 0 ? (
-            pengunjungByCode.barang_titipan.map((titipan) => (
+          {pengunjungById.barang_titipan.length > 0 ? (
+            pengunjungById.barang_titipan.map((titipan) => (
               <View 
                 key={titipan.id}
                 style={styles.labelContainer}
@@ -869,7 +869,7 @@ dataValue: {
                   {/* Data fields - sama seperti di PDFPreview */}
                   <View style={styles.dataRow}>
                     <Text style={styles.dataLabel}>Nama WBP</Text>
-                    <Text style={styles.dataValue}>: {pengunjungByCode.warga_binaan?.nama}</Text>
+                    <Text style={styles.dataValue}>: {pengunjungById.warga_binaan?.nama}</Text>
                   </View>
                   
                   {/* ... tambahkan field lainnya seperti di PDFPreview */}
@@ -880,7 +880,7 @@ dataValue: {
                     bottom: 5,
                   }}>
                     <Image
-                      src={pengunjungByCode?.barcode}
+                      src={pengunjungById?.barcode}
                       style={{ 
                         width: 40, 
                         height: 40,
@@ -901,11 +901,11 @@ dataValue: {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.download = `label-titipan-${kode}.pdf`;
+  link.download = `label-titipan-${id}.pdf`;
   link.click();
 };
 
-  if (!pengunjungByCode) {
+  if (!pengunjungById) {
     return (
       <div className="flex justify-center items-center h-screen bg-gray-100">
         <p className="text-xl text-gray-700">
@@ -970,38 +970,38 @@ dataValue: {
               {/* Baris dengan flex untuk meratakan titik dua */}
               <div className="flex">
                 <span className="font-semibold w-48">Nama pengunjung</span>
-                <span>: {pengunjungByCode.nama}</span>
+                <span>: {pengunjungById.nama}</span>
               </div>
               <div className="flex">
                 <span className="font-semibold w-48">Jenis Kelamin</span>
-                <span>: {pengunjungByCode.jenis_kelamin}</span>
+                <span>: {pengunjungById.jenis_kelamin}</span>
               </div>
               <div className="flex">
                 <span className="font-semibold w-48">NIK</span>
-                <span>: {pengunjungByCode.nik}</span>
+                <span>: {pengunjungById.nik}</span>
               </div>
               <div className="flex">
                 <span className="font-semibold w-48">Alamat</span>
-                <span>: {pengunjungByCode.alamat}</span>
+                <span>: {pengunjungById.alamat}</span>
               </div>
               <div className="flex">
                 <span className="font-semibold w-48">No. Telepon</span>
-                <span>: {pengunjungByCode.hp}</span>
+                <span>: {pengunjungById.hp}</span>
               </div>
               <div className="flex">
                 <span className="font-semibold w-48">Hubungan Dengan WBP</span>
-                <span>: {pengunjungByCode.hubungan_keluarga}</span>
+                <span>: {pengunjungById.hubungan_keluarga}</span>
               </div>
               <div className="flex">
                 <span className="font-semibold w-48">WBP Yang Dikunjungi</span>
-                <span>: {pengunjungByCode.warga_binaan?.nama}</span>
+                <span>: {pengunjungById.warga_binaan?.nama}</span>
               </div>
             </div>
             <div className="col-span-2 sm:col-span-1">
               <div className="border border-indigo-600 border-2 p-4 rounded-lg">
                 <p className="font-bold text-xl">
                   Nomor Antrian :{" "}
-                  {pengunjungByCode.antrian || "Belum Ada Antrian"}
+                  {pengunjungById.antrian || "Belum Ada Antrian"}
                 </p>
               </div>
             </div>
@@ -1018,8 +1018,8 @@ dataValue: {
                 </tr>
               </thead>
               <tbody>
-                {pengunjungByCode.barang_titipan?.length > 0 ? (
-                  pengunjungByCode?.barang_titipan.map((barang, index) => (
+                {pengunjungById.barang_titipan?.length > 0 ? (
+                  pengunjungById?.barang_titipan.map((barang, index) => (
                     <tr key={barang.id} className="text-center">
                       <td className="border px-4 py-2">{index + 1}</td>
                       <td className="border px-4 py-2">
@@ -1044,8 +1044,8 @@ dataValue: {
             <div className="text-center m-0">
               <p className="text-sm text-gray-500 mt-2">
                 Tanggal Daftar:{" "}
-                {pengunjungByCode?.created_at
-                  ? new Date(pengunjungByCode.created_at).toLocaleDateString(
+                {pengunjungById?.created_at
+                  ? new Date(pengunjungById.created_at).toLocaleDateString(
                       "id-ID",
                       {
                         weekday: "long",
@@ -1058,13 +1058,13 @@ dataValue: {
               </p>
               <div className="flex justify-center w-full">
                 <img
-                  src={pengunjungByCode.barcode}
+                  src={pengunjungById.barcode}
                   alt="Barcode"
                   className="h-20 w-20 object-contain"
                 />
               </div>
-              <p className="text-center">{pengunjungByCode?.kode}</p>
-              <p className="text-center">{pengunjungByCode?.status}</p>
+              <p className="text-center">{pengunjungById?.kode}</p>
+              <p className="text-center">{pengunjungById?.status}</p>
             </div>
           </div>
           {/* Barcode */}
@@ -1075,7 +1075,7 @@ dataValue: {
           {authUser.user.role === "admin" && (
             <>
               <button
-                onClick={() => navigate(`/update-pengunjung/${kode}`)}
+                onClick={() => navigate(`/update-pengunjung/${id}`)}
                 className="bg-blue-600 text-black px-4 py-2 rounded hover:bg-blue-700"
               >
                 Perbarui
@@ -1146,15 +1146,15 @@ export default PengunjungLabel;
 
 // // const PengunjungLabelThermal = () => {
 // //   const { kode } = useParams();
-// //   const { fetchPengunjungByCode, pengunjungByCode } = useDataStore();
+// //   const { fetchPengunjungById, pengunjungById } = useDataStore();
 // //   const { authUser } = useAuthStore();
 // //   const navigate = useNavigate();
 // //   const [isPrinting, setIsPrinting] = useState(false);
 // //   const [printStatus, setPrintStatus] = useState("");
 
 // //   useEffect(() => {
-// //     fetchPengunjungByCode(kode);
-// //   }, [kode, fetchPengunjungByCode]);
+// //     fetchPengunjungById(kode);
+// //   }, [kode, fetchPengunjungById]);
 
 // //   const directPrint = (content) => {
 // //     return new Promise((resolve, reject) => {
@@ -1268,33 +1268,33 @@ export default PengunjungLabel;
 // //         </div>
         
 // //         <div class="text-bold">DATA PENGGUNA:</div>
-// //         <div>Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.nama || '-'}</div>
-// //         <div>Jenis Kelamin : ${pengunjungByCode?.jenis_kelamin || '-'}</div>
-// //         <div>NIK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.nik || '-'}</div>
-// //         <div>Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.alamat || '-'}</div>
-// //         <div>Telp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.hp || '-'}</div>
-// //         <div>Hubungan&nbsp;&nbsp;: ${pengunjungByCode?.hubungan_keluarga || '-'}</div>
+// //         <div>Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungById?.nama || '-'}</div>
+// //         <div>Jenis Kelamin : ${pengunjungById?.jenis_kelamin || '-'}</div>
+// //         <div>NIK&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungById?.nik || '-'}</div>
+// //         <div>Alamat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungById?.alamat || '-'}</div>
+// //         <div>Telp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungById?.hp || '-'}</div>
+// //         <div>Hubungan&nbsp;&nbsp;: ${pengunjungById?.hubungan_keluarga || '-'}</div>
         
 // //         <div class="line"></div>
         
 // //         <div class="text-bold">DATA WBP:</div>
-// //         <div>Nama WBP&nbsp;&nbsp;: ${pengunjungByCode?.warga_binaan?.nama || '-'}</div>
-// //         <div>Perkara&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.warga_binaan?.jenis_kejahatan || '-'}</div>
-// //         <div>Blok Kamar&nbsp;: Blok ${pengunjungByCode?.warga_binaan?.lokasi_blok || '-'}</div>
+// //         <div>Nama WBP&nbsp;&nbsp;: ${pengunjungById?.warga_binaan?.nama || '-'}</div>
+// //         <div>Perkara&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungById?.warga_binaan?.jenis_kejahatan || '-'}</div>
+// //         <div>Blok Kamar&nbsp;: Blok ${pengunjungById?.warga_binaan?.lokasi_blok || '-'}</div>
         
 // //         <div class="line"></div>
         
 // //         <div class="text-bold">PENGGUNA:</div>
-// //         <div>Laki-laki&nbsp;&nbsp;: ${pengunjungByCode?.pengikut_laki_laki || 0}</div>
-// //         <div>Perempuan&nbsp;: ${pengunjungByCode?.pengikut_perempuan || 0}</div>
-// //         <div>Anak-anak&nbsp;: ${pengunjungByCode?.pengikut_anak_anak || 0}</div>
-// //         <div>Bayi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungByCode?.pengikut_bayi || 0}</div>
+// //         <div>Laki-laki&nbsp;&nbsp;: ${pengunjungById?.pengikut_laki_laki || 0}</div>
+// //         <div>Perempuan&nbsp;: ${pengunjungById?.pengikut_perempuan || 0}</div>
+// //         <div>Anak-anak&nbsp;: ${pengunjungById?.pengikut_anak_anak || 0}</div>
+// //         <div>Bayi&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: ${pengunjungById?.pengikut_bayi || 0}</div>
         
 // //         <div class="line"></div>
         
 // //         <div class="text-bold">BARANG TITIPAN:</div>
-// //         ${pengunjungByCode?.barang_titipan?.length > 0 ? 
-// //           pengunjungByCode.barang_titipan.map((barang, index) => 
+// //         ${pengunjungById?.barang_titipan?.length > 0 ? 
+// //           pengunjungById.barang_titipan.map((barang, index) => 
 // //             `<div>${index + 1}. ${barang.jenis_barang} - ${barang.jumlah} pcs</div>` +
 // //             (barang.keterangan ? `<div>&nbsp;&nbsp;Ket: ${barang.keterangan}</div>` : '')
 // //           ).join('') : 
@@ -1305,12 +1305,12 @@ export default PengunjungLabel;
         
 // //         <div class="text-center">
 // //           <div class="text-bold">NOMOR ANTRIAN:</div>
-// //           <div class="text-bold" style="font-size: 16px;">${pengunjungByCode?.antrian || 'BELUM ADA'}</div>
+// //           <div class="text-bold" style="font-size: 16px;">${pengunjungById?.antrian || 'BELUM ADA'}</div>
 // //         </div>
         
 // //         <div class="text-center mt-1">
-// //           <div>${pengunjungByCode?.created_at ? 
-// //             new Date(pengunjungByCode.created_at).toLocaleDateString('id-ID', {
+// //           <div>${pengunjungById?.created_at ? 
+// //             new Date(pengunjungById.created_at).toLocaleDateString('id-ID', {
 // //               day: '2-digit',
 // //               month: 'short',
 // //               year: 'numeric'
@@ -1319,13 +1319,13 @@ export default PengunjungLabel;
 // //         </div>
         
 // //         <div class="text-center">
-// //           <div class="text-bold">KODE: ${pengunjungByCode?.kode || '-'}</div>
-// //           <div>Status: ${pengunjungByCode?.status?.toUpperCase() || '-'}</div>
+// //           <div class="text-bold">KODE: ${pengunjungById?.kode || '-'}</div>
+// //           <div>Status: ${pengunjungById?.status?.toUpperCase() || '-'}</div>
 // //         </div>
         
-// //         ${pengunjungByCode?.barcode ? `
+// //         ${pengunjungById?.barcode ? `
 // //           <div class="text-center mt-1">
-// //             <img src="${pengunjungByCode.barcode}" class="barcode" alt="Barcode">
+// //             <img src="${pengunjungById.barcode}" class="barcode" alt="Barcode">
 // //           </div>
 // //         ` : ''}
         
@@ -1350,13 +1350,13 @@ export default PengunjungLabel;
 // //   };
 
 // //   const handlePrintLabelTitipan = async () => {
-// //     if (!pengunjungByCode?.barang_titipan?.length) return;
+// //     if (!pengunjungById?.barang_titipan?.length) return;
     
 // //     setIsPrinting(true);
 // //     setPrintStatus("Mempersiapkan label titipan...");
     
 // //     try {
-// //       for (const titipan of pengunjungByCode.barang_titipan) {
+// //       for (const titipan of pengunjungById.barang_titipan) {
 // //         const labelContent = `
 // //           <div class="text-center text-bold">
 // //             <div>LABEL TITIPAN</div>
@@ -1365,13 +1365,13 @@ export default PengunjungLabel;
 // //           </div>
           
 // //           <div class="text-bold">NAMA WBP:</div>
-// //           <div>${pengunjungByCode.warga_binaan?.nama || '-'}</div>
+// //           <div>${pengunjungById.warga_binaan?.nama || '-'}</div>
           
 // //           <div class="text-bold">PENGIRIM:</div>
-// //           <div>${pengunjungByCode.nama || '-'}</div>
+// //           <div>${pengunjungById.nama || '-'}</div>
           
 // //           <div class="text-bold">ALAMAT:</div>
-// //           <div>${pengunjungByCode.alamat || '-'}</div>
+// //           <div>${pengunjungById.alamat || '-'}</div>
           
 // //           <div class="line"></div>
           
@@ -1390,7 +1390,7 @@ export default PengunjungLabel;
           
 // //           <div class="text-center">
 // //             <div>${new Date().toLocaleDateString('id-ID')}</div>
-// //             <div>${pengunjungByCode.kode}</div>
+// //             <div>${pengunjungById.kode}</div>
 // //           </div>
           
 // //           <div class="text-center mt-1">
@@ -1421,7 +1421,7 @@ export default PengunjungLabel;
 // //       <!DOCTYPE html>
 // //       <html>
 // //       <head>
-// //         <title>Print ${pengunjungByCode?.kode}</title>
+// //         <title>Print ${pengunjungById?.kode}</title>
 // //         <style>
 // //           body { 
 // //             font-family: 'Courier New', monospace;
@@ -1438,12 +1438,12 @@ export default PengunjungLabel;
 // //       <body>
 // //         <div class="text-center text-bold">
 // //           <div>BUKTI KUNJUNGAN</div>
-// //           <div>${pengunjungByCode?.kode}</div>
+// //           <div>${pengunjungById?.kode}</div>
 // //         </div>
 // //         <div class="line"></div>
-// //         <div>Nama: ${pengunjungByCode?.nama}</div>
-// //         <div>WBP: ${pengunjungByCode?.warga_binaan?.nama}</div>
-// //         <div>Antrian: ${pengunjungByCode?.antrian}</div>
+// //         <div>Nama: ${pengunjungById?.nama}</div>
+// //         <div>WBP: ${pengunjungById?.warga_binaan?.nama}</div>
+// //         <div>Antrian: ${pengunjungById?.antrian}</div>
 // //         <div class="line"></div>
 // //         <div class="text-center">Silakan gunakan CTRL+P untuk mencetak</div>
 // //       </body>
@@ -1457,7 +1457,7 @@ export default PengunjungLabel;
 // //     printWindow.close();
 // //   };
 
-// //   if (!pengunjungByCode) {
+// //   if (!pengunjungById) {
 // //     return (
 // //       <div className="flex justify-center items-center h-screen bg-gray-100">
 // //         <p className="text-xl text-gray-700">Data pengunjung tidak ditemukan.</p>
@@ -1495,19 +1495,19 @@ export default PengunjungLabel;
 // //             <h3 className="font-bold text-center text-blue-800 mb-2">SUMMARY KUNJUNGAN</h3>
 // //             <div className="grid grid-cols-2 gap-2 text-sm">
 // //               <div>
-// //                 <span className="font-medium">Kode:</span> {pengunjungByCode.kode}
+// //                 <span className="font-medium">Kode:</span> {pengunjungById.kode}
 // //               </div>
 // //               <div>
-// //                 <span className="font-medium">Status:</span> {pengunjungByCode.status}
+// //                 <span className="font-medium">Status:</span> {pengunjungById.status}
 // //               </div>
 // //               <div>
-// //                 <span className="font-medium">Nama:</span> {pengunjungByCode.nama}
+// //                 <span className="font-medium">Nama:</span> {pengunjungById.nama}
 // //               </div>
 // //               <div>
-// //                 <span className="font-medium">WBP:</span> {pengunjungByCode.warga_binaan?.nama}
+// //                 <span className="font-medium">WBP:</span> {pengunjungById.warga_binaan?.nama}
 // //               </div>
 // //               <div className="col-span-2">
-// //                 <span className="font-medium">Antrian:</span> {pengunjungByCode.antrian || 'Belum ada'}
+// //                 <span className="font-medium">Antrian:</span> {pengunjungById.antrian || 'Belum ada'}
 // //               </div>
 // //             </div>
 // //           </div>
@@ -1515,12 +1515,12 @@ export default PengunjungLabel;
 // //           {/* Quick Info Cards */}
 // //           <div className="grid grid-cols-2 gap-3 mb-4">
 // //             <div className="bg-green-50 border border-green-200 rounded p-2 text-center">
-// //               <div className="text-2xl font-bold text-green-600">{pengunjungByCode.barang_titipan?.length || 0}</div>
+// //               <div className="text-2xl font-bold text-green-600">{pengunjungById.barang_titipan?.length || 0}</div>
 // //               <div className="text-xs text-green-800">Barang Titipan</div>
 // //             </div>
 // //             <div className="bg-purple-50 border border-purple-200 rounded p-2 text-center">
 // //               <div className="text-2xl font-bold text-purple-600">
-// //                 {((pengunjungByCode.pengikut_laki_laki || 0) + (pengunjungByCode.pengikut_perempuan || 0) + (pengunjungByCode.pengikut_anak_anak || 0) + (pengunjungByCode.pengikut_bayi || 0))}
+// //                 {((pengunjungById.pengikut_laki_laki || 0) + (pengunjungById.pengikut_perempuan || 0) + (pengunjungById.pengikut_anak_anak || 0) + (pengunjungById.pengikut_bayi || 0))}
 // //               </div>
 // //               <div className="text-xs text-purple-800">Total Pengikut</div>
 // //             </div>
@@ -1539,7 +1539,7 @@ export default PengunjungLabel;
 // //               {isPrinting ? "Mencetak..." : "Cetak Bukti Kunjungan"}
 // //             </button>
             
-// //             {pengunjungByCode.barang_titipan?.length > 0 && (
+// //             {pengunjungById.barang_titipan?.length > 0 && (
 // //               <button
 // //                 onClick={handlePrintLabelTitipan}
 // //                 disabled={isPrinting}
@@ -1605,7 +1605,7 @@ export default PengunjungLabel;
 
 // const PengunjungLabel = () => {
 //   const { kode } = useParams();
-//   const { fetchPengunjungByCode, pengunjungByCode, verify } = useDataStore();
+//   const { fetchPengunjungById, pengunjungById, verify } = useDataStore();
 //   const { authUser } = useAuthStore();
 //   const componentRef = useRef();
 //   const [showPreview, setShowPreview] = useState(false);
@@ -1613,12 +1613,12 @@ export default PengunjungLabel;
 //   const mmToPt = (mm) => mm * 2.83465;
 
 //   useEffect(() => {
-//     fetchPengunjungByCode(kode);
-//   }, [kode, fetchPengunjungByCode]);
+//     fetchPengunjungById(kode);
+//   }, [kode, fetchPengunjungById]);
 
 //   const navigate = useNavigate();
 
-//   console.log("pengunjungByCode:", pengunjungByCode);
+//   console.log("pengunjungById:", pengunjungById);
 
 //   // Styles untuk PDF dengan font size dinamis
 //   const styles = StyleSheet.create({
@@ -1748,23 +1748,23 @@ export default PengunjungLabel;
       
 //       <AdaptiveRow 
 //         label="Nama WBP" 
-//         value={pengunjungByCode?.warga_binaan?.nama}
+//         value={pengunjungById?.warga_binaan?.nama}
 //       />
 //       <AdaptiveRow 
 //         label="Status WBP" 
-//         value={pengunjungByCode?.warga_binaan?.keterangan}
+//         value={pengunjungById?.warga_binaan?.keterangan}
 //       />
 //       <AdaptiveRow 
 //         label="Alamat WBP" 
-//         value={pengunjungByCode?.warga_binaan?.alamat}
+//         value={pengunjungById?.warga_binaan?.alamat}
 //       />
 //       <AdaptiveRow 
 //         label="Pengirim" 
-//         value={pengunjungByCode?.nama}
+//         value={pengunjungById?.nama}
 //       />
 //       <AdaptiveRow 
 //         label="Alamat" 
-//         value={pengunjungByCode?.alamat}
+//         value={pengunjungById?.alamat}
 //       />
 //       <AdaptiveRow 
 //         label="Jenis Barang" 
@@ -1783,7 +1783,7 @@ export default PengunjungLabel;
       
 //       <View style={styles.adaptiveBarcode}>
 //         <Image
-//           src={pengunjungByCode?.barcode}
+//           src={pengunjungById?.barcode}
 //           style={styles.smallBarcode}
 //         />
 //       </View>
@@ -1793,8 +1793,8 @@ export default PengunjungLabel;
 //   // PDF Preview dengan Adaptive Layout
 //   const PDFPreview = () => (
 //     <Document>
-//       {pengunjungByCode?.barang_titipan?.length > 0 ? (
-//         pengunjungByCode.barang_titipan.map((titipan) => (
+//       {pengunjungById?.barang_titipan?.length > 0 ? (
+//         pengunjungById.barang_titipan.map((titipan) => (
 //           <Page 
 //             key={titipan.id} 
 //             size={[mmToPt(80), mmToPt(80)]} 
@@ -1855,13 +1855,13 @@ export default PengunjungLabel;
 //   const WbpImage = () => (
 //     <View style={[[styles.row, { lineHeight: 0.3 }]]}>
 //       <Image
-//         src={pengunjungByCode?.warga_binaan?.photo || IconUser}
+//         src={pengunjungById?.warga_binaan?.photo || IconUser}
 //         style={{ width: 100, height: 50 }}
 //       />
 //     </View>
 //   );
 
-//   if (!pengunjungByCode) {
+//   if (!pengunjungById) {
 //     return (
 //       <div className="flex justify-center items-center h-screen bg-gray-100">
 //         <p className="text-xl text-gray-700">
@@ -1924,37 +1924,37 @@ export default PengunjungLabel;
 //             <div className="col-span-2 sm:col-span-1">
 //               <div className="flex">
 //                 <span className="font-semibold w-48">Nama pengunjung</span>
-//                 <span>: {pengunjungByCode.nama}</span>
+//                 <span>: {pengunjungById.nama}</span>
 //               </div>
 //               <div className="flex">
 //                 <span className="font-semibold w-48">Jenis Kelamin</span>
-//                 <span>: {pengunjungByCode.jenis_kelamin}</span>
+//                 <span>: {pengunjungById.jenis_kelamin}</span>
 //               </div>
 //               <div className="flex">
 //                 <span className="font-semibold w-48">NIK</span>
-//                 <span>: {pengunjungByCode.nik}</span>
+//                 <span>: {pengunjungById.nik}</span>
 //               </div>
 //               <div className="flex">
 //                 <span className="font-semibold w-48">Alamat</span>
-//                 <span>: {pengunjungByCode.alamat}</span>
+//                 <span>: {pengunjungById.alamat}</span>
 //               </div>
 //               <div className="flex">
 //                 <span className="font-semibold w-48">No. Telepon</span>
-//                 <span>: {pengunjungByCode.hp}</span>
+//                 <span>: {pengunjungById.hp}</span>
 //               </div>
 //               <div className="flex">
 //                 <span className="font-semibold w-48">Hubungan Dengan WBP</span>
-//                 <span>: {pengunjungByCode.hubungan_keluarga}</span>
+//                 <span>: {pengunjungById.hubungan_keluarga}</span>
 //               </div>
 //               <div className="flex">
 //                 <span className="font-semibold w-48">WBP Yang Dikunjungi</span>
-//                 <span>: {pengunjungByCode.warga_binaan?.nama}</span>
+//                 <span>: {pengunjungById.warga_binaan?.nama}</span>
 //               </div>
 //             </div>
 //             <div className="col-span-2 sm:col-span-1">
 //               <div className="border border-indigo-600 border-2 p-4 rounded-lg">
 //                 <p className="font-bold text-xl">
-//                   Nomor Antrian : {pengunjungByCode.antrian || "Belum Ada Antrian"}
+//                   Nomor Antrian : {pengunjungById.antrian || "Belum Ada Antrian"}
 //                 </p>
 //               </div>
 //             </div>
@@ -1973,8 +1973,8 @@ export default PengunjungLabel;
 //                 </tr>
 //               </thead>
 //               <tbody>
-//                 {pengunjungByCode.barang_titipan?.length > 0 ? (
-//                   pengunjungByCode?.barang_titipan.map((barang, index) => (
+//                 {pengunjungById.barang_titipan?.length > 0 ? (
+//                   pengunjungById?.barang_titipan.map((barang, index) => (
 //                     <tr key={barang.id} className="text-center">
 //                       <td className="border px-4 py-2">{index + 1}</td>
 //                       <td className="border px-4 py-2">{barang.jenis_barang}</td>
@@ -1998,8 +1998,8 @@ export default PengunjungLabel;
 //             <div className="text-center m-0">
 //               <p className="text-sm text-gray-500 mt-2">
 //                 Tanggal Daftar:{" "}
-//                 {pengunjungByCode?.created_at
-//                   ? new Date(pengunjungByCode.created_at).toLocaleDateString("id-ID", {
+//                 {pengunjungById?.created_at
+//                   ? new Date(pengunjungById.created_at).toLocaleDateString("id-ID", {
 //                       weekday: "long",
 //                       year: "numeric",
 //                       month: "long",
@@ -2009,13 +2009,13 @@ export default PengunjungLabel;
 //               </p>
 //               <div className="flex justify-center w-full">
 //                 <img
-//                   src={pengunjungByCode.barcode}
+//                   src={pengunjungById.barcode}
 //                   alt="Barcode"
 //                   className="h-20 w-20 object-contain"
 //                 />
 //               </div>
-//               <p className="text-center">{pengunjungByCode?.kode}</p>
-//               <p className="text-center">{pengunjungByCode?.status}</p>
+//               <p className="text-center">{pengunjungById?.kode}</p>
+//               <p className="text-center">{pengunjungById?.status}</p>
 //             </div>
 //           </div>
 //         </div>
