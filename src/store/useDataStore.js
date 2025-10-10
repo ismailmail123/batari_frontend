@@ -508,7 +508,7 @@ const useDataStore = create((set, get) => ({
             // Update state dengan data yang baru
             set((state) => ({
                 pengunjungs: state.pengunjungs.map(pengunjung =>
-                    pengunjung.kode === kode ? response.data.data : pengunjung
+                    pengunjung.id === id ? response.data.data : pengunjung
                 )
             }));
 
