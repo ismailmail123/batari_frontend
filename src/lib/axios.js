@@ -43,7 +43,7 @@ import useAuthStore from '../store/useAuthStore'; // Import store untuk akses to
 
 // Buat instance axios
 export const axiosInstance = axios.create({
-    baseURL: "https://batarirtnbantaeng.cloud/api",
+    baseURL: "http://localhost:8001/api",
     withCredentials: true, // Izinkan pengiriman credentials (cookie/token)
 });
 
