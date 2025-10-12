@@ -3622,7 +3622,7 @@ const handlePrintThermalNow = () => {
       width: 80mm;
       height: 80mm;
       border: 1px dashed #000;
-      margin: 0;
+      margin-right: 10px;
       padding: 1mm;
       page-break-after: always;
     }
