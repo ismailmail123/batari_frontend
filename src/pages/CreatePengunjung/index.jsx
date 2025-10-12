@@ -8923,11 +8923,10 @@
 
 
 
-
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import useDataStore from "../../store/useDataStore";
-import { FaUser, FaIdCard, FaPhone, FaHome, FaVenusMars, FaQrcode, FaUpload, FaSpinner, FaHome as FaHomeIcon, FaTimes, FaEye, FaCamera, FaBarcode, FaSearch, FaKeyboard } from "react-icons/fa";
+import { FaUser, FaIdCard, FaPhone, FaHome, FaVenusMars, FaQrcode, FaUpload, FaSpinner, FaHome as FaHomeIcon, FaTimes, FaEye, FaCamera, FaBarcode, FaSearch, FaKeyboard, FaPrint } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
 import CreateBarangTitipanModal from "../UpdatePengunjung/CreateBarangTitipanModal";
@@ -9459,6 +9458,222 @@ const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChang
   );
 };
 
+// Komponen untuk Print Antrian
+const PrintAntrian = ({ pengunjung, antrian, onClose }) => {
+  const printRef = useRef();
+  const [selectedPrinter, setSelectedPrinter] = useState('default');
+  const [printers, setPrinters] = useState([]);
+
+  // Fungsi untuk mendapatkan daftar printer yang tersedia
+  useEffect(() => {
+    // Dalam lingkungan browser, kita tidak bisa langsung mendapatkan daftar printer
+    // Kita akan menggunakan API print browser default
+    setPrinters([
+      { name: 'default', description: 'Printer Default Sistem' },
+      { name: 'browser', description: 'Dialog Print Browser' }
+    ]);
+  }, []);
+
+  const handlePrint = () => {
+    if (selectedPrinter === 'browser') {
+      // Menggunakan dialog print browser
+      window.print();
+    } else {
+      // Untuk printer default atau lainnya, kita bisa menggunakan print langsung
+      const printContent = printRef.current;
+      const printWindow = window.open('', '_blank');
+      
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>Print Antrian - ${antrian}</title>
+            <style>
+             @media print {
+    @page { margin: 0; }
+    html, body { 
+      margin: 0; 
+      padding: 0; 
+    }
+    .ticket-container {
+      width: 80mm;
+      height: 76mm;
+      border: 1px dashed #000;
+      margin: 0;
+      padding: 1mm;
+      page-break-after: always;
+    }
+              
+                .header { text-align: center; margin-bottom: 5mm; }
+                .title { font-size: 16pt; font-weight: bold; margin-bottom: 1mm; }
+                .subtitle { font-size: 12pt; margin-bottom: 0; }
+                .antrian-section { text-align: center; margin: 1mm 0; }
+                .antrian-number { font-size: 38pt; font-weight: bold; }
+                .barcode-section { text-align: center; margin: 0; }
+                .barcode { width: 20mm; height: 20mm; }
+                .kode { font-size: 10pt; margin-top: 1mm; }
+                .info-section { margin: 1mm 0; }
+                .info { font-size: 9pt; margin-bottom: 1mm; text-align: center; }
+                .footer { text-align: center; }
+                .footer-text { font-size: 8pt; }
+              }
+            </style>
+          </head>
+          <body>
+            <div class="ticket-container">
+              <div class="header">
+                <div class="title">NOMOR ANTRIAN</div>
+                <div class="subtitle">Sistem Kunjungan Digital BATARI</div>
+                <div class="subtitle">Rutan Kelas II B Bantaeng</div>
+              </div>
+              
+              <div class="antrian-section">
+                <div class="antrian-number">${antrian}</div>
+              </div>
+              
+              <div class="barcode-section">
+                <img src="${pengunjung.barcode || ''}" alt="Barcode" class="barcode" />
+                <div class="kode">Kode: ${pengunjung.kode}</div>
+              </div>
+              
+              <div class="info-section">
+                <div class="info">
+                  Tanggal: ${new Date().toLocaleDateString('id-ID')}
+                </div>
+                <div class="info">
+                  WBP: ${pengunjung.nama || 'Tidak tersedia'}
+                </div>
+              </div>
+              
+              <div class="footer">
+                <div class="footer-text">Tunggu hingga nomor antrian dipanggil</div>
+              </div>
+            </div>
+          </body>
+        </html>
+      `);
+      
+      printWindow.document.close();
+      printWindow.focus();
+      
+      // Tunggu sebentar sebelum print untuk memastikan konten sudah dimuat
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 500);
+    }
+  };
+
+  const handleDirectPrint = () => {
+    // Print langsung tanpa preview
+    handlePrint();
+    toast.success("Sedang mencetak nomor antrian...");
+    
+    // PERBAIKAN: Update newPengunjung dengan data antrian yang sudah digenerate
+    // Ini memastikan form edit nanti menampilkan data yang terupdate
+    if (window.updateNewPengunjungWithAntrian) {
+      window.updateNewPengunjungWithAntrian({
+        ...pengunjung,
+        antrian: antrian
+      });
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+        <div className="flex justify-between items-center p-4 border-b">
+          <h2 className="text-xl font-semibold">Print Nomor Antrian</h2>
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
+            <FaTimes className="w-6 h-6" />
+          </button>
+        </div>
+        
+        <div className="p-4">
+          {/* Preview Tiket Antrian */}
+          <div 
+            ref={printRef}
+            className="bg-white border-2 border-dashed border-gray-300 p-4 mb-4 mx-auto"
+            style={{ width: '80mm', height: '80mm' }}
+          >
+            <div className="text-center border-b border-gray-300 pb-2 mb-2">
+              <div className="text-lg font-bold">NOMOR ANTRIAN</div>
+              <div className="text-xs text-gray-600">Sistem Kunjungan Digital BATARI</div>
+              <div className="text-xs text-gray-600">Rutan Kelas II B Bantaeng</div>
+            </div>
+            
+            <div className="text-center my-2">
+              <div className="text-4xl font-bold text-blue-600">{antrian}</div>
+            </div>
+            
+            <div className="text-center border-t border-gray-300 pt-1 mt-1">
+              {pengunjung.barcode && (
+                <img 
+                  src={pengunjung.barcode} 
+                  alt="Barcode" 
+                  className="w-16 h-16 mx-auto" 
+                />
+              )}
+              <div className="text-xs text-gray-600 ">Kode: {pengunjung.kode}</div>
+            </div>
+            
+            <div className="text-center text-[10px] text-gray-700 mt-0">
+              <div>Tanggal: {new Date().toLocaleDateString('id-ID')}</div>
+              <div className="mt-0">pengunjung: {pengunjung.nama || 'Tidak tersedia'}</div>
+            </div>
+            
+            <div className="text-center text-[10px] text-gray-500 mt-1">
+              <div>Tunggu hingga nomor antrian dipanggil</div>
+            </div>
+          </div>
+
+          {/* Pilihan Printer */}
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Pilih Printer:
+            </label>
+            <select
+              value={selectedPrinter}
+              onChange={(e) => setSelectedPrinter(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              {printers.map((printer) => (
+                <option key={printer.name} value={printer.name}>
+                  {printer.description}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="text-xs text-gray-500 mb-4">
+            <strong>Catatan:</strong> Pilih "Dialog Print Browser" untuk memilih printer secara manual, 
+            atau "Printer Default Sistem" untuk print langsung ke printer default.
+          </div>
+        </div>
+        
+        <div className="flex justify-end p-4 border-t gap-2">
+          <button
+            onClick={onClose}
+            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
+          >
+            Tutup
+          </button>
+          <button
+            onClick={handleDirectPrint}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors flex items-center"
+          >
+            <FaPrint className="mr-2" />
+            Print Sekarang
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const AddPengunjungForm = ({ onClose }) => {
   const { createPengunjung, createDataPengunjung, fetchWbpList, wbpList, updatePengunjung, fetchPengunjungData, pengunjungData, updateAntrian } = useDataStore();
   const [formData, setFormData] = useState({
@@ -9528,10 +9743,11 @@ const AddPengunjungForm = ({ onClose }) => {
 
   // State untuk antrian
   const [antrian, setAntrian] = useState(null);
-  const [showPrintPreview, setShowPrintPreview] = useState(false);
+  const [showPrintDialog, setShowPrintDialog] = useState(false);
   const [printData, setPrintData] = useState(null);
 
   const navigate = useNavigate();
+  const authUser = JSON.parse(localStorage.getItem('authUser'));
 
   // Deteksi perangkat saat komponen dimuat
   useEffect(() => {
@@ -9986,316 +10202,280 @@ const AddPengunjungForm = ({ onClose }) => {
   };
 
   // Fungsi untuk generate nomor antrian
-  const handleGenerateAntrian = async (pengunjungId) => {
-    try {
-      const updatedPengunjung = await updateAntrian(pengunjungId);
-      if (updatedPengunjung) {
-        const newAntrian = updatedPengunjung.antrian;
-        const lastThreeDigits = newAntrian.slice(-3);
-        
-        setAntrian(lastThreeDigits);
-        
-        // Set data untuk print preview
-        setPrintData({
-          pengunjung: updatedPengunjung,
-          antrian: lastThreeDigits
-        });
-        
-        // Tampilkan print preview
-        setShowPrintPreview(true);
-
-        toast.success("Nomor antrian berhasil digenerate: " + lastThreeDigits);
-        
-        return lastThreeDigits;
-      }
-    } catch (error) {
-      console.error("Gagal generate antrian:", error);
-      toast.error("Gagal generate nomor antrian");
-      return null;
-    }
-  };
-
-  // Komponen PDF untuk Antrian
-  const PDFAntrian = ({ pengunjung, antrian }) => {
-    const mmToPt = (mm) => mm * 2.83465;
-
-    const styles = {
-      page: {
-        flexDirection: "column",
-        backgroundColor: "#FFFFFF",
-        padding: 5,
-        width: mmToPt(80),
-        height: mmToPt(80),
-        justifyContent: "space-between",
-      },
-      header: {
-        textAlign: "center",
-        marginBottom: 5,
-      },
-      title: {
-        fontSize: 14,
-        fontWeight: "bold",
-        marginBottom: 5,
-      },
-      subtitle: {
-        fontSize: 8,
-        marginBottom: 2,
-      },
-      antrianSection: {
-        alignItems: "center",
-      },
-      antrianNumber: {
-        fontSize: 32,
-        fontWeight: "bold",
-      },
-      barcodeSection: {
-        alignItems: "center",
-      },
-      barcode: {
-        width: 50,
-        height: 50,
-      },
-      kode: {
-        fontSize: 8,
-        marginTop: 3,
-      },
-      infoSection: {
-        marginVertical: 0,
-      },
-      info: {
-        fontSize: 9,
-        marginBottom: 3,
-        textAlign: "center",
-      },
-      footer: {
-        textAlign: "center",
-      },
-      footerText: {
-        fontSize: 7,
-      },
-    };
-
-    return (
-      <div>
-        {/* Ini adalah placeholder untuk komponen PDF yang sebenarnya */}
-        <div style={styles.page}>
-          <div style={styles.header}>
-            <div style={styles.title}>NOMOR ANTRIAN</div>
-            <div style={styles.subtitle}>Sistem Kunjungan Digital BATARI</div>
-            <div style={styles.subtitle}>Rutan Kelas II B Bantaeng</div>
-          </div>
-          
-          <div style={styles.antrianSection}>
-            <div style={styles.antrianNumber}>{antrian}</div>
-          </div>
-          
-          <div style={styles.barcodeSection}>
-            <img src={pengunjung.barcode} alt="Barcode" style={styles.barcode} />
-            <div style={styles.kode}>Kode: {pengunjung.kode}</div>
-          </div>
-          
-          <div style={styles.infoSection}>
-            <div style={styles.info}>
-              Tanggal: {new Date().toLocaleDateString('id-ID')}
-            </div>
-          </div>
-          
-          <div style={styles.footer}>
-            <div style={styles.footerText}>** Harap simpan tiket ini **</div>
-            <div style={styles.footerText}>Tunggu hingga nomor antrian dipanggil</div>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  // Komponen Modal Print Preview
-  const PrintPreviewModal = ({ isOpen, onClose, printData }) => {
-    if (!isOpen || !printData) return null;
-
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50">
-        <div className="bg-white rounded-lg shadow-lg w-full max-w-4xl h-[90vh] overflow-hidden">
-          <div className="flex justify-between items-center p-4 border-b">
-            <h2 className="text-xl font-semibold">Print Preview Antrian</h2>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              <FaTimes className="w-6 h-6" />
-            </button>
-          </div>
-          
-          <div className="h-full p-4">
-            <div className="w-full h-full border rounded-lg p-4">
-              <PDFAntrian 
-                pengunjung={printData.pengunjung}
-                antrian={printData.antrian}
-              />
-            </div>
-          </div>
-          
-          <div className="flex justify-end p-4 border-t gap-2">
-            <button
-              onClick={onClose}
-              className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-            >
-              Tutup
-            </button>
-            <button
-              onClick={() => window.print()}
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-              Print
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  };
-
-  // PERBAIKAN: Handle submit dengan validasi WBP dan langsung generate antrian
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    // Validasi WBP
-    if (!formData.wbp_id) {
-      setError("Silakan pilih Warga Binaan terlebih dahulu.");
-      toast.error("WBP belum dipilih!");
-      return;
-    }
-
-    // Debug info WBP
-    console.log("WBP ID yang akan dikirim:", formData.wbp_id);
-    console.log("WBP Nama yang dipilih:", searchWbp);
-
-    if (!formData.nama || !formData.nik || !formData.hp || !formData.wbp_id || !formData.kode) {
-      setError("Pastikan nama, NIK, nomor HP, WBP, dan kode diisi.");
-      return;
-    }
-
-    setError("");
-    setIsSubmitting(true);
-
-    const formDataToSend = new FormData();
-    
-    // Tambahkan semua field formData ke FormData
-    for (const key in formData) {
-      if (formData[key] !== null && formData[key] !== "") {
-        // Handle file uploads - jika file object, append sebagai file
-        if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && formData[key] instanceof File) {
-          formDataToSend.append(key, formData[key]);
-        } 
-        // Handle URL strings dari data existing
-        else if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && typeof formData[key] === 'string') {
-          formDataToSend.append(key, formData[key]);
-        }
-        // Handle field lainnya
-        else if (key !== 'photo_ktp' && key !== 'photo_pengunjung' && key !== 'barcode') {
-          formDataToSend.append(key, formData[key]);
-        }
-      }
-    }
-
-    // Debug: Log formData sebelum dikirim
-    console.log("FormData sebelum submit:", formData);
-    console.log("Photo KTP:", formData.photo_ktp);
-    console.log("Photo Pengunjung:", formData.photo_pengunjung);
-    console.log("Barcode:", formData.barcode);
-
-    // Debug: Log FormData entries
-    for (let pair of formDataToSend.entries()) {
-      console.log(pair[0] + ': ', pair[1]);
-    }
-
-    try {
-      // Simpan response dari createPengunjung ke state
-      const createdPengunjung = await createPengunjung(formDataToSend, setError);
+const handleGenerateAntrian = async (pengunjungId) => {
+  try {
+    const updatedPengunjung = await updateAntrian(pengunjungId);
+    if (updatedPengunjung) {
+      const newAntrian = updatedPengunjung.antrian;
+      const lastThreeDigits = newAntrian.slice(-3);
       
-      if (createdPengunjung) {
-        toast.success("Pengunjung berhasil ditambahkan!");
+      setAntrian(lastThreeDigits);
+      toast.success("Nomor antrian berhasil digenerate: " + lastThreeDigits);
+      
+      return lastThreeDigits; // Pastikan return nilai
+    }
+  } catch (error) {
+    console.error("Gagal generate antrian:", error);
+    toast.error("Gagal generate nomor antrian");
+    return null;
+  }
+};
 
-        // LANGSUNG GENERATE NOMOR ANTRIAN SETELAH PENGUNJUNG DIBUAT
+  // // PERBAIKAN: Handle submit dengan validasi WBP dan langsung generate antrian
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   // Validasi WBP
+  //   if (!formData.wbp_id) {
+  //     setError("Silakan pilih Warga Binaan terlebih dahulu.");
+  //     toast.error("WBP belum dipilih!");
+  //     return;
+  //   }
+
+  //   // Debug info WBP
+  //   console.log("WBP ID yang akan dikirim:", formData.wbp_id);
+  //   console.log("WBP Nama yang dipilih:", searchWbp);
+
+  //   if (!formData.nama || !formData.nik || !formData.hp || !formData.wbp_id || !formData.kode) {
+  //     setError("Pastikan nama, NIK, nomor HP, WBP, dan kode diisi.");
+  //     return;
+  //   }
+
+  //   setError("");
+  //   setIsSubmitting(true);
+
+  //   const formDataToSend = new FormData();
+    
+  //   // Tambahkan semua field formData ke FormData
+  //   for (const key in formData) {
+  //     if (formData[key] !== null && formData[key] !== "") {
+  //       // Handle file uploads - jika file object, append sebagai file
+  //       if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && formData[key] instanceof File) {
+  //         formDataToSend.append(key, formData[key]);
+  //       } 
+  //       // Handle URL strings dari data existing
+  //       else if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && typeof formData[key] === 'string') {
+  //         formDataToSend.append(key, formData[key]);
+  //       }
+  //       // Handle field lainnya
+  //       else if (key !== 'photo_ktp' && key !== 'photo_pengunjung' && key !== 'barcode') {
+  //         formDataToSend.append(key, formData[key]);
+  //       }
+  //     }
+  //   }
+
+  //   // Debug: Log formData sebelum dikirim
+  //   console.log("FormData sebelum submit:", formData);
+  //   console.log("Photo KTP:", formData.photo_ktp);
+  //   console.log("Photo Pengunjung:", formData.photo_pengunjung);
+  //   console.log("Barcode:", formData.barcode);
+
+  //   // Debug: Log FormData entries
+  //   for (let pair of formDataToSend.entries()) {
+  //     console.log(pair[0] + ': ', pair[1]);
+  //   }
+
+  //   try {
+  //     // Simpan response dari createPengunjung ke state
+  //     const createdPengunjung = await createPengunjung(formDataToSend, setError);
+      
+  //     if (createdPengunjung) {
+  //       toast.success("Pengunjung berhasil ditambahkan!");
+        
+
+  //       // LANGSUNG GENERATE NOMOR ANTRIAN SETELAH PENGUNJUNG DIBUAT
+  //       const nomorAntrian = await handleGenerateAntrian(createdPengunjung.id);
+        
+  //       if (nomorAntrian) {
+  //         // Simpan data pengunjung baru ke state dengan nomor antrian
+  //         setNewPengunjung({
+  //           ...createdPengunjung,
+  //           antrian: nomorAntrian
+  //         });
+  //       } else {
+  //         // Jika gagal generate antrian, tetap simpan data pengunjung
+  //         setNewPengunjung(createdPengunjung);
+  //       }
+
+  //       // Reset form
+  //       setFormData({
+  //         wbp_id: "",
+  //         nama: "",
+  //         jenis_kelamin: "",
+  //         nik: "",
+  //         alamat: "",
+  //         hp: "",
+  //         hubungan_keluarga: "",
+  //         tujuan: "Berkunjung",
+  //         kode: "",
+  //         barcode: null,
+  //         pengikut_laki_laki: 0,
+  //         pengikut_perempuan: 0,
+  //         pengikut_anak_anak: 0,
+  //         pengikut_bayi: 0,
+  //         total_pengikut: 0,
+  //         keterangan: "",
+  //         photo_ktp: null,
+  //         photo_pengunjung: null,
+  //       });
+  //       setSelectedPengunjung(null);
+  //       setSearchPengunjung("");
+  //       setPreviewKtp(null);
+  //       setPreviewPengunjung(null);
+  //       setPreviewBarcode(null);
+  //       setPhotoKtpFile(null);
+  //       setPhotoPengunjungFile(null);
+  //       setBarcodeFile(null);
+  //       setShowVirtualKeyboard(false);
+  //     } else {
+  //       throw new Error("Gagal mendapatkan response dari server");
+  //     }
+
+  //   } catch (err) {
+  //     console.error("Error saat menambahkan pengunjung:", err);
+  //     toast.error("Gagal menambahkan pengunjung. Silakan coba lagi.");
+  //   } finally {
+  //     setIsSubmitting(false);
+  //   }
+  // };
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  // Validasi WBP
+  if (!formData.wbp_id) {
+    setError("Silakan pilih Warga Binaan terlebih dahulu.");
+    toast.error("WBP belum dipilih!");
+    return;
+  }
+
+  if (!formData.nama || !formData.nik || !formData.hp || !formData.wbp_id || !formData.kode) {
+    setError("Pastikan nama, NIK, nomor HP, WBP, dan kode diisi.");
+    return;
+  }
+
+  setError("");
+  setIsSubmitting(true);
+
+  const formDataToSend = new FormData();
+  
+  // Tambahkan semua field formData ke FormData
+  for (const key in formData) {
+    if (formData[key] !== null && formData[key] !== "") {
+      if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && formData[key] instanceof File) {
+        formDataToSend.append(key, formData[key]);
+      } 
+      else if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && typeof formData[key] === 'string') {
+        formDataToSend.append(key, formData[key]);
+      }
+      else if (key !== 'photo_ktp' && key !== 'photo_pengunjung' && key !== 'barcode') {
+        formDataToSend.append(key, formData[key]);
+      }
+    }
+  }
+
+  try {
+    const createdPengunjung = await createPengunjung(formDataToSend, setError);
+    
+    if (createdPengunjung) {
+      toast.success("Pengunjung berhasil ditambahkan!");
+
+      // Simpan data pengunjung baru ke state
+      setNewPengunjung(createdPengunjung);
+
+      // PERBAIKAN: Handle flow berdasarkan role
+      if (authUser.user.role === 'admin') {
+        // Untuk ADMIN: Generate antrian dan tampilkan print dialog
         const nomorAntrian = await handleGenerateAntrian(createdPengunjung.id);
         
         if (nomorAntrian) {
-          // Simpan data pengunjung baru ke state dengan nomor antrian
-          setNewPengunjung({
-            ...createdPengunjung,
+          // Set data untuk print dialog
+          setPrintData({
+            pengunjung: { ...createdPengunjung, antrian: nomorAntrian },
             antrian: nomorAntrian
           });
           
-          // Tampilkan form edit
-          setShowEditForm(true);
+          // Tampilkan dialog print
+          setShowPrintDialog(true);
+          
+          // JANGAN setShowEditForm(true) di sini untuk admin
+          // Form edit akan muncul setelah print dialog ditutup
         } else {
-          // Jika gagal generate antrian, tetap simpan data pengunjung
-          setNewPengunjung(createdPengunjung);
+          // Jika gagal generate antrian, langsung ke form edit
           setShowEditForm(true);
         }
-
-        // Reset form
-        setFormData({
-          wbp_id: "",
-          nama: "",
-          jenis_kelamin: "",
-          nik: "",
-          alamat: "",
-          hp: "",
-          hubungan_keluarga: "",
-          tujuan: "Berkunjung",
-          kode: "",
-          barcode: null,
-          pengikut_laki_laki: 0,
-          pengikut_perempuan: 0,
-          pengikut_anak_anak: 0,
-          pengikut_bayi: 0,
-          total_pengikut: 0,
-          keterangan: "",
-          photo_ktp: null,
-          photo_pengunjung: null,
-        });
-        setSelectedPengunjung(null);
-        setSearchPengunjung("");
-        setPreviewKtp(null);
-        setPreviewPengunjung(null);
-        setPreviewBarcode(null);
-        setPhotoKtpFile(null);
-        setPhotoPengunjungFile(null);
-        setBarcodeFile(null);
-        setShowVirtualKeyboard(false);
       } else {
-        throw new Error("Gagal mendapatkan response dari server");
+        // Untuk NON-ADMIN: Langsung tampilkan form edit
+        setShowEditForm(true);
       }
 
-    } catch (err) {
-      console.error("Error saat menambahkan pengunjung:", err);
-      toast.error("Gagal menambahkan pengunjung. Silakan coba lagi.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+      // Reset form
+      setFormData({
+        wbp_id: "",
+        nama: "",
+        jenis_kelamin: "",
+        nik: "",
+        alamat: "",
+        hp: "",
+        hubungan_keluarga: "",
+        tujuan: "Berkunjung",
+        kode: "",
+        barcode: null,
+        pengikut_laki_laki: 0,
+        pengikut_perempuan: 0,
+        pengikut_anak_anak: 0,
+        pengikut_bayi: 0,
+        total_pengikut: 0,
+        keterangan: "",
+        photo_ktp: null,
+        photo_pengunjung: null,
+      });
+      setSelectedPengunjung(null);
+      setSearchPengunjung("");
+      setPreviewKtp(null);
+      setPreviewPengunjung(null);
+      setPreviewBarcode(null);
+      setPhotoKtpFile(null);
+      setPhotoPengunjungFile(null);
+      setBarcodeFile(null);
+      setShowVirtualKeyboard(false);
 
-  // Fungsi untuk kembali ke form tambah
-  const handleBackToAddForm = () => {
-    setShowEditForm(false);
-    setNewPengunjung(null);
-    setSearchWbp("");
-    setSearchPengunjung("");
-    setSelectedPengunjung(null);
-    setShowVirtualKeyboard(false);
-    setAntrian(null);
-  };
+    } else {
+      throw new Error("Gagal mendapatkan response dari server");
+    }
+
+  } catch (err) {
+    console.error("Error saat menambahkan pengunjung:", err);
+    toast.error("Gagal menambahkan pengunjung. Silakan coba lagi.");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+// Fungsi untuk menutup dialog print dan melanjutkan ke form edit
+const handlePrintDialogClose = () => {
+  setShowPrintDialog(false);
+  // PERBAIKAN: Setelah print selesai, baru tampilkan form edit untuk admin
+  setShowEditForm(true);
+};
 
   // Jika showEditForm true dan newPengunjung ada, tampilkan EditPengunjungForm
-  if (showEditForm && newPengunjung) {
-    return (
-      <EditPengunjungFormWrapper 
-        newPengunjung={newPengunjung}
-        onBack={handleBackToAddForm}
-        onClose={onClose}
-      />
-    );
-  }
+if (showEditForm && newPengunjung) {
+  return (
+    <EditPengunjungFormWrapper 
+      newPengunjung={newPengunjung}
+      onBack={() => {
+        setShowEditForm(false);
+        setNewPengunjung(null);
+        setSearchWbp("");
+        setSearchPengunjung("");
+        setSelectedPengunjung(null);
+        setShowVirtualKeyboard(false);
+        setAntrian(null);
+      }}
+      onClose={onClose}
+    />
+  );
+}
 
   // Modal untuk preview gambar besar
   const ImageModal = ({ isOpen, onClose, imageUrl, title }) => {
@@ -10898,23 +11078,27 @@ const AddPengunjungForm = ({ onClose }) => {
             </div>
 
             {/* Tombol Submit */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-lg hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all flex items-center justify-center touch-friendly text-lg font-semibold shadow-lg"
-            >
-              {isSubmitting ? (
-                <>
-                  <FaSpinner className="animate-spin inline-block mr-2" />
-                  Mengirim...
-                </>
-              ) : (
-                <>
-                  <FaQrcode className="inline-block mr-2" />
-                  Tambah Pengunjung & Generate Antrian
-                </>
-              )}
-            </button>
+            {/* Tombol Submit - Sama untuk semua user */}
+<button
+  type="submit"
+  disabled={isSubmitting}
+  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-lg hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all flex items-center justify-center touch-friendly text-lg font-semibold shadow-lg"
+>
+  {isSubmitting ? (
+    <>
+      <FaSpinner className="animate-spin inline-block mr-2" />
+      Mengirim...
+    </>
+  ) : (
+    <>
+      <FaQrcode className="inline-block mr-2" />
+      {authUser.user?.role === 'admin' 
+        ? "Tambah Pengunjung & Generate Antrian" 
+        : "Tambah Pengunjung"}
+    </>
+  )}
+</button>
+            
           </form>
         </div>
       </div>
@@ -10968,12 +11152,14 @@ const AddPengunjungForm = ({ onClose }) => {
         />
       )}
 
-      {/* Print Preview Modal untuk Antrian */}
-      <PrintPreviewModal 
-        isOpen={showPrintPreview}
-        onClose={() => setShowPrintPreview(false)}
-        printData={printData}
-      />
+      {/* Print Dialog untuk Antrian - Muncul otomatis setelah generate antrian */}
+      {showPrintDialog && printData && (
+        <PrintAntrian 
+          pengunjung={printData.pengunjung}
+          antrian={printData.antrian}
+          onClose={handlePrintDialogClose}
+        />
+      )}
     </div>
   );
 };
@@ -11032,6 +11218,8 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
 
     checkDevice();
   }, []);
+
+  const authUser = JSON.parse(localStorage.getItem('authUser'));
 
   // Cek role user saat komponen dimuat
   useEffect(() => {
@@ -11227,29 +11415,6 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
             </button>
           </div>
         </div>
-
-        {/* Checkbox Ambil Antrian - hanya tampil untuk admin */}
-        {isAdmin && (
-          <div className="mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 rounded animate-pulse">
-            <div className="flex justify-between items-center">
-              <label htmlFor="ambilAntrian" className="ml-2 text-xl font-bold text-yellow-700">
-                Ambil Antrian QR Code di Loket
-              </label>
-              <input
-                type="checkbox"
-                id="ambilAntrian"
-                checked={ambilAntrian}
-                onChange={(e) => setAmbilAntrian(e.target.checked)}
-                className="w-8 h-8 text-black font-bold border-4 border-gray-300 rounded focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-200"
-              /> 
-            </div>
-            <div className="mt-2 text-sm text-yellow-600">
-              <p><strong>Kode Pengunjung:</strong> {newPengunjung.kode}</p>
-              <p><strong>WBP:</strong> {newPengunjung.wbp_nama || "Data WBP"}</p>
-              <p><strong>Nomor Antrian:</strong> {newPengunjung.antrian || "Belum ada"}</p>
-            </div>
-          </div>
-        )}
 
         {error && (
           <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded">
@@ -11670,7 +11835,7 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
               </div>
             </div>
 
-            {/* Total Pengikut yang Dipercantik */}
+            {/* Total Pengikut yang Dipercantik
             <div className="bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl p-2 shadow-lg">
               <div className="text-center">
                 <div className="flex items-center justify-center space-x-2 mb-1">
@@ -11683,7 +11848,7 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
                   {formData.total_pengikut} <span className="text-2xl">Orang</span>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             <button
               type="submit"
