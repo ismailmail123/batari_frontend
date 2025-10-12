@@ -3613,7 +3613,7 @@ const handlePrintThermalNow = () => {
           <title>Label Titipan - ${pengunjungByCode?.nama || ''}</title>
           <style>
              @media print {
-    @page { margin: 0; }
+    @page { margin: 0 10px 0 0; }
     html, body { 
       margin: 0; 
       padding: 0; 
@@ -3622,7 +3622,6 @@ const handlePrintThermalNow = () => {
       width: 80mm;
       height: 80mm;
       border: 1px dashed #000;
-      margin-right: 10px;
       padding: 1mm;
       page-break-after: always;
     }
