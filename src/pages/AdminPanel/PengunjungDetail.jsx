@@ -3620,7 +3620,7 @@ const handlePrintThermalNow = () => {
     }
     .label-container {
       width: 80mm;
-      height: 76mm;
+      height: 80mm;
       border: 1px dashed #000;
       margin: 0;
       padding: 1mm;
