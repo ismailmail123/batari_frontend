@@ -371,7 +371,7 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
     <div className="fixed inset-0 bg-black bg-opacity-30 flex items-end justify-center z-50 p-4 pointer-events-none">
       <div 
         ref={keyboardRef}
-        className="bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-2xl w-full max-w-2xl pointer-events-auto border border-white border-opacity-20"
+        className="bg-transparent bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-2xl w-full max-w-2xl pointer-events-auto border border-white border-opacity-20"
         style={{
           position: 'fixed',
           left: `${position.x}px`,
@@ -426,19 +426,31 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
           {currentRows.map((row, rowIndex) => (
             <div key={rowIndex} className="flex justify-center mb-2 space-x-1">
               {row.map((key) => (
+                
                 <button
-                  key={key}
-                  onClick={() => handleKeyClick(key)}
-                  className={`flex-1 h-14 bg-white bg-opacity-80 border-2 border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 active:bg-blue-100 active:scale-95 transition-all duration-150 font-medium text-gray-700 touch-friendly shadow-sm ${
-                    activeInput === 'jumlah' ? 'max-w-[80px]' : 'max-w-[60px]'
-                  } ${key === 'backspace' ? 'bg-red-100 border-red-300 text-red-700' : ''}`}
-                  style={{ 
-                    minHeight: '44px',
-                    touchAction: 'manipulation'
-                  }}
-                >
-                  {key === 'backspace' ? '⌫' : (isShift && !isSymbol && activeInput !== 'jumlah' ? key.toUpperCase() : key)}
-                </button>
+  key={key}
+  onClick={() => handleKeyClick(key)}
+  className="flex-1 max-w-[60px] h-14 bg-white bg-opacity-95 rounded-xl transition-all duration-300 font-medium text-gray-700 touch-friendly relative overflow-hidden group"
+  style={{ 
+    minWidth: '44px',
+    minHeight: '44px',
+    touchAction: 'manipulation'
+  }}
+>
+  {/* Base Border - Lebih tebal */}
+  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-400 to-gray-600 border-[3px] border-gray-500 shadow-sm"></div>
+  
+  {/* Neon Border Effect */}
+  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-sm group-hover:blur-0"></div>
+  
+  {/* Content Area */}
+  <div className="absolute inset-[3px] rounded-lg bg-white bg-opacity-95 flex items-center justify-center z-10 group-hover:bg-opacity-100 transition-all duration-300">
+    {key === 'backspace' ? '⌫' : (isShift && !isSymbol && activeInput !== 'jumlah' ? key.toUpperCase() : key)}
+  </div>
+  
+  {/* Hover Glow */}
+  <div className="absolute inset-0 rounded-xl shadow-lg shadow-blue-500/0 group-hover:shadow-blue-500/40 group-hover:shadow-xl transition-all duration-300"></div>
+</button>
               ))}
             </div>
           ))}

@@ -3001,7 +3001,7 @@ const handlePrintThermalNow = () => {
       padding: 0; 
     }
     .thermal-container {
-      width: 80mm;
+      width: 65mm;
       border: 1px dashed #000;
       margin: 0;
       padding: 1mm;
@@ -3019,8 +3019,8 @@ const handlePrintThermalNow = () => {
               margin-bottom: 1mm;
             }
             .unit-name {
-              font-size: 12px;
-              margin-bottom: 1mm;
+              font-size: 11px;
+              margin-bottom: 0.5mm;
             }
             .address {
               font-size: 10px;
@@ -3030,13 +3030,13 @@ const handlePrintThermalNow = () => {
               text-align: center;
               font-weight: bold;
               text-decoration: underline;
-              margin-bottom: 3mm;
+              margin-bottom: 1mm;
               font-size: 12px;
               margin-top: 2mm;
             }
             .data-row {
               display: flex;
-              margin-bottom: 1mm;
+              margin-bottom: 0.2mm;
             }
             .data-label {
               width: 40%;
@@ -3061,21 +3061,13 @@ const handlePrintThermalNow = () => {
               text-align: center;
               font-size: 7px;
             }
-            .barcode {
-              text-align: center;
-              margin: 2mm 0;
-            }
-            .barcode-img {
-              width: 40mm;
-              height: 40mm;
-            }
+            
             .antrian {
               text-align: center;
               font-weight: bold;
               font-size: 11px;
-              margin: 2mm 0;
-              background: #000;
-              color: #fff;
+              margin: 1mm 0;
+              color: black;
               padding: 1mm;
             }
           }
@@ -3083,20 +3075,7 @@ const handlePrintThermalNow = () => {
       </head>
       <body>
         <div class="thermal-container">
-          <!-- Header -->
-          <div class="header">
-            <div class="institution-name">KEMENTERIAN IMIGRASI DAN PEMASYARAKATAN RI</div>
-            <div class="unit-name">DIREKTORAT JENDRAL PEMASYARAKATAN</div>
-            <div class="unit-name">KANTOR WILAYAH SULAWESI SELATAN</div>
-            <div class="unit-name">RUMAH TAHANAN NEGARA KLAS IIB BANTAENG</div>
-            <div class="address">
-              Jl. Mawar No. 9 Kel. Pallantikan, Bantaeng<br>
-              Telp (0411) 2112 - Kode Pos: 92411
-            </div>
-          </div>
-
-          <div class="divider"></div>
-
+          
           <!-- Title -->
           <div class="title">BUKTI PENDAFTARAN KUNJUNGAN</div>
 
@@ -3109,10 +3088,6 @@ const handlePrintThermalNow = () => {
           <div class="data-row">
             <div class="data-label">Nama Pengunjung</div>
             <div class="data-value">: ${pengunjungByCode?.nama || ""}</div>
-          </div>
-          <div class="data-row">
-            <div class="data-label">Jenis Kelamin</div>
-            <div class="data-value">: ${pengunjungByCode?.jenis_kelamin || ""}</div>
           </div>
           <div class="data-row">
             <div class="data-label">Alamat</div>
@@ -3135,23 +3110,26 @@ const handlePrintThermalNow = () => {
 
           <!-- Data Pengikut -->
           <div class="data-row">
-            <div class="data-label">Pengikut Laki-laki</div>
+            <div class="data-label">Pengikut: </div>
+          </div>
+          <div class="data-row">
+            <div class="data-label">Laki-laki</div>
             <div class="data-value">: ${pengunjungByCode?.pengikut_laki_laki || 0} orang</div>
           </div>
           <div class="data-row">
-            <div class="data-label">Pengikut Perempuan</div>
+            <div class="data-label">Perempuan</div>
             <div class="data-value">: ${pengunjungByCode?.pengikut_perempuan || 0} orang</div>
           </div>
           <div class="data-row">
-            <div class="data-label">Pengikut Anak-anak</div>
+            <div class="data-label">Anak-anak</div>
             <div class="data-value">: ${pengunjungByCode?.pengikut_anak_anak || 0} orang</div>
           </div>
           <div class="data-row">
-            <div class="data-label">Pengikut Bayi</div>
+            <div class="data-label">Bayi</div>
             <div class="data-value">: ${pengunjungByCode?.pengikut_bayi || 0} orang</div>
           </div>
           <div class="data-row">
-            <div class="data-label">Total Pengikut</div>
+            <div class="data-label">Total</div>
             <div class="data-value">: ${(pengunjungByCode?.pengikut_laki_laki || 0) + 
               (pengunjungByCode?.pengikut_perempuan || 0) + 
               (pengunjungByCode?.pengikut_anak_anak || 0) + 
@@ -3162,7 +3140,7 @@ const handlePrintThermalNow = () => {
 
           <!-- Tanggal -->
           <div class="data-row">
-            <div class="data-label">Tanggal Daftar</div>
+            <div class="data-label">Tanggal</div>
             <div class="data-value">: ${
               pengunjungByCode?.created_at
                 ? new Date(pengunjungByCode.created_at).toLocaleDateString("id-ID", {
@@ -3174,18 +3152,12 @@ const handlePrintThermalNow = () => {
             }</div>
           </div>
 
-          <!-- Barcode -->
-          <div class="barcode">
-            ${pengunjungByCode?.barcode ? `<img src="${pengunjungByCode.barcode}" alt="Barcode" class="barcode-img" />` : ''}
-            <div>${pengunjungByCode?.kode || ""}</div>
-          </div>
-
           <!-- Tanda Tangan -->
           <div class="signature-section">
             <div class="signature-row">
               <div class="signature-box">
                 <div style="font-size: 14px">Pengunjung</div>
-                <div style="margin-top: 15mm; font-size: 10px">(___________________)</div>
+                <div style="margin-top: 15mm; font-size: 10px">${pengunjungByCode?.nama || ""}</div>
               </div>
               <div class="signature-box">
                 <div style="font-size: 14px">Petugas Pendaftaran</div>
@@ -3607,107 +3579,108 @@ const handlePrintThermalNow = () => {
     
     const labelContent = `
     
-      <!DOCTYPE html>
-      <html>
-        <head>
-          <title>Label Titipan - ${pengunjungByCode?.nama || ''}</title>
-          <style>
-             @media print {
-    @page { margin: 0 10px 0 0; }
-    html, body { 
-      margin: 0; 
-      padding: 0; 
-    }
-    .label-container {
-      width: 80mm;
-      height: 80mm;
-      border: 1px dashed #000;
-      padding: 1mm;
-      page-break-after: always;
-    }
-              
-              .label-title {
-                text-align: center;
-                font-size: 16px;
-                font-weight: bold;
-                text-decoration: underline;
-                margin-bottom: 3mm;
-              }
-              .label-row {
-                display: flex;
-                margin-bottom: 1mm;
-              }
-              .label-key {
-                width: 45%;
-                font-weight: bold;
-              }
-              .label-value {
-                width: 55%;
-                font-size: 14px;
-              }
-              .barcode-container {
-                text-align: right;
-                margin-top: 2mm;
-              }
-              .barcode-img {
-                width: 50px;
-                height: 50px;
-              }
-            }
-          </style>
-        </head>
-        <body>
-          ${
-            pengunjungByCode?.barang_titipan?.length > 0
-              ? pengunjungByCode.barang_titipan
-                  .map(
-                    (titipan) => `
-                <div class="label-container">
-                  <div class="label-title">LABEL TITIPAN ${titipan?.jenis_barang?.toUpperCase()}</div>
-                  <div class="label-row">
-                    <div class="label-key">Nama WBP</div>
-                    <div class="label-value">: ${pengunjungByCode?.warga_binaan?.nama || ""}</div>
-                  </div>
-                  <div class="label-row">
-                    <div class="label-key">Status WBP</div>
-                    <div class="label-value">: ${pengunjungByCode?.warga_binaan?.keterangan || ""}</div>
-                  </div>
-                  <div class="label-row">
-                    <div class="label-key">Alamat WBP</div>
-                    <div class="label-value">: ${pengunjungByCode?.warga_binaan?.alamat || ""}</div>
-                  </div>
-                  <div class="label-row">
-                    <div class="label-key">Pengirim</div>
-                    <div class="label-value">: ${pengunjungByCode?.nama || ""}</div>
-                  </div>
-                  <div class="label-row">
-                    <div class="label-key">Alamat</div>
-                    <div class="label-value">: ${pengunjungByCode?.alamat || ""}</div>
-                  </div>
-                  <div class="label-row">
-                    <div class="label-key">Jenis Barang</div>
-                    <div class="label-value">: ${titipan.jenis_barang}</div>
-                  </div>
-                  <div class="label-row">
-                    <div class="label-key">Jumlah</div>
-                    <div class="label-value">: ${titipan.jumlah}</div>
-                  </div>
-                  <div class="barcode-container">
-                    ${pengunjungByCode?.barcode ? `<img src="${pengunjungByCode.barcode}" alt="Barcode" class="barcode-img" />` : ''}
-                  </div>
-                </div>
-              `
-                  )
-                  .join("")
-              : `
-              <div class="label-container" style="display: flex; justify-content: center; align-items: center;">
-                <div style="text-align: center; font-size: 12px;">Tidak ada barang titipan</div>
+     <!DOCTYPE html>
+<html>
+  <head>
+    <title>Label Titipan - ${pengunjungByCode?.nama || ''}</title>
+    <style>
+      @media print {
+        @page { margin: 0; }
+        html, body { 
+          margin: 0; 
+          padding: 0; 
+        }
+        .label-container {
+          width: 65mm;
+          height: 80mm;
+          border: 1px dashed #000;
+          padding: 1mm;
+          page-break-after: always;
+          position: relative; /* Tambahkan ini */
+        }
+        
+        .label-title {
+          text-align: center;
+          font-size: 16px;
+          font-weight: bold;
+          text-decoration: underline;
+          margin-bottom: 3mm;
+        }
+        .label-row {
+          display: flex;
+          margin-bottom: 1mm;
+        }
+        .label-key {
+          width: 45%;
+          font-weight: bold;
+        }
+        .label-value {
+          width: 55%;
+          font-size: 14px;
+        }
+        .barcode-container {
+          position: absolute; /* Ubah dari fixed ke absolute */
+          bottom: 1mm; /* Tambahkan ini */
+          right: 1mm; /* Tambahkan ini */
+        }
+        .barcode-img {
+          width: 50px;
+          height: 50px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    ${
+      pengunjungByCode?.barang_titipan?.length > 0
+        ? pengunjungByCode.barang_titipan
+            .map(
+              (titipan) => `
+            <div class="label-container">
+              <div class="label-title">LABEL TITIPAN ${titipan?.jenis_barang?.toUpperCase()}</div>
+              <div class="label-row">
+                <div class="label-key">Nama WBP</div>
+                <div class="label-value">: ${pengunjungByCode?.warga_binaan?.nama || ""}</div>
               </div>
-            `
-          }
-        </body>
-      </html>
-      
+              <div class="label-row">
+                <div class="label-key">Status WBP</div>
+                <div class="label-value">: ${pengunjungByCode?.warga_binaan?.keterangan || ""}</div>
+              </div>
+              <div class="label-row">
+                <div class="label-key">Alamat WBP</div>
+                <div class="label-value">: ${pengunjungByCode?.warga_binaan?.alamat || ""}</div>
+              </div>
+              <div class="label-row">
+                <div class="label-key">Pengirim</div>
+                <div class="label-value">: ${pengunjungByCode?.nama || ""}</div>
+              </div>
+              <div class="label-row">
+                <div class="label-key">Alamat</div>
+                <div class="label-value">: ${pengunjungByCode?.alamat || ""}</div>
+              </div>
+              <div class="label-row">
+                <div class="label-key">Jenis Barang</div>
+                <div class="label-value">: ${titipan.jenis_barang}</div>
+              </div>
+              <div class="label-row">
+                <div class="label-key">Jumlah</div>
+                <div class="label-value">: ${titipan.jumlah}</div>
+              </div>
+              <div class="barcode-container">
+                ${pengunjungByCode?.barcode ? `<img src="${pengunjungByCode.barcode}" alt="Barcode" class="barcode-img" />` : ''}
+              </div>
+            </div>
+          `
+            )
+            .join("")
+        : `
+        <div class="label-container" style="display: flex; justify-content: center; align-items: center;">
+          <div style="text-align: center; font-size: 12px;">Tidak ada barang titipan</div>
+        </div>
+      `
+    }
+  </body>
+</html>
     `;
 
     // Buka jendela baru untuk print label

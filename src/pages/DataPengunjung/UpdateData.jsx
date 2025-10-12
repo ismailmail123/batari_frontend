@@ -219,18 +219,20 @@ const EditPengunjung = () => {
                 </label>
                 <input
                   type="text"
-                  {...register('nik', { 
-                    required: 'NIK harus diisi',
-                    pattern: {
-                      value: /^[0-9]{16}$/,
-                      message: 'NIK harus 16 digit angka'
-                    }
-                  })}
+                  {...register('nik', 
+                  //   { 
+                  //   required: 'NIK harus diisi',
+                  //   pattern: {
+                  //     value: /^[0-9]{16}$/,
+                  //     message: 'NIK harus 16 digit angka'
+                  //   }
+                  // }
+                )}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
-                {errors.nik && (
+                {/* {errors.nik && (
                   <p className="text-red-500 text-sm mt-1">{errors.nik.message}</p>
-                )}
+                )} */}
               </div>
 
               <div>
@@ -239,13 +241,15 @@ const EditPengunjung = () => {
                 </label>
                 <input
                   type="text"
-                  {...register('hp', { 
-                    required: 'No. HP harus diisi',
-                    pattern: {
-                      value: /^[0-9+]{10,15}$/,
-                      message: 'Format nomor HP tidak valid'
-                    }
-                  })}
+                  {...register('hp',
+                  //    { 
+                  //   required: 'No. HP harus diisi',
+                  //   pattern: {
+                  //     value: /^[0-9+]{10,15}$/,
+                  //     message: 'Format nomor HP tidak valid'
+                  //   }
+                  // }
+                )}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 {errors.hp && (

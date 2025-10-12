@@ -8926,7 +8926,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import useDataStore from "../../store/useDataStore";
-import { FaUser, FaIdCard, FaPhone, FaHome, FaVenusMars, FaQrcode, FaUpload, FaSpinner, FaHome as FaHomeIcon, FaTimes, FaEye, FaCamera, FaBarcode, FaSearch, FaKeyboard, FaPrint } from "react-icons/fa";
+import { FaUser, FaIdCard, FaPhone, FaHome, FaVenusMars, FaQrcode, FaUpload, FaSpinner, FaHome as FaHomeIcon, FaTimes, FaEye, FaCamera, FaBarcode, FaSearch, FaKeyboard, FaPrint, FaInfoCircle } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
 import CreateBarangTitipanModal from "../UpdatePengunjung/CreateBarangTitipanModal";
@@ -9054,6 +9054,410 @@ const ScannerModal = ({ isOpen, onClose, onScan, title = "Scan Barcode" }) => {
 };
 
 // Komponen Virtual Keyboard yang Dapat Digeser - Hanya untuk PC
+// const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChange }) => {
+//   const [isShift, setIsShift] = useState(false);
+//   const [isSymbol, setIsSymbol] = useState(false);
+//   const [position, setPosition] = useState({ x: 0, y: 0 });
+//   const [isDragging, setIsDragging] = useState(false);
+//   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+//   const [isPc, setIsPc] = useState(false);
+//   const keyboardRef = useRef(null);
+//   const containerRef = useRef(null);
+
+//   const alphaRows = [
+//     ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+//     ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+//     ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
+//   ];
+
+//   const symbolRows = [
+//     ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+//     ['-', '_', '@', '#', '$', '%', '&', '*', '(', ')'],
+//     ['.', ',', '!', '?', ':', ';', '"', "'"],
+//   ];
+
+//   const currentRows = isSymbol ? symbolRows : alphaRows;
+
+//   // Deteksi perangkat saat komponen dimuat
+//   useEffect(() => {
+//     const checkDevice = () => {
+//       const userAgent = navigator.userAgent.toLowerCase();
+//       const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent);
+//       const isTablet = /tablet|ipad/i.test(userAgent);
+//       const isPcDevice = !isMobile && !isTablet;
+      
+//       setIsPc(isPcDevice);
+//     };
+
+//     checkDevice();
+//   }, []);
+
+//   // Handle drag start - untuk mouse dan touch
+//   const handleDragStart = (clientX, clientY) => {
+//     if (!keyboardRef.current) return;
+    
+//     setIsDragging(true);
+//     const rect = keyboardRef.current.getBoundingClientRect();
+    
+//     setDragOffset({
+//       x: clientX - rect.left,
+//       y: clientY - rect.top
+//     });
+//   };
+
+//   const handleMouseDown = (e) => {
+//     e.preventDefault();
+//     handleDragStart(e.clientX, e.clientY);
+//   };
+
+//   const handleTouchStart = (e) => {
+//     const touch = e.touches[0];
+//     handleDragStart(touch.clientX, touch.clientY);
+//   };
+
+//   // Handle drag movement - untuk mouse dan touch
+//   const handleDragMove = (clientX, clientY) => {
+//     if (!isDragging || !keyboardRef.current) return;
+    
+//     const newX = clientX - dragOffset.x;
+//     const newY = clientY - dragOffset.y;
+    
+//     // Boundary checks untuk menjaga keyboard tetap dalam viewport
+//     const keyboardWidth = keyboardRef.current.offsetWidth;
+//     const keyboardHeight = keyboardRef.current.offsetHeight;
+//     const maxX = window.innerWidth - keyboardWidth;
+//     const maxY = window.innerHeight - keyboardHeight;
+    
+//     setPosition({
+//       x: Math.max(10, Math.min(newX, maxX - 10)), // Beri margin 10px
+//       y: Math.max(10, Math.min(newY, maxY - 10))
+//     });
+//   };
+
+//   const handleMouseMove = (e) => {
+//     handleDragMove(e.clientX, e.clientY);
+//   };
+
+//   const handleTouchMove = (e) => {
+//     const touch = e.touches[0];
+//     handleDragMove(touch.clientX, touch.clientY);
+//     e.preventDefault(); // Mencegah scroll saat drag
+//   };
+
+//   // Handle drag end
+//   const handleDragEnd = () => {
+//     setIsDragging(false);
+//   };
+
+//   // Event listeners untuk drag
+//   useEffect(() => {
+//     if (isDragging) {
+//       document.addEventListener('mousemove', handleMouseMove);
+//       document.addEventListener('mouseup', handleDragEnd);
+//       document.addEventListener('touchmove', handleTouchMove, { passive: false });
+//       document.addEventListener('touchend', handleDragEnd);
+//       document.addEventListener('touchcancel', handleDragEnd);
+      
+//       // Tambahkan styles untuk mencegah scroll dan selection
+//       document.body.style.overflow = 'hidden';
+//       document.body.style.userSelect = 'none';
+//       document.body.style.webkitUserSelect = 'none';
+//     }
+
+//     return () => {
+//       document.removeEventListener('mousemove', handleMouseMove);
+//       document.removeEventListener('mouseup', handleDragEnd);
+//       document.removeEventListener('touchmove', handleTouchMove);
+//       document.removeEventListener('touchend', handleDragEnd);
+//       document.removeEventListener('touchcancel', handleDragEnd);
+      
+//       // Kembalikan styles
+//       document.body.style.overflow = '';
+//       document.body.style.userSelect = '';
+//       document.body.style.webkitUserSelect = '';
+//     };
+//   }, [isDragging, dragOffset]);
+
+//   // Efek untuk mengatur posisi awal keyboard di tengah bawah
+//   useEffect(() => {
+//     if (!isPc) return;
+
+//     const updateInitialPosition = () => {
+//       if (keyboardRef.current) {
+//         const keyboardWidth = keyboardRef.current.offsetWidth;
+//         const keyboardHeight = keyboardRef.current.offsetHeight;
+        
+//         setPosition({
+//           x: (window.innerWidth - keyboardWidth) / 2,
+//           y: window.innerHeight - keyboardHeight - 20 // 20px dari bawah
+//         });
+//       }
+//     };
+
+//     // Tunggu sampai DOM siap
+//     setTimeout(updateInitialPosition, 100);
+    
+//     // Update posisi saat window resize
+//     window.addEventListener('resize', updateInitialPosition);
+//     return () => window.removeEventListener('resize', updateInitialPosition);
+//   }, [isPc]);
+
+//   const handleKeyClick = (key) => {
+//     const finalKey = isShift ? key.toUpperCase() : key;
+//     onKeyPress(finalKey);
+//     if (onInputChange) {
+//       onInputChange(finalKey);
+//     }
+//   };
+
+//   const handleSpecialKey = (action) => {
+//     switch (action) {
+//       case 'shift':
+//         setIsShift(!isShift);
+//         break;
+//       case 'symbol':
+//         setIsSymbol(!isSymbol);
+//         setIsShift(false);
+//         break;
+//       case 'space':
+//         onKeyPress(' ');
+//         if (onInputChange) onInputChange(' ');
+//         break;
+//       case 'backspace':
+//         onKeyPress('backspace');
+//         if (onInputChange) onInputChange('backspace');
+//         break;
+//       case 'enter':
+//         onKeyPress('enter');
+//         break;
+//       case 'clear':
+//         onKeyPress('clear');
+//         if (onInputChange) onInputChange('clear');
+//         break;
+//       case 'tab':
+//         onKeyPress('tab');
+//         break;
+//       default:
+//         break;
+//     }
+//   };
+
+//   const getInputLabel = () => {
+//     switch (activeInput) {
+//       case 'wbp':
+//         return 'Cari Warga Binaan';
+//       case 'pengunjung':
+//         return 'Cari Pengunjung';
+//       case 'nama':
+//         return 'Input Nama';
+//       case 'nik':
+//         return 'Input NIK';
+//       case 'hp':
+//         return 'Input Nomor HP';
+//       case 'alamat':
+//         return 'Input Alamat';
+//       case 'hubungan_keluarga':
+//         return 'Input Hubungan Keluarga';
+//       case 'kode':
+//         return 'Input Kode';
+//       case 'tujuan':
+//         return 'Pilih Tujuan';
+//       default:
+//         return 'Virtual Keyboard';
+//     }
+//   };
+
+//   // Jika bukan PC, jangan render keyboard virtual
+//   if (!isPc) {
+//     return null;
+//   }
+
+//   return (
+//     <div 
+//       ref={containerRef}
+//       className="fixed inset-0 bg-black bg-opacity-30 flex items-end justify-center z-50 p-4 pointer-events-none"
+//       style={{ touchAction: 'none' }}
+//     >
+//       <div 
+//         ref={keyboardRef}
+//         className="bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-2xl transform transition-all duration-300 pointer-events-auto border border-white border-opacity-20"
+//         style={{
+//           position: 'fixed',
+//           left: `${position.x}px`,
+//           top: `${position.y}px`,
+//           cursor: isDragging ? 'grabbing' : 'grab',
+//           touchAction: 'none',
+//           zIndex: 1000,
+//           width: '35vw', // 25% dari lebar viewport
+//           minWidth: '500px', // Minimum width
+//           maxWidth: '600px', // Maximum width
+//         }}
+//       >
+//         {/* Draggable Header dengan indikator yang jelas */}
+//         <div 
+//           className="keyboard-draggable bg-gradient-to-r from-blue-500 to-purple-500 rounded-t-2xl p-4 text-white cursor-grab active:cursor-grabbing touch-none"
+//           onMouseDown={handleMouseDown}
+//           onTouchStart={handleTouchStart}
+//           style={{ touchAction: 'none' }}
+//         >
+//           <div className="flex justify-between items-center">
+//             <div className="flex items-center space-x-3">
+//               <FaKeyboard className="w-6 h-6" />
+//               <div>
+//                 <h3 className="font-bold text-lg">{getInputLabel()}</h3>
+//                 <p className="text-blue-100 text-sm flex items-center">
+//                   <span className="inline-block w-3 h-3 bg-white bg-opacity-50 rounded-full mr-1 animate-pulse"></span>
+//                   Drag untuk memindahkan • Gunakan keyboard virtual
+//                 </p>
+//               </div>
+//             </div>
+//             <button
+//               onClick={onClose}
+//               className="p-3 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all touch-friendly min-w-[44px] min-h-[44px] flex items-center justify-center"
+//               style={{ touchAction: 'manipulation' }}
+//             >
+//               <FaTimes className="w-5 h-5" />
+//             </button>
+//           </div>
+          
+//           {/* Indikator drag area */}
+//           <div className="mt-2 flex justify-center">
+//             <div className="w-20 h-1 bg-white bg-opacity-50 rounded-full"></div>
+//           </div>
+//         </div>
+
+//         {/* Preview Area */}
+//         <div className="p-4 bg-gray-50 bg-opacity-50 border-b">
+//           <div className="bg-white bg-opacity-70 rounded-xl p-4 shadow-inner border">
+//             <div className="text-sm text-gray-500 mb-2 flex justify-between">
+//               <span>Input Preview:</span>
+//               <span className="text-blue-500 font-medium">{value.length} karakter</span>
+//             </div>
+//             <div className="text-lg font-mono min-h-[28px] p-2 bg-gray-50 bg-opacity-50 rounded-lg border-2 border-blue-200">
+//               {value || <span className="text-gray-400">Ketik menggunakan keyboard virtual...</span>}
+//               <span className="ml-1 animate-pulse text-blue-500">|</span>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Keyboard Layout */}
+//         <div className="p-4" style={{ touchAction: 'manipulation' }}>
+//           {/* Main Keyboard */}
+//           {currentRows.map((row, rowIndex) => (
+//             <div key={rowIndex} className="flex justify-center mb-2 space-x-1">
+//               {row.map((key) => (
+//                 <button
+//                   key={key}
+//                   onClick={() => handleKeyClick(key)}
+//                   className="flex-1 max-w-[60px] h-14 bg-white bg-opacity-80 border-2 border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 active:bg-blue-100 active:scale-95 transition-all duration-150 font-medium text-gray-700 touch-friendly shadow-sm"
+//                   style={{ 
+//                     minWidth: '44px',
+//                     minHeight: '44px',
+//                     touchAction: 'manipulation'
+//                   }}
+//                 >
+//                   {isShift && !isSymbol ? key.toUpperCase() : key}
+//                 </button>
+//               ))}
+//             </div>
+//           ))}
+
+//           {/* Bottom Control Row */}
+//           <div className="flex justify-center space-x-1 mt-4">
+//             {/* Shift Button */}
+//             <button
+//               onClick={() => handleSpecialKey('shift')}
+//               className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly ${
+//                 isShift 
+//                   ? 'bg-blue-500 text-white shadow-lg shadow-blue-200 border-2 border-blue-600' 
+//                   : 'bg-gray-100 bg-opacity-80 text-gray-700 border-2 border-gray-200 hover:bg-gray-200'
+//               }`}
+//               style={{ 
+//                 minHeight: '44px',
+//                 touchAction: 'manipulation'
+//               }}
+//             >
+//               ⇧ SHIFT
+//             </button>
+
+//             {/* Symbol Toggle */}
+//             <button
+//               onClick={() => handleSpecialKey('symbol')}
+//               className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly ${
+//                 isSymbol 
+//                   ? 'bg-purple-500 text-white shadow-lg shadow-purple-200 border-2 border-purple-600' 
+//                   : 'bg-gray-100 bg-opacity-80 text-gray-700 border-2 border-gray-200 hover:bg-gray-200'
+//               }`}
+//               style={{ 
+//                 minHeight: '44px',
+//                 touchAction: 'manipulation'
+//               }}
+//             >
+//               {isSymbol ? 'ABC' : '123'}
+//             </button>
+
+//             {/* Space Button */}
+//             <button
+//               onClick={() => handleSpecialKey('space')}
+//               className="flex-1 max-w-[200px] h-14 bg-gray-100 bg-opacity-80 border-2 border-gray-200 rounded-xl hover:bg-gray-200 active:bg-gray-300 transition-all touch-friendly text-gray-600 font-medium"
+//               style={{ 
+//                 minHeight: '44px',
+//                 touchAction: 'manipulation'
+//               }}
+//             >
+//               SPACE
+//             </button>
+
+//             {/* Backspace Button */}
+//             <button
+//               onClick={() => handleSpecialKey('backspace')}
+//               className="flex-1 max-w-[120px] h-14 bg-red-500 text-white rounded-xl hover:bg-red-600 active:bg-red-700 transition-all touch-friendly font-medium shadow-lg shadow-red-200 border-2 border-red-600"
+//               style={{ 
+//                 minHeight: '44px',
+//                 touchAction: 'manipulation'
+//               }}
+//             >
+//               ⌫ DELETE
+//             </button>
+//           </div>
+
+//           {/* Action Buttons Row */}
+//           <div className="flex justify-center space-x-2 mt-3">
+//             <button
+//               onClick={() => handleSpecialKey('clear')}
+//               className="flex-1 max-w-[140px] h-12 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-all touch-friendly font-medium border-2 border-orange-600"
+//               style={{ 
+//                 minHeight: '44px',
+//                 touchAction: 'manipulation'
+//               }}
+//             >
+//               🗑️ CLEAR
+//             </button>
+            
+//             <button
+//               onClick={() => handleSpecialKey('enter')}
+//               className="flex-1 max-w-[140px] h-12 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all touch-friendly font-medium border-2 border-green-600 shadow-lg shadow-green-200"
+//               style={{ 
+//                 minHeight: '44px',
+//                 touchAction: 'manipulation'
+//               }}
+//             >
+//               ↵ ENTER
+//             </button>
+//           </div>
+//         </div>
+
+//         {/* Footer dengan tips */}
+//         <div className="bg-gray-50 bg-opacity-50 rounded-b-2xl p-3 border-t">
+//           <div className="text-center text-sm text-gray-500">
+//             💡 Tips: Drag header untuk memindahkan • SHIFT untuk huruf kapital • 123 untuk simbol
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
 const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChange }) => {
   const [isShift, setIsShift] = useState(false);
   const [isSymbol, setIsSymbol] = useState(false);
@@ -9275,12 +9679,12 @@ const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChang
   return (
     <div 
       ref={containerRef}
-      className="fixed inset-0 bg-black bg-opacity-30 flex items-end justify-center z-50 p-4 pointer-events-none"
+      className="fixed inset-0 bg-black bg-opacity-20 flex items-end justify-center z-50 p-4 pointer-events-none"
       style={{ touchAction: 'none' }}
     >
       <div 
         ref={keyboardRef}
-        className="bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-2xl transform transition-all duration-300 pointer-events-auto border border-white border-opacity-20"
+        className="bg-transparent bg-opacity-85 backdrop-blur-lg rounded-2xl transform transition-all duration-300 pointer-events-auto"
         style={{
           position: 'fixed',
           left: `${position.x}px`,
@@ -9288,14 +9692,21 @@ const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChang
           cursor: isDragging ? 'grabbing' : 'grab',
           touchAction: 'none',
           zIndex: 1000,
-          width: '35vw', // 25% dari lebar viewport
-          minWidth: '500px', // Minimum width
-          maxWidth: '600px', // Maximum width
+          width: '35vw',
+          minWidth: '500px',
+          maxWidth: '600px',
+          // Border yang tebal dan jelas dengan efek glow
+          border: '3px solid #3b82f6',
+          boxShadow: `
+            0 0 0 1px rgba(59, 130, 246, 0.5),
+            0 10px 30px rgba(0, 0, 0, 0.3),
+            0 0 20px rgba(59, 130, 246, 0.4)
+          `,
         }}
       >
-        {/* Draggable Header dengan indikator yang jelas */}
+        {/* Draggable Header dengan border bottom yang tebal */}
         <div 
-          className="keyboard-draggable bg-gradient-to-r from-blue-500 to-purple-500 rounded-t-2xl p-4 text-white cursor-grab active:cursor-grabbing touch-none"
+          className="keyboard-draggable bg-gradient-to-r from-blue-500 to-purple-500 rounded-t-xl p-4 text-white cursor-grab active:cursor-grabbing touch-none border-b-4 border-blue-700"
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
           style={{ touchAction: 'none' }}
@@ -9313,7 +9724,7 @@ const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChang
             </div>
             <button
               onClick={onClose}
-              className="p-3 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all touch-friendly min-w-[44px] min-h-[44px] flex items-center justify-center"
+              className="p-3 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all touch-friendly min-w-[44px] min-h-[44px] flex items-center justify-center border-2 border-white border-opacity-30"
               style={{ touchAction: 'manipulation' }}
             >
               <FaTimes className="w-5 h-5" />
@@ -9326,14 +9737,14 @@ const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChang
           </div>
         </div>
 
-        {/* Preview Area */}
-        <div className="p-4 bg-gray-50 bg-opacity-50 border-b">
-          <div className="bg-white bg-opacity-70 rounded-xl p-4 shadow-inner border">
+        {/* Preview Area dengan border yang jelas */}
+        <div className="p-4 bg-gray-50 bg-opacity-60 border-b-2 border-gray-300">
+          <div className="bg-white bg-opacity-80 rounded-xl p-4 shadow-inner border-2 border-gray-200">
             <div className="text-sm text-gray-500 mb-2 flex justify-between">
               <span>Input Preview:</span>
               <span className="text-blue-500 font-medium">{value.length} karakter</span>
             </div>
-            <div className="text-lg font-mono min-h-[28px] p-2 bg-gray-50 bg-opacity-50 rounded-lg border-2 border-blue-200">
+            <div className="text-lg font-mono min-h-[28px] p-2 bg-gray-50 bg-opacity-70 rounded-lg border-2 border-blue-300">
               {value || <span className="text-gray-400">Ketik menggunakan keyboard virtual...</span>}
               <span className="ml-1 animate-pulse text-blue-500">|</span>
             </div>
@@ -9341,23 +9752,35 @@ const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChang
         </div>
 
         {/* Keyboard Layout */}
-        <div className="p-4" style={{ touchAction: 'manipulation' }}>
+        <div className="p-4 bg-transparent" style={{ touchAction: 'manipulation' }}>
           {/* Main Keyboard */}
           {currentRows.map((row, rowIndex) => (
             <div key={rowIndex} className="flex justify-center mb-2 space-x-1">
               {row.map((key) => (
                 <button
-                  key={key}
-                  onClick={() => handleKeyClick(key)}
-                  className="flex-1 max-w-[60px] h-14 bg-white bg-opacity-80 border-2 border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 active:bg-blue-100 active:scale-95 transition-all duration-150 font-medium text-gray-700 touch-friendly shadow-sm"
-                  style={{ 
-                    minWidth: '44px',
-                    minHeight: '44px',
-                    touchAction: 'manipulation'
-                  }}
-                >
-                  {isShift && !isSymbol ? key.toUpperCase() : key}
-                </button>
+  key={key}
+  onClick={() => handleKeyClick(key)}
+  className="flex-1 max-w-[60px] h-14 bg-white bg-opacity-95 rounded-xl transition-all duration-300 font-medium text-gray-700 touch-friendly relative overflow-hidden group"
+  style={{ 
+    minWidth: '44px',
+    minHeight: '44px',
+    touchAction: 'manipulation'
+  }}
+>
+  {/* Base Border - Lebih tebal */}
+  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-400 to-gray-600 border-[3px] border-gray-500 shadow-sm"></div>
+  
+  {/* Neon Border Effect */}
+  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-sm group-hover:blur-0"></div>
+  
+  {/* Content Area */}
+  <div className="absolute inset-[3px] rounded-lg bg-white bg-opacity-95 flex items-center justify-center z-10 group-hover:bg-opacity-100 transition-all duration-300">
+    {isShift && !isSymbol ? key.toUpperCase() : key}
+  </div>
+  
+  {/* Hover Glow */}
+  <div className="absolute inset-0 rounded-xl shadow-lg shadow-blue-500/0 group-hover:shadow-blue-500/40 group-hover:shadow-xl transition-all duration-300"></div>
+</button>
               ))}
             </div>
           ))}
@@ -9367,10 +9790,10 @@ const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChang
             {/* Shift Button */}
             <button
               onClick={() => handleSpecialKey('shift')}
-              className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly ${
+              className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly border-2 ${
                 isShift 
-                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-200 border-2 border-blue-600' 
-                  : 'bg-gray-100 bg-opacity-80 text-gray-700 border-2 border-gray-200 hover:bg-gray-200'
+                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-200 border-blue-600' 
+                  : 'bg-white bg-opacity-90 text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400'
               }`}
               style={{ 
                 minHeight: '44px',
@@ -9383,10 +9806,10 @@ const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChang
             {/* Symbol Toggle */}
             <button
               onClick={() => handleSpecialKey('symbol')}
-              className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly ${
+              className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly border-2 ${
                 isSymbol 
-                  ? 'bg-purple-500 text-white shadow-lg shadow-purple-200 border-2 border-purple-600' 
-                  : 'bg-gray-100 bg-opacity-80 text-gray-700 border-2 border-gray-200 hover:bg-gray-200'
+                  ? 'bg-purple-500 text-white shadow-lg shadow-purple-200 border-purple-600' 
+                  : 'bg-white bg-opacity-90 text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400'
               }`}
               style={{ 
                 minHeight: '44px',
@@ -9399,7 +9822,7 @@ const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChang
             {/* Space Button */}
             <button
               onClick={() => handleSpecialKey('space')}
-              className="flex-1 max-w-[200px] h-14 bg-gray-100 bg-opacity-80 border-2 border-gray-200 rounded-xl hover:bg-gray-200 active:bg-gray-300 transition-all touch-friendly text-gray-600 font-medium"
+              className="flex-1 max-w-[200px] h-14 bg-white bg-opacity-90 border-2 border-gray-300 rounded-xl hover:bg-gray-100 hover:border-gray-400 active:bg-gray-200 transition-all touch-friendly text-gray-600 font-medium"
               style={{ 
                 minHeight: '44px',
                 touchAction: 'manipulation'
@@ -9448,8 +9871,8 @@ const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChang
         </div>
 
         {/* Footer dengan tips */}
-        <div className="bg-gray-50 bg-opacity-50 rounded-b-2xl p-3 border-t">
-          <div className="text-center text-sm text-gray-500">
+        <div className="bg-gray-100 bg-opacity-70 rounded-b-xl p-3 border-t-2 border-gray-300">
+          <div className="text-center text-sm text-gray-600">
             💡 Tips: Drag header untuk memindahkan • SHIFT untuk huruf kapital • 123 untuk simbol
           </div>
         </div>
@@ -9809,6 +10232,116 @@ const AddPengunjungForm = ({ onClose }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  // Fungsi untuk scroll ke input kosong atau tombol submit
+const scrollToEmptyInputOrSubmit = () => {
+  // Daftar semua input field yang perlu dicek
+  const inputFields = [
+    { selector: '#search-wbp-input', name: 'WBP' },
+    { selector: 'input[name="nama"]', name: 'Nama' },
+    { selector: 'input[name="nik"]', name: 'NIK' },
+    { selector: 'input[name="hp"]', name: 'Nomor HP' },
+    { selector: 'input[name="alamat"]', name: 'Alamat' },
+    { selector: 'select[name="jenis_kelamin"]', name: 'Jenis Kelamin' },
+    { selector: 'input[name="hubungan_keluarga"]', name: 'Hubungan Keluarga' },
+    { selector: 'select[name="tujuan"]', name: 'Tujuan' },
+    { selector: 'input[name="kode"]', name: 'Kode' }
+  ];
+
+  // Cari input yang kosong dari atas ke bawah
+  for (const field of inputFields) {
+    const element = document.querySelector(field.selector);
+    
+    if (element) {
+      // Untuk input text, textarea, dan select
+      if (element.type !== 'file') {
+        const value = element.value.trim();
+        
+        // Jika field kosong, scroll ke element tersebut
+        if (!value) {
+          element.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center',
+            inline: 'nearest'
+          });
+          
+          // Tambahkan highlight visual
+          element.style.borderColor = '#ef4444';
+          element.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+          
+          // Hapus highlight setelah 3 detik
+          setTimeout(() => {
+            element.style.borderColor = '';
+            element.style.boxShadow = '';
+          }, 3000);
+          
+          // Fokus ke input
+          element.focus();
+          
+          // Tampilkan toast notification
+          toast.error(`Harap isi field: ${field.name}`);
+          return;
+        }
+      }
+      // Untuk file inputs, kita cek apakah sudah ada file
+      else if (element.type === 'file') {
+        const hasFile = element.files && element.files.length > 0;
+        const fieldName = element.name;
+        
+        // Cek preview untuk menentukan apakah file sudah diupload
+        let hasPreview = false;
+        
+        if (fieldName === 'photo_ktp' && !previewKtp) hasPreview = false;
+        else if (fieldName === 'photo_pengunjung' && !previewPengunjung) hasPreview = false;
+        else if (fieldName === 'barcode' && !previewBarcode) hasPreview = false;
+        else hasPreview = true;
+        
+        if (!hasFile && !hasPreview) {
+          element.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center',
+            inline: 'nearest'
+          });
+          
+          // Highlight container file input
+          const container = element.closest('div');
+          if (container) {
+            container.style.border = '2px solid #ef4444';
+            container.style.borderRadius = '0.5rem';
+            container.style.padding = '0.5rem';
+            
+            setTimeout(() => {
+              container.style.border = '';
+              container.style.padding = '';
+            }, 3000);
+          }
+          
+          // Tampilkan toast notification
+          toast.error(`Harap upload file: ${fieldName.replace('_', ' ')}`);
+          return;
+        }
+      }
+    }
+  }
+
+  // Jika semua field sudah terisi, scroll ke tombol submit
+  const submitButton = document.querySelector('button[type="submit"]');
+  if (submitButton) {
+    submitButton.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'center',
+      inline: 'nearest'
+    });
+    
+    // Highlight tombol submit
+    submitButton.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.3)';
+    setTimeout(() => {
+      submitButton.style.boxShadow = '';
+    }, 3000);
+    
+    toast.success('Semua field sudah terisi! Silakan submit form.');
+  }
+};
 
   // Filter data pengunjung untuk dropdown - Handle case ketika pengunjungData bukan array
   const filteredPengunjung = (() => {
@@ -10342,6 +10875,20 @@ const handleGenerateAntrian = async (pengunjungId) => {
 const handleSubmit = async (e) => {
   e.preventDefault();
 
+  e.preventDefault();
+
+  // Cek field WBP terlebih dahulu
+  if (checkWbpField()) {
+    return;
+  }
+
+  // Cek field kosong lainnya
+  const emptyFieldFound = scrollToEmptyInputOrSubmit();
+  if (emptyFieldFound) {
+    return; // Berhenti jika ada field kosong
+  }
+
+
   // Validasi WBP
   if (!formData.wbp_id) {
     setError("Silakan pilih Warga Binaan terlebih dahulu.");
@@ -10481,6 +11028,8 @@ if (showEditForm && newPengunjung) {
   const ImageModal = ({ isOpen, onClose, imageUrl, title }) => {
     if (!isOpen) return null;
 
+
+
     return (
       <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-lg max-w-4xl max-h-full overflow-auto">
@@ -10504,6 +11053,39 @@ if (showEditForm && newPengunjung) {
       </div>
     );
   };
+
+  // Tambahkan fungsi ini ke dalam komponen AddPengunjungForm, tepat sebelum return
+const handleCheckEmptyFields = () => {
+  scrollToEmptyInputOrSubmit();
+};
+
+// Tambahkan juga fungsi untuk WBP validation khusus
+const checkWbpField = () => {
+  if (!formData.wbp_id) {
+    const wbpInput = document.querySelector('#search-wbp-input');
+    if (wbpInput) {
+      wbpInput.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center',
+        inline: 'nearest'
+      });
+      
+      wbpInput.style.borderColor = '#ef4444';
+      wbpInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+      
+      setTimeout(() => {
+        wbpInput.style.borderColor = '';
+        wbpInput.style.boxShadow = '';
+      }, 3000);
+      
+      wbpInput.focus();
+      toast.error('Harap pilih Warga Binaan terlebih dahulu!');
+      return true;
+    }
+  }
+  return false;
+};
+
 
   // Tampilkan form tambah pengunjung
   return (
@@ -10634,6 +11216,26 @@ if (showEditForm && newPengunjung) {
                   <FaQrcode className="w-5 h-5" />
                 </button>
               </div>
+
+              {/* Tombol Cek Kelengkapan Data */}
+<div className="flex justify-center mb-1 mt-3">
+  <button
+    type="button"
+    onClick={handleCheckEmptyFields}
+    className="bg-yellow-500 text-white py-3 px-6 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all flex items-center justify-center touch-friendly text-lg font-semibold shadow-lg"
+  >
+    <FaSearch className="inline-block mr-2" />
+    Cek Kelengkapan Data
+  </button>
+</div>
+
+{/* Info tentang fungsi cek kelengkapan */}
+<div className="mb-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-lg">
+  <p className="text-blue-700 text-sm flex items-center">
+    <FaInfoCircle className="mr-2" />
+    <strong>Tips:</strong> Gunakan tombol "Cek Kelengkapan Data" untuk langsung menuju ke field yang masih kosong.
+  </p>
+</div>
               
               {isPengunjungDropdownOpen && filteredPengunjung.length > 0 && (
                 <div className="absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto touch-friendly">
@@ -10842,7 +11444,7 @@ if (showEditForm && newPengunjung) {
                 onChange={handleInputChange}
                 onFocus={() => handleInputFocus('nik', formData.nik)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all touch-friendly"
-                required
+                // required
                 inputMode="numeric"
                 pattern="[0-9]*"
                 autoComplete="on"
@@ -10861,7 +11463,7 @@ if (showEditForm && newPengunjung) {
                 onChange={handleInputChange}
                 onFocus={() => handleInputFocus('hp', formData.hp)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all touch-friendly"
-                required
+                // required
                 inputMode="tel"
                 autoComplete="tel"
               />
@@ -11076,6 +11678,10 @@ if (showEditForm && newPengunjung) {
                 </div>
               )}
             </div>
+
+            
+
+
 
             {/* Tombol Submit */}
             {/* Tombol Submit - Sama untuk semua user */}
