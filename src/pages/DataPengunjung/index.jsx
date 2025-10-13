@@ -465,7 +465,7 @@ const PengunjungData = () => {
             
             <div style="text-align: center;">
               <div style="font-size: 10px; opacity: 0.9;">Valid Until</div>
-              <div style="font-size: 12px; font-weight: bold;">${new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString('id-ID')}</div>
+              <div style="font-size: 12px; font-weight: bold;">${new Date(Date.now() + 360 * 24 * 60 * 60 * 1000).toLocaleDateString('id-ID')}</div>
             </div>
           </div>
           
