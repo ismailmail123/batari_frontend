@@ -9684,7 +9684,7 @@ const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChang
     >
       <div 
         ref={keyboardRef}
-        className="bg-transparent bg-opacity-85 backdrop-blur-lg rounded-2xl transform transition-all duration-300 pointer-events-auto"
+        className="bg-transparent rounded-2xl transform transition-all duration-300 pointer-events-auto"
         style={{
           position: 'fixed',
           left: `${position.x}px`,
