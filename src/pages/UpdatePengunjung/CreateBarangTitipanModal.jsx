@@ -218,6 +218,26 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
 
   const currentRows = activeInput === 'jumlah' ? numberRows : (isSymbol ? symbolRows : alphaRows);
 
+  // Handle click outside untuk menutup keyboard
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Jika keyboardRef ada dan klik dilakukan di luar komponen keyboard
+      if (keyboardRef.current && !keyboardRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    // Tambahkan event listener ketika komponen mount
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('touchstart', handleClickOutside); // Untuk perangkat touch
+
+    // Cleanup event listener ketika komponen unmount
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [onClose]);
+
   // Handle drag start
   const handleDragStart = (clientX, clientY) => {
     if (!keyboardRef.current) return;
@@ -233,10 +253,12 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
 
   const handleMouseDown = (e) => {
     e.preventDefault();
+    e.stopPropagation(); // Mencegah event bubbling ke parent
     handleDragStart(e.clientX, e.clientY);
   };
 
   const handleTouchStart = (e) => {
+    e.stopPropagation(); // Mencegah event bubbling ke parent
     const touch = e.touches[0];
     handleDragStart(touch.clientX, touch.clientY);
   };
@@ -371,7 +393,7 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
     <div className="fixed inset-0 bg-black bg-opacity-30 flex items-end justify-center z-50 p-4 pointer-events-none">
       <div 
         ref={keyboardRef}
-        className="bg-transparent bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-2xl w-full max-w-2xl pointer-events-auto border border-white border-opacity-20"
+        className="bg-transparent rounded-2xl shadow-2xl w-full max-w-2xl pointer-events-auto border border-white border-opacity-20"
         style={{
           position: 'fixed',
           left: `${position.x}px`,
@@ -380,6 +402,9 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
           touchAction: 'none',
           zIndex: 1000
         }}
+        // Tambahkan event stopPropagation untuk mencegah event bubbling
+        onMouseDown={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
       >
         {/* Draggable Header */}
         <div 
@@ -399,7 +424,7 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
             </div>
             <button
               onClick={onClose}
-              className="p-3 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all"
+              className="p-3 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all touch-friendly min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
               <FaTimes className="w-5 h-5" />
             </button>
@@ -426,31 +451,30 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
           {currentRows.map((row, rowIndex) => (
             <div key={rowIndex} className="flex justify-center mb-2 space-x-1">
               {row.map((key) => (
-                
                 <button
-  key={key}
-  onClick={() => handleKeyClick(key)}
-  className="flex-1 max-w-[60px] h-14 bg-white bg-opacity-95 rounded-xl transition-all duration-300 font-medium text-gray-700 touch-friendly relative overflow-hidden group"
-  style={{ 
-    minWidth: '44px',
-    minHeight: '44px',
-    touchAction: 'manipulation'
-  }}
->
-  {/* Base Border - Lebih tebal */}
-  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-400 to-gray-600 border-[3px] border-gray-500 shadow-sm"></div>
-  
-  {/* Neon Border Effect */}
-  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-sm group-hover:blur-0"></div>
-  
-  {/* Content Area */}
-  <div className="absolute inset-[3px] rounded-lg bg-white bg-opacity-95 flex items-center justify-center z-10 group-hover:bg-opacity-100 transition-all duration-300">
-    {key === 'backspace' ? '⌫' : (isShift && !isSymbol && activeInput !== 'jumlah' ? key.toUpperCase() : key)}
-  </div>
-  
-  {/* Hover Glow */}
-  <div className="absolute inset-0 rounded-xl shadow-lg shadow-blue-500/0 group-hover:shadow-blue-500/40 group-hover:shadow-xl transition-all duration-300"></div>
-</button>
+                  key={key}
+                  onClick={() => handleKeyClick(key)}
+                  className="flex-1 max-w-[60px] h-14 bg-white bg-opacity-95 rounded-xl transition-all duration-300 font-medium text-gray-700 touch-friendly relative overflow-hidden group"
+                  style={{ 
+                    minWidth: '44px',
+                    minHeight: '44px',
+                    touchAction: 'manipulation'
+                  }}
+                >
+                  {/* Base Border - Lebih tebal */}
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-400 to-gray-600 border-[3px] border-gray-500 shadow-sm"></div>
+                  
+                  {/* Neon Border Effect */}
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-sm group-hover:blur-0"></div>
+                  
+                  {/* Content Area */}
+                  <div className="absolute inset-[3px] rounded-lg bg-white bg-opacity-95 flex items-center justify-center z-10 group-hover:bg-opacity-100 transition-all duration-300">
+                    {key === 'backspace' ? '⌫' : (isShift && !isSymbol && activeInput !== 'jumlah' ? key.toUpperCase() : key)}
+                  </div>
+                  
+                  {/* Hover Glow */}
+                  <div className="absolute inset-0 rounded-xl shadow-lg shadow-blue-500/0 group-hover:shadow-blue-500/40 group-hover:shadow-xl transition-all duration-300"></div>
+                </button>
               ))}
             </div>
           ))}
@@ -465,6 +489,10 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
                     ? 'bg-blue-500 text-white shadow-lg shadow-blue-200 border-2 border-blue-600' 
                     : 'bg-gray-100 bg-opacity-80 text-gray-700 border-2 border-gray-200 hover:bg-gray-200'
                 }`}
+                style={{ 
+                  minHeight: '44px',
+                  touchAction: 'manipulation'
+                }}
               >
                 ⇧ SHIFT
               </button>
@@ -476,6 +504,10 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
                     ? 'bg-purple-500 text-white shadow-lg shadow-purple-200 border-2 border-purple-600' 
                     : 'bg-gray-100 bg-opacity-80 text-gray-700 border-2 border-gray-200 hover:bg-gray-200'
                 }`}
+                style={{ 
+                  minHeight: '44px',
+                  touchAction: 'manipulation'
+                }}
               >
                 {isSymbol ? 'ABC' : '123'}
               </button>
@@ -483,6 +515,10 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
               <button
                 onClick={() => handleSpecialKey('space')}
                 className="flex-1 max-w-[200px] h-14 bg-gray-100 bg-opacity-80 border-2 border-gray-200 rounded-xl hover:bg-gray-200 active:bg-gray-300 transition-all touch-friendly text-gray-600 font-medium"
+                style={{ 
+                  minHeight: '44px',
+                  touchAction: 'manipulation'
+                }}
               >
                 SPACE
               </button>
@@ -490,6 +526,10 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
               <button
                 onClick={() => handleSpecialKey('backspace')}
                 className="flex-1 max-w-[120px] h-14 bg-red-500 text-white rounded-xl hover:bg-red-600 active:bg-red-700 transition-all touch-friendly font-medium shadow-lg shadow-red-200 border-2 border-red-600"
+                style={{ 
+                  minHeight: '44px',
+                  touchAction: 'manipulation'
+                }}
               >
                 ⌫ DELETE
               </button>
@@ -501,6 +541,10 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
             <button
               onClick={() => handleSpecialKey('clear')}
               className="flex-1 max-w-[140px] h-12 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-all touch-friendly font-medium border-2 border-orange-600"
+              style={{ 
+                minHeight: '44px',
+                touchAction: 'manipulation'
+              }}
             >
               🗑️ CLEAR
             </button>
@@ -508,6 +552,10 @@ const VirtualKeyboardBarang = ({ onKeyPress, onClose, value, activeInput, onInpu
             <button
               onClick={() => handleSpecialKey('enter')}
               className="flex-1 max-w-[140px] h-12 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all touch-friendly font-medium border-2 border-green-600 shadow-lg shadow-green-200"
+              style={{ 
+                minHeight: '44px',
+                touchAction: 'manipulation'
+              }}
             >
               ↵ ENTER
             </button>
