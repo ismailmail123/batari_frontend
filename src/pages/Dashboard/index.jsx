@@ -7047,6 +7047,8 @@ export default function HomePage() {
     updateAntrian,
     updateKartuDiambil
   } = useDataStore();
+
+
   
   // State untuk Antrian
   const [searchKode, setSearchKode] = useState("");
@@ -7259,7 +7261,6 @@ export default function HomePage() {
       return hasAntrian && isToday;
     }
   );
-
   // PERBAIKAN: Filter pengunjung untuk kartu kunjungan - Hanya data hari ini dengan ID terakhir
   const filteredPengunjungKartu = getFilteredUniquePengunjungs(
     pengunjungs,
@@ -7474,6 +7475,7 @@ export default function HomePage() {
   if (!authUser) {
     return null;
   }
+
 
   return (
     <div className="min-h-screen bg-gray-50">

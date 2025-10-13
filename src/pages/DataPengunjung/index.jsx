@@ -251,7 +251,7 @@ const PengunjungData = () => {
           @media print {
             @page {
               size: A6 landscape;
-              margin: 5mm;
+              margin: 2mm;
             }
             body {
               margin: 0;
@@ -325,11 +325,12 @@ const PengunjungData = () => {
           
           .barcode-section {
             text-align: center;
+            width: 100%;
           }
           
           .barcode {
             width: 100%;
-            max-width: 120px;
+            max-width: 170px;
             height: auto;
             filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
           }
@@ -503,6 +504,8 @@ const PengunjungData = () => {
                   <div class="status-badge">ACTIVE</div>
                 </div>
               </div>
+              <div class="data-row">
+                <div class="data-label">NAMA WBP</div>
             </div>
             
             <div style="display: flex; align-items: flex-end; justify-content: space-between; margin-top: auto;">
