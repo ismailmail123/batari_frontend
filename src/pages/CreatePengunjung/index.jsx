@@ -10996,39 +10996,100 @@ const scrollToEmptyInputOrSubmit = () => {
     setShowVirtualKeyboard(true);
   };
 
+  // // Fungsi untuk memilih pengunjung dari dropdown
+  // const selectPengunjung = (pengunjung) => {
+  //   setSelectedPengunjung(pengunjung);
+  //   setFormData({
+  //     ...formData,
+  //     nama: pengunjung.nama || "",
+  //     nik: pengunjung.nik || "",
+  //     alamat: pengunjung.alamat || "",
+  //     hp: pengunjung.hp || "",
+  //     jenis_kelamin: pengunjung.jenis_kelamin || "",
+  //     hubungan_keluarga: pengunjung.hubungan_keluarga || "",
+  //     kode: pengunjung.kode || "",
+  //     tujuan: pengunjung.tujuan || "Berkunjung",
+  //   });
+    
+  //   // Set preview gambar dari data yang sudah ada
+  //   if (pengunjung.photo_ktp) {
+  //     setPreviewKtp(pengunjung.photo_ktp);
+  //     setFormData(prev => ({ ...prev, photo_ktp: pengunjung.photo_ktp }));
+  //   }
+  //   if (pengunjung.photo_pengunjung) {
+  //     setPreviewPengunjung(pengunjung.photo_pengunjung);
+  //     setFormData(prev => ({ ...prev, photo_pengunjung: pengunjung.photo_pengunjung }));
+  //   }
+  //   if (pengunjung.barcode) {
+  //     setPreviewBarcode(pengunjung.barcode);
+  //     setFormData(prev => ({ ...prev, barcode: pengunjung.barcode }));
+  //   }
+    
+  //   setSearchPengunjung(pengunjung.nama);
+  //   setIsPengunjungDropdownOpen(false);
+  //   setShowVirtualKeyboard(false);
+  // };
+
   // Fungsi untuk memilih pengunjung dari dropdown
-  const selectPengunjung = (pengunjung) => {
-    setSelectedPengunjung(pengunjung);
-    setFormData({
-      ...formData,
-      nama: pengunjung.nama || "",
-      nik: pengunjung.nik || "",
-      alamat: pengunjung.alamat || "",
-      hp: pengunjung.hp || "",
-      jenis_kelamin: pengunjung.jenis_kelamin || "",
-      hubungan_keluarga: pengunjung.hubungan_keluarga || "",
-      kode: pengunjung.kode || "",
-      tujuan: pengunjung.tujuan || "Berkunjung",
-    });
-    
-    // Set preview gambar dari data yang sudah ada
-    if (pengunjung.photo_ktp) {
-      setPreviewKtp(pengunjung.photo_ktp);
-      setFormData(prev => ({ ...prev, photo_ktp: pengunjung.photo_ktp }));
-    }
-    if (pengunjung.photo_pengunjung) {
-      setPreviewPengunjung(pengunjung.photo_pengunjung);
-      setFormData(prev => ({ ...prev, photo_pengunjung: pengunjung.photo_pengunjung }));
-    }
-    if (pengunjung.barcode) {
-      setPreviewBarcode(pengunjung.barcode);
-      setFormData(prev => ({ ...prev, barcode: pengunjung.barcode }));
-    }
-    
-    setSearchPengunjung(pengunjung.nama);
-    setIsPengunjungDropdownOpen(false);
-    setShowVirtualKeyboard(false);
+const selectPengunjung = (pengunjung) => {
+  console.log("Data pengunjung yang dipilih:", pengunjung); // Debug log
+  
+  setSelectedPengunjung(pengunjung);
+  
+  // Update form data dengan data pengunjung
+  const updatedFormData = {
+    ...formData,
+    nama: pengunjung.nama || "",
+    nik: pengunjung.nik || "",
+    alamat: pengunjung.alamat || "",
+    hp: pengunjung.hp || "",
+    jenis_kelamin: pengunjung.jenis_kelamin || "",
+    hubungan_keluarga: pengunjung.hubungan_keluarga || "",
+    kode: pengunjung.kode || "",
+    tujuan: pengunjung.tujuan || "Berkunjung",
   };
+
+  // PERBAIKAN: Jika pengunjung memiliki data WBP, isi otomatis
+  if (pengunjung.warga_binaan) {
+    console.log("WBP ditemukan dalam data pengunjung:", pengunjung.warga_binaan);
+    
+    // Update form data dengan WBP ID
+    updatedFormData.wbp_id = pengunjung.warga_binaan.id;
+    
+    // Update search WBP dengan nama WBP
+    setSearchWbp(pengunjung.warga_binaan.nama);
+    
+    toast.success(`Data WBP terisi otomatis: ${pengunjung.warga_binaan.nama}`);
+  } else {
+    console.log("Tidak ada data WBP dalam data pengunjung");
+    // Jika tidak ada data WBP, reset field WBP
+    updatedFormData.wbp_id = "";
+    setSearchWbp("");
+  }
+
+  setFormData(updatedFormData);
+  
+  // Set preview gambar dari data yang sudah ada
+  if (pengunjung.photo_ktp) {
+    setPreviewKtp(pengunjung.photo_ktp);
+    setFormData(prev => ({ ...prev, photo_ktp: pengunjung.photo_ktp }));
+  }
+  if (pengunjung.photo_pengunjung) {
+    setPreviewPengunjung(pengunjung.photo_pengunjung);
+    setFormData(prev => ({ ...prev, photo_pengunjung: pengunjung.photo_pengunjung }));
+  }
+  if (pengunjung.barcode) {
+    setPreviewBarcode(pengunjung.barcode);
+    setFormData(prev => ({ ...prev, barcode: pengunjung.barcode }));
+  }
+  
+  setSearchPengunjung(pengunjung.nama);
+  setIsPengunjungDropdownOpen(false);
+  setShowVirtualKeyboard(false);
+};
+
+
+  console.log("search pengunjung:", searchPengunjung);
 
   // PERBAIKAN: Fungsi untuk memilih WBP dengan validasi
   const selectWbp = (wbp) => {
@@ -11048,20 +11109,35 @@ const scrollToEmptyInputOrSubmit = () => {
     toast.success(`WBP dipilih: ${wbp.nama} (ID: ${wbp.id})`);
   };
 
-  // Fungsi untuk handle scan barcode pengunjung
-  const handleScanPengunjung = (data) => {
-    setSearchPengunjung(data);
-    setShowScannerPengunjung(false);
+  // // Fungsi untuk handle scan barcode pengunjung
+  // const handleScanPengunjung = (data) => {
+  //   setSearchPengunjung(data);
+  //   setShowScannerPengunjung(false);
     
-    // Cari pengunjung berdasarkan kode yang di-scan
-    const pengunjungDitemukan = filteredPengunjung.find(p => p.kode === data);
-    if (pengunjungDitemukan) {
-      selectPengunjung(pengunjungDitemukan);
-      toast.success("Pengunjung ditemukan melalui scan");
-    } else {
-      toast.error("Pengunjung tidak ditemukan");
-    }
-  };
+  //   // Cari pengunjung berdasarkan kode yang di-scan
+  //   const pengunjungDitemukan = filteredPengunjung.find(p => p.kode === data);
+  //   if (pengunjungDitemukan) {
+  //     selectPengunjung(pengunjungDitemukan);
+  //     toast.success("Pengunjung ditemukan melalui scan");
+  //   } else {
+  //     toast.error("Pengunjung tidak ditemukan");
+  //   }
+  // };
+
+  // Fungsi untuk handle scan barcode pengunjung
+const handleScanPengunjung = (data) => {
+  setSearchPengunjung(data);
+  setShowScannerPengunjung(false);
+  
+  // Cari pengunjung berdasarkan kode yang di-scan
+  const pengunjungDitemukan = filteredPengunjung.find(p => p.kode === data);
+  if (pengunjungDitemukan) {
+    selectPengunjung(pengunjungDitemukan);
+    toast.success("Pengunjung ditemukan melalui scan");
+  } else {
+    toast.error("Pengunjung tidak ditemukan");
+  }
+};
 
   // PERBAIKAN: Fungsi untuk handle scan barcode WBP
   const handleScanWbp = (data) => {
@@ -11714,121 +11790,62 @@ const checkWbpField = () => {
             </div>
 
             {/* Informasi Pengunjung Terpilih */}
-            {selectedPengunjung && (
-              <div className="p-4 bg-green-50 border-l-4 border-green-500 rounded-lg">
-                <p className="text-green-700 font-medium mb-2">
-                  ✓ Data pengunjung terpilih:
-                </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <div className="grid grid-cols-2 gap-2 text-sm text-green-600">
-                      <div><strong>Nama:</strong> {selectedPengunjung.nama}</div>
-                      <div><strong>NIK:</strong> {selectedPengunjung.nik}</div>
-                      <div><strong>HP:</strong> {selectedPengunjung.hp}</div>
-                      <div><strong>Alamat:</strong> {selectedPengunjung.alamat}</div>
-                      <div><strong>Jenis Kelamin:</strong> {selectedPengunjung.jenis_kelamin}</div>
-                      <div><strong>Kode:</strong> {selectedPengunjung.kode}</div>
-                      {selectedPengunjung.hubungan_keluarga && (
-                        <div><strong>Hubungan:</strong> {selectedPengunjung.hubungan_keluarga}</div>
-                      )}
-                    </div>
-                  </div>
-                  
-                  {/* Foto dari Data Existing */}
-                  <div className="space-y-3">
-                    <div className="grid grid-cols-3 gap-2">
-                      {/* Foto KTP Existing */}
-                      {selectedPengunjung.photo_ktp && (
-                        <div className="flex-1">
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-medium text-green-700">KTP</span>
-                            <button
-                              type="button"
-                              onClick={() => handleExistingPhoto('ktp')}
-                              className="text-xs bg-green-600 text-white px-1 py-0.5 rounded hover:bg-green-700 transition-colors"
-                            >
-                              Gunakan
-                            </button>
-                          </div>
-                          <div 
-                            className="border-2 border-green-300 rounded-lg p-1 cursor-pointer hover:border-green-500 transition-colors"
-                            onClick={() => setShowModalKtp(true)}
-                          >
-                            <img
-                              src={selectedPengunjung.photo_ktp}
-                              alt="KTP Existing"
-                              className="w-full h-16 object-cover rounded"
-                            />
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Foto Pengunjung Existing */}
-                      {selectedPengunjung.photo_pengunjung && (
-                        <div className="flex-1">
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-medium text-green-700">Foto</span>
-                            <button
-                              type="button"
-                              onClick={() => handleExistingPhoto('pengunjung')}
-                              className="text-xs bg-green-600 text-white px-1 py-0.5 rounded hover:bg-green-700 transition-colors"
-                            >
-                              Gunakan
-                            </button>
-                          </div>
-                          <div 
-                            className="border-2 border-green-300 rounded-lg p-1 cursor-pointer hover:border-green-500 transition-colors"
-                            onClick={() => setShowModalPengunjung(true)}
-                          >
-                            <img
-                              src={selectedPengunjung.photo_pengunjung}
-                              alt="Pengunjung Existing"
-                              className="w-full h-16 object-cover rounded"
-                            />
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Barcode Existing */}
-                      {selectedPengunjung.barcode && (
-                        <div className="flex-1">
-                          <div className="flex justify-between items-center mb-1">
-                            <span className="text-xs font-medium text-green-700">Barcode</span>
-                            <button
-                              type="button"
-                              onClick={() => handleExistingPhoto('barcode')}
-                              className="text-xs bg-green-600 text-white px-1 py-0.5 rounded hover:bg-green-700 transition-colors"
-                            >
-                              Gunakan
-                            </button>
-                          </div>
-                          <div 
-                            className="border-2 border-green-300 rounded-lg p-1 cursor-pointer hover:border-green-500 transition-colors"
-                            onClick={() => setShowModalBarcode(true)}
-                          >
-                            <img
-                              src={selectedPengunjung.barcode}
-                              alt="Barcode Existing"
-                              className="w-full h-16 object-cover rounded"
-                            />
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                    
-                    {(!selectedPengunjung.photo_ktp || !selectedPengunjung.photo_pengunjung || !selectedPengunjung.barcode) && (
-                      <div className="text-xs text-green-600 bg-green-100 p-2 rounded">
-                        <FaCamera className="inline mr-1" />
-                        File yang tidak tersedia: 
-                        {!selectedPengunjung.photo_ktp && " KTP"}
-                        {!selectedPengunjung.photo_pengunjung && " Foto"}
-                        {!selectedPengunjung.barcode && " Barcode"}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
+            {/* Informasi Pengunjung Terpilih */}
+{selectedPengunjung && (
+  <div className="p-4 bg-green-50 border-l-4 border-green-500 rounded-lg">
+    <p className="text-green-700 font-medium mb-2">
+      ✓ Data pengunjung terpilih:
+    </p>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="space-y-2">
+        <div className="grid grid-cols-2 gap-2 text-sm text-green-600">
+          <div><strong>Nama:</strong> {selectedPengunjung.nama}</div>
+          <div><strong>NIK:</strong> {selectedPengunjung.nik}</div>
+          <div><strong>HP:</strong> {selectedPengunjung.hp}</div>
+          <div><strong>Alamat:</strong> {selectedPengunjung.alamat}</div>
+          <div><strong>Jenis Kelamin:</strong> {selectedPengunjung.jenis_kelamin}</div>
+          <div><strong>Kode:</strong> {selectedPengunjung.kode}</div>
+          {selectedPengunjung.hubungan_keluarga && (
+            <div><strong>Hubungan:</strong> {selectedPengunjung.hubungan_keluarga}</div>
+          )}
+          {/* Tampilkan informasi WBP jika ada */}
+          {selectedPengunjung.warga_binaan && (
+            <>
+              <div><strong>WBP:</strong> {selectedPengunjung.warga_binaan.nama}</div>
+              <div><strong>ID WBP:</strong> {selectedPengunjung.warga_binaan.id}</div>
+            </>
+          )}
+        </div>
+      </div>
+      
+      {/* Foto dari Data Existing */}
+      {/* ... kode existing untuk foto ... */}
+    </div>
+    
+    {/* Tombol untuk menghapus data WBP jika ingin diganti */}
+    {selectedPengunjung.warga_binaan && (
+      <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+        <div className="flex justify-between items-center">
+          <div className="text-sm text-blue-700">
+            <strong>Data WBP terisi otomatis.</strong> Jika ingin mengganti, 
+            silakan pilih WBP baru dari field pencarian WBP di atas.
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              setFormData(prev => ({ ...prev, wbp_id: "" }));
+              setSearchWbp("");
+              toast.info("Data WBP direset, silakan pilih WBP baru");
+            }}
+            className="text-xs bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors"
+          >
+            Reset WBP
+          </button>
+        </div>
+      </div>
+    )}
+  </div>
+)}
 
             {/* Nama */}
             <div>
