@@ -3972,20 +3972,20 @@ const handlePrintThermalNow = () => {
               </button>
               
               {/* TOMBOL PRINT LANGSUNG KARTU KUNJUNGAN */}
-              <button
+              {/* <button
                 onClick={handlePrintNow}
                 disabled={isPrinting}
                 className="bg-green-600 text-white px-4 py-2 rounded text-bold hover:bg-green-700 disabled:opacity-50"
               >
                 {isPrinting ? "Mencetak..." : "Print Kartu Kunjungan"}
-              </button>
+              </button> */}
               {/* TOMBOL PRINT THERMAL LANGSUNG */}
 <button
   onClick={handlePrintThermalNow}
   disabled={isPrinting}
   className="bg-gray-700 text-white px-4 py-2 rounded text-bold hover:bg-gray-800 disabled:opacity-50"
 >
-  {isPrinting ? "Mencetak..." : "Print Kartu Thermal"}
+  {isPrinting ? "Mencetak..." : "Print Kartu Kunjungan Thermal"}
 </button>
               
               {/* <button
