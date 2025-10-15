@@ -3970,6 +3970,8 @@ const handlePrintThermalNow = () => {
               >
                 Perbarui
               </button>
+
+              {/* krtu ukuran a5 */}
               
               {/* TOMBOL PRINT LANGSUNG KARTU KUNJUNGAN */}
               {/* <button
