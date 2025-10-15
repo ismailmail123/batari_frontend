@@ -2115,6 +2115,7 @@ import "./style.css";
 import useAuthStore from "../../store/useAuthStore";
 import { FaHome } from "react-icons/fa";
 import IconUser from "../../assets/avatar.jpg";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const PengunjungLabel = () => {
   const { id } = useParams();
@@ -2770,14 +2771,21 @@ const PengunjungLabel = () => {
         ref={componentRef}
         className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden"
       >
-        <div className="flex justify-end w-full pl-2">
-          <Link
-            to="/"
-            className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >
-            <FaHome className="font-bold text-black size-[30px]" />
-          </Link>
-        </div>
+        <div className="flex justify-between items-center p-4">
+                {/* Header */}
+                  <button
+                    onClick={()=> navigate(-1)}
+                    className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    <IoMdArrowRoundBack className="font-bold text-black size-7" />
+                  </button>
+                  <Link
+                    to="/"
+                    className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  >
+                    <FaHome className="font-bold text-black size-7" />
+                  </Link>
+                </div>
         
         {/* Institutional Header */}
         <div className="p-6 mt-[-50px] flex border-b-2 border-gray-200">

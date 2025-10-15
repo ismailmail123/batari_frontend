@@ -2311,11 +2311,12 @@ import {
 } from "@react-pdf/renderer";
 import { PDFViewer } from "@react-pdf/renderer";
 import logo from "../../assets/logokemenimipas.png";
-import { icons } from "lucide-react";
+import { Backpack, icons } from "lucide-react";
 import "./style.css";
 import useAuthStore from "../../store/useAuthStore";
 import { FaHome } from "react-icons/fa";
 import IconUser from "../../assets/avatar.jpg";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const PengunjungDetail = () => {
   const { id } = useParams();
@@ -3748,8 +3749,14 @@ const handlePrintThermalNow = () => {
         ref={componentRef}
         className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden"
       >
+        <div className="flex justify-between items-center p-4">
         {/* Header */}
-        <div className="flex justify-end w-full pl-2">
+          <button
+            onClick={()=> navigate(-1)}
+            className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            <IoMdArrowRoundBack className="font-bold text-black size-7" />
+          </button>
           <Link
             to="/"
             className=" hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -3759,7 +3766,7 @@ const handlePrintThermalNow = () => {
         </div>
 
         {/* Institutional Header */}
-        <div className="p-6 flex border-b-2 border-gray-200">
+        <div className="p-6 flex border-b-2 border-gray-200 mt-[-30px]">
           <span className=" p-0">
             <img src={logo} alt="kemenimipas" className="w-28"></img>
           </span>
