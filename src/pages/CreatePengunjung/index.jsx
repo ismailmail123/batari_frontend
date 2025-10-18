@@ -10366,7 +10366,7 @@ const PrintAntrian = ({ pengunjung, antrian, onClose }) => {
       padding: 0; 
     }
     .ticket-container {
-      width: 80mm;
+      width: 65mm;
       height: 76mm;
       border: 1px dashed #000;
       margin: 0;
