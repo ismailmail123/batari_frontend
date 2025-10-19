@@ -225,6 +225,7 @@ import useDataStore from "../../store/useDataStore";
 import NavbarWbp from "../Navbar";
 import "./style.css";
 import useAuthStore from "../../store/useAuthStore";
+import PrintAllCards from "./PrintAllCard";
 
 const PengunjungData = () => {
   const {authUser} = useAuthStore();
@@ -602,6 +603,7 @@ const PengunjungData = () => {
               className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             />
           </div>
+          <PrintAllCards pengunjungData={dataToShow} />
           
           {(authUser.user?.role === 'admin' || authUser.user?.role === 'p2u') && (
             <button 
@@ -619,6 +621,7 @@ const PengunjungData = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
               <tr>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">No.</th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nama</th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Alamat</th>
                 <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">NIK</th>
@@ -629,11 +632,17 @@ const PengunjungData = () => {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {dataToShow.length > 0 ? (
-                dataToShow.map((pengunjung) => (
+                dataToShow.map((pengunjung, index) => (
                   <tr
                     key={pengunjung.id}
                     className="hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-200 group"
                   >
+                    <td 
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 cursor-pointer"
+                      onClick={() => navigate(`/pengunjung/data/${pengunjung.kode}/update`)}
+                    >
+                      {index + 1}
+                    </td>
                     <td 
                       className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 cursor-pointer group-hover:text-blue-600"
                       onClick={() => navigate(`/pengunjung/data/${pengunjung.kode}/update`)}
