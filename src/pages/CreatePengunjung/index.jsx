@@ -8930,6 +8930,127 @@ import { FaUser, FaIdCard, FaPhone, FaHome, FaVenusMars, FaQrcode, FaUpload, FaS
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
 import CreateBarangTitipanModal from "../UpdatePengunjung/CreateBarangTitipanModal";
+import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
+
+// Komponen VoiceToTextButton yang reusable
+const VoiceToTextButton = ({ 
+  onTranscript, 
+  onStart, 
+  onStop, 
+  isListening,
+  className = "" 
+}) => {
+  return (
+    <button
+      type="button"
+      onClick={isListening ? onStop : onStart}
+      className={`p-2 rounded-full transition-all duration-300 ${
+        isListening 
+          ? 'bg-red-500 text-white animate-pulse' 
+          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+      } ${className}`}
+      title={isListening ? "Menghentikan rekaman" : "Mulai rekaman suara"}
+    >
+      {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}
+    </button>
+  );
+};
+
+// Custom hook untuk speech recognition
+const useSpeechToText = () => {
+  const [isListening, setIsListening] = useState(false);
+  const [transcript, setTranscript] = useState('');
+  const [isSupported, setIsSupported] = useState(false);
+  const recognitionRef = useRef(null);
+
+  useEffect(() => {
+    // Cek apakah browser mendukung Web Speech API
+    if (typeof window !== 'undefined' && ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+      setIsSupported(true);
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognitionRef.current = new SpeechRecognition();
+      
+      recognitionRef.current.continuous = false;
+      recognitionRef.current.interimResults = false;
+      recognitionRef.current.lang = 'id-ID'; // Bahasa Indonesia
+
+      recognitionRef.current.onstart = () => {
+        setIsListening(true);
+        setTranscript('');
+      };
+
+      recognitionRef.current.onresult = (event) => {
+        const currentTranscript = event.results[0][0].transcript;
+        setTranscript(currentTranscript);
+      };
+
+      recognitionRef.current.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
+        setIsListening(false);
+        
+        if (event.error === 'not-allowed') {
+          toast.error('Izin microphone tidak diberikan. Silakan izinkan akses microphone.');
+        } else if (event.error === 'audio-capture') {
+          toast.error('Tidak dapat mengakses microphone. Pastikan microphone terhubung.');
+        } else {
+          toast.error(`Error speech recognition: ${event.error}`);
+        }
+      };
+
+      recognitionRef.current.onend = () => {
+        setIsListening(false);
+      };
+    } else {
+      setIsSupported(false);
+      console.warn('Web Speech API tidak didukung di browser ini');
+    }
+
+    return () => {
+      if (recognitionRef.current) {
+        recognitionRef.current.stop();
+      }
+    };
+  }, []);
+
+  const startListening = () => {
+    if (!isSupported) {
+      toast.error('Browser tidak mendukung fitur voice-to-text');
+      return;
+    }
+
+    if (recognitionRef.current && !isListening) {
+      try {
+        recognitionRef.current.start();
+        toast.success("Mendengarkan... Silakan berbicara sekarang");
+      } catch (error) {
+        console.error('Error starting speech recognition:', error);
+        toast.error('Gagal memulai speech recognition');
+      }
+    }
+  };
+
+  const stopListening = () => {
+    if (recognitionRef.current && isListening) {
+      recognitionRef.current.stop();
+      setIsListening(false);
+    }
+  };
+
+  // Reset transcript
+  const resetTranscript = () => {
+    setTranscript('');
+  };
+
+  return {
+    isListening,
+    transcript,
+    isSupported,
+    startListening,
+    stopListening,
+    resetTranscript
+  };
+};
+
 
 // Komponen BarcodeScanner untuk AddPengunjungForm
 const BarcodeScanner = ({ onScan, onClose }) => {
@@ -10901,7 +11022,84 @@ const AddPengunjungForm = ({ onClose }) => {
     }
   };
 
-  
+  // Speech to text hook
+  const {
+    isListening,
+    transcript,
+    isSupported,
+    startListening,
+    stopListening,
+    resetTranscript
+  } = useSpeechToText();
+
+  // State untuk melacak input mana yang sedang aktif
+  const [activeVoiceInput, setActiveVoiceInput] = useState(null);
+
+  // Effect untuk menangani transcript ketika berubah
+  useEffect(() => {
+    if (transcript && activeVoiceInput) {
+      handleVoiceInput(activeVoiceInput, transcript);
+      resetTranscript();
+    }
+  }, [transcript, activeVoiceInput]);
+
+  // Fungsi untuk menangani input dari voice
+  const handleVoiceInput = (inputType, voiceText) => {
+    switch (inputType) {
+      case 'wbp':
+        setSearchWbp(voiceText);
+        if (voiceText.length > 0) {
+          setIsWbpDropdownOpen(true);
+        }
+        break;
+      case 'pengunjung':
+        setSearchPengunjung(voiceText);
+        if (voiceText.length > 0) {
+          setIsPengunjungDropdownOpen(true);
+        }
+        break;
+      case 'nama':
+        setFormData(prev => ({ ...prev, nama: voiceText }));
+        break;
+      case 'nik':
+        // Hanya ambil angka dari transcript untuk NIK
+        const nikNumbers = voiceText.replace(/\D/g, '');
+        setFormData(prev => ({ ...prev, nik: nikNumbers }));
+        break;
+      case 'hp':
+        // Hanya ambil angka dari transcript untuk nomor HP
+        const hpNumbers = voiceText.replace(/\D/g, '');
+        setFormData(prev => ({ ...prev, hp: hpNumbers }));
+        break;
+      case 'alamat':
+        setFormData(prev => ({ ...prev, alamat: voiceText }));
+        break;
+      case 'hubungan_keluarga':
+        setFormData(prev => ({ ...prev, hubungan_keluarga: voiceText }));
+        break;
+      case 'kode':
+        // Untuk kode, bisa berupa huruf dan angka
+        const cleanKode = voiceText.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        setFormData(prev => ({ ...prev, kode: cleanKode }));
+        break;
+      default:
+        break;
+    }
+    
+    toast.success(`Teks berhasil diinput: "${voiceText}"`);
+  };
+
+  // Fungsi untuk memulai listening untuk input tertentu
+  const startVoiceInput = (inputType) => {
+    setActiveVoiceInput(inputType);
+    startListening();
+  };
+
+  // Fungsi untuk menghentikan listening
+  const stopVoiceInput = () => {
+    stopListening();
+    setActiveVoiceInput(null);
+  };
 
 
   // Deteksi perangkat saat komponen dimuat
@@ -11973,6 +12171,16 @@ const checkWbpField = () => {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all touch-friendly"
                   required
                 />
+                 {isSupported && (
+                    <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                      <VoiceToTextButton
+                        onStart={() => startVoiceInput('wbp')}
+                        onStop={stopVoiceInput}
+                        isListening={isListening && activeVoiceInput === 'wbp'}
+                        className="min-w-[44px] min-h-[44px]"
+                      />
+                    </div>
+                  )}
                 <button
                   type="button"
                   onClick={() => setShowScannerWbp(true)}
