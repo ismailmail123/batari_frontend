@@ -12159,6 +12159,7 @@ const checkWbpField = () => {
                 <FaUser className="inline-block mr-2" /> Cari Warga Binaan
               </label>
               <div className="flex items-center space-x-2">
+                <div className="flex-1 relative">
                 <input
                   type="text"
                   value={searchWbp}
@@ -12181,6 +12182,7 @@ const checkWbpField = () => {
                       />
                     </div>
                   )}
+                  </div>
                 <button
                   type="button"
                   onClick={() => setShowScannerWbp(true)}
@@ -12225,6 +12227,7 @@ const checkWbpField = () => {
                 <FaUser className="inline-block mr-2" /> Cari Pengunjung (Data Existing)
               </label>
               <div className="flex items-center space-x-2">
+                <div className="flex-1 relative">
                 <input
                   type="text"
                   value={searchPengunjung}
@@ -12236,6 +12239,17 @@ const checkWbpField = () => {
                   placeholder="Ketik nama atau NIK pengunjung yang sudah ada..."
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all touch-friendly"
                 />
+                {isSupported && (
+                    <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                      <VoiceToTextButton
+                        onStart={() => startVoiceInput('pengunjung')}
+                        onStop={stopVoiceInput}
+                        isListening={isListening && activeVoiceInput === 'pengunjung'}
+                        className="min-w-[44px] min-h-[44px]"
+                      />
+                    </div>
+                  )}
+                  </div>
                 <button
                   type="button"
                   onClick={() => setShowScannerPengunjung(true)}
@@ -12357,6 +12371,7 @@ const checkWbpField = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FaUser className="inline-block mr-2" /> Nama
               </label>
+              <div className="relative">
               <input
                 type="text"
                 name="nama"
@@ -12369,10 +12384,22 @@ const checkWbpField = () => {
                 autoComplete="name"
                 autoCapitalize="words"
               />
+              {isSupported && (
+                  <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                    <VoiceToTextButton
+                      onStart={() => startVoiceInput('nama')}
+                      onStop={stopVoiceInput}
+                      isListening={isListening && activeVoiceInput === 'nama'}
+                      className="min-w-[44px] min-h-[44px]"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Kode */}
             <div className="flex space-x-2">
+              <div className="flex-1 relative">
               <input
                 type="text"
                 name="kode"
@@ -12386,6 +12413,17 @@ const checkWbpField = () => {
                 autoComplete="off"
                 autoCapitalize="characters"
               />
+               {isSupported && (
+                  <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                    <VoiceToTextButton
+                      onStart={() => startVoiceInput('kode')}
+                      onStop={stopVoiceInput}
+                      isListening={isListening && activeVoiceInput === 'kode'}
+                      className="min-w-[44px] min-h-[44px]"
+                    />
+                  </div>
+                )}
+              </div>
               <button
                 type="button"
                 onClick={generateKode}
@@ -12408,6 +12446,7 @@ const checkWbpField = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FaIdCard className="inline-block mr-2" /> NIK
               </label>
+              <div className="relative">
               <input
                 type="text"
                 name="nik"
@@ -12420,6 +12459,17 @@ const checkWbpField = () => {
                 pattern="[0-9]*"
                 autoComplete="on"
               />
+              {isSupported && (
+                  <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                    <VoiceToTextButton
+                      onStart={() => startVoiceInput('nik')}
+                      onStop={stopVoiceInput}
+                      isListening={isListening && activeVoiceInput === 'nik'}
+                      className="min-w-[44px] min-h-[44px]"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Nomor HP */}
@@ -12427,6 +12477,7 @@ const checkWbpField = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FaPhone className="inline-block mr-2" /> Nomor HP
               </label>
+              <div className="relative">
               <input
                 type="tel"
                 name="hp"
@@ -12438,6 +12489,17 @@ const checkWbpField = () => {
                 inputMode="tel"
                 autoComplete="tel"
               />
+              {isSupported && (
+                  <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                    <VoiceToTextButton
+                      onStart={() => startVoiceInput('hp')}
+                      onStop={stopVoiceInput}
+                      isListening={isListening && activeVoiceInput === 'hp'}
+                      className="min-w-[44px] min-h-[44px]"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Alamat */}
@@ -12445,6 +12507,7 @@ const checkWbpField = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FaHome className="inline-block mr-2" /> Alamat
               </label>
+              <div className="relative">
               <input
                 type="text"
                 name="alamat"
@@ -12455,6 +12518,17 @@ const checkWbpField = () => {
                 inputMode="text"
                 autoComplete="street-address"
               />
+               {isSupported && (
+                  <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                    <VoiceToTextButton
+                      onStart={() => startVoiceInput('alamat')}
+                      onStop={stopVoiceInput}
+                      isListening={isListening && activeVoiceInput === 'alamat'}
+                      className="min-w-[44px] min-h-[44px]"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Jenis Kelamin */}
@@ -12479,6 +12553,7 @@ const checkWbpField = () => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <User className="inline-block mr-2" /> Hubungan Keluarga
               </label>
+              <div className="relative">
               <input
                 type="text"
                 name="hubungan_keluarga"
@@ -12490,6 +12565,17 @@ const checkWbpField = () => {
                 inputMode="text"
                 autoComplete="on"
               />
+               {isSupported && (
+                  <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                    <VoiceToTextButton
+                      onStart={() => startVoiceInput('hubungan_keluarga')}
+                      onStop={stopVoiceInput}
+                      isListening={isListening && activeVoiceInput === 'hubungan_keluarga'}
+                      className="min-w-[44px] min-h-[44px]"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Tujuan */}
