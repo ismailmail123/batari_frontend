@@ -23,7 +23,7 @@ const useDataStore = create((set, get) => ({
     // Fungsi untuk login dan menyimpan token di local storage
     login: async(credentials, navigate, setError) => {
         try {
-            const response = await axios.post("https://batarirtnbantaeng.cloud/api/auth/auth", credentials);
+            const response = await axios.post("http://localhost:8001/api/auth/auth", credentials);
             const data = response.data;
             set({ user: data.data });
             localStorage.setItem("token", data.token); // Simpan token di local storage
@@ -58,7 +58,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/api/users", {
+            const response = await axios.get("http://localhost:8001/api/users", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -76,7 +76,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data", {
+            const response = await axios.get("http://localhost:8001/api/pengunjung/pengunjung-data", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -98,7 +98,7 @@ const useDataStore = create((set, get) => ({
 
         try {
             const response = await axios.post(
-                "https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data",
+                "http://localhost:8001/api/pengunjung/pengunjung-data",
                 formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -147,7 +147,7 @@ const useDataStore = create((set, get) => ({
             }
 
             const response = await axios.put(
-                `https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data/${kode}`,
+                `http://localhost:8001/api/pengunjung/pengunjung-data/${kode}`,
                 formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -197,7 +197,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get(`https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data/bykode/${kode}`, {
+            const response = await axios.get(`http://localhost:8001/api/pengunjung/pengunjung-data/bykode/${kode}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -219,7 +219,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get(`https://batarirtnbantaeng.cloud/api/pengunjung/${id}`, {
+            const response = await axios.get(`http://localhost:8001/api/pengunjung/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -248,7 +248,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axios.post("https://batarirtnbantaeng.cloud/api/wargabinaan/upload-excel", formData, {
+            const response = await axios.post("http://localhost:8001/api/wargabinaan/upload-excel", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${token}`,
@@ -295,7 +295,7 @@ const useDataStore = create((set, get) => ({
 
             set({ loading: true, error: null });
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/api/wargabinaan", {
+            const response = await axios.get("http://localhost:8001/api/wargabinaan", {
                 params: { page, limit },
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -326,7 +326,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axios.get(`https://batarirtnbantaeng.cloud/api/wargabinaan/${wbpId}`, {
+            const response = await axios.get(`http://localhost:8001/api/wargabinaan/${wbpId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -346,7 +346,7 @@ const useDataStore = create((set, get) => ({
                 throw new Error("User data not found. Unable to update wbp data.");
             }
 
-            const response = await axios.put(`https://batarirtnbantaeng.cloud/api/wargabinaan/${wbpId}`, newData, {
+            const response = await axios.put(`http://localhost:8001/api/wargabinaan/${wbpId}`, newData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -373,7 +373,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axios.delete(`https://batarirtnbantaeng.cloud/api/wargabinaan/${wbpId}`, {
+            const response = await axios.delete(`http://localhost:8001/api/wargabinaan/${wbpId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -407,7 +407,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/api/wargabinaan/list", {
+            const response = await axios.get("http://localhost:8001/api/wargabinaan/list", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -427,7 +427,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/api/pengunjung", {
+            const response = await axios.get("http://localhost:8001/api/pengunjung", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -447,7 +447,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get(`https://batarirtnbantaeng.cloud/api/pengunjung/${id}`, {
+            const response = await axios.get(`http://localhost:8001/api/pengunjung/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -468,7 +468,7 @@ const useDataStore = create((set, get) => ({
                 throw new Error("Token not found. Unable to update pengunjung data.");
             }
 
-            const response = await axios.put(`https://batarirtnbantaeng.cloud/api/pengunjung/${id}`, newData, {
+            const response = await axios.put(`http://localhost:8001/api/pengunjung/${id}`, newData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -492,7 +492,7 @@ const useDataStore = create((set, get) => ({
             }
 
             const response = await axios.put(
-                `https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data/${id}`,
+                `http://localhost:8001/api/pengunjung/pengunjung-data/${id}`,
                 formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -536,7 +536,7 @@ const useDataStore = create((set, get) => ({
             }
 
             // Kirim permintaan GET ke endpoint backend
-            const response = await axios.get("https://batarirtnbantaeng.cloud/api/pengunjung/antrian-terakhir", {
+            const response = await axios.get("http://localhost:8001/api/pengunjung/antrian-terakhir", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -639,7 +639,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axios.post("https://batarirtnbantaeng.cloud/api/wargabinaan", pengunjungData, {
+            const response = await axios.post("http://localhost:8001/api/wargabinaan", pengunjungData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -870,7 +870,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/api/pengunjung/user", {
+            const response = await axios.get("http://localhost:8001/api/pengunjung/user", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -939,7 +939,7 @@ const useDataStore = create((set, get) => ({
             return;
         }
         try {
-            const res = await axios.post("https://batarirtnbantaeng.cloud/api/pengunjung/kode-verifikasi", data, {
+            const res = await axios.post("http://localhost:8001/api/pengunjung/kode-verifikasi", data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1038,7 +1038,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axios.post("https://batarirtnbantaeng.cloud/api/barang-titipan", titipanData, {
+            const response = await axios.post("http://localhost:8001/api/barang-titipan", titipanData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1109,7 +1109,7 @@ const useDataStore = create((set, get) => ({
     //     }
 
     //     try {
-    //         const response = await axios.post("https://batarirtnbantaeng.cloud/api/pengunjung", formData, {
+    //         const response = await axios.post("http://localhost:8001/api/pengunjung", formData, {
     //             headers: {
     //                 "Content-Type": "multipart/form-data", // Untuk upload file
     //                 Authorization: `Bearer ${token}`,
@@ -1150,7 +1150,7 @@ const useDataStore = create((set, get) => ({
 
         try {
             const response = await axios.post(
-                "https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data",
+                "http://localhost:8001/api/pengunjung/pengunjung-data",
                 formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -1203,7 +1203,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axios.post("https://batarirtnbantaeng.cloud/api/pengunjung", wbpData, {
+            const response = await axios.post("http://localhost:8001/api/pengunjung", wbpData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1311,7 +1311,7 @@ const useDataStore = create((set, get) => ({
             return;
         }
         try {
-            const response = await axios.put('https://batarirtnbantaeng.cloud/api/pengunjung/update-antrian', { id }, {
+            const response = await axios.put('http://localhost:8001/api/pengunjung/update-antrian', { id }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
