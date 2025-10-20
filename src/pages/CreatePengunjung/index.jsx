@@ -9880,7 +9880,7 @@ const ScannerModal = ({ isOpen, onClose, onScan, title = "Scan Barcode" }) => {
 //     </div>
 //   );
 // };
-const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChange }) => {
+const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChange, onEnter }) => {
   const [isShift, setIsShift] = useState(false);
   const [isSymbol, setIsSymbol] = useState(false);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -10077,6 +10077,7 @@ const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChang
         break;
       case 'enter':
         onKeyPress('enter');
+        if (onEnter) onEnter(); // Panggil fungsi onEnter
         break;
       case 'clear':
         onKeyPress('clear');
@@ -10544,6 +10545,67 @@ const PrintAntrian = ({ pengunjung, antrian, onClose }) => {
   );
 };
 
+
+// Komponen FloatingActionButtons yang diperbaiki
+const FloatingActionButtons = ({ onCheckData, onScrollUp, onScrollDown, isExpanded, onToggleExpand }) => {
+  return (
+    <div className="fixed right-6 bottom-6 z-40 flex flex-col items-end space-y-3">
+      {/* Main Check Button */}
+      <button
+        onClick={onCheckData}
+        className="group relative bg-gradient-to-r from-yellow-500 to-orange-500 text-white p-4 rounded-full shadow-2xl hover:from-yellow-600 hover:to-orange-600 focus:outline-none focus:ring-4 focus:ring-yellow-300 transition-all duration-300 transform hover:scale-110 animate-pulse"
+        title="Cek Kelengkapan Data"
+      >
+        <FaSearch className="w-6 h-6" />
+        
+        {/* Tooltip */}
+        <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+          Cek Kelengkapan Data
+          <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-8 border-transparent border-l-gray-800"></div>
+        </div>
+      </button>
+
+      {/* Scroll Buttons */}
+      <div className={`flex flex-col space-y-3 transition-all duration-300 ${isExpanded ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
+        <button
+          onClick={onScrollUp}
+          className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105"
+          title="Scroll ke Atas"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+        
+        <button
+          onClick={onScrollDown}
+          className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105"
+          title="Scroll ke Bawah"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Toggle Button */}
+      <button
+        onClick={onToggleExpand}
+        className={`mt-2 p-2 rounded-full transition-all duration-300 ${
+          isExpanded 
+            ? 'bg-gray-600 text-white rotate-45' 
+            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+        }`}
+        title={isExpanded ? "Tutup Menu" : "Buka Menu Scroll"}
+      >
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+        </svg>
+      </button>
+    </div>
+  );
+};
+
 const AddPengunjungForm = ({ onClose }) => {
   const { createPengunjung, createDataPengunjung, fetchWbpList, wbpList, updatePengunjung, fetchPengunjungData, pengunjungData, updateAntrian } = useDataStore();
   const [formData, setFormData] = useState({
@@ -10618,6 +10680,227 @@ const AddPengunjungForm = ({ onClose }) => {
 
   const navigate = useNavigate();
   const authUser = JSON.parse(localStorage.getItem('authUser'));
+  const [isExpanded, setIsExpanded] = useState(true);
+  
+  // Ref untuk form container
+  const formContainerRef = useRef(null);
+
+  // Fungsi scroll yang lebih reliable
+  const scrollToTop = () => {
+    // Coba beberapa metode scroll
+    const formElement = document.querySelector('.bg-white.rounded-2xl');
+    const firstInput = document.querySelector('#search-wbp-input');
+    
+    if (formElement) {
+      formElement.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start',
+        inline: 'nearest'
+      });
+    } else if (firstInput) {
+      firstInput.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center',
+        inline: 'nearest'
+      });
+    } else {
+      // Fallback ke window scroll
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const scrollToBottom = () => {
+    const submitButton = document.querySelector('button[type="submit"]');
+    const lastElement = document.querySelector('form')?.lastElementChild;
+    
+    if (submitButton) {
+      submitButton.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'end',
+        inline: 'nearest'
+      });
+    } else if (lastElement) {
+      lastElement.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'end',
+        inline: 'nearest'
+      });
+    } else {
+      // Fallback ke window scroll
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+  };
+
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  // Fungsi untuk mencari dan fokus ke field kosong berikutnya
+  const focusNextEmptyField = () => {
+    const fieldOrder = [
+      'search-wbp-input',
+      'nama',
+      'nik', 
+      'hp',
+      'alamat',
+      'jenis_kelamin',
+      'hubungan_keluarga',
+      'tujuan',
+      'kode',
+      'photo_ktp',
+      'photo_pengunjung',
+      'barcode'
+    ];
+
+    for (const fieldName of fieldOrder) {
+      let element;
+      
+      if (fieldName === 'search-wbp-input') {
+        element = document.querySelector(`#${fieldName}`);
+      } else if (fieldName === 'jenis_kelamin' || fieldName === 'tujuan') {
+        element = document.querySelector(`select[name="${fieldName}"]`);
+      } else if (fieldName.startsWith('photo_') || fieldName === 'barcode') {
+        // Untuk file inputs, cek apakah sudah ada preview
+        const hasPreview = 
+          (fieldName === 'photo_ktp' && !previewKtp) ||
+          (fieldName === 'photo_pengunjung' && !previewPengunjung) ||
+          (fieldName === 'barcode' && !previewBarcode);
+        
+        if (hasPreview) {
+          element = document.querySelector(`input[name="${fieldName}"]`);
+        }
+      } else {
+        element = document.querySelector(`input[name="${fieldName}"]`);
+      }
+
+      if (element) {
+        const value = element.value ? element.value.trim() : '';
+        const isSelect = element.tagName === 'SELECT';
+        const isFile = element.type === 'file';
+        
+        let isEmpty = false;
+        
+        if (isSelect) {
+          isEmpty = !value;
+        } else if (isFile) {
+          // Untuk file, cek berdasarkan preview
+          isEmpty = 
+            (fieldName === 'photo_ktp' && !previewKtp) ||
+            (fieldName === 'photo_pengunjung' && !previewPengunjung) ||
+            (fieldName === 'barcode' && !previewBarcode);
+        } else {
+          isEmpty = !value;
+        }
+
+        if (isEmpty) {
+          // Scroll ke element
+          element.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center',
+            inline: 'nearest'
+          });
+
+          // Highlight element
+          element.style.borderColor = '#3b82f6';
+          element.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.3)';
+          
+          // Hapus highlight setelah 2 detik
+          setTimeout(() => {
+            element.style.borderColor = '';
+            element.style.boxShadow = '';
+          }, 2000);
+
+          // Fokus ke element
+          setTimeout(() => {
+            element.focus();
+            
+            // Untuk input text, buka virtual keyboard jika di PC
+            if (isPc && !isSelect && !isFile) {
+              let inputType = fieldName;
+              let currentValue = '';
+              
+              if (fieldName === 'search-wbp-input') {
+                inputType = 'wbp';
+                currentValue = searchWbp;
+              } else {
+                currentValue = formData[fieldName] || '';
+              }
+              
+              handleInputFocus(inputType, currentValue);
+            }
+          }, 100);
+
+          // Tampilkan toast
+          const fieldLabels = {
+            'search-wbp-input': 'Warga Binaan',
+            'nama': 'Nama',
+            'nik': 'NIK',
+            'hp': 'Nomor HP',
+            'alamat': 'Alamat',
+            'jenis_kelamin': 'Jenis Kelamin',
+            'hubungan_keluarga': 'Hubungan Keluarga',
+            'tujuan': 'Tujuan',
+            'kode': 'Kode',
+            'photo_ktp': 'Foto KTP',
+            'photo_pengunjung': 'Foto Pengunjung',
+            'barcode': 'Barcode'
+          };
+
+          toast.success(`Beralih ke: ${fieldLabels[fieldName]}`);
+          return true; // Field kosong ditemukan
+        }
+      }
+    }
+
+    // Jika semua field terisi, fokus ke tombol submit
+    const submitButton = document.querySelector('button[type="submit"]');
+    if (submitButton) {
+      submitButton.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center',
+        inline: 'nearest'
+      });
+      
+      submitButton.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.3)';
+      setTimeout(() => {
+        submitButton.style.boxShadow = '';
+      }, 2000);
+      
+      toast.success('Semua field sudah terisi! Silakan submit form.');
+    }
+    
+    return false;
+  };
+
+  // Handler untuk virtual keyboard - modifikasi bagian 'enter'
+  const handleVirtualKeyPress = (key) => {
+    if (key === 'backspace') {
+      setKeyboardValue(prev => prev.slice(0, -1));
+      handleInputUpdate('backspace');
+    } else if (key === 'enter') {
+      setShowVirtualKeyboard(false);
+      // Panggil fungsi untuk fokus ke field kosong berikutnya
+      setTimeout(() => {
+        focusNextEmptyField();
+      }, 300);
+    } else if (key === 'space') {
+      setKeyboardValue(prev => prev + ' ');
+      handleInputUpdate(' ');
+    } else if (key === 'clear') {
+      setKeyboardValue('');
+      handleInputUpdate('clear');
+    } else if (key === 'tab') {
+      // Gunakan tab untuk navigasi field juga
+      setShowVirtualKeyboard(false);
+      setTimeout(() => {
+        focusNextEmptyField();
+      }, 300);
+    } else {
+      setKeyboardValue(prev => prev + key);
+      handleInputUpdate(key);
+    }
+  };
+
 
   // Deteksi perangkat saat komponen dimuat
   useEffect(() => {
@@ -10679,6 +10962,8 @@ const AddPengunjungForm = ({ onClose }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  
 
   // Fungsi untuk scroll ke input kosong atau tombol submit
 const scrollToEmptyInputOrSubmit = () => {
@@ -10884,25 +11169,25 @@ const scrollToEmptyInputOrSubmit = () => {
   };
 
   // Handler untuk virtual keyboard - hanya untuk PC
-  const handleVirtualKeyPress = (key) => {
-    if (key === 'backspace') {
-      setKeyboardValue(prev => prev.slice(0, -1));
-      handleInputUpdate('backspace');
-    } else if (key === 'enter') {
-      setShowVirtualKeyboard(false);
-    } else if (key === 'space') {
-      setKeyboardValue(prev => prev + ' ');
-      handleInputUpdate(' ');
-    } else if (key === 'clear') {
-      setKeyboardValue('');
-      handleInputUpdate('clear');
-    } else if (key === 'tab') {
-      // Switch between inputs - bisa diimplementasikan nanti
-    } else {
-      setKeyboardValue(prev => prev + key);
-      handleInputUpdate(key);
-    }
-  };
+  // const handleVirtualKeyPress = (key) => {
+  //   if (key === 'backspace') {
+  //     setKeyboardValue(prev => prev.slice(0, -1));
+  //     handleInputUpdate('backspace');
+  //   } else if (key === 'enter') {
+  //     setShowVirtualKeyboard(false);
+  //   } else if (key === 'space') {
+  //     setKeyboardValue(prev => prev + ' ');
+  //     handleInputUpdate(' ');
+  //   } else if (key === 'clear') {
+  //     setKeyboardValue('');
+  //     handleInputUpdate('clear');
+  //   } else if (key === 'tab') {
+  //     // Switch between inputs - bisa diimplementasikan nanti
+  //   } else {
+  //     setKeyboardValue(prev => prev + key);
+  //     handleInputUpdate(key);
+  //   }
+  // };
 
   // Fungsi untuk langsung update input field dari keyboard
   const handleInputUpdate = (key) => {
@@ -11405,6 +11690,17 @@ const handleSubmit = async (e) => {
     return;
   }
 
+  if (formData.nama === '-' ) {
+    setError("Field nama tidak boleh diisi dengan karakter '-' saja.");
+    toast.error("Field nama tidak boleh diisi dengan karakter '-' saja.");
+    return;
+  }
+  if (formData.wbp_id === 199 ) {
+    setError("Field Wbp tidak boleh diisi dengan karakter '-' saja.");
+    toast.error("Field Wbp tidak boleh diisi dengan karakter '-' saja.");
+    return;
+  }
+
   // Cek field kosong lainnya
   const emptyFieldFound = scrollToEmptyInputOrSubmit();
   if (emptyFieldFound) {
@@ -11762,7 +12058,7 @@ const checkWbpField = () => {
               )}
 
               {/* Tombol Cek Kelengkapan Data */}
-<div className="flex justify-center mb-1 mt-3">
+{/* <div className="flex justify-center mb-1 mt-3">
   <button
     type="button"
     onClick={handleCheckEmptyFields}
@@ -11773,13 +12069,12 @@ const checkWbpField = () => {
   </button>
 </div>
 
-{/* Info tentang fungsi cek kelengkapan */}
 <div className="mb-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-lg">
   <p className="text-blue-700 text-sm flex items-center">
     <FaInfoCircle className="mr-2" />
     <strong>Tips:</strong> Gunakan tombol "Cek Kelengkapan Data" untuk langsung menuju ke field yang masih kosong.
   </p>
-</div>
+</div> */}
               
 
 
@@ -12174,6 +12469,15 @@ const checkWbpField = () => {
           </form>
         </div>
       </div>
+
+      {/* Floating Action Buttons */}
+      <FloatingActionButtons 
+        onCheckData={handleCheckEmptyFields}
+        onScrollUp={scrollToTop}
+        onScrollDown={scrollToBottom}
+        isExpanded={isExpanded}
+        onToggleExpand={toggleExpand}
+      />
 
       {/* Modal untuk preview gambar besar */}
       <ImageModal
@@ -12983,7 +13287,7 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
       />
 
       {/* Virtual Keyboard untuk form edit - hanya untuk PC */}
-      {showVirtualKeyboard && (
+      {/* {showVirtualKeyboard && (
         <VirtualKeyboard 
           onKeyPress={handleVirtualKeyPress}
           onClose={() => setShowVirtualKeyboard(false)}
@@ -12991,7 +13295,17 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
           activeInput={activeInput}
           onInputChange={handleInputUpdate}
         />
-      )}
+      )} */}
+      {showVirtualKeyboard && (
+    <VirtualKeyboard 
+      onKeyPress={handleVirtualKeyPress}
+      onClose={() => setShowVirtualKeyboard(false)}
+      value={keyboardValue}
+      activeInput={activeInput}
+      onInputChange={handleInputUpdate}
+      onEnter={() => focusNextEmptyField()} // Tambahkan ini
+    />
+  )}
     </div>
   );
 };
