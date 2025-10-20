@@ -10901,6 +10901,8 @@ const AddPengunjungForm = ({ onClose }) => {
     }
   };
 
+  
+
 
   // Deteksi perangkat saat komponen dimuat
   useEffect(() => {
@@ -12518,7 +12520,7 @@ const checkWbpField = () => {
       />
 
       {/* Virtual Keyboard - Hanya muncul di PC */}
-      {showVirtualKeyboard && (
+      {/* {showVirtualKeyboard && (
         <VirtualKeyboard 
           onKeyPress={handleVirtualKeyPress}
           onClose={() => setShowVirtualKeyboard(false)}
@@ -12526,7 +12528,18 @@ const checkWbpField = () => {
           activeInput={activeInput}
           onInputChange={handleInputUpdate}
         />
-      )}
+      )} */}
+
+      {showVirtualKeyboard && (
+    <VirtualKeyboard 
+      onKeyPress={handleVirtualKeyPress}
+      onClose={() => setShowVirtualKeyboard(false)}
+      value={keyboardValue}
+      activeInput={activeInput}
+      onInputChange={handleInputUpdate}
+      onEnter={() => focusNextEmptyField()} // Tambahkan ini
+    />
+  )}
 
       {/* Print Dialog untuk Antrian - Muncul otomatis setelah generate antrian */}
       {showPrintDialog && printData && (
@@ -12580,6 +12593,8 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
   const [isPc, setIsPc] = useState(false);
 
   const navigate = useNavigate();
+
+  
 
   // Deteksi perangkat saat komponen dimuat
   useEffect(() => {
@@ -13287,7 +13302,7 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
       />
 
       {/* Virtual Keyboard untuk form edit - hanya untuk PC */}
-      {/* {showVirtualKeyboard && (
+      {showVirtualKeyboard && (
         <VirtualKeyboard 
           onKeyPress={handleVirtualKeyPress}
           onClose={() => setShowVirtualKeyboard(false)}
@@ -13295,17 +13310,8 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
           activeInput={activeInput}
           onInputChange={handleInputUpdate}
         />
-      )} */}
-      {showVirtualKeyboard && (
-    <VirtualKeyboard 
-      onKeyPress={handleVirtualKeyPress}
-      onClose={() => setShowVirtualKeyboard(false)}
-      value={keyboardValue}
-      activeInput={activeInput}
-      onInputChange={handleInputUpdate}
-      onEnter={() => focusNextEmptyField()} // Tambahkan ini
-    />
-  )}
+      )}
+      
     </div>
   );
 };
