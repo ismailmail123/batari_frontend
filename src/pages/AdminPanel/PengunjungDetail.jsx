@@ -3641,15 +3641,15 @@ const handlePrintThermalNow = () => {
               <div class="label-title">LABEL TITIPAN ${titipan?.jenis_barang?.toUpperCase()}</div>
               <div class="label-row">
                 <div class="label-key">Nama WBP</div>
-                <div class="label-value">: ${pengunjungByCode?.warga_binaan?.nama || ""}</div>
+                <div class="label-value">: ${titipan.warga_binaan?.nama ||pengunjungByCode?.warga_binaan?.nama || ""}</div>
               </div>
               <div class="label-row">
                 <div class="label-key">Status WBP</div>
-                <div class="label-value">: ${pengunjungByCode?.warga_binaan?.keterangan || ""}</div>
+                <div class="label-value">: ${titipan.warga_binaan?.nama || pengunjungByCode?.warga_binaan?.keterangan || ""}</div>
               </div>
               <div class="label-row">
                 <div class="label-key">Alamat WBP</div>
-                <div class="label-value">: ${pengunjungByCode?.warga_binaan?.alamat || ""}</div>
+                <div class="label-value">: ${titipan.warga_binaan?.nama || pengunjungByCode?.warga_binaan?.alamat || ""}</div>
               </div>
               <div class="label-row">
                 <div class="label-key">Pengirim</div>

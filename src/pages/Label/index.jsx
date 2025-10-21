@@ -2134,6 +2134,8 @@ const PengunjungLabel = () => {
 
   const navigate = useNavigate();
 
+  console.log("pengunjungById:", pengunjungById);
+
   // Styles untuk PDF
   const styles = StyleSheet.create({
     page: {
@@ -2693,15 +2695,15 @@ const PengunjungLabel = () => {
               <div class="label-title">LABEL TITIPAN ${titipan?.jenis_barang?.toUpperCase()}</div>
               <div class="label-row">
                 <div class="label-key">Nama WBP</div>
-                <div class="label-value">: ${pengunjungById?.warga_binaan?.nama || ""}</div>
+                <div class="label-value">: ${titipan.warga_binaan?.nama  || pengunjungById?.warga_binaan?.keterangan || ""}</div>
               </div>
               <div class="label-row">
                 <div class="label-key">Status WBP</div>
-                <div class="label-value">: ${pengunjungById?.warga_binaan?.keterangan || ""}</div>
+                <div class="label-value">: ${titipan.warga_binaan?.keterangan || pengunjungById?.warga_binaan?.keterangan || ""}</div>
               </div>
               <div class="label-row">
                 <div class="label-key">Alamat WBP</div>
-                <div class="label-value">: ${pengunjungById?.warga_binaan?.alamat || ""}</div>
+                <div class="label-value">: ${ titipan.warga_binaan?.alamat || pengunjungById?.warga_binaan?.alamat}</div>
               </div>
               <div class="label-row">
                 <div class="label-key">Pengirim</div>
