@@ -2695,7 +2695,7 @@ const PengunjungLabel = () => {
               <div class="label-title">LABEL TITIPAN ${titipan?.jenis_barang?.toUpperCase()}</div>
               <div class="label-row">
                 <div class="label-key">Nama WBP</div>
-                <div class="label-value">: ${titipan.warga_binaan?.nama  || pengunjungById?.warga_binaan?.keterangan || ""}</div>
+                <div class="label-value">: ${titipan.warga_binaan?.nama  || pengunjungById?.warga_binaan?.nama || ""}</div>
               </div>
               <div class="label-row">
                 <div class="label-key">Status WBP</div>
