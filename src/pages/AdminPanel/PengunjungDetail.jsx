@@ -3645,11 +3645,11 @@ const handlePrintThermalNow = () => {
               </div>
               <div class="label-row">
                 <div class="label-key">Status WBP</div>
-                <div class="label-value">: ${titipan.warga_binaan?.nama || pengunjungByCode?.warga_binaan?.keterangan || ""}</div>
+                <div class="label-value">: ${titipan.warga_binaan?.keterangan || pengunjungByCode?.warga_binaan?.keterangan || ""}</div>
               </div>
               <div class="label-row">
                 <div class="label-key">Alamat WBP</div>
-                <div class="label-value">: ${titipan.warga_binaan?.nama || pengunjungByCode?.warga_binaan?.alamat || ""}</div>
+                <div class="label-value">: ${titipan.warga_binaan?.alamat || pengunjungByCode?.warga_binaan?.alamat || ""}</div>
               </div>
               <div class="label-row">
                 <div class="label-key">Pengirim</div>
