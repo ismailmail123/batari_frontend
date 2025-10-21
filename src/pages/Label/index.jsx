@@ -2552,17 +2552,17 @@ const PengunjungLabel = () => {
                 }}>
                   <View style={styles.dataRow}>
                     <Text style={styles.dataLabel}>Nama WBP</Text>
-                    <Text style={styles.dataValue}>: {pengunjungById?.warga_binaan?.nama}</Text>
+                    <Text style={styles.dataValue}>: {titipan.warga_binaan?.nama || pengunjungById?.warga_binaan?.nama || ""}</Text>
                   </View>
                   
                   <View style={styles.dataRow}>
                     <Text style={styles.dataLabel}>Status WBP</Text>
-                    <Text style={styles.dataValue}>: {pengunjungById?.warga_binaan?.keterangan}</Text>
+                    <Text style={styles.dataValue}>: {titipan.warga_binaan?.keterangan || pengunjungById?.warga_binaan?.keterangan || ""}</Text>
                   </View>
                   
                   <View style={styles.dataRow}>
                     <Text style={styles.dataLabel}>Alamat WBP</Text>
-                    <Text style={styles.dataValue}>: {pengunjungById?.warga_binaan?.alamat}</Text>
+                    <Text style={styles.dataValue}>: {titipan.warga_binaan?.alamat || pengunjungById?.warga_binaan?.alamat || ""}</Text>
                   </View>
                   
                   <View style={styles.dataRow}>
