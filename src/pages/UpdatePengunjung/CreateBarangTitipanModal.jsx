@@ -1931,22 +1931,6 @@ const CreateBarangTitipanModal = ({ isOpen, onClose, pengunjungs }) => {
             </div>
           )}
 
-          {/* Informasi Pengunjung */}
-          {pengunjungs && (
-            <div className="mb-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-lg">
-              <div className="flex items-center space-x-2 text-blue-700 mb-2">
-                <FaUser className="w-4 h-4" />
-                <span className="font-semibold">Informasi Pengunjung:</span>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                <div><strong>Nama:</strong> {pengunjungs.nama}</div>
-                <div><strong>NIK:</strong> {pengunjungs.nik}</div>
-                <div><strong>Kode:</strong> {pengunjungs.kode}</div>
-                <div><strong>HP:</strong> {pengunjungs.hp}</div>
-              </div>
-            </div>
-          )}
-
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Pencarian WBP (Opsional) dengan voice-to-text */}
             <div className="relative" ref={dropdownRef}>
