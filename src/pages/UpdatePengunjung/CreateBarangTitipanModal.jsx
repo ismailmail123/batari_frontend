@@ -3330,7 +3330,7 @@ const CreateBarangTitipanModal = ({ isOpen, onClose, pengunjungs }) => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FaBoxOpen className="inline-block mr-2" />
-                Jenis Barang *
+                Jenis Barang <span className="text-red-500">*</span>
               </label>
               <select
                 name="jenis_barang"
@@ -3355,7 +3355,7 @@ const CreateBarangTitipanModal = ({ isOpen, onClose, pengunjungs }) => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <FaBoxOpen className="inline-block mr-2" />
-                Jumlah *
+                Jumlah<span className="text-red-500">*</span>
               </label>
               <div className="flex space-x-2">
                 <input

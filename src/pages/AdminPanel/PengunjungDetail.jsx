@@ -4087,7 +4087,7 @@ const handlePrintThermalNow = () => {
                 onClick={handleDownloadPDF}
                 className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
               >
-                Export PDF
+                Export Kunjungan PDF
               </button>
               
               {/* TOMBOL PRINT LANGSUNG LABEL TITIPAN */}
@@ -4129,38 +4129,38 @@ const handlePrintThermalNow = () => {
               </button>
               
               {/* TOMBOL PRINT LANGSUNG KARTU KUNJUNGAN */}
-              <button
+              {/* <button
                 onClick={handlePrintNow}
                 disabled={isPrinting}
                 className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
               >
                 {isPrinting ? "Mencetak..." : "Print Langsung"}
-              </button>
+              </button> */}
               
-              <button
+              {/* <button
                 onClick={() => setShowPreview(true)}
                 className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
               >
                 Preview Cetak
-              </button>
+              </button> */}
               
               <button
                 onClick={handleDownloadPDF}
                 className="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700"
               >
-                Export PDF
+                Export Kunjungan PDF
               </button>
               
               {/* TOMBOL PRINT LANGSUNG LABEL TITIPAN */}
               {pengunjungByCode.barang_titipan?.length > 0 && (
                 <>
-                  <button
+                  {/* <button
                     onClick={handlePrintLabelNow}
                     disabled={isPrinting}
                     className="bg-orange-600 text-white px-4 py-2 rounded hover:bg-orange-700 disabled:opacity-50"
                   >
                     {isPrinting ? "Mencetak..." : "Print Label Langsung"}
-                  </button>
+                  </button> */}
                   
                   <button
                     onClick={() => setShowLabelPreview(true)}

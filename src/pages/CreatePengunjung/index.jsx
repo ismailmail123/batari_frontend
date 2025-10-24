@@ -11880,9 +11880,145 @@ const handleGenerateAntrian = async (pengunjungId) => {
   //   }
   // };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+// const handleSubmit = async (e) => {
+//   e.preventDefault();
 
+//   e.preventDefault();
+
+//   // Cek field WBP terlebih dahulu
+//   if (checkWbpField()) {
+//     return;
+//   }
+
+//   if (formData.nama === '-' ) {
+//     setError("Field nama tidak boleh diisi dengan karakter '-' saja.");
+//     toast.error("Field nama tidak boleh diisi dengan karakter '-' saja.");
+//     return;
+//   }
+//   if (formData.wbp_id === 199 ) {
+//     setError("Field Wbp tidak boleh diisi dengan karakter '-' saja.");
+//     toast.error("Field Wbp tidak boleh diisi dengan karakter '-' saja.");
+//     return;
+//   }
+
+//   // Cek field kosong lainnya
+//   const emptyFieldFound = scrollToEmptyInputOrSubmit();
+//   if (emptyFieldFound) {
+//     return; // Berhenti jika ada field kosong
+//   }
+
+
+//   // Validasi WBP
+//   if (!formData.wbp_id) {
+//     setError("Silakan pilih Warga Binaan terlebih dahulu.");
+//     toast.error("WBP belum dipilih!");
+//     return;
+//   }
+
+//   if (!formData.nama || !formData.nik || !formData.hp || !formData.wbp_id || !formData.kode) {
+//     setError("Pastikan nama, NIK, nomor HP, WBP, dan kode diisi.");
+//     return;
+//   }
+
+//   setError("");
+//   setIsSubmitting(true);
+
+//   const formDataToSend = new FormData();
+  
+//   // Tambahkan semua field formData ke FormData
+//   for (const key in formData) {
+//     if (formData[key] !== null && formData[key] !== "") {
+//       if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && formData[key] instanceof File) {
+//         formDataToSend.append(key, formData[key]);
+//       } 
+//       else if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && typeof formData[key] === 'string') {
+//         formDataToSend.append(key, formData[key]);
+//       }
+//       else if (key !== 'photo_ktp' && key !== 'photo_pengunjung' && key !== 'barcode') {
+//         formDataToSend.append(key, formData[key]);
+//       }
+//     }
+//   }
+
+//   try {
+//     const createdPengunjung = await createPengunjung(formDataToSend, setError);
+    
+//     if (createdPengunjung) {
+//       toast.success("Pengunjung berhasil ditambahkan!");
+
+//       // Simpan data pengunjung baru ke state
+//       setNewPengunjung(createdPengunjung);
+
+//       // PERBAIKAN: Handle flow berdasarkan role
+//       if (authUser.user.role === 'admin') {
+//         // Untuk ADMIN: Generate antrian dan tampilkan print dialog
+//         const nomorAntrian = await handleGenerateAntrian(createdPengunjung.id);
+        
+//         if (nomorAntrian) {
+//           // Set data untuk print dialog
+//           setPrintData({
+//             pengunjung: { ...createdPengunjung, antrian: nomorAntrian },
+//             antrian: nomorAntrian
+//           });
+          
+//           // Tampilkan dialog print
+//           setShowPrintDialog(true);
+          
+//           // JANGAN setShowEditForm(true) di sini untuk admin
+//           // Form edit akan muncul setelah print dialog ditutup
+//         } else {
+//           // Jika gagal generate antrian, langsung ke form edit
+//           setShowEditForm(true);
+//         }
+//       } else {
+//         // Untuk NON-ADMIN: Langsung tampilkan form edit
+//         setShowEditForm(true);
+//       }
+
+//       // Reset form
+//       setFormData({
+//         wbp_id: "",
+//         nama: "",
+//         jenis_kelamin: "",
+//         nik: "",
+//         alamat: "",
+//         hp: "",
+//         hubungan_keluarga: "",
+//         tujuan: "Berkunjung",
+//         kode: "",
+//         barcode: null,
+//         pengikut_laki_laki: 0,
+//         pengikut_perempuan: 0,
+//         pengikut_anak_anak: 0,
+//         pengikut_bayi: 0,
+//         total_pengikut: 0,
+//         keterangan: "",
+//         photo_ktp: null,
+//         photo_pengunjung: null,
+//       });
+//       setSelectedPengunjung(null);
+//       setSearchPengunjung("");
+//       setPreviewKtp(null);
+//       setPreviewPengunjung(null);
+//       setPreviewBarcode(null);
+//       setPhotoKtpFile(null);
+//       setPhotoPengunjungFile(null);
+//       setBarcodeFile(null);
+//       setShowVirtualKeyboard(false);
+
+//     } else {
+//       throw new Error("Gagal mendapatkan response dari server");
+//     }
+
+//   } catch (err) {
+//     console.error("Error saat menambahkan pengunjung:", err);
+//     toast.error("Gagal menambahkan pengunjung. Silakan coba lagi.");
+//   } finally {
+//     setIsSubmitting(false);
+//   }
+// };
+
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   // Cek field WBP terlebih dahulu
@@ -11890,12 +12026,12 @@ const handleSubmit = async (e) => {
     return;
   }
 
-  if (formData.nama === '-' ) {
+  if (formData.nama === '-') {
     setError("Field nama tidak boleh diisi dengan karakter '-' saja.");
     toast.error("Field nama tidak boleh diisi dengan karakter '-' saja.");
     return;
   }
-  if (formData.wbp_id === 199 ) {
+  if (formData.wbp_id === 199) {
     setError("Field Wbp tidak boleh diisi dengan karakter '-' saja.");
     toast.error("Field Wbp tidak boleh diisi dengan karakter '-' saja.");
     return;
@@ -11906,7 +12042,6 @@ const handleSubmit = async (e) => {
   if (emptyFieldFound) {
     return; // Berhenti jika ada field kosong
   }
-
 
   // Validasi WBP
   if (!formData.wbp_id) {
@@ -11963,16 +12098,22 @@ const handleSubmit = async (e) => {
           
           // Tampilkan dialog print
           setShowPrintDialog(true);
-          
-          // JANGAN setShowEditForm(true) di sini untuk admin
-          // Form edit akan muncul setelah print dialog ditutup
         } else {
-          // Jika gagal generate antrian, langsung ke form edit
+          // Jika gagal generate antrian, tampilkan form edit
           setShowEditForm(true);
         }
       } else {
-        // Untuk NON-ADMIN: Langsung tampilkan form edit
-        setShowEditForm(true);
+        // Untuk NON-ADMIN: Generate nomor antrian saja tanpa print
+        const nomorAntrian = await handleGenerateAntrian(createdPengunjung.id);
+        
+        if (nomorAntrian) {
+          toast.success(`Nomor antrian ${nomorAntrian} berhasil digenerate`);
+          // Untuk non-admin, langsung tampilkan form edit setelah generate antrian
+          setShowEditForm(true);
+        } else {
+          // Jika gagal generate antrian, tetap tampilkan form edit
+          setShowEditForm(true);
+        }
       }
 
       // Reset form
@@ -12156,8 +12297,8 @@ const checkWbpField = () => {
             {/* Pilih WBP dengan scan barcode */}
             <div className="relative" ref={dropdownRef}>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                <FaUser className="inline-block mr-2" /> Cari Warga Binaan
-              </label>
+                <FaUser className="inline-block mr-2" /> Cari Warga Binaan <span className="text-red-500">*</span>
+              </label> 
               <div className="flex items-center space-x-2">
                 <div className="flex-1 relative">
                 <input
@@ -12224,7 +12365,7 @@ const checkWbpField = () => {
             {/* Cari Pengunjung yang Sudah Ada dengan scan barcode */}
             <div className="relative" ref={dropdownPengunjungRef}>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                <FaUser className="inline-block mr-2" /> Cari Pengunjung (Data Existing)
+                <FaUser className="inline-block mr-2" /> Cari Pengunjung (Data Existing) <span className="text-red-500">*</span>
               </label>
               <div className="flex items-center space-x-2">
                 <div className="flex-1 relative">
@@ -12369,7 +12510,7 @@ const checkWbpField = () => {
             {/* Nama */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                <FaUser className="inline-block mr-2" /> Nama
+                <FaUser className="inline-block mr-2" /> Nama <span className="text-red-500">*</span>
               </label>
               <div className="relative">
               <input
@@ -12438,13 +12579,13 @@ const checkWbpField = () => {
               </button>
             </div>
             <p className="text-xs text-gray-500 mt-1">
-              Kode unik untuk identifikasi pengunjung
+              Kode unik untuk identifikasi pengunjung <span className="text-red-500">*</span>
             </p>
 
             {/* NIK */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                <FaIdCard className="inline-block mr-2" /> NIK
+                <FaIdCard className="inline-block mr-2" /> NIK <span className="text-red-500">*</span>
               </label>
               <div className="relative">
               <input
@@ -12475,7 +12616,7 @@ const checkWbpField = () => {
             {/* Nomor HP */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                <FaPhone className="inline-block mr-2" /> Nomor HP
+                <FaPhone className="inline-block mr-2" /> Nomor HP <span className="text-red-500">*</span>
               </label>
               <div className="relative">
               <input
@@ -12505,7 +12646,7 @@ const checkWbpField = () => {
             {/* Alamat */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                <FaHome className="inline-block mr-2" /> Alamat
+                <FaHome className="inline-block mr-2" /> Alamat <span className="text-red-500">*</span>
               </label>
               <div className="relative">
               <input
@@ -12534,7 +12675,7 @@ const checkWbpField = () => {
             {/* Jenis Kelamin */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                <FaVenusMars className="inline-block mr-2" /> Jenis Kelamin
+                <FaVenusMars className="inline-block mr-2" /> Jenis Kelamin <span className="text-red-500">*</span>
               </label>
               <select
                 name="jenis_kelamin"
@@ -12551,7 +12692,7 @@ const checkWbpField = () => {
             {/* Hubungan Keluarga */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                <User className="inline-block mr-2" /> Hubungan Keluarga
+                <User className="inline-block mr-2" /> Hubungan Keluarga <span className="text-red-500">*</span>
               </label>
               <div className="relative">
               <input
@@ -12581,7 +12722,7 @@ const checkWbpField = () => {
             {/* Tujuan */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                <User className="inline-block mr-2" /> Tujuan
+                <User className="inline-block mr-2" /> Tujuan <span className="text-red-500">*</span>
               </label>
               <select
                 name="tujuan"
