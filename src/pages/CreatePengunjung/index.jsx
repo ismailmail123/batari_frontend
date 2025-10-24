@@ -9174,833 +9174,7 @@ const ScannerModal = ({ isOpen, onClose, onScan, title = "Scan Barcode" }) => {
   );
 };
 
-// Komponen Virtual Keyboard yang Dapat Digeser - Hanya untuk PC
-// const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChange }) => {
-//   const [isShift, setIsShift] = useState(false);
-//   const [isSymbol, setIsSymbol] = useState(false);
-//   const [position, setPosition] = useState({ x: 0, y: 0 });
-//   const [isDragging, setIsDragging] = useState(false);
-//   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-//   const [isPc, setIsPc] = useState(false);
-//   const keyboardRef = useRef(null);
-//   const containerRef = useRef(null);
 
-//   const alphaRows = [
-//     ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-//     ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-//     ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
-//   ];
-
-//   const symbolRows = [
-//     ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
-//     ['-', '_', '@', '#', '$', '%', '&', '*', '(', ')'],
-//     ['.', ',', '!', '?', ':', ';', '"', "'"],
-//   ];
-
-//   const currentRows = isSymbol ? symbolRows : alphaRows;
-
-//   // Deteksi perangkat saat komponen dimuat
-//   useEffect(() => {
-//     const checkDevice = () => {
-//       const userAgent = navigator.userAgent.toLowerCase();
-//       const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent);
-//       const isTablet = /tablet|ipad/i.test(userAgent);
-//       const isPcDevice = !isMobile && !isTablet;
-      
-//       setIsPc(isPcDevice);
-//     };
-
-//     checkDevice();
-//   }, []);
-
-//   // Handle drag start - untuk mouse dan touch
-//   const handleDragStart = (clientX, clientY) => {
-//     if (!keyboardRef.current) return;
-    
-//     setIsDragging(true);
-//     const rect = keyboardRef.current.getBoundingClientRect();
-    
-//     setDragOffset({
-//       x: clientX - rect.left,
-//       y: clientY - rect.top
-//     });
-//   };
-
-//   const handleMouseDown = (e) => {
-//     e.preventDefault();
-//     handleDragStart(e.clientX, e.clientY);
-//   };
-
-//   const handleTouchStart = (e) => {
-//     const touch = e.touches[0];
-//     handleDragStart(touch.clientX, touch.clientY);
-//   };
-
-//   // Handle drag movement - untuk mouse dan touch
-//   const handleDragMove = (clientX, clientY) => {
-//     if (!isDragging || !keyboardRef.current) return;
-    
-//     const newX = clientX - dragOffset.x;
-//     const newY = clientY - dragOffset.y;
-    
-//     // Boundary checks untuk menjaga keyboard tetap dalam viewport
-//     const keyboardWidth = keyboardRef.current.offsetWidth;
-//     const keyboardHeight = keyboardRef.current.offsetHeight;
-//     const maxX = window.innerWidth - keyboardWidth;
-//     const maxY = window.innerHeight - keyboardHeight;
-    
-//     setPosition({
-//       x: Math.max(10, Math.min(newX, maxX - 10)), // Beri margin 10px
-//       y: Math.max(10, Math.min(newY, maxY - 10))
-//     });
-//   };
-
-//   const handleMouseMove = (e) => {
-//     handleDragMove(e.clientX, e.clientY);
-//   };
-
-//   const handleTouchMove = (e) => {
-//     const touch = e.touches[0];
-//     handleDragMove(touch.clientX, touch.clientY);
-//     e.preventDefault(); // Mencegah scroll saat drag
-//   };
-
-//   // Handle drag end
-//   const handleDragEnd = () => {
-//     setIsDragging(false);
-//   };
-
-//   // Event listeners untuk drag
-//   useEffect(() => {
-//     if (isDragging) {
-//       document.addEventListener('mousemove', handleMouseMove);
-//       document.addEventListener('mouseup', handleDragEnd);
-//       document.addEventListener('touchmove', handleTouchMove, { passive: false });
-//       document.addEventListener('touchend', handleDragEnd);
-//       document.addEventListener('touchcancel', handleDragEnd);
-      
-//       // Tambahkan styles untuk mencegah scroll dan selection
-//       document.body.style.overflow = 'hidden';
-//       document.body.style.userSelect = 'none';
-//       document.body.style.webkitUserSelect = 'none';
-//     }
-
-//     return () => {
-//       document.removeEventListener('mousemove', handleMouseMove);
-//       document.removeEventListener('mouseup', handleDragEnd);
-//       document.removeEventListener('touchmove', handleTouchMove);
-//       document.removeEventListener('touchend', handleDragEnd);
-//       document.removeEventListener('touchcancel', handleDragEnd);
-      
-//       // Kembalikan styles
-//       document.body.style.overflow = '';
-//       document.body.style.userSelect = '';
-//       document.body.style.webkitUserSelect = '';
-//     };
-//   }, [isDragging, dragOffset]);
-
-//   // Efek untuk mengatur posisi awal keyboard di tengah bawah
-//   useEffect(() => {
-//     if (!isPc) return;
-
-//     const updateInitialPosition = () => {
-//       if (keyboardRef.current) {
-//         const keyboardWidth = keyboardRef.current.offsetWidth;
-//         const keyboardHeight = keyboardRef.current.offsetHeight;
-        
-//         setPosition({
-//           x: (window.innerWidth - keyboardWidth) / 2,
-//           y: window.innerHeight - keyboardHeight - 20 // 20px dari bawah
-//         });
-//       }
-//     };
-
-//     // Tunggu sampai DOM siap
-//     setTimeout(updateInitialPosition, 100);
-    
-//     // Update posisi saat window resize
-//     window.addEventListener('resize', updateInitialPosition);
-//     return () => window.removeEventListener('resize', updateInitialPosition);
-//   }, [isPc]);
-
-//   const handleKeyClick = (key) => {
-//     const finalKey = isShift ? key.toUpperCase() : key;
-//     onKeyPress(finalKey);
-//     if (onInputChange) {
-//       onInputChange(finalKey);
-//     }
-//   };
-
-//   const handleSpecialKey = (action) => {
-//     switch (action) {
-//       case 'shift':
-//         setIsShift(!isShift);
-//         break;
-//       case 'symbol':
-//         setIsSymbol(!isSymbol);
-//         setIsShift(false);
-//         break;
-//       case 'space':
-//         onKeyPress(' ');
-//         if (onInputChange) onInputChange(' ');
-//         break;
-//       case 'backspace':
-//         onKeyPress('backspace');
-//         if (onInputChange) onInputChange('backspace');
-//         break;
-//       case 'enter':
-//         onKeyPress('enter');
-//         break;
-//       case 'clear':
-//         onKeyPress('clear');
-//         if (onInputChange) onInputChange('clear');
-//         break;
-//       case 'tab':
-//         onKeyPress('tab');
-//         break;
-//       default:
-//         break;
-//     }
-//   };
-
-//   const getInputLabel = () => {
-//     switch (activeInput) {
-//       case 'wbp':
-//         return 'Cari Warga Binaan';
-//       case 'pengunjung':
-//         return 'Cari Pengunjung';
-//       case 'nama':
-//         return 'Input Nama';
-//       case 'nik':
-//         return 'Input NIK';
-//       case 'hp':
-//         return 'Input Nomor HP';
-//       case 'alamat':
-//         return 'Input Alamat';
-//       case 'hubungan_keluarga':
-//         return 'Input Hubungan Keluarga';
-//       case 'kode':
-//         return 'Input Kode';
-//       case 'tujuan':
-//         return 'Pilih Tujuan';
-//       default:
-//         return 'Virtual Keyboard';
-//     }
-//   };
-
-//   // Jika bukan PC, jangan render keyboard virtual
-//   if (!isPc) {
-//     return null;
-//   }
-
-//   return (
-//     <div 
-//       ref={containerRef}
-//       className="fixed inset-0 bg-black bg-opacity-30 flex items-end justify-center z-50 p-4 pointer-events-none"
-//       style={{ touchAction: 'none' }}
-//     >
-//       <div 
-//         ref={keyboardRef}
-//         className="bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-2xl transform transition-all duration-300 pointer-events-auto border border-white border-opacity-20"
-//         style={{
-//           position: 'fixed',
-//           left: `${position.x}px`,
-//           top: `${position.y}px`,
-//           cursor: isDragging ? 'grabbing' : 'grab',
-//           touchAction: 'none',
-//           zIndex: 1000,
-//           width: '35vw', // 25% dari lebar viewport
-//           minWidth: '500px', // Minimum width
-//           maxWidth: '600px', // Maximum width
-//         }}
-//       >
-//         {/* Draggable Header dengan indikator yang jelas */}
-//         <div 
-//           className="keyboard-draggable bg-gradient-to-r from-blue-500 to-purple-500 rounded-t-2xl p-4 text-white cursor-grab active:cursor-grabbing touch-none"
-//           onMouseDown={handleMouseDown}
-//           onTouchStart={handleTouchStart}
-//           style={{ touchAction: 'none' }}
-//         >
-//           <div className="flex justify-between items-center">
-//             <div className="flex items-center space-x-3">
-//               <FaKeyboard className="w-6 h-6" />
-//               <div>
-//                 <h3 className="font-bold text-lg">{getInputLabel()}</h3>
-//                 <p className="text-blue-100 text-sm flex items-center">
-//                   <span className="inline-block w-3 h-3 bg-white bg-opacity-50 rounded-full mr-1 animate-pulse"></span>
-//                   Drag untuk memindahkan • Gunakan keyboard virtual
-//                 </p>
-//               </div>
-//             </div>
-//             <button
-//               onClick={onClose}
-//               className="p-3 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all touch-friendly min-w-[44px] min-h-[44px] flex items-center justify-center"
-//               style={{ touchAction: 'manipulation' }}
-//             >
-//               <FaTimes className="w-5 h-5" />
-//             </button>
-//           </div>
-          
-//           {/* Indikator drag area */}
-//           <div className="mt-2 flex justify-center">
-//             <div className="w-20 h-1 bg-white bg-opacity-50 rounded-full"></div>
-//           </div>
-//         </div>
-
-//         {/* Preview Area */}
-//         <div className="p-4 bg-gray-50 bg-opacity-50 border-b">
-//           <div className="bg-white bg-opacity-70 rounded-xl p-4 shadow-inner border">
-//             <div className="text-sm text-gray-500 mb-2 flex justify-between">
-//               <span>Input Preview:</span>
-//               <span className="text-blue-500 font-medium">{value.length} karakter</span>
-//             </div>
-//             <div className="text-lg font-mono min-h-[28px] p-2 bg-gray-50 bg-opacity-50 rounded-lg border-2 border-blue-200">
-//               {value || <span className="text-gray-400">Ketik menggunakan keyboard virtual...</span>}
-//               <span className="ml-1 animate-pulse text-blue-500">|</span>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Keyboard Layout */}
-//         <div className="p-4" style={{ touchAction: 'manipulation' }}>
-//           {/* Main Keyboard */}
-//           {currentRows.map((row, rowIndex) => (
-//             <div key={rowIndex} className="flex justify-center mb-2 space-x-1">
-//               {row.map((key) => (
-//                 <button
-//                   key={key}
-//                   onClick={() => handleKeyClick(key)}
-//                   className="flex-1 max-w-[60px] h-14 bg-white bg-opacity-80 border-2 border-gray-200 rounded-xl hover:bg-blue-50 hover:border-blue-300 active:bg-blue-100 active:scale-95 transition-all duration-150 font-medium text-gray-700 touch-friendly shadow-sm"
-//                   style={{ 
-//                     minWidth: '44px',
-//                     minHeight: '44px',
-//                     touchAction: 'manipulation'
-//                   }}
-//                 >
-//                   {isShift && !isSymbol ? key.toUpperCase() : key}
-//                 </button>
-//               ))}
-//             </div>
-//           ))}
-
-//           {/* Bottom Control Row */}
-//           <div className="flex justify-center space-x-1 mt-4">
-//             {/* Shift Button */}
-//             <button
-//               onClick={() => handleSpecialKey('shift')}
-//               className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly ${
-//                 isShift 
-//                   ? 'bg-blue-500 text-white shadow-lg shadow-blue-200 border-2 border-blue-600' 
-//                   : 'bg-gray-100 bg-opacity-80 text-gray-700 border-2 border-gray-200 hover:bg-gray-200'
-//               }`}
-//               style={{ 
-//                 minHeight: '44px',
-//                 touchAction: 'manipulation'
-//               }}
-//             >
-//               ⇧ SHIFT
-//             </button>
-
-//             {/* Symbol Toggle */}
-//             <button
-//               onClick={() => handleSpecialKey('symbol')}
-//               className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly ${
-//                 isSymbol 
-//                   ? 'bg-purple-500 text-white shadow-lg shadow-purple-200 border-2 border-purple-600' 
-//                   : 'bg-gray-100 bg-opacity-80 text-gray-700 border-2 border-gray-200 hover:bg-gray-200'
-//               }`}
-//               style={{ 
-//                 minHeight: '44px',
-//                 touchAction: 'manipulation'
-//               }}
-//             >
-//               {isSymbol ? 'ABC' : '123'}
-//             </button>
-
-//             {/* Space Button */}
-//             <button
-//               onClick={() => handleSpecialKey('space')}
-//               className="flex-1 max-w-[200px] h-14 bg-gray-100 bg-opacity-80 border-2 border-gray-200 rounded-xl hover:bg-gray-200 active:bg-gray-300 transition-all touch-friendly text-gray-600 font-medium"
-//               style={{ 
-//                 minHeight: '44px',
-//                 touchAction: 'manipulation'
-//               }}
-//             >
-//               SPACE
-//             </button>
-
-//             {/* Backspace Button */}
-//             <button
-//               onClick={() => handleSpecialKey('backspace')}
-//               className="flex-1 max-w-[120px] h-14 bg-red-500 text-white rounded-xl hover:bg-red-600 active:bg-red-700 transition-all touch-friendly font-medium shadow-lg shadow-red-200 border-2 border-red-600"
-//               style={{ 
-//                 minHeight: '44px',
-//                 touchAction: 'manipulation'
-//               }}
-//             >
-//               ⌫ DELETE
-//             </button>
-//           </div>
-
-//           {/* Action Buttons Row */}
-//           <div className="flex justify-center space-x-2 mt-3">
-//             <button
-//               onClick={() => handleSpecialKey('clear')}
-//               className="flex-1 max-w-[140px] h-12 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-all touch-friendly font-medium border-2 border-orange-600"
-//               style={{ 
-//                 minHeight: '44px',
-//                 touchAction: 'manipulation'
-//               }}
-//             >
-//               🗑️ CLEAR
-//             </button>
-            
-//             <button
-//               onClick={() => handleSpecialKey('enter')}
-//               className="flex-1 max-w-[140px] h-12 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all touch-friendly font-medium border-2 border-green-600 shadow-lg shadow-green-200"
-//               style={{ 
-//                 minHeight: '44px',
-//                 touchAction: 'manipulation'
-//               }}
-//             >
-//               ↵ ENTER
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* Footer dengan tips */}
-//         <div className="bg-gray-50 bg-opacity-50 rounded-b-2xl p-3 border-t">
-//           <div className="text-center text-sm text-gray-500">
-//             💡 Tips: Drag header untuk memindahkan • SHIFT untuk huruf kapital • 123 untuk simbol
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChange }) => {
-//   const [isShift, setIsShift] = useState(false);
-//   const [isSymbol, setIsSymbol] = useState(false);
-//   const [position, setPosition] = useState({ x: 0, y: 0 });
-//   const [isDragging, setIsDragging] = useState(false);
-//   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-//   const [isPc, setIsPc] = useState(false);
-//   const keyboardRef = useRef(null);
-//   const containerRef = useRef(null);
-
-//   const alphaRows = [
-//     ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-//     ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-//     ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
-//   ];
-
-//   const symbolRows = [
-//     ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
-//     ['-', '_', '@', '#', '$', '%', '&', '*', '(', ')'],
-//     ['.', ',', '!', '?', ':', ';', '"', "'"],
-//   ];
-
-//   const currentRows = isSymbol ? symbolRows : alphaRows;
-
-//   // Deteksi perangkat saat komponen dimuat
-//   useEffect(() => {
-//     const checkDevice = () => {
-//       const userAgent = navigator.userAgent.toLowerCase();
-//       const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent);
-//       const isTablet = /tablet|ipad/i.test(userAgent);
-//       const isPcDevice = !isMobile && !isTablet;
-      
-//       setIsPc(isPcDevice);
-//     };
-
-//     checkDevice();
-//   }, []);
-
-//   // Handle drag start - untuk mouse dan touch
-//   const handleDragStart = (clientX, clientY) => {
-//     if (!keyboardRef.current) return;
-    
-//     setIsDragging(true);
-//     const rect = keyboardRef.current.getBoundingClientRect();
-    
-//     setDragOffset({
-//       x: clientX - rect.left,
-//       y: clientY - rect.top
-//     });
-//   };
-
-//   const handleMouseDown = (e) => {
-//     e.preventDefault();
-//     handleDragStart(e.clientX, e.clientY);
-//   };
-
-//   const handleTouchStart = (e) => {
-//     const touch = e.touches[0];
-//     handleDragStart(touch.clientX, touch.clientY);
-//   };
-
-//   // Handle drag movement - untuk mouse dan touch
-//   const handleDragMove = (clientX, clientY) => {
-//     if (!isDragging || !keyboardRef.current) return;
-    
-//     const newX = clientX - dragOffset.x;
-//     const newY = clientY - dragOffset.y;
-    
-//     // Boundary checks untuk menjaga keyboard tetap dalam viewport
-//     const keyboardWidth = keyboardRef.current.offsetWidth;
-//     const keyboardHeight = keyboardRef.current.offsetHeight;
-//     const maxX = window.innerWidth - keyboardWidth;
-//     const maxY = window.innerHeight - keyboardHeight;
-    
-//     setPosition({
-//       x: Math.max(10, Math.min(newX, maxX - 10)), // Beri margin 10px
-//       y: Math.max(10, Math.min(newY, maxY - 10))
-//     });
-//   };
-
-//   const handleMouseMove = (e) => {
-//     handleDragMove(e.clientX, e.clientY);
-//   };
-
-//   const handleTouchMove = (e) => {
-//     const touch = e.touches[0];
-//     handleDragMove(touch.clientX, touch.clientY);
-//     e.preventDefault(); // Mencegah scroll saat drag
-//   };
-
-//   // Handle drag end
-//   const handleDragEnd = () => {
-//     setIsDragging(false);
-//   };
-
-//   // Event listeners untuk drag
-//   useEffect(() => {
-//     if (isDragging) {
-//       document.addEventListener('mousemove', handleMouseMove);
-//       document.addEventListener('mouseup', handleDragEnd);
-//       document.addEventListener('touchmove', handleTouchMove, { passive: false });
-//       document.addEventListener('touchend', handleDragEnd);
-//       document.addEventListener('touchcancel', handleDragEnd);
-      
-//       // Tambahkan styles untuk mencegah scroll dan selection
-//       document.body.style.overflow = 'hidden';
-//       document.body.style.userSelect = 'none';
-//       document.body.style.webkitUserSelect = 'none';
-//     }
-
-//     return () => {
-//       document.removeEventListener('mousemove', handleMouseMove);
-//       document.removeEventListener('mouseup', handleDragEnd);
-//       document.removeEventListener('touchmove', handleTouchMove);
-//       document.removeEventListener('touchend', handleDragEnd);
-//       document.removeEventListener('touchcancel', handleDragEnd);
-      
-//       // Kembalikan styles
-//       document.body.style.overflow = '';
-//       document.body.style.userSelect = '';
-//       document.body.style.webkitUserSelect = '';
-//     };
-//   }, [isDragging, dragOffset]);
-
-//   // Efek untuk mengatur posisi awal keyboard di tengah bawah
-//   useEffect(() => {
-//     if (!isPc) return;
-
-//     const updateInitialPosition = () => {
-//       if (keyboardRef.current) {
-//         const keyboardWidth = keyboardRef.current.offsetWidth;
-//         const keyboardHeight = keyboardRef.current.offsetHeight;
-        
-//         setPosition({
-//           x: (window.innerWidth - keyboardWidth) / 2,
-//           y: window.innerHeight - keyboardHeight - 20 // 20px dari bawah
-//         });
-//       }
-//     };
-
-//     // Tunggu sampai DOM siap
-//     setTimeout(updateInitialPosition, 100);
-    
-//     // Update posisi saat window resize
-//     window.addEventListener('resize', updateInitialPosition);
-//     return () => window.removeEventListener('resize', updateInitialPosition);
-//   }, [isPc]);
-
-//   const handleKeyClick = (key) => {
-//     const finalKey = isShift ? key.toUpperCase() : key;
-//     onKeyPress(finalKey);
-//     if (onInputChange) {
-//       onInputChange(finalKey);
-//     }
-//   };
-
-//   const handleSpecialKey = (action) => {
-//     switch (action) {
-//       case 'shift':
-//         setIsShift(!isShift);
-//         break;
-//       case 'symbol':
-//         setIsSymbol(!isSymbol);
-//         setIsShift(false);
-//         break;
-//       case 'space':
-//         onKeyPress(' ');
-//         if (onInputChange) onInputChange(' ');
-//         break;
-//       case 'backspace':
-//         onKeyPress('backspace');
-//         if (onInputChange) onInputChange('backspace');
-//         break;
-//       case 'enter':
-//         onKeyPress('enter');
-//         break;
-//       case 'clear':
-//         onKeyPress('clear');
-//         if (onInputChange) onInputChange('clear');
-//         break;
-//       case 'tab':
-//         onKeyPress('tab');
-//         break;
-//       default:
-//         break;
-//     }
-//   };
-
-//   const getInputLabel = () => {
-//     switch (activeInput) {
-//       case 'wbp':
-//         return 'Cari Warga Binaan';
-//       case 'pengunjung':
-//         return 'Cari Pengunjung';
-//       case 'nama':
-//         return 'Input Nama';
-//       case 'nik':
-//         return 'Input NIK';
-//       case 'hp':
-//         return 'Input Nomor HP';
-//       case 'alamat':
-//         return 'Input Alamat';
-//       case 'hubungan_keluarga':
-//         return 'Input Hubungan Keluarga';
-//       case 'kode':
-//         return 'Input Kode';
-//       case 'tujuan':
-//         return 'Pilih Tujuan';
-//       default:
-//         return 'Virtual Keyboard';
-//     }
-//   };
-
-//   // Jika bukan PC, jangan render keyboard virtual
-//   if (!isPc) {
-//     return null;
-//   }
-
-//   return (
-//     <div 
-//       ref={containerRef}
-//       className="fixed inset-0 bg-black bg-opacity-20 flex items-end justify-center z-50 p-4 pointer-events-none"
-//       style={{ touchAction: 'none' }}
-//     >
-//       <div 
-//         ref={keyboardRef}
-//         className="bg-transparent rounded-2xl transform transition-all duration-300 pointer-events-auto"
-//         style={{
-//           position: 'fixed',
-//           left: `${position.x}px`,
-//           top: `${position.y}px`,
-//           cursor: isDragging ? 'grabbing' : 'grab',
-//           touchAction: 'none',
-//           zIndex: 1000,
-//           width: '35vw',
-//           minWidth: '500px',
-//           maxWidth: '600px',
-//           // Border yang tebal dan jelas dengan efek glow
-//           border: '3px solid #3b82f6',
-//           boxShadow: `
-//             0 0 0 1px rgba(59, 130, 246, 0.5),
-//             0 10px 30px rgba(0, 0, 0, 0.3),
-//             0 0 20px rgba(59, 130, 246, 0.4)
-//           `,
-//         }}
-//       >
-//         {/* Draggable Header dengan border bottom yang tebal */}
-//         <div 
-//           className="keyboard-draggable bg-gradient-to-r from-blue-500 to-purple-500 rounded-t-xl p-4 text-white cursor-grab active:cursor-grabbing touch-none border-b-4 border-blue-700"
-//           onMouseDown={handleMouseDown}
-//           onTouchStart={handleTouchStart}
-//           style={{ touchAction: 'none' }}
-//         >
-//           <div className="flex justify-between items-center">
-//             <div className="flex items-center space-x-3">
-//               <FaKeyboard className="w-6 h-6" />
-//               <div>
-//                 <h3 className="font-bold text-lg">{getInputLabel()}</h3>
-//                 <p className="text-blue-100 text-sm flex items-center">
-//                   <span className="inline-block w-3 h-3 bg-white bg-opacity-50 rounded-full mr-1 animate-pulse"></span>
-//                   Drag untuk memindahkan • Gunakan keyboard virtual
-//                 </p>
-//               </div>
-//             </div>
-//             <button
-//               onClick={onClose}
-//               className="p-3 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all touch-friendly min-w-[44px] min-h-[44px] flex items-center justify-center border-2 border-white border-opacity-30"
-//               style={{ touchAction: 'manipulation' }}
-//             >
-//               <FaTimes className="w-5 h-5" />
-//             </button>
-//           </div>
-          
-//           {/* Indikator drag area */}
-//           <div className="mt-2 flex justify-center">
-//             <div className="w-20 h-1 bg-white bg-opacity-50 rounded-full"></div>
-//           </div>
-//         </div>
-
-//         {/* Preview Area dengan border yang jelas */}
-//         <div className="p-4 bg-gray-50 bg-opacity-60 border-b-2 border-gray-300">
-//           <div className="bg-white bg-opacity-80 rounded-xl p-4 shadow-inner border-2 border-gray-200">
-//             <div className="text-sm text-gray-500 mb-2 flex justify-between">
-//               <span>Input Preview:</span>
-//               <span className="text-blue-500 font-medium">{value.length} karakter</span>
-//             </div>
-//             <div className="text-lg font-mono min-h-[28px] p-2 bg-gray-50 bg-opacity-70 rounded-lg border-2 border-blue-300">
-//               {value || <span className="text-gray-400">Ketik menggunakan keyboard virtual...</span>}
-//               <span className="ml-1 animate-pulse text-blue-500">|</span>
-//             </div>
-//           </div>
-//         </div>
-
-//         {/* Keyboard Layout */}
-//         <div className="p-4 bg-transparent" style={{ touchAction: 'manipulation' }}>
-//           {/* Main Keyboard */}
-//           {currentRows.map((row, rowIndex) => (
-//             <div key={rowIndex} className="flex justify-center mb-2 space-x-1">
-//               {row.map((key) => (
-//                 <button
-//   key={key}
-//   onClick={() => handleKeyClick(key)}
-//   className="flex-1 max-w-[60px] h-14 bg-white bg-opacity-95 rounded-xl transition-all duration-300 font-medium text-gray-700 touch-friendly relative overflow-hidden group"
-//   style={{ 
-//     minWidth: '44px',
-//     minHeight: '44px',
-//     touchAction: 'manipulation'
-//   }}
-// >
-//   {/* Base Border - Lebih tebal */}
-//   <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-400 to-gray-600 border-[3px] border-gray-500 shadow-sm"></div>
-  
-//   {/* Neon Border Effect */}
-//   <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-sm group-hover:blur-0"></div>
-  
-//   {/* Content Area */}
-//   <div className="absolute inset-[3px] rounded-lg bg-white bg-opacity-95 flex items-center justify-center z-10 group-hover:bg-opacity-100 transition-all duration-300">
-//     {isShift && !isSymbol ? key.toUpperCase() : key}
-//   </div>
-  
-//   {/* Hover Glow */}
-//   <div className="absolute inset-0 rounded-xl shadow-lg shadow-blue-500/0 group-hover:shadow-blue-500/40 group-hover:shadow-xl transition-all duration-300"></div>
-// </button>
-//               ))}
-//             </div>
-//           ))}
-
-//           {/* Bottom Control Row */}
-//           <div className="flex justify-center space-x-1 mt-4">
-//             {/* Shift Button */}
-//             <button
-//               onClick={() => handleSpecialKey('shift')}
-//               className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly border-2 ${
-//                 isShift 
-//                   ? 'bg-blue-500 text-white shadow-lg shadow-blue-200 border-blue-600' 
-//                   : 'bg-white bg-opacity-90 text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400'
-//               }`}
-//               style={{ 
-//                 minHeight: '44px',
-//                 touchAction: 'manipulation'
-//               }}
-//             >
-//               ⇧ SHIFT
-//             </button>
-
-//             {/* Symbol Toggle */}
-//             <button
-//               onClick={() => handleSpecialKey('symbol')}
-//               className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly border-2 ${
-//                 isSymbol 
-//                   ? 'bg-purple-500 text-white shadow-lg shadow-purple-200 border-purple-600' 
-//                   : 'bg-white bg-opacity-90 text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400'
-//               }`}
-//               style={{ 
-//                 minHeight: '44px',
-//                 touchAction: 'manipulation'
-//               }}
-//             >
-//               {isSymbol ? 'ABC' : '123'}
-//             </button>
-
-//             {/* Space Button */}
-//             <button
-//               onClick={() => handleSpecialKey('space')}
-//               className="flex-1 max-w-[200px] h-14 bg-white bg-opacity-90 border-2 border-gray-300 rounded-xl hover:bg-gray-100 hover:border-gray-400 active:bg-gray-200 transition-all touch-friendly text-gray-600 font-medium"
-//               style={{ 
-//                 minHeight: '44px',
-//                 touchAction: 'manipulation'
-//               }}
-//             >
-//               SPACE
-//             </button>
-
-//             {/* Backspace Button */}
-//             <button
-//               onClick={() => handleSpecialKey('backspace')}
-//               className="flex-1 max-w-[120px] h-14 bg-red-500 text-white rounded-xl hover:bg-red-600 active:bg-red-700 transition-all touch-friendly font-medium shadow-lg shadow-red-200 border-2 border-red-600"
-//               style={{ 
-//                 minHeight: '44px',
-//                 touchAction: 'manipulation'
-//               }}
-//             >
-//               ⌫ DELETE
-//             </button>
-//           </div>
-
-//           {/* Action Buttons Row */}
-//           <div className="flex justify-center space-x-2 mt-3">
-//             <button
-//               onClick={() => handleSpecialKey('clear')}
-//               className="flex-1 max-w-[140px] h-12 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-all touch-friendly font-medium border-2 border-orange-600"
-//               style={{ 
-//                 minHeight: '44px',
-//                 touchAction: 'manipulation'
-//               }}
-//             >
-//               🗑️ CLEAR
-//             </button>
-            
-//             <button
-//               onClick={() => handleSpecialKey('enter')}
-//               className="flex-1 max-w-[140px] h-12 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all touch-friendly font-medium border-2 border-green-600 shadow-lg shadow-green-200"
-//               style={{ 
-//                 minHeight: '44px',
-//                 touchAction: 'manipulation'
-//               }}
-//             >
-//               ↵ ENTER
-//             </button>
-//           </div>
-//         </div>
-
-//         {/* Footer dengan tips */}
-//         <div className="bg-gray-100 bg-opacity-70 rounded-b-xl p-3 border-t-2 border-gray-300">
-//           <div className="text-center text-sm text-gray-600">
-//             💡 Tips: Drag header untuk memindahkan • SHIFT untuk huruf kapital • 123 untuk simbol
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
 const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChange, onEnter }) => {
   const [isShift, setIsShift] = useState(false);
   const [isSymbol, setIsSymbol] = useState(false);
@@ -11481,40 +10655,6 @@ const scrollToEmptyInputOrSubmit = () => {
     setShowVirtualKeyboard(true);
   };
 
-  // // Fungsi untuk memilih pengunjung dari dropdown
-  // const selectPengunjung = (pengunjung) => {
-  //   setSelectedPengunjung(pengunjung);
-  //   setFormData({
-  //     ...formData,
-  //     nama: pengunjung.nama || "",
-  //     nik: pengunjung.nik || "",
-  //     alamat: pengunjung.alamat || "",
-  //     hp: pengunjung.hp || "",
-  //     jenis_kelamin: pengunjung.jenis_kelamin || "",
-  //     hubungan_keluarga: pengunjung.hubungan_keluarga || "",
-  //     kode: pengunjung.kode || "",
-  //     tujuan: pengunjung.tujuan || "Berkunjung",
-  //   });
-    
-  //   // Set preview gambar dari data yang sudah ada
-  //   if (pengunjung.photo_ktp) {
-  //     setPreviewKtp(pengunjung.photo_ktp);
-  //     setFormData(prev => ({ ...prev, photo_ktp: pengunjung.photo_ktp }));
-  //   }
-  //   if (pengunjung.photo_pengunjung) {
-  //     setPreviewPengunjung(pengunjung.photo_pengunjung);
-  //     setFormData(prev => ({ ...prev, photo_pengunjung: pengunjung.photo_pengunjung }));
-  //   }
-  //   if (pengunjung.barcode) {
-  //     setPreviewBarcode(pengunjung.barcode);
-  //     setFormData(prev => ({ ...prev, barcode: pengunjung.barcode }));
-  //   }
-    
-  //   setSearchPengunjung(pengunjung.nama);
-  //   setIsPengunjungDropdownOpen(false);
-  //   setShowVirtualKeyboard(false);
-  // };
-
   // Fungsi untuk memilih pengunjung dari dropdown
 const selectPengunjung = (pengunjung) => {
   console.log("Data pengunjung yang dipilih:", pengunjung); // Debug log
@@ -11594,20 +10734,6 @@ const selectPengunjung = (pengunjung) => {
     toast.success(`WBP dipilih: ${wbp.nama} (ID: ${wbp.id})`);
   };
 
-  // // Fungsi untuk handle scan barcode pengunjung
-  // const handleScanPengunjung = (data) => {
-  //   setSearchPengunjung(data);
-  //   setShowScannerPengunjung(false);
-    
-  //   // Cari pengunjung berdasarkan kode yang di-scan
-  //   const pengunjungDitemukan = filteredPengunjung.find(p => p.kode === data);
-  //   if (pengunjungDitemukan) {
-  //     selectPengunjung(pengunjungDitemukan);
-  //     toast.success("Pengunjung ditemukan melalui scan");
-  //   } else {
-  //     toast.error("Pengunjung tidak ditemukan");
-  //   }
-  // };
 
   // Fungsi untuk handle scan barcode pengunjung
 const handleScanPengunjung = (data) => {
@@ -11762,261 +10888,6 @@ const handleGenerateAntrian = async (pengunjungId) => {
   }
 };
 
-  // // PERBAIKAN: Handle submit dengan validasi WBP dan langsung generate antrian
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   // Validasi WBP
-  //   if (!formData.wbp_id) {
-  //     setError("Silakan pilih Warga Binaan terlebih dahulu.");
-  //     toast.error("WBP belum dipilih!");
-  //     return;
-  //   }
-
-  //   // Debug info WBP
-  //   console.log("WBP ID yang akan dikirim:", formData.wbp_id);
-  //   console.log("WBP Nama yang dipilih:", searchWbp);
-
-  //   if (!formData.nama || !formData.nik || !formData.hp || !formData.wbp_id || !formData.kode) {
-  //     setError("Pastikan nama, NIK, nomor HP, WBP, dan kode diisi.");
-  //     return;
-  //   }
-
-  //   setError("");
-  //   setIsSubmitting(true);
-
-  //   const formDataToSend = new FormData();
-    
-  //   // Tambahkan semua field formData ke FormData
-  //   for (const key in formData) {
-  //     if (formData[key] !== null && formData[key] !== "") {
-  //       // Handle file uploads - jika file object, append sebagai file
-  //       if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && formData[key] instanceof File) {
-  //         formDataToSend.append(key, formData[key]);
-  //       } 
-  //       // Handle URL strings dari data existing
-  //       else if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && typeof formData[key] === 'string') {
-  //         formDataToSend.append(key, formData[key]);
-  //       }
-  //       // Handle field lainnya
-  //       else if (key !== 'photo_ktp' && key !== 'photo_pengunjung' && key !== 'barcode') {
-  //         formDataToSend.append(key, formData[key]);
-  //       }
-  //     }
-  //   }
-
-  //   // Debug: Log formData sebelum dikirim
-  //   console.log("FormData sebelum submit:", formData);
-  //   console.log("Photo KTP:", formData.photo_ktp);
-  //   console.log("Photo Pengunjung:", formData.photo_pengunjung);
-  //   console.log("Barcode:", formData.barcode);
-
-  //   // Debug: Log FormData entries
-  //   for (let pair of formDataToSend.entries()) {
-  //     console.log(pair[0] + ': ', pair[1]);
-  //   }
-
-  //   try {
-  //     // Simpan response dari createPengunjung ke state
-  //     const createdPengunjung = await createPengunjung(formDataToSend, setError);
-      
-  //     if (createdPengunjung) {
-  //       toast.success("Pengunjung berhasil ditambahkan!");
-        
-
-  //       // LANGSUNG GENERATE NOMOR ANTRIAN SETELAH PENGUNJUNG DIBUAT
-  //       const nomorAntrian = await handleGenerateAntrian(createdPengunjung.id);
-        
-  //       if (nomorAntrian) {
-  //         // Simpan data pengunjung baru ke state dengan nomor antrian
-  //         setNewPengunjung({
-  //           ...createdPengunjung,
-  //           antrian: nomorAntrian
-  //         });
-  //       } else {
-  //         // Jika gagal generate antrian, tetap simpan data pengunjung
-  //         setNewPengunjung(createdPengunjung);
-  //       }
-
-  //       // Reset form
-  //       setFormData({
-  //         wbp_id: "",
-  //         nama: "",
-  //         jenis_kelamin: "",
-  //         nik: "",
-  //         alamat: "",
-  //         hp: "",
-  //         hubungan_keluarga: "",
-  //         tujuan: "Berkunjung",
-  //         kode: "",
-  //         barcode: null,
-  //         pengikut_laki_laki: 0,
-  //         pengikut_perempuan: 0,
-  //         pengikut_anak_anak: 0,
-  //         pengikut_bayi: 0,
-  //         total_pengikut: 0,
-  //         keterangan: "",
-  //         photo_ktp: null,
-  //         photo_pengunjung: null,
-  //       });
-  //       setSelectedPengunjung(null);
-  //       setSearchPengunjung("");
-  //       setPreviewKtp(null);
-  //       setPreviewPengunjung(null);
-  //       setPreviewBarcode(null);
-  //       setPhotoKtpFile(null);
-  //       setPhotoPengunjungFile(null);
-  //       setBarcodeFile(null);
-  //       setShowVirtualKeyboard(false);
-  //     } else {
-  //       throw new Error("Gagal mendapatkan response dari server");
-  //     }
-
-  //   } catch (err) {
-  //     console.error("Error saat menambahkan pengunjung:", err);
-  //     toast.error("Gagal menambahkan pengunjung. Silakan coba lagi.");
-  //   } finally {
-  //     setIsSubmitting(false);
-  //   }
-  // };
-
-// const handleSubmit = async (e) => {
-//   e.preventDefault();
-
-//   e.preventDefault();
-
-//   // Cek field WBP terlebih dahulu
-//   if (checkWbpField()) {
-//     return;
-//   }
-
-//   if (formData.nama === '-' ) {
-//     setError("Field nama tidak boleh diisi dengan karakter '-' saja.");
-//     toast.error("Field nama tidak boleh diisi dengan karakter '-' saja.");
-//     return;
-//   }
-//   if (formData.wbp_id === 199 ) {
-//     setError("Field Wbp tidak boleh diisi dengan karakter '-' saja.");
-//     toast.error("Field Wbp tidak boleh diisi dengan karakter '-' saja.");
-//     return;
-//   }
-
-//   // Cek field kosong lainnya
-//   const emptyFieldFound = scrollToEmptyInputOrSubmit();
-//   if (emptyFieldFound) {
-//     return; // Berhenti jika ada field kosong
-//   }
-
-
-//   // Validasi WBP
-//   if (!formData.wbp_id) {
-//     setError("Silakan pilih Warga Binaan terlebih dahulu.");
-//     toast.error("WBP belum dipilih!");
-//     return;
-//   }
-
-//   if (!formData.nama || !formData.nik || !formData.hp || !formData.wbp_id || !formData.kode) {
-//     setError("Pastikan nama, NIK, nomor HP, WBP, dan kode diisi.");
-//     return;
-//   }
-
-//   setError("");
-//   setIsSubmitting(true);
-
-//   const formDataToSend = new FormData();
-  
-//   // Tambahkan semua field formData ke FormData
-//   for (const key in formData) {
-//     if (formData[key] !== null && formData[key] !== "") {
-//       if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && formData[key] instanceof File) {
-//         formDataToSend.append(key, formData[key]);
-//       } 
-//       else if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && typeof formData[key] === 'string') {
-//         formDataToSend.append(key, formData[key]);
-//       }
-//       else if (key !== 'photo_ktp' && key !== 'photo_pengunjung' && key !== 'barcode') {
-//         formDataToSend.append(key, formData[key]);
-//       }
-//     }
-//   }
-
-//   try {
-//     const createdPengunjung = await createPengunjung(formDataToSend, setError);
-    
-//     if (createdPengunjung) {
-//       toast.success("Pengunjung berhasil ditambahkan!");
-
-//       // Simpan data pengunjung baru ke state
-//       setNewPengunjung(createdPengunjung);
-
-//       // PERBAIKAN: Handle flow berdasarkan role
-//       if (authUser.user.role === 'admin') {
-//         // Untuk ADMIN: Generate antrian dan tampilkan print dialog
-//         const nomorAntrian = await handleGenerateAntrian(createdPengunjung.id);
-        
-//         if (nomorAntrian) {
-//           // Set data untuk print dialog
-//           setPrintData({
-//             pengunjung: { ...createdPengunjung, antrian: nomorAntrian },
-//             antrian: nomorAntrian
-//           });
-          
-//           // Tampilkan dialog print
-//           setShowPrintDialog(true);
-          
-//           // JANGAN setShowEditForm(true) di sini untuk admin
-//           // Form edit akan muncul setelah print dialog ditutup
-//         } else {
-//           // Jika gagal generate antrian, langsung ke form edit
-//           setShowEditForm(true);
-//         }
-//       } else {
-//         // Untuk NON-ADMIN: Langsung tampilkan form edit
-//         setShowEditForm(true);
-//       }
-
-//       // Reset form
-//       setFormData({
-//         wbp_id: "",
-//         nama: "",
-//         jenis_kelamin: "",
-//         nik: "",
-//         alamat: "",
-//         hp: "",
-//         hubungan_keluarga: "",
-//         tujuan: "Berkunjung",
-//         kode: "",
-//         barcode: null,
-//         pengikut_laki_laki: 0,
-//         pengikut_perempuan: 0,
-//         pengikut_anak_anak: 0,
-//         pengikut_bayi: 0,
-//         total_pengikut: 0,
-//         keterangan: "",
-//         photo_ktp: null,
-//         photo_pengunjung: null,
-//       });
-//       setSelectedPengunjung(null);
-//       setSearchPengunjung("");
-//       setPreviewKtp(null);
-//       setPreviewPengunjung(null);
-//       setPreviewBarcode(null);
-//       setPhotoKtpFile(null);
-//       setPhotoPengunjungFile(null);
-//       setBarcodeFile(null);
-//       setShowVirtualKeyboard(false);
-
-//     } else {
-//       throw new Error("Gagal mendapatkan response dari server");
-//     }
-
-//   } catch (err) {
-//     console.error("Error saat menambahkan pengunjung:", err);
-//     toast.error("Gagal menambahkan pengunjung. Silakan coba lagi.");
-//   } finally {
-//     setIsSubmitting(false);
-//   }
-// };
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -12989,6 +11860,769 @@ const checkWbpField = () => {
 };
 
 // Komponen wrapper untuk EditPengunjungForm (TIDAK BERUBAH)
+// const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
+//   const { updatePengunjung } = useDataStore();
+//   const [formData, setFormData] = useState({
+//     nama: newPengunjung.nama || "",
+//     jenis_kelamin: newPengunjung.jenis_kelamin || "",
+//     nik: newPengunjung.nik || "",
+//     alamat: newPengunjung.alamat || "",
+//     hp: newPengunjung.hp || "",
+//     hubungan_keluarga: newPengunjung.hubungan_keluarga || "",
+//     tujuan: newPengunjung.tujuan || "Berkunjung",
+//     kode: newPengunjung.kode || "",
+//     pengikut_laki_laki: newPengunjung.pengikut_laki_laki || 0,
+//     pengikut_perempuan: newPengunjung.pengikut_perempuan || 0,
+//     pengikut_anak_anak: newPengunjung.pengikut_anak_anak || 0,
+//     pengikut_bayi: newPengunjung.pengikut_bayi || 0,
+//     total_pengikut: newPengunjung.total_pengikut || 0,
+//   });
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState("");
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+  
+//   // State untuk virtual keyboard di form edit
+//   const [showVirtualKeyboard, setShowVirtualKeyboard] = useState(false);
+//   const [activeInput, setActiveInput] = useState(null);
+//   const [keyboardValue, setKeyboardValue] = useState('');
+  
+//   // State untuk checkbox ambil antrian
+//   const [ambilAntrian, setAmbilAntrian] = useState(false);
+//   const [isAdmin, setIsAdmin] = useState(false);
+
+//   // State untuk preview gambar yang sudah diupload
+//   const [showModalKtp, setShowModalKtp] = useState(false);
+//   const [showModalPengunjung, setShowModalPengunjung] = useState(false);
+//   const [showModalBarcode, setShowModalBarcode] = useState(false);
+
+//   // State untuk deteksi perangkat
+//   const [isPc, setIsPc] = useState(false);
+
+//   const navigate = useNavigate();
+
+  
+
+//   // Deteksi perangkat saat komponen dimuat
+//   useEffect(() => {
+//     const checkDevice = () => {
+//       const userAgent = navigator.userAgent.toLowerCase();
+//       const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent);
+//       const isTablet = /tablet|ipad/i.test(userAgent);
+//       const isPcDevice = !isMobile && !isTablet;
+      
+//       setIsPc(isPcDevice);
+//     };
+
+//     checkDevice();
+//   }, []);
+
+//   const authUser = JSON.parse(localStorage.getItem('authUser'));
+
+//   // Cek role user saat komponen dimuat
+//   useEffect(() => {
+//     const authUser = JSON.parse(localStorage.getItem('authUser'));
+//     if (authUser && authUser.user && authUser.user.role === 'admin') {
+//       setIsAdmin(true);
+//     }
+    
+//     // Hitung total pengikut saat pertama kali komponen dimuat
+//     const initialTotal = calculateTotalPengikut(formData);
+//     setFormData(prev => ({
+//       ...prev,
+//       total_pengikut: initialTotal
+//     }));
+//   }, []);
+
+//   // Handler untuk virtual keyboard di form edit - hanya untuk PC
+//   const handleVirtualKeyPress = (key) => {
+//     if (key === 'backspace') {
+//       setKeyboardValue(prev => prev.slice(0, -1));
+//       handleInputUpdate('backspace');
+//     } else if (key === 'enter') {
+//       setShowVirtualKeyboard(false);
+//     } else if (key === 'space') {
+//       setKeyboardValue(prev => prev + ' ');
+//       handleInputUpdate(' ');
+//     } else if (key === 'clear') {
+//       setKeyboardValue('');
+//       handleInputUpdate('clear');
+//     } else if (key === 'tab') {
+//       // Switch between inputs
+//     } else {
+//       setKeyboardValue(prev => prev + key);
+//       handleInputUpdate(key);
+//     }
+//   };
+
+//   // Fungsi untuk langsung update input field dari keyboard di form edit
+//   const handleInputUpdate = (key) => {
+//     let newValue = '';
+    
+//     if (key === 'backspace') {
+//       newValue = keyboardValue.slice(0, -1);
+//     } else if (key === 'clear') {
+//       newValue = '';
+//     } else if (key === ' ') {
+//       newValue = keyboardValue + ' ';
+//     } else {
+//       newValue = keyboardValue + key;
+//     }
+
+//     // Update sesuai dengan input yang aktif
+//     switch (activeInput) {
+//       case 'nama':
+//         setFormData(prev => ({ ...prev, nama: newValue }));
+//         break;
+//       case 'nik':
+//         setFormData(prev => ({ ...prev, nik: newValue }));
+//         break;
+//       case 'hp':
+//         setFormData(prev => ({ ...prev, hp: newValue }));
+//         break;
+//       case 'alamat':
+//         setFormData(prev => ({ ...prev, alamat: newValue }));
+//         break;
+//       case 'hubungan_keluarga':
+//         setFormData(prev => ({ ...prev, hubungan_keluarga: newValue }));
+//         break;
+//       case 'kode':
+//         setFormData(prev => ({ ...prev, kode: newValue }));
+//         break;
+//       default:
+//         break;
+//     }
+//   };
+
+//   // Handler untuk membuka virtual keyboard dengan input tertentu di form edit - hanya untuk PC
+//   const handleInputFocus = (inputType, currentValue = '') => {
+//     // Hanya tampilkan virtual keyboard jika perangkat adalah PC
+//     if (!isPc) return;
+    
+//     setActiveInput(inputType);
+//     setKeyboardValue(currentValue);
+//     setShowVirtualKeyboard(true);
+//   };
+
+//   // Modal untuk preview gambar besar
+//   const ImageModal = ({ isOpen, onClose, imageUrl, title }) => {
+//     if (!isOpen) return null;
+
+//     return (
+//       <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+//         <div className="bg-white rounded-lg max-w-4xl max-h-full overflow-auto">
+//           <div className="flex justify-between items-center p-4 border-b">
+//             <h3 className="text-lg font-semibold">{title}</h3>
+//             <button
+//               onClick={onClose}
+//               className="text-gray-500 hover:text-gray-700"
+//             >
+//               <FaTimes size={24} />
+//             </button>
+//           </div>
+//           <div className="p-4">
+//             <img
+//               src={imageUrl}
+//               alt={title}
+//               className="w-full h-auto max-h-96 object-contain"
+//             />
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   };
+
+//   // Fungsi menghitung total pengikut
+//   const calculateTotalPengikut = (data) => {
+//     const total = 
+//       parseInt(data.pengikut_laki_laki || 0) +
+//       parseInt(data.pengikut_perempuan || 0) +
+//       parseInt(data.pengikut_anak_anak || 0) +
+//       parseInt(data.pengikut_bayi || 0);
+//     return total;
+//   };
+
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     const updatedFormData = {
+//       ...formData,
+//       [name]: value,
+//     };
+    
+//     // Jika field pengikut diubah, hitung total otomatis
+//     if (name.includes('pengikut_') && name !== 'total_pengikut') {
+//       updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//     }
+    
+//     setFormData(updatedFormData);
+//   };
+
+//   console.log("new pengunjung", newPengunjung)
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setLoading(true);
+//     setError("");
+
+//     try {
+//       await updatePengunjung(newPengunjung.id, formData);
+//       toast.success("Data pengunjung berhasil diperbarui!");
+      
+//       setTimeout(() => {
+//         if (onClose) onClose();
+//       }, 1000);
+      
+//     } catch (error) {
+//       console.error("Error: ", error);
+//       setError("Gagal memperbarui data pengunjung. Silakan coba lagi.");
+//       toast.error("Gagal memperbarui data pengunjung.");
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   const finish = () => {
+//     if (!ambilAntrian && formData.tujuan === "Menitip barang") {
+//       navigate(`/label/${newPengunjung.id}`);
+//     } else if (!ambilAntrian && formData.tujuan === "Berkunjung") {
+//       navigate(`/pengunjung/${newPengunjung.id}`);
+//     } else {
+//       navigate('/');
+//     }
+//   }
+
+//   return (
+//     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 p-4">
+//       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl p-8 transition-all hover:shadow-3xl">
+//         <div className="flex items-center justify-between mb-8">
+//           <h1 className="text-3xl font-bold text-gray-800">
+//             ✏️ Edit Data Pengunjung Baru
+//           </h1>
+//           <div className="space-x-2">
+//             <button
+//               onClick={onBack}
+//               className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+//             >
+//               ← Tambah Lagi
+//             </button>
+//             <button
+//               onClick={finish}
+//               className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg transition-colors"
+//             >
+//               Selesai
+//             </button>
+//           </div>
+//         </div>
+
+//         {error && (
+//           <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded">
+//             {error}
+//           </div>
+//         )}
+
+//         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-1">
+//           {/* Kolom Kanan */}
+//           <div className="space-y-4">
+            
+//             {/* Pengikut dengan Counter yang Dipercantik */}
+//             <div className="space-y-4">
+//               <div className="flex items-center justify-between">
+//                 <label className="block text-sm font-medium text-gray-700 flex items-center">
+//                   <svg className="w-4 h-4 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+//                   </svg>
+//                   Jumlah Pengikut
+//                 </label>
+//                 <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg">
+//                   Total: <span className="font-bold text-purple-600">{formData.total_pengikut}</span>
+//                 </div>
+//               </div>
+
+//               <div className="grid grid-cols-2 gap-4">
+//                 {/* Laki-laki */}
+//                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+//                   <div className="flex items-center justify-between mb-3">
+//                     <div className="flex items-center space-x-2">
+//                       <span className="text-2xl">👨</span>
+//                       <span className="font-semibold text-gray-800">Laki-laki</span>
+//                     </div>
+//                     <div className="px-3 py-1 bg-white rounded-lg border border-blue-200 shadow-sm">
+//                       <span className="text-sm font-bold text-blue-600">
+//                         {formData.pengikut_laki_laki}
+//                       </span>
+//                     </div>
+//                   </div>
+
+//                   <div className="flex items-center justify-between space-x-2">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
+//                         if (currentValue > 0) {
+//                           const updatedFormData = {
+//                             ...formData,
+//                             pengikut_laki_laki: currentValue - 1
+//                           };
+//                           updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                           setFormData(updatedFormData);
+//                         }
+//                       }}
+//                       className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
+//                         parseInt(formData.pengikut_laki_laki) > 0 
+//                           ? 'bg-white text-blue-600 hover:bg-blue-50 border-2 border-blue-200 hover:border-blue-300' 
+//                           : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
+//                       } focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95`}
+//                       disabled={parseInt(formData.pengikut_laki_laki) <= 0}
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+//                         </svg>
+//                         <span>Kurang</span>
+//                       </div>
+//                     </button>
+
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_laki_laki: currentValue + 1
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-blue-600 hover:bg-blue-50 border-2 border-blue-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95"
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+//                         </svg>
+//                         <span>Tambah</span>
+//                       </div>
+//                     </button>
+//                   </div>
+
+//                   <div className="flex space-x-2 mt-3">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_laki_laki: 0
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       Reset
+//                     </button>
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_laki_laki: currentValue + 5
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       +5
+//                     </button>
+//                   </div>
+//                 </div>
+
+//                 {/* Perempuan */}
+//                 <div className="bg-gradient-to-br from-pink-50 to-pink-100 border-2 border-pink-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+//                   <div className="flex items-center justify-between mb-3">
+//                     <div className="flex items-center space-x-2">
+//                       <span className="text-2xl">👩</span>
+//                       <span className="font-semibold text-gray-800">Perempuan</span>
+//                     </div>
+//                     <div className="px-3 py-1 bg-white rounded-lg border border-pink-200 shadow-sm">
+//                       <span className="text-sm font-bold text-pink-600">
+//                         {formData.pengikut_perempuan}
+//                       </span>
+//                     </div>
+//                   </div>
+
+//                   <div className="flex items-center justify-between space-x-2">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_perempuan) || 0;
+//                         if (currentValue > 0) {
+//                           const updatedFormData = {
+//                             ...formData,
+//                             pengikut_perempuan: currentValue - 1
+//                           };
+//                           updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                           setFormData(updatedFormData);
+//                         }
+//                       }}
+//                       className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
+//                         parseInt(formData.pengikut_perempuan) > 0 
+//                           ? 'bg-white text-pink-600 hover:bg-pink-50 border-2 border-pink-200 hover:border-pink-300' 
+//                           : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
+//                       } focus:outline-none focus:ring-2 focus:ring-pink-500 active:scale-95`}
+//                       disabled={parseInt(formData.pengikut_perempuan) <= 0}
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+//                         </svg>
+//                         <span>Kurang</span>
+//                       </div>
+//                     </button>
+
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_perempuan) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_perempuan: currentValue + 1
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-pink-600 hover:bg-pink-50 border-2 border-pink-200 hover:border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-500 active:scale-95"
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+//                         </svg>
+//                         <span>Tambah</span>
+//                       </div>
+//                     </button>
+//                   </div>
+
+//                   <div className="flex space-x-2 mt-3">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_perempuan: 0
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       Reset
+//                     </button>
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_perempuan) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_perempuan: currentValue + 5
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       +5
+//                     </button>
+//                   </div>
+//                 </div>
+
+//                 {/* Anak-anak */}
+//                 <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+//                   <div className="flex items-center justify-between mb-3">
+//                     <div className="flex items-center space-x-2">
+//                       <span className="text-2xl">🧒</span>
+//                       <span className="font-semibold text-gray-800">Anak-anak</span>
+//                     </div>
+//                     <div className="px-3 py-1 bg-white rounded-lg border border-green-200 shadow-sm">
+//                       <span className="text-sm font-bold text-green-600">
+//                         {formData.pengikut_anak_anak}
+//                       </span>
+//                     </div>
+//                   </div>
+
+//                   <div className="flex items-center justify-between space-x-2">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_anak_anak) || 0;
+//                         if (currentValue > 0) {
+//                           const updatedFormData = {
+//                             ...formData,
+//                             pengikut_anak_anak: currentValue - 1
+//                           };
+//                           updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                           setFormData(updatedFormData);
+//                         }
+//                       }}
+//                       className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
+//                         parseInt(formData.pengikut_anak_anak) > 0 
+//                           ? 'bg-white text-green-600 hover:bg-green-50 border-2 border-green-200 hover:border-green-300' 
+//                           : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
+//                       } focus:outline-none focus:ring-2 focus:ring-green-500 active:scale-95`}
+//                       disabled={parseInt(formData.pengikut_anak_anak) <= 0}
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+//                         </svg>
+//                         <span>Kurang</span>
+//                       </div>
+//                     </button>
+
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_anak_anak) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_anak_anak: currentValue + 1
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-green-600 hover:bg-green-50 border-2 border-green-200 hover:border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 active:scale-95"
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+//                         </svg>
+//                         <span>Tambah</span>
+//                       </div>
+//                     </button>
+//                   </div>
+
+//                   <div className="flex space-x-2 mt-3">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_anak_anak: 0
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       Reset
+//                     </button>
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_anak_anak) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_anak_anak: currentValue + 5
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       +5
+//                     </button>
+//                   </div>
+//                 </div>
+
+//                 {/* Bayi */}
+//                 <div className="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+//                   <div className="flex items-center justify-between mb-3">
+//                     <div className="flex items-center space-x-2">
+//                       <span className="text-2xl">👶</span>
+//                       <span className="font-semibold text-gray-800">Bayi</span>
+//                     </div>
+//                     <div className="px-3 py-1 bg-white rounded-lg border border-purple-200 shadow-sm">
+//                       <span className="text-sm font-bold text-purple-600">
+//                         {formData.pengikut_bayi}
+//                       </span>
+//                     </div>
+//                   </div>
+
+//                   <div className="flex items-center justify-between space-x-2">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_bayi) || 0;
+//                         if (currentValue > 0) {
+//                           const updatedFormData = {
+//                             ...formData,
+//                             pengikut_bayi: currentValue - 1
+//                           };
+//                           updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                           setFormData(updatedFormData);
+//                         }
+//                       }}
+//                       className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
+//                         parseInt(formData.pengikut_bayi) > 0 
+//                           ? 'bg-white text-purple-600 hover:bg-purple-50 border-2 border-purple-200 hover:border-purple-300' 
+//                           : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
+//                       } focus:outline-none focus:ring-2 focus:ring-purple-500 active:scale-95`}
+//                       disabled={parseInt(formData.pengikut_bayi) <= 0}
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+//                         </svg>
+//                         <span>Kurang</span>
+//                       </div>
+//                     </button>
+
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_bayi) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_bayi: currentValue + 1
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-purple-600 hover:bg-purple-50 border-2 border-purple-200 hover:border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 active:scale-95"
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+//                         </svg>
+//                         <span>Tambah</span>
+//                       </div>
+//                     </button>
+//                   </div>
+
+//                   <div className="flex space-x-2 mt-3">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_bayi: 0
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       Reset
+//                     </button>
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_bayi) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_bayi: currentValue + 5
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       +5
+//                     </button>
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Total Pengikut yang Dipercantik
+//             <div className="bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl p-2 shadow-lg">
+//               <div className="text-center">
+//                 <div className="flex items-center justify-center space-x-2 mb-1">
+//                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+//                   </svg>
+//                   <h3 className="text-lg font-semibold">Total Pengikut</h3>
+//                 </div>
+//                 <div className="text-4xl font-bold mb-2">
+//                   {formData.total_pengikut} <span className="text-2xl">Orang</span>
+//                 </div>
+//               </div>
+//             </div> */}
+
+//             <button
+//               type="submit"
+//               disabled={loading}
+//               className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-70 mt-4"
+//             >
+//               {loading ? (
+//                 <span className="flex items-center justify-center">
+//                   <FaSpinner className="animate-spin mr-2" />
+//                   Memproses...
+//                 </span>
+//               ) : (
+//                 "💾 Simpan Perubahan"
+//               )}
+//             </button>
+//           </div>
+//         </form>
+
+//         <button
+//           onClick={() => setIsModalOpen(true)}
+//           className="w-full py-3 mt-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-70"
+//         >
+//           + Tambah Barang Titipan
+//         </button>
+
+//         {/* Modal CreateBarangTitipan */}
+//         <CreateBarangTitipanModal
+//           isOpen={isModalOpen}
+//           onClose={() => setIsModalOpen(false)}
+//           pengunjungs={newPengunjung}
+//         />
+
+//         <div className="mt-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
+//           <p className="text-blue-700 text-sm">
+//             <strong>Catatan:</strong> Data pengunjung telah berhasil disimpan. Anda dapat mengedit data di atas jika diperlukan, atau klik "Selesai" untuk menutup form.
+//           </p>
+//         </div>
+//       </div>
+
+//       {/* Modal untuk preview gambar besar */}
+//       <ImageModal
+//         isOpen={showModalKtp}
+//         onClose={() => setShowModalKtp(false)}
+//         imageUrl={newPengunjung.photo_ktp}
+//         title="Foto KTP"
+//       />
+      
+//       <ImageModal
+//         isOpen={showModalPengunjung}
+//         onClose={() => setShowModalPengunjung(false)}
+//         imageUrl={newPengunjung.photo_pengunjung}
+//         title="Foto Pengunjung"
+//       />
+
+//       <ImageModal
+//         isOpen={showModalBarcode}
+//         onClose={() => setShowModalBarcode(false)}
+//         imageUrl={newPengunjung.barcode}
+//         title="Barcode/QR Code"
+//       />
+
+//       {/* Virtual Keyboard untuk form edit - hanya untuk PC */}
+//       {showVirtualKeyboard && (
+//         <VirtualKeyboard 
+//           onKeyPress={handleVirtualKeyPress}
+//           onClose={() => setShowVirtualKeyboard(false)}
+//           value={keyboardValue}
+//           activeInput={activeInput}
+//           onInputChange={handleInputUpdate}
+//         />
+//       )}
+      
+//     </div>
+//   );
+// };
+
+// Komponen wrapper untuk EditPengunjungForm (TIDAK BERUBAH)
 const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
   const { updatePengunjung } = useDataStore();
   const [formData, setFormData] = useState({
@@ -13019,6 +12653,9 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
   const [ambilAntrian, setAmbilAntrian] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
+  // State untuk menandai apakah data sudah disimpan
+  const [isDataSaved, setIsDataSaved] = useState(false);
+
   // State untuk preview gambar yang sudah diupload
   const [showModalKtp, setShowModalKtp] = useState(false);
   const [showModalPengunjung, setShowModalPengunjung] = useState(false);
@@ -13028,8 +12665,6 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
   const [isPc, setIsPc] = useState(false);
 
   const navigate = useNavigate();
-
-  
 
   // Deteksi perangkat saat komponen dimuat
   useEffect(() => {
@@ -13061,6 +12696,71 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
       total_pengikut: initialTotal
     }));
   }, []);
+
+  // Fungsi untuk memeriksa apakah ada perubahan data pengikut
+  const hasPengikutChanges = () => {
+    return (
+      formData.pengikut_laki_laki !== newPengunjung.pengikut_laki_laki ||
+      formData.pengikut_perempuan !== newPengunjung.pengikut_perempuan ||
+      formData.pengikut_anak_anak !== newPengunjung.pengikut_anak_anak ||
+      formData.pengikut_bayi !== newPengunjung.pengikut_bayi ||
+      formData.total_pengikut !== newPengunjung.total_pengikut
+    );
+  };
+
+  // Fungsi untuk menyimpan data pengikut
+  const savePengunjungData = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      await updatePengunjung(newPengunjung.id, formData);
+      toast.success("Data pengunjung berhasil diperbarui!");
+      setIsDataSaved(true);
+      return true;
+    } catch (error) {
+      console.error("Error: ", error);
+      setError("Gagal memperbarui data pengunjung. Silakan coba lagi.");
+      toast.error("Gagal memperbarui data pengunjung.");
+      return false;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fungsi finish yang diperbarui
+  const finish = async () => {
+    // Periksa apakah ada perubahan data pengikut yang belum disimpan
+    if (hasPengikutChanges() && !isDataSaved) {
+      // Tampilkan konfirmasi kepada pengguna
+      const shouldSave = window.confirm(
+        "Data jumlah pengikut telah berubah. Apakah Anda ingin menyimpan perubahan sebelum melanjutkan?"
+      );
+      
+      if (shouldSave) {
+        const success = await savePengunjungData();
+        if (!success) {
+          // Jika gagal menyimpan, beri opsi untuk lanjut tanpa menyimpan
+          const continueAnyway = window.confirm(
+            "Gagal menyimpan data. Apakah Anda ingin melanjutkan tanpa menyimpan perubahan?"
+          );
+          if (!continueAnyway) {
+            return; // Batalkan jika user memilih tidak
+          }
+        }
+      }
+      // Jika user memilih tidak menyimpan, lanjut tanpa menyimpan
+    }
+
+    // Lanjutkan dengan navigasi sesuai kondisi
+    if (!ambilAntrian && formData.tujuan === "Menitip barang") {
+      navigate(`/label/${newPengunjung.id}`);
+    } else if (!ambilAntrian && formData.tujuan === "Berkunjung") {
+      navigate(`/pengunjung/${newPengunjung.id}`);
+    } else {
+      navigate('/');
+    }
+  };
 
   // Handler untuk virtual keyboard di form edit - hanya untuk PC
   const handleVirtualKeyPress = (key) => {
@@ -13180,44 +12880,23 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
     // Jika field pengikut diubah, hitung total otomatis
     if (name.includes('pengikut_') && name !== 'total_pengikut') {
       updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+      // Reset status saved ketika ada perubahan data pengikut
+      setIsDataSaved(false);
     }
     
     setFormData(updatedFormData);
   };
 
-  console.log("new pengunjung", newPengunjung)
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
-    setError("");
-
-    try {
-      await updatePengunjung(newPengunjung.id, formData);
-      toast.success("Data pengunjung berhasil diperbarui!");
-      
+    const success = await savePengunjungData();
+    
+    if (success) {
       setTimeout(() => {
         if (onClose) onClose();
       }, 1000);
-      
-    } catch (error) {
-      console.error("Error: ", error);
-      setError("Gagal memperbarui data pengunjung. Silakan coba lagi.");
-      toast.error("Gagal memperbarui data pengunjung.");
-    } finally {
-      setLoading(false);
     }
   };
-
-  const finish = () => {
-    if (!ambilAntrian && formData.tujuan === "Menitip barang") {
-      navigate(`/label/${newPengunjung.id}`);
-    } else if (!ambilAntrian && formData.tujuan === "Berkunjung") {
-      navigate(`/pengunjung/${newPengunjung.id}`);
-    } else {
-      navigate('/');
-    }
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 p-4">
@@ -13248,41 +12927,50 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
           </div>
         )}
 
+        {/* Indicator status penyimpanan */}
+        {hasPengikutChanges() && !isDataSaved && (
+          <div className="mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 text-yellow-700 rounded">
+            <p className="flex items-center">
+              <FaInfoCircle className="mr-2" />
+              <strong>Perhatian:</strong> Data jumlah pengikut telah berubah. Pastikan untuk menyimpan perubahan sebelum menekan tombol "Selesai".
+            </p>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-1">
           {/* Kolom Kanan */}
           <div className="space-y-4">
             
             {/* Pengikut dengan Counter yang Dipercantik */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
-                  <svg className="w-4 h-4 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                  Jumlah Pengikut
-                </label>
-                <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg">
-                  Total: <span className="font-bold text-purple-600">{formData.total_pengikut}</span>
-                </div>
-              </div>
+            <div className="space-y-4">            
+               <div className="flex items-center justify-between">
+                 <label className="block text-sm font-medium text-gray-700 flex items-center">
+                   <svg className="w-4 h-4 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                   </svg>
+                   Jumlah Pengikut
+                 </label>
+                 <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg">
+                   Total: <span className="font-bold text-purple-600">{formData.total_pengikut}</span>
+                 </div>
+               </div>
+               <div className="grid grid-cols-2 gap-4">
+                 {/* Laki-laki */}
+                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+                   <div className="flex items-center justify-between mb-3">
+                     <div className="flex items-center space-x-2">
+                       <span className="text-2xl">👨</span>
+                       <span className="font-semibold text-gray-800">Laki-laki</span>
+                     </div>
+                     <div className="px-3 py-1 bg-white rounded-lg border border-blue-200 shadow-sm">
+                       <span className="text-sm font-bold text-blue-600">
+                         {formData.pengikut_laki_laki}
+                       </span>
+                     </div>
+                   </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                {/* Laki-laki */}
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-2xl">👨</span>
-                      <span className="font-semibold text-gray-800">Laki-laki</span>
-                    </div>
-                    <div className="px-3 py-1 bg-white rounded-lg border border-blue-200 shadow-sm">
-                      <span className="text-sm font-bold text-blue-600">
-                        {formData.pengikut_laki_laki}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between space-x-2">
-                    <button
+                   <div className="flex items-center justify-between space-x-2">
+                     <button
                       type="button"
                       onClick={() => {
                         const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
@@ -13658,23 +13346,8 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
                     </button>
                   </div>
                 </div>
-              </div>
+              </div>              
             </div>
-
-            {/* Total Pengikut yang Dipercantik
-            <div className="bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl p-2 shadow-lg">
-              <div className="text-center">
-                <div className="flex items-center justify-center space-x-2 mb-1">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                  <h3 className="text-lg font-semibold">Total Pengikut</h3>
-                </div>
-                <div className="text-4xl font-bold mb-2">
-                  {formData.total_pengikut} <span className="text-2xl">Orang</span>
-                </div>
-              </div>
-            </div> */}
 
             <button
               type="submit"
