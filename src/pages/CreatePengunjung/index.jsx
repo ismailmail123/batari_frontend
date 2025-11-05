@@ -6400,7 +6400,8 @@ const AddPengunjungForm = ({ onClose }) => {
               antrian: nomorAntrian
             });
             
-            setShowPrintDialog(true);
+            // setShowPrintDialog(true);
+            setShowEditForm(true);
           } else {
             setShowEditForm(true);
           }
