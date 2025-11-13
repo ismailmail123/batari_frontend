@@ -484,50 +484,6 @@ const useDataStore = create((set, get) => ({
             throw error;
         }
     },
-    updateDataPengunjung: async(id, formData, setError) => {
-        try {
-            const token = get().token;
-            if (!token) {
-                throw new Error("Token not found. Unable to update pengunjung data.");
-            }
-
-            const response = await axios.put(
-                `https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data/${id}`,
-                formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-
-            if (response.status !== 200) {
-                throw new Error("Failed to update data");
-            }
-
-            // Update state dengan data yang baru
-            set((state) => ({
-                pengunjungs: state.pengunjungs.map(pengunjung =>
-                    pengunjung.id === id ? response.data.data : pengunjung
-                )
-            }));
-
-            toast.success("Data pengunjung berhasil diupdate!");
-            return response.data.data;
-
-        } catch (error) {
-            console.error("Gagal memperbarui data:", error);
-
-            // Handle error response
-            const errorMessage = error.response.data.message || error.message || "Terjadi kesalahan saat mengupdate data.";
-            toast.error(errorMessage);
-
-            if (setError) {
-                setError(errorMessage);
-            }
-            throw error;
-        }
-    },
     getNomorAntrianTerakhir: async() => {
         try {
             const token = get().token;
@@ -1139,61 +1095,61 @@ const useDataStore = create((set, get) => ({
     //     }
     // },
 
-    createDataPengunjung: async(formData, setError) => {
-        const token = get().token;
-        if (!token) {
-            const errorMsg = "Token not found. Please login again.";
-            set({ error: errorMsg });
-            if (setError) setError(errorMsg);
-            return;
-        }
+    // createDataPengunjung: async(formData, setError) => {
+    //     const token = get().token;
+    //     if (!token) {
+    //         const errorMsg = "Token not found. Please login again.";
+    //         set({ error: errorMsg });
+    //         if (setError) setError(errorMsg);
+    //         return;
+    //     }
 
-        try {
-            const response = await axios.post(
-                "https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data",
-                formData, {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+    //     try {
+    //         const response = await axios.post(
+    //             "https://batarirtnbantaeng.cloud/api/pengunjung/pengunjung-data",
+    //             formData, {
+    //                 headers: {
+    //                     "Content-Type": "multipart/form-data",
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //             }
+    //         );
 
-            const newPengunjung = response.data.data;
+    //         const newPengunjung = response.data.data;
 
-            // Update state dengan data baru
-            set((state) => ({
-                pengunjungs: [...state.pengunjungs, newPengunjung],
-            }));
+    //         // Update state dengan data baru
+    //         set((state) => ({
+    //             pengunjungs: [...state.pengunjungs, newPengunjung],
+    //         }));
 
-            toast.success("Data pengunjung berhasil dibuat!");
-            return newPengunjung;
+    //         toast.success("Data pengunjung berhasil dibuat!");
+    //         return newPengunjung;
 
-        } catch (error) {
-            console.error("Create data pengunjung error:", error);
+    //     } catch (error) {
+    //         console.error("Create data pengunjung error:", error);
 
-            // Penanganan error yang lebih baik
-            let errorMessage = "Terjadi kesalahan saat membuat data pengunjung.";
+    //         // Penanganan error yang lebih baik
+    //         let errorMessage = "Terjadi kesalahan saat membuat data pengunjung.";
 
-            if (error.response) {
-                // Error dari server (4xx atau 5xx)
-                errorMessage = error.response.data.message || errorMessage;
-            } else if (error.request) {
-                // Tidak ada respons dari server
-                errorMessage = "Tidak ada respons dari server. Periksa koneksi internet Anda.";
-            }
+    //         if (error.response) {
+    //             // Error dari server (4xx atau 5xx)
+    //             errorMessage = error.response.data.message || errorMessage;
+    //         } else if (error.request) {
+    //             // Tidak ada respons dari server
+    //             errorMessage = "Tidak ada respons dari server. Periksa koneksi internet Anda.";
+    //         }
 
-            // Tampilkan toast error
-            toast.error(errorMessage);
+    //         // Tampilkan toast error
+    //         toast.error(errorMessage);
 
-            // Set error jika callback disediakan
-            if (setError) {
-                setError(errorMessage);
-            }
+    //         // Set error jika callback disediakan
+    //         if (setError) {
+    //             setError(errorMessage);
+    //         }
 
-            throw error;
-        }
-    },
+    //         throw error;
+    //     }
+    // },
     createPengunjung: async(wbpData, setError) => {
         const token = get().token;
         if (!token) {
