@@ -126,7 +126,6 @@
 // //   };
 // // };
 
-
 // // // Komponen BarcodeScanner untuk AddPengunjungForm
 // // const BarcodeScanner = ({ onScan, onClose }) => {
 // //   useEffect(() => {
@@ -249,7 +248,6 @@
 // //   );
 // // };
 
-
 // // const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChange, onEnter }) => {
 // //   const [isShift, setIsShift] = useState(false);
 // //   const [isSymbol, setIsSymbol] = useState(false);
@@ -291,24 +289,20 @@
 // //   // Handle click outside untuk menutup keyboard
 // //   useEffect(() => {
 // //     const handleClickOutside = (event) => {
-// //       // Jika keyboardRef ada dan klik dilakukan di luar komponen keyboard
 // //       if (keyboardRef.current && !keyboardRef.current.contains(event.target)) {
 // //         onClose();
 // //       }
 // //     };
 
-// //     // Tambahkan event listener ketika komponen mount
 // //     document.addEventListener('mousedown', handleClickOutside);
-// //     document.addEventListener('touchstart', handleClickOutside); // Untuk perangkat touch
+// //     document.addEventListener('touchstart', handleClickOutside);
 
-// //     // Cleanup event listener ketika komponen unmount
 // //     return () => {
 // //       document.removeEventListener('mousedown', handleClickOutside);
 // //       document.removeEventListener('touchstart', handleClickOutside);
 // //     };
 // //   }, [onClose]);
 
-// //   // Handle drag start - untuk mouse dan touch
 // //   const handleDragStart = (clientX, clientY) => {
 // //     if (!keyboardRef.current) return;
     
@@ -323,31 +317,29 @@
 
 // //   const handleMouseDown = (e) => {
 // //     e.preventDefault();
-// //     e.stopPropagation(); // Mencegah event bubbling ke parent
+// //     e.stopPropagation();
 // //     handleDragStart(e.clientX, e.clientY);
 // //   };
 
 // //   const handleTouchStart = (e) => {
-// //     e.stopPropagation(); // Mencegah event bubbling ke parent
+// //     e.stopPropagation();
 // //     const touch = e.touches[0];
 // //     handleDragStart(touch.clientX, touch.clientY);
 // //   };
 
-// //   // Handle drag movement - untuk mouse dan touch
 // //   const handleDragMove = (clientX, clientY) => {
 // //     if (!isDragging || !keyboardRef.current) return;
     
 // //     const newX = clientX - dragOffset.x;
 // //     const newY = clientY - dragOffset.y;
     
-// //     // Boundary checks untuk menjaga keyboard tetap dalam viewport
 // //     const keyboardWidth = keyboardRef.current.offsetWidth;
 // //     const keyboardHeight = keyboardRef.current.offsetHeight;
 // //     const maxX = window.innerWidth - keyboardWidth;
 // //     const maxY = window.innerHeight - keyboardHeight;
     
 // //     setPosition({
-// //       x: Math.max(10, Math.min(newX, maxX - 10)), // Beri margin 10px
+// //       x: Math.max(10, Math.min(newX, maxX - 10)),
 // //       y: Math.max(10, Math.min(newY, maxY - 10))
 // //     });
 // //   };
@@ -359,15 +351,13 @@
 // //   const handleTouchMove = (e) => {
 // //     const touch = e.touches[0];
 // //     handleDragMove(touch.clientX, touch.clientY);
-// //     e.preventDefault(); // Mencegah scroll saat drag
+// //     e.preventDefault();
 // //   };
 
-// //   // Handle drag end
 // //   const handleDragEnd = () => {
 // //     setIsDragging(false);
 // //   };
 
-// //   // Event listeners untuk drag
 // //   useEffect(() => {
 // //     if (isDragging) {
 // //       document.addEventListener('mousemove', handleMouseMove);
@@ -376,7 +366,6 @@
 // //       document.addEventListener('touchend', handleDragEnd);
 // //       document.addEventListener('touchcancel', handleDragEnd);
       
-// //       // Tambahkan styles untuk mencegah scroll dan selection
 // //       document.body.style.overflow = 'hidden';
 // //       document.body.style.userSelect = 'none';
 // //       document.body.style.webkitUserSelect = 'none';
@@ -389,14 +378,12 @@
 // //       document.removeEventListener('touchend', handleDragEnd);
 // //       document.removeEventListener('touchcancel', handleDragEnd);
       
-// //       // Kembalikan styles
 // //       document.body.style.overflow = '';
 // //       document.body.style.userSelect = '';
 // //       document.body.style.webkitUserSelect = '';
 // //     };
 // //   }, [isDragging, dragOffset]);
 
-// //   // Efek untuk mengatur posisi awal keyboard di tengah bawah
 // //   useEffect(() => {
 // //     if (!isPc) return;
 
@@ -407,15 +394,13 @@
         
 // //         setPosition({
 // //           x: (window.innerWidth - keyboardWidth) / 2,
-// //           y: window.innerHeight - keyboardHeight - 20 // 20px dari bawah
+// //           y: window.innerHeight - keyboardHeight - 20
 // //         });
 // //       }
 // //     };
 
-// //     // Tunggu sampai DOM siap
 // //     setTimeout(updateInitialPosition, 100);
     
-// //     // Update posisi saat window resize
 // //     window.addEventListener('resize', updateInitialPosition);
 // //     return () => window.removeEventListener('resize', updateInitialPosition);
 // //   }, [isPc]);
@@ -447,7 +432,7 @@
 // //         break;
 // //       case 'enter':
 // //         onKeyPress('enter');
-// //         if (onEnter) onEnter(); // Panggil fungsi onEnter
+// //         if (onEnter) onEnter();
 // //         break;
 // //       case 'clear':
 // //         onKeyPress('clear');
@@ -486,7 +471,6 @@
 // //     }
 // //   };
 
-// //   // Jika bukan PC, jangan render keyboard virtual
 // //   if (!isPc) {
 // //     return null;
 // //   }
@@ -510,7 +494,6 @@
 // //           width: '35vw',
 // //           minWidth: '500px',
 // //           maxWidth: '600px',
-// //           // Border yang tebal dan jelas dengan efek glow
 // //           border: '3px solid #3b82f6',
 // //           boxShadow: `
 // //             0 0 0 1px rgba(59, 130, 246, 0.5),
@@ -518,11 +501,9 @@
 // //             0 0 20px rgba(59, 130, 246, 0.4)
 // //           `,
 // //         }}
-// //         // Tambahkan event stopPropagation untuk mencegah event bubbling
 // //         onMouseDown={(e) => e.stopPropagation()}
 // //         onTouchStart={(e) => e.stopPropagation()}
 // //       >
-// //         {/* Draggable Header dengan border bottom yang tebal */}
 // //         <div 
 // //           className="keyboard-draggable bg-gradient-to-r from-blue-500 to-purple-500 rounded-t-xl p-4 text-white cursor-grab active:cursor-grabbing touch-none border-b-4 border-blue-700"
 // //           onMouseDown={handleMouseDown}
@@ -549,13 +530,11 @@
 // //             </button>
 // //           </div>
           
-// //           {/* Indikator drag area */}
 // //           <div className="mt-2 flex justify-center">
 // //             <div className="w-20 h-1 bg-white bg-opacity-50 rounded-full"></div>
 // //           </div>
 // //         </div>
 
-// //         {/* Preview Area dengan border yang jelas */}
 // //         <div className="p-4 bg-gray-50 bg-opacity-60 border-b-2 border-gray-300">
 // //           <div className="bg-white bg-opacity-80 rounded-xl p-4 shadow-inner border-2 border-gray-200">
 // //             <div className="text-sm text-gray-500 mb-2 flex justify-between">
@@ -569,9 +548,7 @@
 // //           </div>
 // //         </div>
 
-// //         {/* Keyboard Layout */}
 // //         <div className="p-4 bg-transparent" style={{ touchAction: 'manipulation' }}>
-// //           {/* Main Keyboard */}
 // //           {currentRows.map((row, rowIndex) => (
 // //             <div key={rowIndex} className="flex justify-center mb-2 space-x-1">
 // //               {row.map((key) => (
@@ -585,27 +562,21 @@
 // //                     touchAction: 'manipulation'
 // //                   }}
 // //                 >
-// //                   {/* Base Border - Lebih tebal */}
 // //                   <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-400 to-gray-600 border-[3px] border-gray-500 shadow-sm"></div>
                   
-// //                   {/* Neon Border Effect */}
 // //                   <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-sm group-hover:blur-0"></div>
                   
-// //                   {/* Content Area */}
 // //                   <div className="absolute inset-[3px] rounded-lg bg-white bg-opacity-95 flex items-center justify-center z-10 group-hover:bg-opacity-100 transition-all duration-300">
 // //                     {isShift && !isSymbol ? key.toUpperCase() : key}
 // //                   </div>
                   
-// //                   {/* Hover Glow */}
 // //                   <div className="absolute inset-0 rounded-xl shadow-lg shadow-blue-500/0 group-hover:shadow-blue-500/40 group-hover:shadow-xl transition-all duration-300"></div>
 // //                 </button>
 // //               ))}
 // //             </div>
 // //           ))}
 
-// //           {/* Bottom Control Row */}
 // //           <div className="flex justify-center space-x-1 mt-4">
-// //             {/* Shift Button */}
 // //             <button
 // //               onClick={() => handleSpecialKey('shift')}
 // //               className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly border-2 ${
@@ -621,7 +592,6 @@
 // //               ⇧ SHIFT
 // //             </button>
 
-// //             {/* Symbol Toggle */}
 // //             <button
 // //               onClick={() => handleSpecialKey('symbol')}
 // //               className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly border-2 ${
@@ -637,7 +607,6 @@
 // //               {isSymbol ? 'ABC' : '123'}
 // //             </button>
 
-// //             {/* Space Button */}
 // //             <button
 // //               onClick={() => handleSpecialKey('space')}
 // //               className="flex-1 max-w-[200px] h-14 bg-white bg-opacity-90 border-2 border-gray-300 rounded-xl hover:bg-gray-100 hover:border-gray-400 active:bg-gray-200 transition-all touch-friendly text-gray-600 font-medium"
@@ -649,7 +618,6 @@
 // //               SPACE
 // //             </button>
 
-// //             {/* Backspace Button */}
 // //             <button
 // //               onClick={() => handleSpecialKey('backspace')}
 // //               className="flex-1 max-w-[120px] h-14 bg-red-500 text-white rounded-xl hover:bg-red-600 active:bg-red-700 transition-all touch-friendly font-medium shadow-lg shadow-red-200 border-2 border-red-600"
@@ -662,7 +630,6 @@
 // //             </button>
 // //           </div>
 
-// //           {/* Action Buttons Row */}
 // //           <div className="flex justify-center space-x-2 mt-3">
 // //             <button
 // //               onClick={() => handleSpecialKey('clear')}
@@ -688,7 +655,6 @@
 // //           </div>
 // //         </div>
 
-// //         {/* Footer dengan tips */}
 // //         <div className="bg-gray-100 bg-opacity-70 rounded-b-xl p-3 border-t-2 border-gray-300">
 // //           <div className="text-center text-sm text-gray-600">
 // //             💡 Tips: Drag header untuk memindahkan • SHIFT untuk huruf kapital • 123 untuk simbol
@@ -705,10 +671,7 @@
 // //   const [selectedPrinter, setSelectedPrinter] = useState('default');
 // //   const [printers, setPrinters] = useState([]);
 
-// //   // Fungsi untuk mendapatkan daftar printer yang tersedia
 // //   useEffect(() => {
-// //     // Dalam lingkungan browser, kita tidak bisa langsung mendapatkan daftar printer
-// //     // Kita akan menggunakan API print browser default
 // //     setPrinters([
 // //       { name: 'default', description: 'Printer Default Sistem' },
 // //       { name: 'browser', description: 'Dialog Print Browser' }
@@ -717,10 +680,8 @@
 
 // //   const handlePrint = () => {
 // //     if (selectedPrinter === 'browser') {
-// //       // Menggunakan dialog print browser
 // //       window.print();
 // //     } else {
-// //       // Untuk printer default atau lainnya, kita bisa menggunakan print langsung
 // //       const printContent = printRef.current;
 // //       const printWindow = window.open('', '_blank');
       
@@ -730,21 +691,21 @@
 // //           <head>
 // //             <title>Print Antrian - ${antrian}</title>
 // //             <style>
-// //              @media print {
-// //     @page { margin: 0; }
-// //     html, body { 
-// //       margin: 0; 
-// //       padding: 0; 
-// //     }
-// //     .ticket-container {
-// //       width: 65mm;
-// //       height: 76mm;
-// //       border: 1px dashed #000;
-// //       margin: 0;
-// //       padding: 1mm;
-// //       page-break-after: always;
-// //     }
-              
+// //               @media print {
+// //                 @page { margin: 0; }
+// //                 html, body { 
+// //                   margin: 0; 
+// //                   padding: 0; 
+// //                 }
+// //                 .ticket-container {
+// //                   width: 65mm;
+// //                   height: 76mm;
+// //                   border: 1px dashed #000;
+// //                   margin: 0;
+// //                   padding: 1mm;
+// //                   page-break-after: always;
+// //                 }
+                
 // //                 .header { text-align: center; margin-bottom: 5mm; }
 // //                 .title { font-size: 16pt; font-weight: bold; margin-bottom: 1mm; }
 // //                 .subtitle { font-size: 12pt; margin-bottom: 0; }
@@ -797,7 +758,6 @@
 // //       printWindow.document.close();
 // //       printWindow.focus();
       
-// //       // Tunggu sebentar sebelum print untuk memastikan konten sudah dimuat
 // //       setTimeout(() => {
 // //         printWindow.print();
 // //         printWindow.close();
@@ -806,12 +766,9 @@
 // //   };
 
 // //   const handleDirectPrint = () => {
-// //     // Print langsung tanpa preview
 // //     handlePrint();
 // //     toast.success("Sedang mencetak nomor antrian...");
     
-// //     // PERBAIKAN: Update newPengunjung dengan data antrian yang sudah digenerate
-// //     // Ini memastikan form edit nanti menampilkan data yang terupdate
 // //     if (window.updateNewPengunjungWithAntrian) {
 // //       window.updateNewPengunjungWithAntrian({
 // //         ...pengunjung,
@@ -834,7 +791,6 @@
 // //         </div>
         
 // //         <div className="p-4">
-// //           {/* Preview Tiket Antrian */}
 // //           <div 
 // //             ref={printRef}
 // //             className="bg-white border-2 border-dashed border-gray-300 p-4 mb-4 mx-auto"
@@ -871,7 +827,6 @@
 // //             </div>
 // //           </div>
 
-// //           {/* Pilihan Printer */}
 // //           <div className="mb-4">
 // //             <label className="block text-sm font-medium text-gray-700 mb-2">
 // //               Pilih Printer:
@@ -915,12 +870,36 @@
 // //   );
 // // };
 
-
-// // // Komponen FloatingActionButtons yang diperbaiki
-// // const FloatingActionButtons = ({ onCheckData, onScrollUp, onScrollDown, isExpanded, onToggleExpand }) => {
+// // // Komponen FloatingActionButtons yang diperbaiki dengan tombol keyboard
+// // const FloatingActionButtons = ({ 
+// //   onCheckData, 
+// //   onScrollUp, 
+// //   onScrollDown, 
+// //   isExpanded, 
+// //   onToggleExpand,
+// //   onToggleKeyboard,
+// //   isKeyboardEnabled 
+// // }) => {
 // //   return (
 // //     <div className="fixed right-6 bottom-6 z-40 flex flex-col items-end space-y-3">
-// //       {/* Main Check Button */}
+// //       {/* Tombol untuk toggle keyboard */}
+// //       <button
+// //         onClick={onToggleKeyboard}
+// //         className={`group relative p-4 rounded-full shadow-2xl focus:outline-none focus:ring-4 transition-all duration-300 transform hover:scale-110 ${
+// //           isKeyboardEnabled 
+// //             ? 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-300' 
+// //             : 'bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-300'
+// //         }`}
+// //         title={`${isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual`}
+// //       >
+// //         <FaKeyboard className="w-6 h-6" />
+        
+// //         <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+// //           {isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual
+// //           <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-8 border-transparent border-l-gray-800"></div>
+// //         </div>
+// //       </button>
+
 // //       <button
 // //         onClick={onCheckData}
 // //         className="group relative bg-gradient-to-r from-yellow-500 to-orange-500 text-white p-4 rounded-full shadow-2xl hover:from-yellow-600 hover:to-orange-600 focus:outline-none focus:ring-4 focus:ring-yellow-300 transition-all duration-300 transform hover:scale-110 animate-pulse"
@@ -928,14 +907,12 @@
 // //       >
 // //         <FaSearch className="w-6 h-6" />
         
-// //         {/* Tooltip */}
 // //         <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
 // //           Cek Kelengkapan Data
 // //           <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-8 border-transparent border-l-gray-800"></div>
 // //         </div>
 // //       </button>
 
-// //       {/* Scroll Buttons */}
 // //       <div className={`flex flex-col space-y-3 transition-all duration-300 ${isExpanded ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
 // //         <button
 // //           onClick={onScrollUp}
@@ -958,7 +935,6 @@
 // //         </button>
 // //       </div>
 
-// //       {/* Toggle Button */}
 // //       <button
 // //         onClick={onToggleExpand}
 // //         className={`mt-2 p-2 rounded-full transition-all duration-300 ${
@@ -977,7 +953,7 @@
 // // };
 
 // // const AddPengunjungForm = ({ onClose }) => {
-// //   const { createPengunjung, createDataPengunjung, fetchWbpList, wbpList, updatePengunjung, fetchPengunjungData, pengunjungData, updateAntrian } = useDataStore();
+// //   const { createPengunjung, createDataPengunjung, fetchWbpList, wbpList, updatePengunjung, fetchPengunjungData, pengunjungData, updateAntrian, fetchPengunjung, pengunjungs } = useDataStore();
 // //   const [formData, setFormData] = useState({
 // //     wbp_id: "",
 // //     nama: "",
@@ -1048,6 +1024,9 @@
 // //   const [showPrintDialog, setShowPrintDialog] = useState(false);
 // //   const [printData, setPrintData] = useState(null);
 
+// //   // State untuk toggle keyboard
+// //   const [isKeyboardEnabled, setIsKeyboardEnabled] = useState(true);
+
 // //   const navigate = useNavigate();
 // //   const authUser = JSON.parse(localStorage.getItem('authUser'));
 // //   const [isExpanded, setIsExpanded] = useState(true);
@@ -1055,9 +1034,57 @@
 // //   // Ref untuk form container
 // //   const formContainerRef = useRef(null);
 
+// //   // Load keyboard preference dari localStorage saat komponen dimount
+// //   useEffect(() => {
+// //     const savedKeyboardPreference = localStorage.getItem('virtualKeyboardEnabled');
+// //     if (savedKeyboardPreference !== null) {
+// //       setIsKeyboardEnabled(JSON.parse(savedKeyboardPreference));
+// //     }
+// //   }, []);
+
+// //   // Simpan keyboard preference ke localStorage saat berubah
+// //   const toggleKeyboard = () => {
+// //     const newState = !isKeyboardEnabled;
+// //     setIsKeyboardEnabled(newState);
+// //     localStorage.setItem('virtualKeyboardEnabled', JSON.stringify(newState));
+// //     toast.success(`Keyboard virtual ${newState ? 'diaktifkan' : 'dinonaktifkan'}`);
+// //   };
+
+// //   // Fungsi untuk validasi kunjungan yang diperbaiki
+// //   const validateKunjungan = () => {
+// //     if (formData.tujuan === "Berkunjung") {
+// //       // Cek apakah pengunjung sudah memiliki kunjungan aktif hari ini
+// //       const today = new Date().toISOString().split('T')[0];
+      
+// //       // Konversi pengunjungs menjadi array jika belum
+// //       const dataArray = Array.isArray(pengunjungs) 
+// //         ? pengunjungs 
+// //         : (pengunjungs && typeof pengunjungs === 'object' ? [pengunjungs] : []);
+      
+// //       // Cari kunjungan aktif untuk pengunjung ini dengan tujuan berkunjung
+// //       const existingKunjungan = dataArray.find(p => {
+// //         const isSameNik = p.nik === formData.nik;
+// //         const isSameNama = p.nama === formData.nama;
+// //         const isBerkunjung = p.tujuan === "Berkunjung";
+// //         const pDate = p.created_at?.split('T')[0]; // Ambil bagian tanggal dari created_at
+// //         const isToday = pDate === today;
+        
+// //         return (isSameNik || isSameNama) && isBerkunjung && isToday;
+// //       });
+
+// //       if (existingKunjungan) {
+// //         return {
+// //           isValid: false,
+// //           message: `Pengunjung dengan NIK ${formData.nik} atau nama ${formData.nama} sudah memiliki kunjungan aktif hari ini. Tidak dapat membuat kunjungan baru.`
+// //         };
+// //       }
+// //     }
+    
+// //     return { isValid: true, message: "" };
+// //   };
+
 // //   // Fungsi scroll yang lebih reliable
 // //   const scrollToTop = () => {
-// //     // Coba beberapa metode scroll
 // //     const formElement = document.querySelector('.bg-white.rounded-2xl');
 // //     const firstInput = document.querySelector('#search-wbp-input');
     
@@ -1074,7 +1101,6 @@
 // //         inline: 'nearest'
 // //       });
 // //     } else {
-// //       // Fallback ke window scroll
 // //       window.scrollTo({ top: 0, behavior: 'smooth' });
 // //     }
 // //   };
@@ -1096,7 +1122,6 @@
 // //         inline: 'nearest'
 // //       });
 // //     } else {
-// //       // Fallback ke window scroll
 // //       window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
 // //     }
 // //   };
@@ -1130,7 +1155,6 @@
 // //       } else if (fieldName === 'jenis_kelamin' || fieldName === 'tujuan') {
 // //         element = document.querySelector(`select[name="${fieldName}"]`);
 // //       } else if (fieldName.startsWith('photo_') || fieldName === 'barcode') {
-// //         // Untuk file inputs, cek apakah sudah ada preview
 // //         const hasPreview = 
 // //           (fieldName === 'photo_ktp' && !previewKtp) ||
 // //           (fieldName === 'photo_pengunjung' && !previewPengunjung) ||
@@ -1153,7 +1177,6 @@
 // //         if (isSelect) {
 // //           isEmpty = !value;
 // //         } else if (isFile) {
-// //           // Untuk file, cek berdasarkan preview
 // //           isEmpty = 
 // //             (fieldName === 'photo_ktp' && !previewKtp) ||
 // //             (fieldName === 'photo_pengunjung' && !previewPengunjung) ||
@@ -1163,29 +1186,24 @@
 // //         }
 
 // //         if (isEmpty) {
-// //           // Scroll ke element
 // //           element.scrollIntoView({ 
 // //             behavior: 'smooth', 
 // //             block: 'center',
 // //             inline: 'nearest'
 // //           });
 
-// //           // Highlight element
 // //           element.style.borderColor = '#3b82f6';
 // //           element.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.3)';
           
-// //           // Hapus highlight setelah 2 detik
 // //           setTimeout(() => {
 // //             element.style.borderColor = '';
 // //             element.style.boxShadow = '';
 // //           }, 2000);
 
-// //           // Fokus ke element
 // //           setTimeout(() => {
 // //             element.focus();
             
-// //             // Untuk input text, buka virtual keyboard jika di PC
-// //             if (isPc && !isSelect && !isFile) {
+// //             if (isPc && !isSelect && !isFile && isKeyboardEnabled) {
 // //               let inputType = fieldName;
 // //               let currentValue = '';
               
@@ -1200,7 +1218,6 @@
 // //             }
 // //           }, 100);
 
-// //           // Tampilkan toast
 // //           const fieldLabels = {
 // //             'search-wbp-input': 'Warga Binaan',
 // //             'nama': 'Nama',
@@ -1217,12 +1234,11 @@
 // //           };
 
 // //           toast.success(`Beralih ke: ${fieldLabels[fieldName]}`);
-// //           return true; // Field kosong ditemukan
+// //           return true;
 // //         }
 // //       }
 // //     }
 
-// //     // Jika semua field terisi, fokus ke tombol submit
 // //     const submitButton = document.querySelector('button[type="submit"]');
 // //     if (submitButton) {
 // //       submitButton.scrollIntoView({ 
@@ -1242,14 +1258,13 @@
 // //     return false;
 // //   };
 
-// //   // Handler untuk virtual keyboard - modifikasi bagian 'enter'
+// //   // Handler untuk virtual keyboard
 // //   const handleVirtualKeyPress = (key) => {
 // //     if (key === 'backspace') {
 // //       setKeyboardValue(prev => prev.slice(0, -1));
 // //       handleInputUpdate('backspace');
 // //     } else if (key === 'enter') {
 // //       setShowVirtualKeyboard(false);
-// //       // Panggil fungsi untuk fokus ke field kosong berikutnya
 // //       setTimeout(() => {
 // //         focusNextEmptyField();
 // //       }, 300);
@@ -1260,7 +1275,6 @@
 // //       setKeyboardValue('');
 // //       handleInputUpdate('clear');
 // //     } else if (key === 'tab') {
-// //       // Gunakan tab untuk navigasi field juga
 // //       setShowVirtualKeyboard(false);
 // //       setTimeout(() => {
 // //         focusNextEmptyField();
@@ -1281,10 +1295,8 @@
 // //     resetTranscript
 // //   } = useSpeechToText();
 
-// //   // State untuk melacak input mana yang sedang aktif
 // //   const [activeVoiceInput, setActiveVoiceInput] = useState(null);
 
-// //   // Effect untuk menangani transcript ketika berubah
 // //   useEffect(() => {
 // //     if (transcript && activeVoiceInput) {
 // //       handleVoiceInput(activeVoiceInput, transcript);
@@ -1292,7 +1304,6 @@
 // //     }
 // //   }, [transcript, activeVoiceInput]);
 
-// //   // Fungsi untuk menangani input dari voice
 // //   const handleVoiceInput = (inputType, voiceText) => {
 // //     switch (inputType) {
 // //       case 'wbp':
@@ -1311,12 +1322,10 @@
 // //         setFormData(prev => ({ ...prev, nama: voiceText }));
 // //         break;
 // //       case 'nik':
-// //         // Hanya ambil angka dari transcript untuk NIK
 // //         const nikNumbers = voiceText.replace(/\D/g, '');
 // //         setFormData(prev => ({ ...prev, nik: nikNumbers }));
 // //         break;
 // //       case 'hp':
-// //         // Hanya ambil angka dari transcript untuk nomor HP
 // //         const hpNumbers = voiceText.replace(/\D/g, '');
 // //         setFormData(prev => ({ ...prev, hp: hpNumbers }));
 // //         break;
@@ -1327,7 +1336,6 @@
 // //         setFormData(prev => ({ ...prev, hubungan_keluarga: voiceText }));
 // //         break;
 // //       case 'kode':
-// //         // Untuk kode, bisa berupa huruf dan angka
 // //         const cleanKode = voiceText.toUpperCase().replace(/[^A-Z0-9]/g, '');
 // //         setFormData(prev => ({ ...prev, kode: cleanKode }));
 // //         break;
@@ -1338,18 +1346,15 @@
 // //     toast.success(`Teks berhasil diinput: "${voiceText}"`);
 // //   };
 
-// //   // Fungsi untuk memulai listening untuk input tertentu
 // //   const startVoiceInput = (inputType) => {
 // //     setActiveVoiceInput(inputType);
 // //     startListening();
 // //   };
 
-// //   // Fungsi untuk menghentikan listening
 // //   const stopVoiceInput = () => {
 // //     stopListening();
 // //     setActiveVoiceInput(null);
 // //   };
-
 
 // //   // Deteksi perangkat saat komponen dimuat
 // //   useEffect(() => {
@@ -1372,6 +1377,7 @@
 // //       try {
 // //         await fetchWbpList();
 // //         await fetchPengunjungData();
+// //         fetchPengunjung();
 // //       } catch (error) {
 // //         console.error("Error fetching data:", error);
 // //         toast.error("Gagal memuat data");
@@ -1381,19 +1387,9 @@
 // //     };
     
 // //     fetchData();
-// //   }, [fetchWbpList, fetchPengunjungData]);
+// //   }, [fetchWbpList, fetchPengunjungData, fetchPengunjung]);
 
-// //   // Debug data WBP
-// //   useEffect(() => {
-// //     console.log("WBP List dari API:", wbpList);
-// //     console.log("WBP List length:", wbpList?.length);
-// //   }, [wbpList]);
-
-// //   // Debug formData WBP
-// //   useEffect(() => {
-// //     console.log("FormData WBP ID:", formData.wbp_id);
-// //     console.log("Search WBP:", searchWbp);
-// //   }, [formData.wbp_id, searchWbp]);
+// //   console.log("pengunjungs", pengunjungs);
 
 // //   // Handle click outside untuk dropdown pengunjung
 // //   useEffect(() => {
@@ -1412,132 +1408,113 @@
 // //     };
 // //   }, []);
 
-  
-
 // //   // Fungsi untuk scroll ke input kosong atau tombol submit
-// // const scrollToEmptyInputOrSubmit = () => {
-// //   // Daftar semua input field yang perlu dicek
-// //   const inputFields = [
-// //     { selector: '#search-wbp-input', name: 'WBP' },
-// //     { selector: 'input[name="nama"]', name: 'Nama' },
-// //     { selector: 'input[name="nik"]', name: 'NIK' },
-// //     { selector: 'input[name="hp"]', name: 'Nomor HP' },
-// //     { selector: 'input[name="alamat"]', name: 'Alamat' },
-// //     { selector: 'select[name="jenis_kelamin"]', name: 'Jenis Kelamin' },
-// //     { selector: 'input[name="hubungan_keluarga"]', name: 'Hubungan Keluarga' },
-// //     { selector: 'select[name="tujuan"]', name: 'Tujuan' },
-// //     { selector: 'input[name="kode"]', name: 'Kode' }
-// //   ];
+// //   const scrollToEmptyInputOrSubmit = () => {
+// //     const inputFields = [
+// //       { selector: '#search-wbp-input', name: 'WBP' },
+// //       { selector: 'input[name="nama"]', name: 'Nama' },
+// //       { selector: 'input[name="nik"]', name: 'NIK' },
+// //       { selector: 'input[name="hp"]', name: 'Nomor HP' },
+// //       { selector: 'input[name="alamat"]', name: 'Alamat' },
+// //       { selector: 'select[name="jenis_kelamin"]', name: 'Jenis Kelamin' },
+// //       { selector: 'input[name="hubungan_keluarga"]', name: 'Hubungan Keluarga' },
+// //       { selector: 'select[name="tujuan"]', name: 'Tujuan' },
+// //       { selector: 'input[name="kode"]', name: 'Kode' }
+// //     ];
 
-// //   // Cari input yang kosong dari atas ke bawah
-// //   for (const field of inputFields) {
-// //     const element = document.querySelector(field.selector);
-    
-// //     if (element) {
-// //       // Untuk input text, textarea, dan select
-// //       if (element.type !== 'file') {
-// //         const value = element.value.trim();
-        
-// //         // Jika field kosong, scroll ke element tersebut
-// //         if (!value) {
-// //           element.scrollIntoView({ 
-// //             behavior: 'smooth', 
-// //             block: 'center',
-// //             inline: 'nearest'
-// //           });
+// //     for (const field of inputFields) {
+// //       const element = document.querySelector(field.selector);
+      
+// //       if (element) {
+// //         if (element.type !== 'file') {
+// //           const value = element.value.trim();
           
-// //           // Tambahkan highlight visual
-// //           element.style.borderColor = '#ef4444';
-// //           element.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
-          
-// //           // Hapus highlight setelah 3 detik
-// //           setTimeout(() => {
-// //             element.style.borderColor = '';
-// //             element.style.boxShadow = '';
-// //           }, 3000);
-          
-// //           // Fokus ke input
-// //           element.focus();
-          
-// //           // Tampilkan toast notification
-// //           toast.error(`Harap isi field: ${field.name}`);
-// //           return;
-// //         }
-// //       }
-// //       // Untuk file inputs, kita cek apakah sudah ada file
-// //       else if (element.type === 'file') {
-// //         const hasFile = element.files && element.files.length > 0;
-// //         const fieldName = element.name;
-        
-// //         // Cek preview untuk menentukan apakah file sudah diupload
-// //         let hasPreview = false;
-        
-// //         if (fieldName === 'photo_ktp' && !previewKtp) hasPreview = false;
-// //         else if (fieldName === 'photo_pengunjung' && !previewPengunjung) hasPreview = false;
-// //         else if (fieldName === 'barcode' && !previewBarcode) hasPreview = false;
-// //         else hasPreview = true;
-        
-// //         if (!hasFile && !hasPreview) {
-// //           element.scrollIntoView({ 
-// //             behavior: 'smooth', 
-// //             block: 'center',
-// //             inline: 'nearest'
-// //           });
-          
-// //           // Highlight container file input
-// //           const container = element.closest('div');
-// //           if (container) {
-// //             container.style.border = '2px solid #ef4444';
-// //             container.style.borderRadius = '0.5rem';
-// //             container.style.padding = '0.5rem';
+// //           if (!value) {
+// //             element.scrollIntoView({ 
+// //               behavior: 'smooth', 
+// //               block: 'center',
+// //               inline: 'nearest'
+// //             });
+            
+// //             element.style.borderColor = '#ef4444';
+// //             element.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
             
 // //             setTimeout(() => {
-// //               container.style.border = '';
-// //               container.style.padding = '';
+// //               element.style.borderColor = '';
+// //               element.style.boxShadow = '';
 // //             }, 3000);
+            
+// //             element.focus();
+            
+// //             toast.error(`Harap isi field: ${field.name}`);
+// //             return;
 // //           }
+// //         }
+// //         else if (element.type === 'file') {
+// //           const hasFile = element.files && element.files.length > 0;
+// //           const fieldName = element.name;
           
-// //           // Tampilkan toast notification
-// //           toast.error(`Harap upload file: ${fieldName.replace('_', ' ')}`);
-// //           return;
+// //           let hasPreview = false;
+          
+// //           if (fieldName === 'photo_ktp' && !previewKtp) hasPreview = false;
+// //           else if (fieldName === 'photo_pengunjung' && !previewPengunjung) hasPreview = false;
+// //           else if (fieldName === 'barcode' && !previewBarcode) hasPreview = false;
+// //           else hasPreview = true;
+          
+// //           if (!hasFile && !hasPreview) {
+// //             element.scrollIntoView({ 
+// //               behavior: 'smooth', 
+// //               block: 'center',
+// //               inline: 'nearest'
+// //             });
+            
+// //             const container = element.closest('div');
+// //             if (container) {
+// //               container.style.border = '2px solid #ef4444';
+// //               container.style.borderRadius = '0.5rem';
+// //               container.style.padding = '0.5rem';
+              
+// //               setTimeout(() => {
+// //                 container.style.border = '';
+// //                 container.style.padding = '';
+// //               }, 3000);
+// //             }
+            
+// //             toast.error(`Harap upload file: ${fieldName.replace('_', ' ')}`);
+// //             return;
+// //           }
 // //         }
 // //       }
 // //     }
-// //   }
 
-// //   // Jika semua field sudah terisi, scroll ke tombol submit
-// //   const submitButton = document.querySelector('button[type="submit"]');
-// //   if (submitButton) {
-// //     submitButton.scrollIntoView({ 
-// //       behavior: 'smooth', 
-// //       block: 'center',
-// //       inline: 'nearest'
-// //     });
-    
-// //     // Highlight tombol submit
-// //     submitButton.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.3)';
-// //     setTimeout(() => {
-// //       submitButton.style.boxShadow = '';
-// //     }, 3000);
-    
-// //     toast.success('Semua field sudah terisi! Silakan submit form.');
-// //   }
-// // };
+// //     const submitButton = document.querySelector('button[type="submit"]');
+// //     if (submitButton) {
+// //       submitButton.scrollIntoView({ 
+// //         behavior: 'smooth', 
+// //         block: 'center',
+// //         inline: 'nearest'
+// //       });
+      
+// //       submitButton.style.boxShadow = '0 0 0 3px rgba(34, 197, 94, 0.3)';
+// //       setTimeout(() => {
+// //         submitButton.style.boxShadow = '';
+// //       }, 3000);
+      
+// //       toast.success('Semua field sudah terisi! Silakan submit form.');
+// //     }
+// //   };
 
-// //   // Filter data pengunjung untuk dropdown - Handle case ketika pengunjungData bukan array
+// //   // Filter data pengunjung untuk dropdown
 // //   const filteredPengunjung = (() => {
 // //     const dataArray = Array.isArray(pengunjungData) 
 // //       ? pengunjungData 
 // //       : (pengunjungData && typeof pengunjungData === 'object' ? [pengunjungData] : []);
-    
-// //     console.log("Data array untuk filter:", dataArray);
     
 // //     const authUser = JSON.parse(localStorage.getItem('authUser'));
 // //     const isAdmin = authUser && authUser.user && authUser.user.role === 'admin';
     
 // //     return dataArray.filter((pengunjung) => {
 // //       if (isAdmin) {
-// //         // Admin bisa melihat semua data dengan filter
 // //         return (
 // //           pengunjung.nama?.toLowerCase().includes(searchPengunjung?.toLowerCase()) ||
 // //           pengunjung.nik?.includes(searchPengunjung) ||
@@ -1545,12 +1522,10 @@
 // //           pengunjung.kode?.includes(searchPengunjung)
 // //         );
 // //       } else {
-// //         // User biasa hanya bisa melihat data miliknya sendiri
 // //         const userNik = authUser?.user?.nik;
 // //         const userNama = authUser?.user?.nama;
 // //         const userHp = authUser?.user?.hp;
         
-// //         // Cek apakah data ini milik user yang login
 // //         const isUserData = 
 // //           pengunjung.nik === userNik || 
 // //           pengunjung.nama === userNama ||
@@ -1558,7 +1533,6 @@
         
 // //         if (!isUserData) return false;
         
-// //         // Jika ada pencarian, filter juga berdasarkan pencarian
 // //         if (searchPengunjung) {
 // //           return (
 // //             pengunjung.nama?.toLowerCase().includes(searchPengunjung?.toLowerCase()) ||
@@ -1573,15 +1547,13 @@
 // //     });
 // //   })();
 
-// //   // Filter WBP list dengan handling data tunggal juga
+// //   // Filter WBP list
 // //   const filteredWbp = (() => {
 // //     if (!wbpList) return [];
     
 // //     const dataArray = Array.isArray(wbpList) 
 // //       ? wbpList 
 // //       : (wbpList && typeof wbpList === 'object' ? [wbpList] : []);
-    
-// //     console.log("Data WBP untuk filter:", dataArray);
     
 // //     return dataArray.filter((wbp) => {
 // //       const searchTerm = searchWbp?.toLowerCase() || '';
@@ -1602,41 +1574,63 @@
 // //     return total;
 // //   };
 
-// //   const handleInputChange = (e) => {
-// //     const { name, value } = e.target;
-// //     const updatedFormData = {
-// //       ...formData,
-// //       [name]: value,
-// //     };
+// //   // const handleInputChange = (e) => {
+// //   //   const { name, value } = e.target;
+// //   //   const updatedFormData = {
+// //   //     ...formData,
+// //   //     [name]: value,
+// //   //   };
     
-// //     // Jika field pengikut diubah, hitung total otomatis
-// //     if (name.includes('pengikut_') && name !== 'total_pengikut') {
-// //       updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+// //   //   if (name.includes('pengikut_') && name !== 'total_pengikut') {
+// //   //     updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+// //   //   }
+    
+// //   //   setFormData(updatedFormData);
+// //   // };
+
+// //   // Tambahkan fungsi generateNIK di dalam komponen AddPengunjungForm (setelah deklarasi state)
+// // const generateNIK = () => {
+// //   // Generate 16 digit random number untuk NIK
+// //   const randomNIK = Math.random().toString().substring(2, 18).padEnd(16, '0');
+// //   return randomNIK;
+// // };
+
+// // // Modifikasi handleInputChange untuk validasi NIK
+// // const handleInputChange = (e) => {
+// //   const { name, value } = e.target;
+  
+// //   // Validasi khusus untuk field NIK
+// //   if (name === 'nik') {
+// //     // Hanya allow angka dan karakter '-'
+// //     const cleanedValue = value.replace(/[^\d-]/g, '');
+    
+// //     // Jika value hanya mengandung '-' atau '0', kosongkan
+// //     if (cleanedValue === '-' || cleanedValue === '0') {
+// //       setFormData(prev => ({
+// //         ...prev,
+// //         [name]: ''
+// //       }));
+// //       return;
 // //     }
     
-// //     setFormData(updatedFormData);
+// //     setFormData(prev => ({
+// //       ...prev,
+// //       [name]: cleanedValue
+// //     }));
+// //     return;
+// //   }
+  
+// //   const updatedFormData = {
+// //     ...formData,
+// //     [name]: value,
 // //   };
-
-// //   // Handler untuk virtual keyboard - hanya untuk PC
-// //   // const handleVirtualKeyPress = (key) => {
-// //   //   if (key === 'backspace') {
-// //   //     setKeyboardValue(prev => prev.slice(0, -1));
-// //   //     handleInputUpdate('backspace');
-// //   //   } else if (key === 'enter') {
-// //   //     setShowVirtualKeyboard(false);
-// //   //   } else if (key === 'space') {
-// //   //     setKeyboardValue(prev => prev + ' ');
-// //   //     handleInputUpdate(' ');
-// //   //   } else if (key === 'clear') {
-// //   //     setKeyboardValue('');
-// //   //     handleInputUpdate('clear');
-// //   //   } else if (key === 'tab') {
-// //   //     // Switch between inputs - bisa diimplementasikan nanti
-// //   //   } else {
-// //   //     setKeyboardValue(prev => prev + key);
-// //   //     handleInputUpdate(key);
-// //   //   }
-// //   // };
+  
+// //   if (name.includes('pengikut_') && name !== 'total_pengikut') {
+// //     updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+// //   }
+  
+// //   setFormData(updatedFormData);
+// // };
 
 // //   // Fungsi untuk langsung update input field dari keyboard
 // //   const handleInputUpdate = (key) => {
@@ -1652,7 +1646,6 @@
 // //       newValue = keyboardValue + key;
 // //     }
 
-// //     // Update sesuai dengan input yang aktif
 // //     switch (activeInput) {
 // //       case 'wbp':
 // //         setSearchWbp(newValue);
@@ -1689,15 +1682,13 @@
 // //     }
 // //   };
 
-// //   // Handler untuk membuka virtual keyboard dengan input tertentu - hanya untuk PC
+// //   // Handler untuk membuka virtual keyboard dengan input tertentu
 // //   const handleInputFocus = (inputType, currentValue = '') => {
-// //     // Hanya tampilkan virtual keyboard jika perangkat adalah PC
-// //     if (!isPc) return;
+// //     if (!isPc || !isKeyboardEnabled) return; // Cek apakah keyboard diaktifkan
     
 // //     setActiveInput(inputType);
 // //     setKeyboardValue(currentValue);
     
-// //     // Set nilai awal berdasarkan input type
 // //     switch (inputType) {
 // //       case 'wbp':
 // //         setCurrentInputValue(searchWbp);
@@ -1731,75 +1722,56 @@
 // //   };
 
 // //   // Fungsi untuk memilih pengunjung dari dropdown
-// // const selectPengunjung = (pengunjung) => {
-// //   console.log("Data pengunjung yang dipilih:", pengunjung); // Debug log
-  
-// //   setSelectedPengunjung(pengunjung);
-  
-// //   // Update form data dengan data pengunjung
-// //   const updatedFormData = {
-// //     ...formData,
-// //     nama: pengunjung.nama || "",
-// //     nik: pengunjung.nik || "",
-// //     alamat: pengunjung.alamat || "",
-// //     hp: pengunjung.hp || "",
-// //     jenis_kelamin: pengunjung.jenis_kelamin || "",
-// //     hubungan_keluarga: pengunjung.hubungan_keluarga || "",
-// //     kode: pengunjung.kode || "",
-// //     tujuan: pengunjung.tujuan || "Berkunjung",
+// //   const selectPengunjung = (pengunjung) => {
+// //     setSelectedPengunjung(pengunjung);
+    
+// //     const updatedFormData = {
+// //       ...formData,
+// //       nama: pengunjung.nama || "",
+// //       nik: pengunjung.nik || "",
+// //       alamat: pengunjung.alamat || "",
+// //       hp: pengunjung.hp || "",
+// //       jenis_kelamin: pengunjung.jenis_kelamin || "",
+// //       hubungan_keluarga: pengunjung.hubungan_keluarga || "",
+// //       kode: pengunjung.kode || "",
+// //       tujuan: pengunjung.tujuan || "Berkunjung",
+// //     };
+
+// //     if (pengunjung.warga_binaan) {
+// //       updatedFormData.wbp_id = pengunjung.warga_binaan.id;
+// //       setSearchWbp(pengunjung.warga_binaan.nama);
+// //       toast.success(`Data WBP terisi otomatis: ${pengunjung.warga_binaan.nama}`);
+// //     } else {
+// //       updatedFormData.wbp_id = "";
+// //       setSearchWbp("");
+// //     }
+
+// //     setFormData(updatedFormData);
+    
+// //     if (pengunjung.photo_ktp) {
+// //       setPreviewKtp(pengunjung.photo_ktp);
+// //       setFormData(prev => ({ ...prev, photo_ktp: pengunjung.photo_ktp }));
+// //     }
+// //     if (pengunjung.photo_pengunjung) {
+// //       setPreviewPengunjung(pengunjung.photo_pengunjung);
+// //       setFormData(prev => ({ ...prev, photo_pengunjung: pengunjung.photo_pengunjung }));
+// //     }
+// //     if (pengunjung.barcode) {
+// //       setPreviewBarcode(pengunjung.barcode);
+// //       setFormData(prev => ({ ...prev, barcode: pengunjung.barcode }));
+// //     }
+    
+// //     setSearchPengunjung(pengunjung.nama);
+// //     setIsPengunjungDropdownOpen(false);
+// //     setShowVirtualKeyboard(false);
 // //   };
 
-// //   // PERBAIKAN: Jika pengunjung memiliki data WBP, isi otomatis
-// //   if (pengunjung.warga_binaan) {
-// //     console.log("WBP ditemukan dalam data pengunjung:", pengunjung.warga_binaan);
-    
-// //     // Update form data dengan WBP ID
-// //     updatedFormData.wbp_id = pengunjung.warga_binaan.id;
-    
-// //     // Update search WBP dengan nama WBP
-// //     setSearchWbp(pengunjung.warga_binaan.nama);
-    
-// //     toast.success(`Data WBP terisi otomatis: ${pengunjung.warga_binaan.nama}`);
-// //   } else {
-// //     console.log("Tidak ada data WBP dalam data pengunjung");
-// //     // Jika tidak ada data WBP, reset field WBP
-// //     updatedFormData.wbp_id = "";
-// //     setSearchWbp("");
-// //   }
-
-// //   setFormData(updatedFormData);
-  
-// //   // Set preview gambar dari data yang sudah ada
-// //   if (pengunjung.photo_ktp) {
-// //     setPreviewKtp(pengunjung.photo_ktp);
-// //     setFormData(prev => ({ ...prev, photo_ktp: pengunjung.photo_ktp }));
-// //   }
-// //   if (pengunjung.photo_pengunjung) {
-// //     setPreviewPengunjung(pengunjung.photo_pengunjung);
-// //     setFormData(prev => ({ ...prev, photo_pengunjung: pengunjung.photo_pengunjung }));
-// //   }
-// //   if (pengunjung.barcode) {
-// //     setPreviewBarcode(pengunjung.barcode);
-// //     setFormData(prev => ({ ...prev, barcode: pengunjung.barcode }));
-// //   }
-  
-// //   setSearchPengunjung(pengunjung.nama);
-// //   setIsPengunjungDropdownOpen(false);
-// //   setShowVirtualKeyboard(false);
-// // };
-
-
-// //   console.log("search pengunjung:", searchPengunjung);
-
-// //   // PERBAIKAN: Fungsi untuk memilih WBP dengan validasi
+// //   // Fungsi untuk memilih WBP
 // //   const selectWbp = (wbp) => {
-// //     console.log("WBP dipilih:", wbp); // Debug log
-    
-// //     // Pastikan wbp_id disimpan dengan benar
 // //     setFormData({ 
 // //       ...formData, 
 // //       wbp_id: wbp.id,
-// //       wbp_nama: wbp.nama // Simpan juga nama WBP untuk referensi
+// //       wbp_nama: wbp.nama
 // //     });
     
 // //     setSearchWbp(wbp.nama);
@@ -1809,28 +1781,24 @@
 // //     toast.success(`WBP dipilih: ${wbp.nama} (ID: ${wbp.id})`);
 // //   };
 
-
 // //   // Fungsi untuk handle scan barcode pengunjung
-// // const handleScanPengunjung = (data) => {
-// //   setSearchPengunjung(data);
-// //   setShowScannerPengunjung(false);
-  
-// //   // Cari pengunjung berdasarkan kode yang di-scan
-// //   const pengunjungDitemukan = filteredPengunjung.find(p => p.kode === data);
-// //   if (pengunjungDitemukan) {
-// //     selectPengunjung(pengunjungDitemukan);
-// //     toast.success("Pengunjung ditemukan melalui scan");
-// //   } else {
-// //     toast.error("Pengunjung tidak ditemukan");
-// //   }
-// // };
+// //   const handleScanPengunjung = (data) => {
+// //     setSearchPengunjung(data);
+// //     setShowScannerPengunjung(false);
+    
+// //     const pengunjungDitemukan = filteredPengunjung.find(p => p.kode === data);
+// //     if (pengunjungDitemukan) {
+// //       selectPengunjung(pengunjungDitemukan);
+// //       toast.success("Pengunjung ditemukan melalui scan");
+// //     } else {
+// //       toast.error("Pengunjung tidak ditemukan");
+// //     }
+// //   };
 
-// //   // PERBAIKAN: Fungsi untuk handle scan barcode WBP
+// //   // Fungsi untuk handle scan barcode WBP
 // //   const handleScanWbp = (data) => {
-// //     console.log("Data scan WBP:", data);
 // //     setShowScannerWbp(false);
     
-// //     // Cari WBP berdasarkan ID atau nama yang di-scan
 // //     const wbpDitemukan = filteredWbp.find(wbp => {
 // //       const matchById = wbp.id.toString() === data;
 // //       const matchByNama = wbp.nama?.toLowerCase().includes(data.toLowerCase());
@@ -1842,7 +1810,6 @@
 // //       toast.success(`WBP ditemukan: ${wbpDitemukan.nama}`);
 // //     } else {
 // //       toast.error(`WBP tidak ditemukan dengan data: ${data}`);
-// //       // Tetap set search untuk memudahkan pencarian manual
 // //       setSearchWbp(data);
 // //       setIsWbpDropdownOpen(true);
 // //     }
@@ -1853,19 +1820,16 @@
 // //     const file = files[0];
     
 // //     if (file) {
-// //       // Validasi tipe file
 // //       if (!file.type.startsWith('image/')) {
 // //         toast.error("File harus berupa gambar");
 // //         return;
 // //       }
 
-// //       // Validasi ukuran file (max 5MB)
 // //       if (file.size > 5 * 1024 * 1024) {
 // //         toast.error("Ukuran file maksimal 5MB");
 // //         return;
 // //       }
 
-// //       // Simpan file object ke state terpisah
 // //       if (name === 'photo_ktp') {
 // //         setPhotoKtpFile(file);
 // //         setFormData(prev => ({ ...prev, photo_ktp: file }));
@@ -1877,7 +1841,6 @@
 // //         setFormData(prev => ({ ...prev, barcode: file }));
 // //       }
 
-// //       // Create preview
 // //       const reader = new FileReader();
 // //       reader.onload = (e) => {
 // //         if (name === 'photo_ktp') {
@@ -1909,30 +1872,6 @@
 // //     }
 // //   };
 
-// //   // Fungsi untuk menggunakan foto dari data existing
-// //   const handleExistingPhoto = (type) => {
-// //     if (!selectedPengunjung) return;
-    
-// //     if (type === 'ktp' && selectedPengunjung.photo_ktp) {
-// //       setFormData({ ...formData, photo_ktp: selectedPengunjung.photo_ktp });
-// //       setPreviewKtp(selectedPengunjung.photo_ktp);
-// //       setPhotoKtpFile(null);
-// //       toast.success("Menggunakan foto KTP dari data existing");
-// //     } else if (type === 'pengunjung' && selectedPengunjung.photo_pengunjung) {
-// //       setFormData({ ...formData, photo_pengunjung: selectedPengunjung.photo_pengunjung });
-// //       setPreviewPengunjung(selectedPengunjung.photo_pengunjung);
-// //       setPhotoPengunjungFile(null);
-// //       toast.success("Menggunakan foto pengunjung dari data existing");
-// //     } else if (type === 'barcode' && selectedPengunjung.barcode) {
-// //       setFormData({ ...formData, barcode: selectedPengunjung.barcode });
-// //       setPreviewBarcode(selectedPengunjung.barcode);
-// //       setBarcodeFile(null);
-// //       toast.success("Menggunakan barcode dari data existing");
-// //     } else {
-// //       toast.error("File tidak tersedia di data existing");
-// //     }
-// //   };
-
 // //   // Fungsi untuk generate kode otomatis
 // //   const generateKode = () => {
 // //     const randomKode = Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -1944,197 +1883,195 @@
 // //   };
 
 // //   // Fungsi untuk generate nomor antrian
-// // const handleGenerateAntrian = async (pengunjungId) => {
-// //   try {
-// //     const updatedPengunjung = await updateAntrian(pengunjungId);
-// //     if (updatedPengunjung) {
-// //       const newAntrian = updatedPengunjung.antrian;
-// //       const lastThreeDigits = newAntrian.slice(-3);
-      
-// //       setAntrian(lastThreeDigits);
-// //       toast.success("Nomor antrian berhasil digenerate: " + lastThreeDigits);
-      
-// //       return lastThreeDigits; // Pastikan return nilai
-// //     }
-// //   } catch (error) {
-// //     console.error("Gagal generate antrian:", error);
-// //     toast.error("Gagal generate nomor antrian");
-// //     return null;
-// //   }
-// // };
-
-
-// // const handleSubmit = async (e) => {
-// //   e.preventDefault();
-
-// //   // Cek field WBP terlebih dahulu
-// //   if (checkWbpField()) {
-// //     return;
-// //   }
-
-// //   if (formData.nama === '-') {
-// //     setError("Field nama tidak boleh diisi dengan karakter '-' saja.");
-// //     toast.error("Field nama tidak boleh diisi dengan karakter '-' saja.");
-// //     return;
-// //   }
-// //   if (formData.wbp_id === 199) {
-// //     setError("Field Wbp tidak boleh diisi dengan karakter '-' saja.");
-// //     toast.error("Field Wbp tidak boleh diisi dengan karakter '-' saja.");
-// //     return;
-// //   }
-
-// //   // Cek field kosong lainnya
-// //   const emptyFieldFound = scrollToEmptyInputOrSubmit();
-// //   if (emptyFieldFound) {
-// //     return; // Berhenti jika ada field kosong
-// //   }
-
-// //   // Validasi WBP
-// //   if (!formData.wbp_id) {
-// //     setError("Silakan pilih Warga Binaan terlebih dahulu.");
-// //     toast.error("WBP belum dipilih!");
-// //     return;
-// //   }
-
-// //   if (!formData.nama || !formData.nik || !formData.hp || !formData.wbp_id || !formData.kode) {
-// //     setError("Pastikan nama, NIK, nomor HP, WBP, dan kode diisi.");
-// //     return;
-// //   }
-
-// //   setError("");
-// //   setIsSubmitting(true);
-
-// //   const formDataToSend = new FormData();
-  
-// //   // Tambahkan semua field formData ke FormData
-// //   for (const key in formData) {
-// //     if (formData[key] !== null && formData[key] !== "") {
-// //       if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && formData[key] instanceof File) {
-// //         formDataToSend.append(key, formData[key]);
-// //       } 
-// //       else if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && typeof formData[key] === 'string') {
-// //         formDataToSend.append(key, formData[key]);
+// //   const handleGenerateAntrian = async (pengunjungId) => {
+// //     try {
+// //       const updatedPengunjung = await updateAntrian(pengunjungId);
+// //       if (updatedPengunjung) {
+// //         const newAntrian = updatedPengunjung.antrian;
+// //         const lastThreeDigits = newAntrian.slice(-3);
+        
+// //         setAntrian(lastThreeDigits);
+// //         toast.success("Nomor antrian berhasil digenerate: " + lastThreeDigits);
+        
+// //         return lastThreeDigits;
 // //       }
-// //       else if (key !== 'photo_ktp' && key !== 'photo_pengunjung' && key !== 'barcode') {
-// //         formDataToSend.append(key, formData[key]);
-// //       }
+// //     } catch (error) {
+// //       console.error("Gagal generate antrian:", error);
+// //       toast.error("Gagal generate nomor antrian");
+// //       return null;
 // //     }
-// //   }
+// //   };
 
-// //   try {
-// //     const createdPengunjung = await createPengunjung(formDataToSend, setError);
+// //   const handleSubmit = async (e) => {
+// //     e.preventDefault();
+
+// //     // Validasi tujuan kunjungan - DIPERBAIKI
+// //     const validation = validateKunjungan();
+// //     if (!validation.isValid) {
+// //       setError(validation.message);
+// //       toast.error(validation.message);
+// //       return;
+// //     }
+
+// //     // Cek field WBP terlebih dahulu
+// //     if (checkWbpField()) {
+// //       return;
+// //     }
+
+// //     if (formData.nama === '-') {
+// //       setError("Field nama tidak boleh diisi dengan karakter '-' saja.");
+// //       toast.error("Field nama tidak boleh diisi dengan karakter '-' saja.");
+// //       return;
+// //     }
+// //     if (formData.wbp_id === 199) {
+// //       setError("Field Wbp tidak boleh diisi dengan karakter '-' saja.");
+// //       toast.error("Field Wbp tidak boleh diisi dengan karakter '-' saja.");
+// //       return;
+// //     }
+
+// //     // Cek field kosong lainnya
+// //     const emptyFieldFound = scrollToEmptyInputOrSubmit();
+// //     if (emptyFieldFound) {
+// //       return;
+// //     }
+
+// //     // Validasi WBP
+// //     if (!formData.wbp_id) {
+// //       setError("Silakan pilih Warga Binaan terlebih dahulu.");
+// //       toast.error("WBP belum dipilih!");
+// //       return;
+// //     }
+
+// //     if (!formData.nama || !formData.nik || !formData.hp || !formData.wbp_id || !formData.kode) {
+// //       setError("Pastikan nama, NIK, nomor HP, WBP, dan kode diisi.");
+// //       return;
+// //     }
+
+// //     setError("");
+// //     setIsSubmitting(true);
+
+// //     const formDataToSend = new FormData();
     
-// //     if (createdPengunjung) {
-// //       toast.success("Pengunjung berhasil ditambahkan!");
-
-// //       // Simpan data pengunjung baru ke state
-// //       setNewPengunjung(createdPengunjung);
-
-// //       // PERBAIKAN: Handle flow berdasarkan role
-// //       if (authUser.user.role === 'admin') {
-// //         // Untuk ADMIN: Generate antrian dan tampilkan print dialog
-// //         const nomorAntrian = await handleGenerateAntrian(createdPengunjung.id);
-        
-// //         if (nomorAntrian) {
-// //           // Set data untuk print dialog
-// //           setPrintData({
-// //             pengunjung: { ...createdPengunjung, antrian: nomorAntrian },
-// //             antrian: nomorAntrian
-// //           });
-          
-// //           // Tampilkan dialog print
-// //           setShowPrintDialog(true);
-// //         } else {
-// //           // Jika gagal generate antrian, tampilkan form edit
-// //           setShowEditForm(true);
+// //     for (const key in formData) {
+// //       if (formData[key] !== null && formData[key] !== "") {
+// //         if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && formData[key] instanceof File) {
+// //           formDataToSend.append(key, formData[key]);
+// //         } 
+// //         else if ((key === 'photo_ktp' || key === 'photo_pengunjung' || key === 'barcode') && typeof formData[key] === 'string') {
+// //           formDataToSend.append(key, formData[key]);
 // //         }
-// //       } else {
-// //         // Untuk NON-ADMIN: Generate nomor antrian saja tanpa print
-// //         const nomorAntrian = await handleGenerateAntrian(createdPengunjung.id);
-        
-// //         if (nomorAntrian) {
-// //           toast.success(`Nomor antrian ${nomorAntrian} berhasil digenerate`);
-// //           // Untuk non-admin, langsung tampilkan form edit setelah generate antrian
-// //           setShowEditForm(true);
-// //         } else {
-// //           // Jika gagal generate antrian, tetap tampilkan form edit
-// //           setShowEditForm(true);
+// //         else if (key !== 'photo_ktp' && key !== 'photo_pengunjung' && key !== 'barcode') {
+// //           formDataToSend.append(key, formData[key]);
 // //         }
 // //       }
-
-// //       // Reset form
-// //       setFormData({
-// //         wbp_id: "",
-// //         nama: "",
-// //         jenis_kelamin: "",
-// //         nik: "",
-// //         alamat: "",
-// //         hp: "",
-// //         hubungan_keluarga: "",
-// //         tujuan: "Berkunjung",
-// //         kode: "",
-// //         barcode: null,
-// //         pengikut_laki_laki: 0,
-// //         pengikut_perempuan: 0,
-// //         pengikut_anak_anak: 0,
-// //         pengikut_bayi: 0,
-// //         total_pengikut: 0,
-// //         keterangan: "",
-// //         photo_ktp: null,
-// //         photo_pengunjung: null,
-// //       });
-// //       setSelectedPengunjung(null);
-// //       setSearchPengunjung("");
-// //       setPreviewKtp(null);
-// //       setPreviewPengunjung(null);
-// //       setPreviewBarcode(null);
-// //       setPhotoKtpFile(null);
-// //       setPhotoPengunjungFile(null);
-// //       setBarcodeFile(null);
-// //       setShowVirtualKeyboard(false);
-
-// //     } else {
-// //       throw new Error("Gagal mendapatkan response dari server");
 // //     }
 
-// //   } catch (err) {
-// //     console.error("Error saat menambahkan pengunjung:", err);
-// //     toast.error("Gagal menambahkan pengunjung. Silakan coba lagi.");
-// //   } finally {
-// //     setIsSubmitting(false);
-// //   }
-// // };
-// // // Fungsi untuk menutup dialog print dan melanjutkan ke form edit
-// // const handlePrintDialogClose = () => {
-// //   setShowPrintDialog(false);
-// //   // PERBAIKAN: Setelah print selesai, baru tampilkan form edit untuk admin
-// //   setShowEditForm(true);
-// // };
+// //     try {
+// //       const createdPengunjung = await createPengunjung(formDataToSend, setError);
+      
+// //       if (createdPengunjung) {
+// //         toast.success("Pengunjung berhasil ditambahkan!");
+
+// //         setNewPengunjung(createdPengunjung);
+
+// //         if (authUser.user.role === 'admin') {
+// //           const nomorAntrian = await handleGenerateAntrian(createdPengunjung.id);
+          
+// //           if (nomorAntrian) {
+// //             setPrintData({
+// //               pengunjung: { ...createdPengunjung, antrian: nomorAntrian },
+// //               antrian: nomorAntrian
+// //             });
+            
+// //             // setShowPrintDialog(true);
+// //             setShowEditForm(true);
+// //           } else {
+// //             setShowEditForm(true);
+// //           }
+// //         } else {
+// //           const nomorAntrian = await handleGenerateAntrian(createdPengunjung.id);
+          
+// //           if (nomorAntrian) {
+// //             toast.success(`Nomor antrian ${nomorAntrian} berhasil digenerate`);
+// //             setShowEditForm(true);
+// //           } else {
+// //             setShowEditForm(true);
+// //           }
+// //         }
+
+// //         // Reset form
+// //         setFormData({
+// //           wbp_id: "",
+// //           nama: "",
+// //           jenis_kelamin: "",
+// //           nik: "",
+// //           alamat: "",
+// //           hp: "",
+// //           hubungan_keluarga: "",
+// //           tujuan: "Berkunjung",
+// //           kode: "",
+// //           barcode: null,
+// //           pengikut_laki_laki: 0,
+// //           pengikut_perempuan: 0,
+// //           pengikut_anak_anak: 0,
+// //           pengikut_bayi: 0,
+// //           total_pengikut: 0,
+// //           keterangan: "",
+// //           photo_ktp: null,
+// //           photo_pengunjung: null,
+// //         });
+// //         setSelectedPengunjung(null);
+// //         setSearchPengunjung("");
+// //         setPreviewKtp(null);
+// //         setPreviewPengunjung(null);
+// //         setPreviewBarcode(null);
+// //         setPhotoKtpFile(null);
+// //         setPhotoPengunjungFile(null);
+// //         setBarcodeFile(null);
+// //         setShowVirtualKeyboard(false);
+
+// //       } else {
+// //         throw new Error("Gagal mendapatkan response dari server");
+// //       }
+
+// //     } catch (err) {
+// //       console.error("Error saat menambahkan pengunjung:", err);
+// //       toast.error("Gagal menambahkan pengunjung. Silakan coba lagi.");
+// //     } finally {
+// //       setIsSubmitting(false);
+// //     }
+// //   };
+
+// //   // Fungsi untuk menutup dialog print dan melanjutkan ke form edit
+// //   const handlePrintDialogClose = () => {
+// //     setShowPrintDialog(false);
+// //     setShowEditForm(true);
+// //   };
 
 // //   // Jika showEditForm true dan newPengunjung ada, tampilkan EditPengunjungForm
-// // if (showEditForm && newPengunjung) {
-// //   return (
-// //     <EditPengunjungFormWrapper 
-// //       newPengunjung={newPengunjung}
-// //       onBack={() => {
-// //         setShowEditForm(false);
-// //         setNewPengunjung(null);
-// //         setSearchWbp("");
-// //         setSearchPengunjung("");
-// //         setSelectedPengunjung(null);
-// //         setShowVirtualKeyboard(false);
-// //         setAntrian(null);
-// //       }}
-// //       onClose={onClose}
-// //     />
-// //   );
-// // }
+// //   if (showEditForm && newPengunjung) {
+// //     return (
+// //       <EditPengunjungFormWrapper 
+// //         newPengunjung={newPengunjung}
+// //         onBack={() => {
+// //           setShowEditForm(false);
+// //           setNewPengunjung(null);
+// //           setSearchWbp("");
+// //           setSearchPengunjung("");
+// //           setSelectedPengunjung(null);
+// //           setShowVirtualKeyboard(false);
+// //           setAntrian(null);
+// //         }}
+// //         onClose={onClose}
+// //         isKeyboardEnabled={isKeyboardEnabled}
+// //         toggleKeyboard={toggleKeyboard}
+// //       />
+// //     );
+// //   }
 
 // //   // Modal untuk preview gambar besar
 // //   const ImageModal = ({ isOpen, onClose, imageUrl, title }) => {
 // //     if (!isOpen) return null;
-
-
 
 // //     return (
 // //       <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
@@ -2160,40 +2097,38 @@
 // //     );
 // //   };
 
-// //   // Tambahkan fungsi ini ke dalam komponen AddPengunjungForm, tepat sebelum return
-// // const handleCheckEmptyFields = () => {
-// //   scrollToEmptyInputOrSubmit();
-// // };
+// //   // Tambahkan fungsi ini ke dalam komponen AddPengunjungForm
+// //   const handleCheckEmptyFields = () => {
+// //     scrollToEmptyInputOrSubmit();
+// //   };
 
-// // // Tambahkan juga fungsi untuk WBP validation khusus
-// // const checkWbpField = () => {
-// //   if (!formData.wbp_id) {
-// //     const wbpInput = document.querySelector('#search-wbp-input');
-// //     if (wbpInput) {
-// //       wbpInput.scrollIntoView({ 
-// //         behavior: 'smooth', 
-// //         block: 'center',
-// //         inline: 'nearest'
-// //       });
-      
-// //       wbpInput.style.borderColor = '#ef4444';
-// //       wbpInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
-      
-// //       setTimeout(() => {
-// //         wbpInput.style.borderColor = '';
-// //         wbpInput.style.boxShadow = '';
-// //       }, 3000);
-      
-// //       wbpInput.focus();
-// //       toast.error('Harap pilih Warga Binaan terlebih dahulu!');
-// //       return true;
+// //   // Tambahkan juga fungsi untuk WBP validation khusus
+// //   const checkWbpField = () => {
+// //     if (!formData.wbp_id) {
+// //       const wbpInput = document.querySelector('#search-wbp-input');
+// //       if (wbpInput) {
+// //         wbpInput.scrollIntoView({ 
+// //           behavior: 'smooth', 
+// //           block: 'center',
+// //           inline: 'nearest'
+// //         });
+        
+// //         wbpInput.style.borderColor = '#ef4444';
+// //         wbpInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+        
+// //         setTimeout(() => {
+// //           wbpInput.style.borderColor = '';
+// //           wbpInput.style.boxShadow = '';
+// //         }, 3000);
+        
+// //         wbpInput.focus();
+// //         toast.error('Harap pilih Warga Binaan terlebih dahulu!');
+// //         return true;
+// //       }
 // //     }
-// //   }
-// //   return false;
-// // };
+// //     return false;
+// //   };
 
-
-// //   // Tampilkan form tambah pengunjung
 // //   return (
 // //     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-purple-50 p-6">
 // //       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all hover:scale-105">
@@ -2220,8 +2155,28 @@
 // //               {error}
 // //             </div>
 // //           )}
+
+// //           {/* Informasi Validasi - DIPERBAIKI */}
+// //           {formData.tujuan === "Berkunjung" && (
+// //             <div className="mb-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-lg">
+// //               <p className="text-blue-700 text-sm flex items-center">
+// //                 <FaInfoCircle className="mr-2" />
+// //                 <strong>Informasi:</strong> Untuk tujuan "Berkunjung", setiap pengunjung hanya dapat melakukan 1 kali pendaftaran per hari berdasarkan NIK atau nama.
+// //               </p>
+// //             </div>
+// //           )}
+
+// //           {formData.tujuan === "Menitip barang" && (
+// //             <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-lg">
+// //               <p className="text-green-700 text-sm flex items-center">
+// //                 <FaInfoCircle className="mr-2" />
+// //                 <strong>Informasi:</strong> Untuk tujuan "Menitip barang", pengunjung dapat melakukan pendaftaran beberapa kali.
+// //               </p>
+// //             </div>
+// //           )}
+
 // //           <form onSubmit={handleSubmit} className="space-y-6">
-// //             {/* PERBAIKAN: Informasi WBP Terpilih */}
+// //             {/* Informasi WBP Terpilih */}
 // //             {formData.wbp_id && (
 // //               <div className="p-3 bg-blue-50 border-l-4 border-blue-500 rounded-lg mb-4">
 // //                 <p className="text-blue-700 font-medium">
@@ -2248,6 +2203,7 @@
 // //               <div className="flex items-center space-x-2">
 // //                 <div className="flex-1 relative">
 // //                 <input
+// //                   id="search-wbp-input"
 // //                   type="text"
 // //                   value={searchWbp}
 // //                   onChange={(e) => {
@@ -2311,7 +2267,7 @@
 // //             {/* Cari Pengunjung yang Sudah Ada dengan scan barcode */}
 // //             <div className="relative" ref={dropdownPengunjungRef}>
 // //               <label className="block text-sm font-medium text-gray-700 mb-2">
-// //                 <FaUser className="inline-block mr-2" /> Cari Pengunjung (Data Existing) <span className="text-red-500">*</span>
+// //                 <FaUser className="inline-block mr-2" /> Cari Pengunjung (Data Existing)
 // //               </label>
 // //               <div className="flex items-center space-x-2">
 // //                 <div className="flex-1 relative">
@@ -2347,7 +2303,7 @@
 // //                 </button>
 // //               </div>
 
-// //                             {isPengunjungDropdownOpen && filteredPengunjung.length > 0 && (
+// //               {isPengunjungDropdownOpen && filteredPengunjung.length > 0 && (
 // //                 <div className="absolute z-20 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto touch-friendly">
 // //                   {filteredPengunjung.map((pengunjung, index) => (
 // //                     <div
@@ -2368,90 +2324,62 @@
 // //                 </div>
 // //               )}
 
-// //               {/* Tombol Cek Kelengkapan Data */}
-// // {/* <div className="flex justify-center mb-1 mt-3">
-// //   <button
-// //     type="button"
-// //     onClick={handleCheckEmptyFields}
-// //     className="bg-yellow-500 text-white py-3 px-6 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-all flex items-center justify-center touch-friendly text-lg font-semibold shadow-lg"
-// //   >
-// //     <FaSearch className="inline-block mr-2" />
-// //     Cek Kelengkapan Data
-// //   </button>
-// // </div>
-
-// // <div className="mb-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-lg">
-// //   <p className="text-blue-700 text-sm flex items-center">
-// //     <FaInfoCircle className="mr-2" />
-// //     <strong>Tips:</strong> Gunakan tombol "Cek Kelengkapan Data" untuk langsung menuju ke field yang masih kosong.
-// //   </p>
-// // </div> */}
-              
-
-
-// //               {/* Debug info */}
 // //               <div className="mt-1 text-xs text-gray-500">
 // //                 Menampilkan {filteredPengunjung.length} data pengunjung
 // //               </div>
 // //             </div>
 
 // //             {/* Informasi Pengunjung Terpilih */}
-// //             {/* Informasi Pengunjung Terpilih */}
-// // {selectedPengunjung && (
-// //   <div className="p-4 bg-green-50 border-l-4 border-green-500 rounded-lg">
-// //     <p className="text-green-700 font-medium mb-2">
-// //       ✓ Data pengunjung terpilih:
-// //     </p>
-// //     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-// //       <div className="space-y-2">
-// //         <div className="grid grid-cols-2 gap-2 text-sm text-green-600">
-// //           <div><strong>Nama:</strong> {selectedPengunjung.nama}</div>
-// //           <div><strong>NIK:</strong> {selectedPengunjung.nik}</div>
-// //           <div><strong>HP:</strong> {selectedPengunjung.hp}</div>
-// //           <div><strong>Alamat:</strong> {selectedPengunjung.alamat}</div>
-// //           <div><strong>Jenis Kelamin:</strong> {selectedPengunjung.jenis_kelamin}</div>
-// //           <div><strong>Kode:</strong> {selectedPengunjung.kode}</div>
-// //           {selectedPengunjung.hubungan_keluarga && (
-// //             <div><strong>Hubungan:</strong> {selectedPengunjung.hubungan_keluarga}</div>
-// //           )}
-// //           {/* Tampilkan informasi WBP jika ada */}
-// //           {selectedPengunjung.warga_binaan && (
-// //             <>
-// //               <div><strong>WBP:</strong> {selectedPengunjung.warga_binaan.nama}</div>
-// //               <div><strong>ID WBP:</strong> {selectedPengunjung.warga_binaan.id}</div>
-// //             </>
-// //           )}
-// //         </div>
-// //       </div>
-      
-// //       {/* Foto dari Data Existing */}
-// //       {/* ... kode existing untuk foto ... */}
-// //     </div>
-    
-// //     {/* Tombol untuk menghapus data WBP jika ingin diganti */}
-// //     {selectedPengunjung.warga_binaan && (
-// //       <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
-// //         <div className="flex justify-between items-center">
-// //           <div className="text-sm text-blue-700">
-// //             <strong>Data WBP terisi otomatis.</strong> Jika ingin mengganti, 
-// //             silakan pilih WBP baru dari field pencarian WBP di atas.
-// //           </div>
-// //           <button
-// //             type="button"
-// //             onClick={() => {
-// //               setFormData(prev => ({ ...prev, wbp_id: "" }));
-// //               setSearchWbp("");
-// //               toast.info("Data WBP direset, silakan pilih WBP baru");
-// //             }}
-// //             className="text-xs bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors"
-// //           >
-// //             Reset WBP
-// //           </button>
-// //         </div>
-// //       </div>
-// //     )}
-// //   </div>
-// // )}
+// //             {selectedPengunjung && (
+// //               <div className="p-4 bg-green-50 border-l-4 border-green-500 rounded-lg">
+// //                 <p className="text-green-700 font-medium mb-2">
+// //                   ✓ Data pengunjung terpilih:
+// //                 </p>
+// //                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+// //                   <div className="space-y-2">
+// //                     <div className="grid grid-cols-2 gap-2 text-sm text-green-600">
+// //                       <div><strong>Nama:</strong> {selectedPengunjung.nama}</div>
+// //                       <div><strong>NIK:</strong> {selectedPengunjung.nik}</div>
+// //                       <div><strong>HP:</strong> {selectedPengunjung.hp}</div>
+// //                       <div><strong>Alamat:</strong> {selectedPengunjung.alamat}</div>
+// //                       <div><strong>Jenis Kelamin:</strong> {selectedPengunjung.jenis_kelamin}</div>
+// //                       <div><strong>Kode:</strong> {selectedPengunjung.kode}</div>
+// //                       {selectedPengunjung.hubungan_keluarga && (
+// //                         <div><strong>Hubungan:</strong> {selectedPengunjung.hubungan_keluarga}</div>
+// //                       )}
+// //                       {selectedPengunjung.warga_binaan && (
+// //                         <>
+// //                           <div><strong>WBP:</strong> {selectedPengunjung.warga_binaan.nama}</div>
+// //                           <div><strong>ID WBP:</strong> {selectedPengunjung.warga_binaan.id}</div>
+// //                         </>
+// //                       )}
+// //                     </div>
+// //                   </div>
+// //                 </div>
+                
+// //                 {selectedPengunjung.warga_binaan && (
+// //                   <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
+// //                     <div className="flex justify-between items-center">
+// //                       <div className="text-sm text-blue-700">
+// //                         <strong>Data WBP terisi otomatis.</strong> Jika ingin mengganti, 
+// //                         silakan pilih WBP baru dari field pencarian WBP di atas.
+// //                       </div>
+// //                       <button
+// //                         type="button"
+// //                         onClick={() => {
+// //                           setFormData(prev => ({ ...prev, wbp_id: "" }));
+// //                           setSearchWbp("");
+// //                           toast.info("Data WBP direset, silakan pilih WBP baru");
+// //                         }}
+// //                         className="text-xs bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors"
+// //                       >
+// //                         Reset WBP
+// //                       </button>
+// //                     </div>
+// //                   </div>
+// //                 )}
+// //               </div>
+// //             )}
 
 // //             {/* Nama */}
 // //             <div>
@@ -2541,7 +2469,7 @@
 // //                 onChange={handleInputChange}
 // //                 onFocus={() => handleInputFocus('nik', formData.nik)}
 // //                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all touch-friendly"
-// //                 // required
+// //                 required
 // //                 inputMode="numeric"
 // //                 pattern="[0-9]*"
 // //                 autoComplete="on"
@@ -2572,7 +2500,7 @@
 // //                 onChange={handleInputChange}
 // //                 onFocus={() => handleInputFocus('hp', formData.hp)}
 // //                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all touch-friendly"
-// //                 // required
+// //                 required
 // //                 inputMode="tel"
 // //                 autoComplete="tel"
 // //               />
@@ -2695,7 +2623,6 @@
 // //                 accept="image/*"
 // //               />
               
-// //               {/* Preview Foto KTP */}
 // //               {previewKtp && (
 // //                 <div className="mt-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
 // //                   <div className="flex justify-between items-center mb-2">
@@ -2742,7 +2669,6 @@
 // //                 accept="image/*"
 // //               />
               
-// //               {/* Preview Foto Pengunjung */}
 // //               {previewPengunjung && (
 // //                 <div className="mt-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
 // //                   <div className="flex justify-between items-center mb-2">
@@ -2789,7 +2715,6 @@
 // //                 accept="image/*"
 // //               />
               
-// //               {/* Preview Barcode */}
 // //               {previewBarcode && (
 // //                 <div className="mt-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
 // //                   <div className="flex justify-between items-center mb-2">
@@ -2823,31 +2748,26 @@
 // //               )}
 // //             </div>
 
-            
-
-
-
 // //             {/* Tombol Submit */}
-// //             {/* Tombol Submit - Sama untuk semua user */}
-// // <button
-// //   type="submit"
-// //   disabled={isSubmitting}
-// //   className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-lg hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all flex items-center justify-center touch-friendly text-lg font-semibold shadow-lg"
-// // >
-// //   {isSubmitting ? (
-// //     <>
-// //       <FaSpinner className="animate-spin inline-block mr-2" />
-// //       Mengirim...
-// //     </>
-// //   ) : (
-// //     <>
-// //       <FaQrcode className="inline-block mr-2" />
-// //       {authUser.user?.role === 'admin' 
-// //         ? "Tambah Pengunjung & Generate Antrian" 
-// //         : "Tambah Pengunjung"}
-// //     </>
-// //   )}
-// // </button>
+// //             <button
+// //               type="submit"
+// //               disabled={isSubmitting}
+// //               className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 px-6 rounded-lg hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all flex items-center justify-center touch-friendly text-lg font-semibold shadow-lg"
+// //             >
+// //               {isSubmitting ? (
+// //                 <>
+// //                   <FaSpinner className="animate-spin inline-block mr-2" />
+// //                   Mengirim...
+// //                 </>
+// //               ) : (
+// //                 <>
+// //                   <FaQrcode className="inline-block mr-2" />
+// //                   {authUser.user?.role === 'admin' 
+// //                     ? "Tambah Pengunjung & Generate Antrian" 
+// //                     : "Tambah Pengunjung"}
+// //                 </>
+// //               )}
+// //             </button>
             
 // //           </form>
 // //         </div>
@@ -2860,6 +2780,8 @@
 // //         onScrollDown={scrollToBottom}
 // //         isExpanded={isExpanded}
 // //         onToggleExpand={toggleExpand}
+// //         onToggleKeyboard={toggleKeyboard}
+// //         isKeyboardEnabled={isKeyboardEnabled}
 // //       />
 
 // //       {/* Modal untuk preview gambar besar */}
@@ -2900,29 +2822,19 @@
 // //         title="Scan Barcode WBP"
 // //       />
 
-// //       {/* Virtual Keyboard - Hanya muncul di PC */}
-// //       {/* {showVirtualKeyboard && (
+// //       {/* Virtual Keyboard - hanya muncul jika diaktifkan */}
+// //       {showVirtualKeyboard && isKeyboardEnabled && (
 // //         <VirtualKeyboard 
 // //           onKeyPress={handleVirtualKeyPress}
 // //           onClose={() => setShowVirtualKeyboard(false)}
 // //           value={keyboardValue}
 // //           activeInput={activeInput}
 // //           onInputChange={handleInputUpdate}
+// //           onEnter={() => focusNextEmptyField()}
 // //         />
-// //       )} */}
+// //       )}
 
-// //       {showVirtualKeyboard && (
-// //     <VirtualKeyboard 
-// //       onKeyPress={handleVirtualKeyPress}
-// //       onClose={() => setShowVirtualKeyboard(false)}
-// //       value={keyboardValue}
-// //       activeInput={activeInput}
-// //       onInputChange={handleInputUpdate}
-// //       onEnter={() => focusNextEmptyField()} // Tambahkan ini
-// //     />
-// //   )}
-
-// //       {/* Print Dialog untuk Antrian - Muncul otomatis setelah generate antrian */}
+// //       {/* Print Dialog untuk Antrian */}
 // //       {showPrintDialog && printData && (
 // //         <PrintAntrian 
 // //           pengunjung={printData.pengunjung}
@@ -2934,771 +2846,8 @@
 // //   );
 // // };
 
-// // // Komponen wrapper untuk EditPengunjungForm (TIDAK BERUBAH)
-// // // const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
-// // //   const { updatePengunjung } = useDataStore();
-// // //   const [formData, setFormData] = useState({
-// // //     nama: newPengunjung.nama || "",
-// // //     jenis_kelamin: newPengunjung.jenis_kelamin || "",
-// // //     nik: newPengunjung.nik || "",
-// // //     alamat: newPengunjung.alamat || "",
-// // //     hp: newPengunjung.hp || "",
-// // //     hubungan_keluarga: newPengunjung.hubungan_keluarga || "",
-// // //     tujuan: newPengunjung.tujuan || "Berkunjung",
-// // //     kode: newPengunjung.kode || "",
-// // //     pengikut_laki_laki: newPengunjung.pengikut_laki_laki || 0,
-// // //     pengikut_perempuan: newPengunjung.pengikut_perempuan || 0,
-// // //     pengikut_anak_anak: newPengunjung.pengikut_anak_anak || 0,
-// // //     pengikut_bayi: newPengunjung.pengikut_bayi || 0,
-// // //     total_pengikut: newPengunjung.total_pengikut || 0,
-// // //   });
-// // //   const [loading, setLoading] = useState(false);
-// // //   const [error, setError] = useState("");
-// // //   const [isModalOpen, setIsModalOpen] = useState(false);
-  
-// // //   // State untuk virtual keyboard di form edit
-// // //   const [showVirtualKeyboard, setShowVirtualKeyboard] = useState(false);
-// // //   const [activeInput, setActiveInput] = useState(null);
-// // //   const [keyboardValue, setKeyboardValue] = useState('');
-  
-// // //   // State untuk checkbox ambil antrian
-// // //   const [ambilAntrian, setAmbilAntrian] = useState(false);
-// // //   const [isAdmin, setIsAdmin] = useState(false);
-
-// // //   // State untuk preview gambar yang sudah diupload
-// // //   const [showModalKtp, setShowModalKtp] = useState(false);
-// // //   const [showModalPengunjung, setShowModalPengunjung] = useState(false);
-// // //   const [showModalBarcode, setShowModalBarcode] = useState(false);
-
-// // //   // State untuk deteksi perangkat
-// // //   const [isPc, setIsPc] = useState(false);
-
-// // //   const navigate = useNavigate();
-
-  
-
-// // //   // Deteksi perangkat saat komponen dimuat
-// // //   useEffect(() => {
-// // //     const checkDevice = () => {
-// // //       const userAgent = navigator.userAgent.toLowerCase();
-// // //       const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent);
-// // //       const isTablet = /tablet|ipad/i.test(userAgent);
-// // //       const isPcDevice = !isMobile && !isTablet;
-      
-// // //       setIsPc(isPcDevice);
-// // //     };
-
-// // //     checkDevice();
-// // //   }, []);
-
-// // //   const authUser = JSON.parse(localStorage.getItem('authUser'));
-
-// // //   // Cek role user saat komponen dimuat
-// // //   useEffect(() => {
-// // //     const authUser = JSON.parse(localStorage.getItem('authUser'));
-// // //     if (authUser && authUser.user && authUser.user.role === 'admin') {
-// // //       setIsAdmin(true);
-// // //     }
-    
-// // //     // Hitung total pengikut saat pertama kali komponen dimuat
-// // //     const initialTotal = calculateTotalPengikut(formData);
-// // //     setFormData(prev => ({
-// // //       ...prev,
-// // //       total_pengikut: initialTotal
-// // //     }));
-// // //   }, []);
-
-// // //   // Handler untuk virtual keyboard di form edit - hanya untuk PC
-// // //   const handleVirtualKeyPress = (key) => {
-// // //     if (key === 'backspace') {
-// // //       setKeyboardValue(prev => prev.slice(0, -1));
-// // //       handleInputUpdate('backspace');
-// // //     } else if (key === 'enter') {
-// // //       setShowVirtualKeyboard(false);
-// // //     } else if (key === 'space') {
-// // //       setKeyboardValue(prev => prev + ' ');
-// // //       handleInputUpdate(' ');
-// // //     } else if (key === 'clear') {
-// // //       setKeyboardValue('');
-// // //       handleInputUpdate('clear');
-// // //     } else if (key === 'tab') {
-// // //       // Switch between inputs
-// // //     } else {
-// // //       setKeyboardValue(prev => prev + key);
-// // //       handleInputUpdate(key);
-// // //     }
-// // //   };
-
-// // //   // Fungsi untuk langsung update input field dari keyboard di form edit
-// // //   const handleInputUpdate = (key) => {
-// // //     let newValue = '';
-    
-// // //     if (key === 'backspace') {
-// // //       newValue = keyboardValue.slice(0, -1);
-// // //     } else if (key === 'clear') {
-// // //       newValue = '';
-// // //     } else if (key === ' ') {
-// // //       newValue = keyboardValue + ' ';
-// // //     } else {
-// // //       newValue = keyboardValue + key;
-// // //     }
-
-// // //     // Update sesuai dengan input yang aktif
-// // //     switch (activeInput) {
-// // //       case 'nama':
-// // //         setFormData(prev => ({ ...prev, nama: newValue }));
-// // //         break;
-// // //       case 'nik':
-// // //         setFormData(prev => ({ ...prev, nik: newValue }));
-// // //         break;
-// // //       case 'hp':
-// // //         setFormData(prev => ({ ...prev, hp: newValue }));
-// // //         break;
-// // //       case 'alamat':
-// // //         setFormData(prev => ({ ...prev, alamat: newValue }));
-// // //         break;
-// // //       case 'hubungan_keluarga':
-// // //         setFormData(prev => ({ ...prev, hubungan_keluarga: newValue }));
-// // //         break;
-// // //       case 'kode':
-// // //         setFormData(prev => ({ ...prev, kode: newValue }));
-// // //         break;
-// // //       default:
-// // //         break;
-// // //     }
-// // //   };
-
-// // //   // Handler untuk membuka virtual keyboard dengan input tertentu di form edit - hanya untuk PC
-// // //   const handleInputFocus = (inputType, currentValue = '') => {
-// // //     // Hanya tampilkan virtual keyboard jika perangkat adalah PC
-// // //     if (!isPc) return;
-    
-// // //     setActiveInput(inputType);
-// // //     setKeyboardValue(currentValue);
-// // //     setShowVirtualKeyboard(true);
-// // //   };
-
-// // //   // Modal untuk preview gambar besar
-// // //   const ImageModal = ({ isOpen, onClose, imageUrl, title }) => {
-// // //     if (!isOpen) return null;
-
-// // //     return (
-// // //       <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-// // //         <div className="bg-white rounded-lg max-w-4xl max-h-full overflow-auto">
-// // //           <div className="flex justify-between items-center p-4 border-b">
-// // //             <h3 className="text-lg font-semibold">{title}</h3>
-// // //             <button
-// // //               onClick={onClose}
-// // //               className="text-gray-500 hover:text-gray-700"
-// // //             >
-// // //               <FaTimes size={24} />
-// // //             </button>
-// // //           </div>
-// // //           <div className="p-4">
-// // //             <img
-// // //               src={imageUrl}
-// // //               alt={title}
-// // //               className="w-full h-auto max-h-96 object-contain"
-// // //             />
-// // //           </div>
-// // //         </div>
-// // //       </div>
-// // //     );
-// // //   };
-
-// // //   // Fungsi menghitung total pengikut
-// // //   const calculateTotalPengikut = (data) => {
-// // //     const total = 
-// // //       parseInt(data.pengikut_laki_laki || 0) +
-// // //       parseInt(data.pengikut_perempuan || 0) +
-// // //       parseInt(data.pengikut_anak_anak || 0) +
-// // //       parseInt(data.pengikut_bayi || 0);
-// // //     return total;
-// // //   };
-
-// // //   const handleInputChange = (e) => {
-// // //     const { name, value } = e.target;
-// // //     const updatedFormData = {
-// // //       ...formData,
-// // //       [name]: value,
-// // //     };
-    
-// // //     // Jika field pengikut diubah, hitung total otomatis
-// // //     if (name.includes('pengikut_') && name !== 'total_pengikut') {
-// // //       updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //     }
-    
-// // //     setFormData(updatedFormData);
-// // //   };
-
-// // //   console.log("new pengunjung", newPengunjung)
-
-// // //   const handleSubmit = async (e) => {
-// // //     e.preventDefault();
-// // //     setLoading(true);
-// // //     setError("");
-
-// // //     try {
-// // //       await updatePengunjung(newPengunjung.id, formData);
-// // //       toast.success("Data pengunjung berhasil diperbarui!");
-      
-// // //       setTimeout(() => {
-// // //         if (onClose) onClose();
-// // //       }, 1000);
-      
-// // //     } catch (error) {
-// // //       console.error("Error: ", error);
-// // //       setError("Gagal memperbarui data pengunjung. Silakan coba lagi.");
-// // //       toast.error("Gagal memperbarui data pengunjung.");
-// // //     } finally {
-// // //       setLoading(false);
-// // //     }
-// // //   };
-
-// // //   const finish = () => {
-// // //     if (!ambilAntrian && formData.tujuan === "Menitip barang") {
-// // //       navigate(`/label/${newPengunjung.id}`);
-// // //     } else if (!ambilAntrian && formData.tujuan === "Berkunjung") {
-// // //       navigate(`/pengunjung/${newPengunjung.id}`);
-// // //     } else {
-// // //       navigate('/');
-// // //     }
-// // //   }
-
-// // //   return (
-// // //     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 p-4">
-// // //       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl p-8 transition-all hover:shadow-3xl">
-// // //         <div className="flex items-center justify-between mb-8">
-// // //           <h1 className="text-3xl font-bold text-gray-800">
-// // //             ✏️ Edit Data Pengunjung Baru
-// // //           </h1>
-// // //           <div className="space-x-2">
-// // //             <button
-// // //               onClick={onBack}
-// // //               className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-// // //             >
-// // //               ← Tambah Lagi
-// // //             </button>
-// // //             <button
-// // //               onClick={finish}
-// // //               className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg transition-colors"
-// // //             >
-// // //               Selesai
-// // //             </button>
-// // //           </div>
-// // //         </div>
-
-// // //         {error && (
-// // //           <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded">
-// // //             {error}
-// // //           </div>
-// // //         )}
-
-// // //         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-1">
-// // //           {/* Kolom Kanan */}
-// // //           <div className="space-y-4">
-            
-// // //             {/* Pengikut dengan Counter yang Dipercantik */}
-// // //             <div className="space-y-4">
-// // //               <div className="flex items-center justify-between">
-// // //                 <label className="block text-sm font-medium text-gray-700 flex items-center">
-// // //                   <svg className="w-4 h-4 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-// // //                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-// // //                   </svg>
-// // //                   Jumlah Pengikut
-// // //                 </label>
-// // //                 <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg">
-// // //                   Total: <span className="font-bold text-purple-600">{formData.total_pengikut}</span>
-// // //                 </div>
-// // //               </div>
-
-// // //               <div className="grid grid-cols-2 gap-4">
-// // //                 {/* Laki-laki */}
-// // //                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-// // //                   <div className="flex items-center justify-between mb-3">
-// // //                     <div className="flex items-center space-x-2">
-// // //                       <span className="text-2xl">👨</span>
-// // //                       <span className="font-semibold text-gray-800">Laki-laki</span>
-// // //                     </div>
-// // //                     <div className="px-3 py-1 bg-white rounded-lg border border-blue-200 shadow-sm">
-// // //                       <span className="text-sm font-bold text-blue-600">
-// // //                         {formData.pengikut_laki_laki}
-// // //                       </span>
-// // //                     </div>
-// // //                   </div>
-
-// // //                   <div className="flex items-center justify-between space-x-2">
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
-// // //                         if (currentValue > 0) {
-// // //                           const updatedFormData = {
-// // //                             ...formData,
-// // //                             pengikut_laki_laki: currentValue - 1
-// // //                           };
-// // //                           updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                           setFormData(updatedFormData);
-// // //                         }
-// // //                       }}
-// // //                       className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
-// // //                         parseInt(formData.pengikut_laki_laki) > 0 
-// // //                           ? 'bg-white text-blue-600 hover:bg-blue-50 border-2 border-blue-200 hover:border-blue-300' 
-// // //                           : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
-// // //                       } focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95`}
-// // //                       disabled={parseInt(formData.pengikut_laki_laki) <= 0}
-// // //                     >
-// // //                       <div className="flex items-center justify-center space-x-1">
-// // //                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-// // //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-// // //                         </svg>
-// // //                         <span>Kurang</span>
-// // //                       </div>
-// // //                     </button>
-
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
-// // //                         const updatedFormData = {
-// // //                           ...formData,
-// // //                           pengikut_laki_laki: currentValue + 1
-// // //                         };
-// // //                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                         setFormData(updatedFormData);
-// // //                       }}
-// // //                       className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-blue-600 hover:bg-blue-50 border-2 border-blue-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95"
-// // //                     >
-// // //                       <div className="flex items-center justify-center space-x-1">
-// // //                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-// // //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-// // //                         </svg>
-// // //                         <span>Tambah</span>
-// // //                       </div>
-// // //                     </button>
-// // //                   </div>
-
-// // //                   <div className="flex space-x-2 mt-3">
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const updatedFormData = {
-// // //                           ...formData,
-// // //                           pengikut_laki_laki: 0
-// // //                         };
-// // //                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                         setFormData(updatedFormData);
-// // //                       }}
-// // //                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-// // //                     >
-// // //                       Reset
-// // //                     </button>
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
-// // //                         const updatedFormData = {
-// // //                           ...formData,
-// // //                           pengikut_laki_laki: currentValue + 5
-// // //                         };
-// // //                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                         setFormData(updatedFormData);
-// // //                       }}
-// // //                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-// // //                     >
-// // //                       +5
-// // //                     </button>
-// // //                   </div>
-// // //                 </div>
-
-// // //                 {/* Perempuan */}
-// // //                 <div className="bg-gradient-to-br from-pink-50 to-pink-100 border-2 border-pink-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-// // //                   <div className="flex items-center justify-between mb-3">
-// // //                     <div className="flex items-center space-x-2">
-// // //                       <span className="text-2xl">👩</span>
-// // //                       <span className="font-semibold text-gray-800">Perempuan</span>
-// // //                     </div>
-// // //                     <div className="px-3 py-1 bg-white rounded-lg border border-pink-200 shadow-sm">
-// // //                       <span className="text-sm font-bold text-pink-600">
-// // //                         {formData.pengikut_perempuan}
-// // //                       </span>
-// // //                     </div>
-// // //                   </div>
-
-// // //                   <div className="flex items-center justify-between space-x-2">
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const currentValue = parseInt(formData.pengikut_perempuan) || 0;
-// // //                         if (currentValue > 0) {
-// // //                           const updatedFormData = {
-// // //                             ...formData,
-// // //                             pengikut_perempuan: currentValue - 1
-// // //                           };
-// // //                           updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                           setFormData(updatedFormData);
-// // //                         }
-// // //                       }}
-// // //                       className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
-// // //                         parseInt(formData.pengikut_perempuan) > 0 
-// // //                           ? 'bg-white text-pink-600 hover:bg-pink-50 border-2 border-pink-200 hover:border-pink-300' 
-// // //                           : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
-// // //                       } focus:outline-none focus:ring-2 focus:ring-pink-500 active:scale-95`}
-// // //                       disabled={parseInt(formData.pengikut_perempuan) <= 0}
-// // //                     >
-// // //                       <div className="flex items-center justify-center space-x-1">
-// // //                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-// // //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-// // //                         </svg>
-// // //                         <span>Kurang</span>
-// // //                       </div>
-// // //                     </button>
-
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const currentValue = parseInt(formData.pengikut_perempuan) || 0;
-// // //                         const updatedFormData = {
-// // //                           ...formData,
-// // //                           pengikut_perempuan: currentValue + 1
-// // //                         };
-// // //                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                         setFormData(updatedFormData);
-// // //                       }}
-// // //                       className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-pink-600 hover:bg-pink-50 border-2 border-pink-200 hover:border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-500 active:scale-95"
-// // //                     >
-// // //                       <div className="flex items-center justify-center space-x-1">
-// // //                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-// // //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-// // //                         </svg>
-// // //                         <span>Tambah</span>
-// // //                       </div>
-// // //                     </button>
-// // //                   </div>
-
-// // //                   <div className="flex space-x-2 mt-3">
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const updatedFormData = {
-// // //                           ...formData,
-// // //                           pengikut_perempuan: 0
-// // //                         };
-// // //                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                         setFormData(updatedFormData);
-// // //                       }}
-// // //                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-// // //                     >
-// // //                       Reset
-// // //                     </button>
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const currentValue = parseInt(formData.pengikut_perempuan) || 0;
-// // //                         const updatedFormData = {
-// // //                           ...formData,
-// // //                           pengikut_perempuan: currentValue + 5
-// // //                         };
-// // //                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                         setFormData(updatedFormData);
-// // //                       }}
-// // //                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-// // //                     >
-// // //                       +5
-// // //                     </button>
-// // //                   </div>
-// // //                 </div>
-
-// // //                 {/* Anak-anak */}
-// // //                 <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-// // //                   <div className="flex items-center justify-between mb-3">
-// // //                     <div className="flex items-center space-x-2">
-// // //                       <span className="text-2xl">🧒</span>
-// // //                       <span className="font-semibold text-gray-800">Anak-anak</span>
-// // //                     </div>
-// // //                     <div className="px-3 py-1 bg-white rounded-lg border border-green-200 shadow-sm">
-// // //                       <span className="text-sm font-bold text-green-600">
-// // //                         {formData.pengikut_anak_anak}
-// // //                       </span>
-// // //                     </div>
-// // //                   </div>
-
-// // //                   <div className="flex items-center justify-between space-x-2">
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const currentValue = parseInt(formData.pengikut_anak_anak) || 0;
-// // //                         if (currentValue > 0) {
-// // //                           const updatedFormData = {
-// // //                             ...formData,
-// // //                             pengikut_anak_anak: currentValue - 1
-// // //                           };
-// // //                           updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                           setFormData(updatedFormData);
-// // //                         }
-// // //                       }}
-// // //                       className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
-// // //                         parseInt(formData.pengikut_anak_anak) > 0 
-// // //                           ? 'bg-white text-green-600 hover:bg-green-50 border-2 border-green-200 hover:border-green-300' 
-// // //                           : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
-// // //                       } focus:outline-none focus:ring-2 focus:ring-green-500 active:scale-95`}
-// // //                       disabled={parseInt(formData.pengikut_anak_anak) <= 0}
-// // //                     >
-// // //                       <div className="flex items-center justify-center space-x-1">
-// // //                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-// // //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-// // //                         </svg>
-// // //                         <span>Kurang</span>
-// // //                       </div>
-// // //                     </button>
-
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const currentValue = parseInt(formData.pengikut_anak_anak) || 0;
-// // //                         const updatedFormData = {
-// // //                           ...formData,
-// // //                           pengikut_anak_anak: currentValue + 1
-// // //                         };
-// // //                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                         setFormData(updatedFormData);
-// // //                       }}
-// // //                       className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-green-600 hover:bg-green-50 border-2 border-green-200 hover:border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 active:scale-95"
-// // //                     >
-// // //                       <div className="flex items-center justify-center space-x-1">
-// // //                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-// // //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-// // //                         </svg>
-// // //                         <span>Tambah</span>
-// // //                       </div>
-// // //                     </button>
-// // //                   </div>
-
-// // //                   <div className="flex space-x-2 mt-3">
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const updatedFormData = {
-// // //                           ...formData,
-// // //                           pengikut_anak_anak: 0
-// // //                         };
-// // //                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                         setFormData(updatedFormData);
-// // //                       }}
-// // //                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-// // //                     >
-// // //                       Reset
-// // //                     </button>
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const currentValue = parseInt(formData.pengikut_anak_anak) || 0;
-// // //                         const updatedFormData = {
-// // //                           ...formData,
-// // //                           pengikut_anak_anak: currentValue + 5
-// // //                         };
-// // //                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                         setFormData(updatedFormData);
-// // //                       }}
-// // //                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-// // //                     >
-// // //                       +5
-// // //                     </button>
-// // //                   </div>
-// // //                 </div>
-
-// // //                 {/* Bayi */}
-// // //                 <div className="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-// // //                   <div className="flex items-center justify-between mb-3">
-// // //                     <div className="flex items-center space-x-2">
-// // //                       <span className="text-2xl">👶</span>
-// // //                       <span className="font-semibold text-gray-800">Bayi</span>
-// // //                     </div>
-// // //                     <div className="px-3 py-1 bg-white rounded-lg border border-purple-200 shadow-sm">
-// // //                       <span className="text-sm font-bold text-purple-600">
-// // //                         {formData.pengikut_bayi}
-// // //                       </span>
-// // //                     </div>
-// // //                   </div>
-
-// // //                   <div className="flex items-center justify-between space-x-2">
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const currentValue = parseInt(formData.pengikut_bayi) || 0;
-// // //                         if (currentValue > 0) {
-// // //                           const updatedFormData = {
-// // //                             ...formData,
-// // //                             pengikut_bayi: currentValue - 1
-// // //                           };
-// // //                           updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                           setFormData(updatedFormData);
-// // //                         }
-// // //                       }}
-// // //                       className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
-// // //                         parseInt(formData.pengikut_bayi) > 0 
-// // //                           ? 'bg-white text-purple-600 hover:bg-purple-50 border-2 border-purple-200 hover:border-purple-300' 
-// // //                           : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
-// // //                       } focus:outline-none focus:ring-2 focus:ring-purple-500 active:scale-95`}
-// // //                       disabled={parseInt(formData.pengikut_bayi) <= 0}
-// // //                     >
-// // //                       <div className="flex items-center justify-center space-x-1">
-// // //                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-// // //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-// // //                         </svg>
-// // //                         <span>Kurang</span>
-// // //                       </div>
-// // //                     </button>
-
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const currentValue = parseInt(formData.pengikut_bayi) || 0;
-// // //                         const updatedFormData = {
-// // //                           ...formData,
-// // //                           pengikut_bayi: currentValue + 1
-// // //                         };
-// // //                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                         setFormData(updatedFormData);
-// // //                       }}
-// // //                       className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-purple-600 hover:bg-purple-50 border-2 border-purple-200 hover:border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 active:scale-95"
-// // //                     >
-// // //                       <div className="flex items-center justify-center space-x-1">
-// // //                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-// // //                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-// // //                         </svg>
-// // //                         <span>Tambah</span>
-// // //                       </div>
-// // //                     </button>
-// // //                   </div>
-
-// // //                   <div className="flex space-x-2 mt-3">
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const updatedFormData = {
-// // //                           ...formData,
-// // //                           pengikut_bayi: 0
-// // //                         };
-// // //                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                         setFormData(updatedFormData);
-// // //                       }}
-// // //                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-// // //                     >
-// // //                       Reset
-// // //                     </button>
-// // //                     <button
-// // //                       type="button"
-// // //                       onClick={() => {
-// // //                         const currentValue = parseInt(formData.pengikut_bayi) || 0;
-// // //                         const updatedFormData = {
-// // //                           ...formData,
-// // //                           pengikut_bayi: currentValue + 5
-// // //                         };
-// // //                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// // //                         setFormData(updatedFormData);
-// // //                       }}
-// // //                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-// // //                     >
-// // //                       +5
-// // //                     </button>
-// // //                   </div>
-// // //                 </div>
-// // //               </div>
-// // //             </div>
-
-// // //             {/* Total Pengikut yang Dipercantik
-// // //             <div className="bg-gradient-to-r from-emerald-500 to-green-500 text-white rounded-2xl p-2 shadow-lg">
-// // //               <div className="text-center">
-// // //                 <div className="flex items-center justify-center space-x-2 mb-1">
-// // //                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-// // //                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-// // //                   </svg>
-// // //                   <h3 className="text-lg font-semibold">Total Pengikut</h3>
-// // //                 </div>
-// // //                 <div className="text-4xl font-bold mb-2">
-// // //                   {formData.total_pengikut} <span className="text-2xl">Orang</span>
-// // //                 </div>
-// // //               </div>
-// // //             </div> */}
-
-// // //             <button
-// // //               type="submit"
-// // //               disabled={loading}
-// // //               className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-70 mt-4"
-// // //             >
-// // //               {loading ? (
-// // //                 <span className="flex items-center justify-center">
-// // //                   <FaSpinner className="animate-spin mr-2" />
-// // //                   Memproses...
-// // //                 </span>
-// // //               ) : (
-// // //                 "💾 Simpan Perubahan"
-// // //               )}
-// // //             </button>
-// // //           </div>
-// // //         </form>
-
-// // //         <button
-// // //           onClick={() => setIsModalOpen(true)}
-// // //           className="w-full py-3 mt-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-70"
-// // //         >
-// // //           + Tambah Barang Titipan
-// // //         </button>
-
-// // //         {/* Modal CreateBarangTitipan */}
-// // //         <CreateBarangTitipanModal
-// // //           isOpen={isModalOpen}
-// // //           onClose={() => setIsModalOpen(false)}
-// // //           pengunjungs={newPengunjung}
-// // //         />
-
-// // //         <div className="mt-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
-// // //           <p className="text-blue-700 text-sm">
-// // //             <strong>Catatan:</strong> Data pengunjung telah berhasil disimpan. Anda dapat mengedit data di atas jika diperlukan, atau klik "Selesai" untuk menutup form.
-// // //           </p>
-// // //         </div>
-// // //       </div>
-
-// // //       {/* Modal untuk preview gambar besar */}
-// // //       <ImageModal
-// // //         isOpen={showModalKtp}
-// // //         onClose={() => setShowModalKtp(false)}
-// // //         imageUrl={newPengunjung.photo_ktp}
-// // //         title="Foto KTP"
-// // //       />
-      
-// // //       <ImageModal
-// // //         isOpen={showModalPengunjung}
-// // //         onClose={() => setShowModalPengunjung(false)}
-// // //         imageUrl={newPengunjung.photo_pengunjung}
-// // //         title="Foto Pengunjung"
-// // //       />
-
-// // //       <ImageModal
-// // //         isOpen={showModalBarcode}
-// // //         onClose={() => setShowModalBarcode(false)}
-// // //         imageUrl={newPengunjung.barcode}
-// // //         title="Barcode/QR Code"
-// // //       />
-
-// // //       {/* Virtual Keyboard untuk form edit - hanya untuk PC */}
-// // //       {showVirtualKeyboard && (
-// // //         <VirtualKeyboard 
-// // //           onKeyPress={handleVirtualKeyPress}
-// // //           onClose={() => setShowVirtualKeyboard(false)}
-// // //           value={keyboardValue}
-// // //           activeInput={activeInput}
-// // //           onInputChange={handleInputUpdate}
-// // //         />
-// // //       )}
-      
-// // //     </div>
-// // //   );
-// // // };
-
-// // // Komponen wrapper untuk EditPengunjungForm (TIDAK BERUBAH)
-// // const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
+// // // Komponen wrapper untuk EditPengunjungForm
+// // const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose, isKeyboardEnabled: parentKeyboardEnabled, toggleKeyboard: parentToggleKeyboard }) => {
 // //   const { updatePengunjung } = useDataStore();
 // //   const [formData, setFormData] = useState({
 // //     nama: newPengunjung.nama || "",
@@ -3719,29 +2868,46 @@
 // //   const [error, setError] = useState("");
 // //   const [isModalOpen, setIsModalOpen] = useState(false);
   
-// //   // State untuk virtual keyboard di form edit
 // //   const [showVirtualKeyboard, setShowVirtualKeyboard] = useState(false);
 // //   const [activeInput, setActiveInput] = useState(null);
 // //   const [keyboardValue, setKeyboardValue] = useState('');
   
-// //   // State untuk checkbox ambil antrian
 // //   const [ambilAntrian, setAmbilAntrian] = useState(false);
 // //   const [isAdmin, setIsAdmin] = useState(false);
 
-// //   // State untuk menandai apakah data sudah disimpan
 // //   const [isDataSaved, setIsDataSaved] = useState(false);
 
-// //   // State untuk preview gambar yang sudah diupload
 // //   const [showModalKtp, setShowModalKtp] = useState(false);
 // //   const [showModalPengunjung, setShowModalPengunjung] = useState(false);
 // //   const [showModalBarcode, setShowModalBarcode] = useState(false);
 
-// //   // State untuk deteksi perangkat
 // //   const [isPc, setIsPc] = useState(false);
 
 // //   const navigate = useNavigate();
 
-// //   // Deteksi perangkat saat komponen dimuat
+// //   // State untuk keyboard enabled di EditPengunjungFormWrapper
+// //   const [isKeyboardEnabled, setIsKeyboardEnabled] = useState(parentKeyboardEnabled !== undefined ? parentKeyboardEnabled : true);
+
+// //   // Sync dengan parent component jika prop berubah
+// //   useEffect(() => {
+// //     if (parentKeyboardEnabled !== undefined) {
+// //       setIsKeyboardEnabled(parentKeyboardEnabled);
+// //     }
+// //   }, [parentKeyboardEnabled]);
+
+// //   const toggleKeyboard = () => {
+// //     const newState = !isKeyboardEnabled;
+// //     setIsKeyboardEnabled(newState);
+// //     localStorage.setItem('virtualKeyboardEnabled', JSON.stringify(newState));
+    
+// //     // Jika ada parentToggleKeyboard, panggil juga
+// //     if (parentToggleKeyboard) {
+// //       parentToggleKeyboard();
+// //     } else {
+// //       toast.success(`Keyboard virtual ${newState ? 'diaktifkan' : 'dinonaktifkan'}`);
+// //     }
+// //   };
+
 // //   useEffect(() => {
 // //     const checkDevice = () => {
 // //       const userAgent = navigator.userAgent.toLowerCase();
@@ -3757,14 +2923,12 @@
 
 // //   const authUser = JSON.parse(localStorage.getItem('authUser'));
 
-// //   // Cek role user saat komponen dimuat
 // //   useEffect(() => {
 // //     const authUser = JSON.parse(localStorage.getItem('authUser'));
 // //     if (authUser && authUser.user && authUser.user.role === 'admin') {
 // //       setIsAdmin(true);
 // //     }
     
-// //     // Hitung total pengikut saat pertama kali komponen dimuat
 // //     const initialTotal = calculateTotalPengikut(formData);
 // //     setFormData(prev => ({
 // //       ...prev,
@@ -3772,7 +2936,6 @@
 // //     }));
 // //   }, []);
 
-// //   // Fungsi untuk memeriksa apakah ada perubahan data pengikut
 // //   const hasPengikutChanges = () => {
 // //     return (
 // //       formData.pengikut_laki_laki !== newPengunjung.pengikut_laki_laki ||
@@ -3783,7 +2946,6 @@
 // //     );
 // //   };
 
-// //   // Fungsi untuk menyimpan data pengikut
 // //   const savePengunjungData = async () => {
 // //     setLoading(true);
 // //     setError("");
@@ -3803,11 +2965,8 @@
 // //     }
 // //   };
 
-// //   // Fungsi finish yang diperbarui
 // //   const finish = async () => {
-// //     // Periksa apakah ada perubahan data pengikut yang belum disimpan
 // //     if (hasPengikutChanges() && !isDataSaved) {
-// //       // Tampilkan konfirmasi kepada pengguna
 // //       const shouldSave = window.confirm(
 // //         "Data jumlah pengikut telah berubah. Apakah Anda ingin menyimpan perubahan sebelum melanjutkan?"
 // //       );
@@ -3815,19 +2974,16 @@
 // //       if (shouldSave) {
 // //         const success = await savePengunjungData();
 // //         if (!success) {
-// //           // Jika gagal menyimpan, beri opsi untuk lanjut tanpa menyimpan
 // //           const continueAnyway = window.confirm(
 // //             "Gagal menyimpan data. Apakah Anda ingin melanjutkan tanpa menyimpan perubahan?"
 // //           );
 // //           if (!continueAnyway) {
-// //             return; // Batalkan jika user memilih tidak
+// //             return;
 // //           }
 // //         }
 // //       }
-// //       // Jika user memilih tidak menyimpan, lanjut tanpa menyimpan
 // //     }
 
-// //     // Lanjutkan dengan navigasi sesuai kondisi
 // //     if (!ambilAntrian && formData.tujuan === "Menitip barang") {
 // //       navigate(`/label/${newPengunjung.id}`);
 // //     } else if (!ambilAntrian && formData.tujuan === "Berkunjung") {
@@ -3837,7 +2993,6 @@
 // //     }
 // //   };
 
-// //   // Handler untuk virtual keyboard di form edit - hanya untuk PC
 // //   const handleVirtualKeyPress = (key) => {
 // //     if (key === 'backspace') {
 // //       setKeyboardValue(prev => prev.slice(0, -1));
@@ -3858,7 +3013,6 @@
 // //     }
 // //   };
 
-// //   // Fungsi untuk langsung update input field dari keyboard di form edit
 // //   const handleInputUpdate = (key) => {
 // //     let newValue = '';
     
@@ -3872,7 +3026,6 @@
 // //       newValue = keyboardValue + key;
 // //     }
 
-// //     // Update sesuai dengan input yang aktif
 // //     switch (activeInput) {
 // //       case 'nama':
 // //         setFormData(prev => ({ ...prev, nama: newValue }));
@@ -3897,17 +3050,14 @@
 // //     }
 // //   };
 
-// //   // Handler untuk membuka virtual keyboard dengan input tertentu di form edit - hanya untuk PC
 // //   const handleInputFocus = (inputType, currentValue = '') => {
-// //     // Hanya tampilkan virtual keyboard jika perangkat adalah PC
-// //     if (!isPc) return;
+// //     if (!isPc || !isKeyboardEnabled) return; // Cek apakah keyboard diaktifkan
     
 // //     setActiveInput(inputType);
 // //     setKeyboardValue(currentValue);
 // //     setShowVirtualKeyboard(true);
 // //   };
 
-// //   // Modal untuk preview gambar besar
 // //   const ImageModal = ({ isOpen, onClose, imageUrl, title }) => {
 // //     if (!isOpen) return null;
 
@@ -3935,7 +3085,6 @@
 // //     );
 // //   };
 
-// //   // Fungsi menghitung total pengikut
 // //   const calculateTotalPengikut = (data) => {
 // //     const total = 
 // //       parseInt(data.pengikut_laki_laki || 0) +
@@ -3952,10 +3101,8 @@
 // //       [name]: value,
 // //     };
     
-// //     // Jika field pengikut diubah, hitung total otomatis
 // //     if (name.includes('pengikut_') && name !== 'total_pengikut') {
 // //       updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-// //       // Reset status saved ketika ada perubahan data pengikut
 // //       setIsDataSaved(false);
 // //     }
     
@@ -4002,7 +3149,6 @@
 // //           </div>
 // //         )}
 
-// //         {/* Indicator status penyimpanan */}
 // //         {hasPengikutChanges() && !isDataSaved && (
 // //           <div className="mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 text-yellow-700 rounded">
 // //             <p className="flex items-center">
@@ -4013,10 +3159,7 @@
 // //         )}
 
 // //         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-1">
-// //           {/* Kolom Kanan */}
 // //           <div className="space-y-4">
-            
-// //             {/* Pengikut dengan Counter yang Dipercantik */}
 // //             <div className="space-y-4">            
 // //                <div className="flex items-center justify-between">
 // //                  <label className="block text-sm font-medium text-gray-700 flex items-center">
@@ -4448,7 +3591,6 @@
 // //           + Tambah Barang Titipan
 // //         </button>
 
-// //         {/* Modal CreateBarangTitipan */}
 // //         <CreateBarangTitipanModal
 // //           isOpen={isModalOpen}
 // //           onClose={() => setIsModalOpen(false)}
@@ -4462,7 +3604,24 @@
 // //         </div>
 // //       </div>
 
-// //       {/* Modal untuk preview gambar besar */}
+// //       {/* Floating Action Button untuk Keyboard di EditPengunjungFormWrapper */}
+// //       <button
+// //         onClick={toggleKeyboard}
+// //         className={`fixed right-6 bottom-6 z-40 group relative p-4 rounded-full shadow-2xl focus:outline-none focus:ring-4 transition-all duration-300 transform hover:scale-110 ${
+// //           isKeyboardEnabled 
+// //             ? 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-300' 
+// //             : 'bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-300'
+// //         }`}
+// //         title={`${isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual`}
+// //       >
+// //         <FaKeyboard className="w-6 h-6" />
+        
+// //         <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+// //           {isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual
+// //           <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-8 border-transparent border-l-gray-800"></div>
+// //         </div>
+// //       </button>
+
 // //       <ImageModal
 // //         isOpen={showModalKtp}
 // //         onClose={() => setShowModalKtp(false)}
@@ -4484,8 +3643,8 @@
 // //         title="Barcode/QR Code"
 // //       />
 
-// //       {/* Virtual Keyboard untuk form edit - hanya untuk PC */}
-// //       {showVirtualKeyboard && (
+// //       {/* Virtual Keyboard - hanya muncul jika diaktifkan */}
+// //       {showVirtualKeyboard && isKeyboardEnabled && (
 // //         <VirtualKeyboard 
 // //           onKeyPress={handleVirtualKeyPress}
 // //           onClose={() => setShowVirtualKeyboard(false)}
@@ -4507,7 +3666,7 @@
 // import React, { useState, useEffect, useRef } from "react";
 // import { toast } from "react-hot-toast";
 // import useDataStore from "../../store/useDataStore";
-// import { FaUser, FaIdCard, FaPhone, FaHome, FaVenusMars, FaQrcode, FaUpload, FaSpinner, FaHome as FaHomeIcon, FaTimes, FaEye, FaCamera, FaBarcode, FaSearch, FaKeyboard, FaPrint, FaInfoCircle } from "react-icons/fa";
+// import { FaUser, FaIdCard, FaPhone, FaHome, FaVenusMars, FaQrcode, FaUpload, FaSpinner, FaHome as FaHomeIcon, FaTimes, FaEye, FaCamera, FaBarcode, FaSearch, FaKeyboard, FaPrint, FaInfoCircle, FaEdit, FaCheck, FaArrowLeft } from "react-icons/fa";
 // import { Link, useNavigate } from "react-router-dom";
 // import { User } from "lucide-react";
 // import CreateBarangTitipanModal from "../UpdatePengunjung/CreateBarangTitipanModal";
@@ -4632,6 +3791,497 @@
 //   };
 // };
 
+// // Komponen Search Section
+// const SearchSection = ({ 
+//   onSelectPengunjung, 
+//   onUseForNewVisit,
+//   pengunjungs 
+// }) => {
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [searchTujuan, setSearchTujuan] = useState("");
+//   const [searchResults, setSearchResults] = useState([]);
+//   const [selectedPengunjung, setSelectedPengunjung] = useState(null);
+//   const [showDetailModal, setShowDetailModal] = useState(false);
+//   const [isSearching, setIsSearching] = useState(false);
+
+//   // Filter data berdasarkan query dan tujuan
+//   const performSearch = () => {
+//     if (!searchQuery.trim()) {
+//       setSearchResults([]);
+//       return;
+//     }
+
+//     setIsSearching(true);
+    
+//     const filtered = pengunjungs.filter(pengunjung => {
+//       const matchesQuery = 
+//         pengunjung.nama?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+//         pengunjung.kode?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+//         pengunjung.nik?.includes(searchQuery);
+      
+//       const matchesTujuan = !searchTujuan || pengunjung.tujuan === searchTujuan;
+      
+//       return matchesQuery && matchesTujuan;
+//     });
+
+//     setSearchResults(filtered);
+//     setIsSearching(false);
+//   };
+
+//   // Reset search
+//   const resetSearch = () => {
+//     setSearchQuery("");
+//     setSearchTujuan("");
+//     setSearchResults([]);
+//   };
+
+//   // Handle select pengunjung untuk detail
+//   const handleSelectPengunjung = (pengunjung) => {
+//     setSelectedPengunjung(pengunjung);
+//     setShowDetailModal(true);
+//   };
+
+//   // Handle use data untuk kunjungan baru
+//   const handleUseData = () => {
+//     if (selectedPengunjung) {
+//       onUseForNewVisit(selectedPengunjung);
+//       setShowDetailModal(false);
+//       resetSearch();
+//     }
+//   };
+
+//   return (
+//     <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border-2 border-blue-200 shadow-lg">
+//       <div className="flex items-center justify-between mb-4">
+//         <h3 className="text-xl font-bold text-gray-800 flex items-center">
+//           <FaSearch className="mr-3 text-blue-600" />
+//           Cari Data Pengunjung Sebelumnya
+//         </h3>
+//         <button
+//           onClick={resetSearch}
+//           className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm"
+//         >
+//           Reset
+//         </button>
+//       </div>
+
+//       {/* Search Input dan Filter */}
+//       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+//         <div className="md:col-span-2">
+//           <label className="block text-sm font-medium text-gray-700 mb-2">
+//             Cari berdasarkan Nama atau Kode
+//           </label>
+//           <div className="relative">
+//             <input
+//               type="text"
+//               value={searchQuery}
+//               onChange={(e) => setSearchQuery(e.target.value)}
+//               placeholder="Masukkan nama pengunjung atau kode..."
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//               onKeyPress={(e) => e.key === 'Enter' && performSearch()}
+//             />
+//             <button
+//               onClick={performSearch}
+//               className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors"
+//             >
+//               <FaSearch className="w-4 h-4" />
+//             </button>
+//           </div>
+//         </div>
+
+//         <div>
+//           <label className="block text-sm font-medium text-gray-700 mb-2">
+//             Filter Tujuan
+//           </label>
+//           <select
+//             value={searchTujuan}
+//             onChange={(e) => setSearchTujuan(e.target.value)}
+//             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//           >
+//             <option value="">Semua Tujuan</option>
+//             <option value="Berkunjung">Berkunjung</option>
+//             <option value="Menitip barang">Menitip Barang</option>
+//           </select>
+//         </div>
+//       </div>
+
+//       {/* Search Results */}
+//       {isSearching && (
+//         <div className="text-center py-8">
+//           <FaSpinner className="animate-spin mx-auto text-blue-500 text-2xl mb-2" />
+//           <p className="text-gray-600">Mencari data pengunjung...</p>
+//         </div>
+//       )}
+
+//       {searchResults.length > 0 && (
+//         <div className="mb-4">
+//           <div className="flex justify-between items-center mb-3">
+//             <p className="text-sm text-gray-600">
+//               Ditemukan {searchResults.length} data pengunjung
+//             </p>
+//           </div>
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto p-2">
+//             {searchResults.map((pengunjung, index) => (
+//               <div
+//                 key={pengunjung.id || index}
+//                 onClick={() => handleSelectPengunjung(pengunjung)}
+//                 className="bg-white rounded-xl border-2 border-gray-200 hover:border-blue-400 hover:shadow-lg transition-all duration-300 cursor-pointer p-4"
+//               >
+//                 <div className="flex items-start space-x-3">
+//                   {/* Foto Pengunjung */}
+//                   <div className="flex-shrink-0">
+//                     {pengunjung.photo_pengunjung ? (
+//                       <img
+//                         src={pengunjung.photo_pengunjung}
+//                         alt={pengunjung.nama}
+//                         className="w-16 h-16 rounded-lg object-cover border-2 border-gray-300"
+//                       />
+//                     ) : (
+//                       <div className="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center border-2 border-gray-300">
+//                         <FaUser className="text-gray-400 text-xl" />
+//                       </div>
+//                     )}
+//                   </div>
+
+//                   {/* Info Pengunjung */}
+//                   <div className="flex-1 min-w-0">
+//                     <h4 className="font-semibold text-gray-800 truncate">
+//                       {pengunjung.nama}
+//                     </h4>
+//                     <div className="space-y-1 mt-2">
+//                       <div className="flex items-center text-sm text-gray-600">
+//                         <FaUser className="mr-2 text-green-500" />
+//                         <span className="truncate">
+//                           {pengunjung.warga_binaan?.nama || 'Tidak ada WBP'}
+//                         </span>
+//                       </div>
+//                       <div className="flex items-center text-sm text-gray-600">
+//                         <FaQrcode className="mr-2 text-blue-500" />
+//                         <span>Kode: {pengunjung.kode}</span>
+//                       </div>
+//                       <div className="flex items-center text-sm">
+//                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+//                           pengunjung.tujuan === 'Berkunjung' 
+//                             ? 'bg-green-100 text-green-800' 
+//                             : 'bg-orange-100 text-orange-800'
+//                         }`}>
+//                           {pengunjung.tujuan}
+//                         </span>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       )}
+
+//       {searchQuery && searchResults.length === 0 && !isSearching && (
+//         <div className="text-center py-8 bg-white rounded-lg border-2 border-dashed border-gray-300">
+//           <FaSearch className="mx-auto text-gray-400 text-3xl mb-3" />
+//           <p className="text-gray-600">Tidak ditemukan data pengunjung</p>
+//           <p className="text-sm text-gray-500 mt-1">
+//             Coba dengan kata kunci lain atau ubah filter tujuan
+//           </p>
+//         </div>
+//       )}
+
+//       {/* Detail Modal */}
+//       {showDetailModal && selectedPengunjung && (
+//         <DetailModal
+//           pengunjung={selectedPengunjung}
+//           onClose={() => setShowDetailModal(false)}
+//           onUse={handleUseData}
+//         />
+//       )}
+//     </div>
+//   );
+// };
+
+// // Komponen Detail Modal
+// const DetailModal = ({ pengunjung, onClose, onUse }) => {
+//   const [editData, setEditData] = useState({
+//     nama: pengunjung.nama || "",
+//     nik: pengunjung.nik || "",
+//     hp: pengunjung.hp || "",
+//     alamat: pengunjung.alamat || "",
+//     hubungan_keluarga: pengunjung.hubungan_keluarga || "",
+//     tujuan: pengunjung.tujuan || "Berkunjung",
+//   });
+
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     setEditData(prev => ({
+//       ...prev,
+//       [name]: value
+//     }));
+//   };
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     onUse();
+//   };
+
+//   return (
+//     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+//       <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+//         {/* Header */}
+//         <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
+//           <div className="flex justify-between items-center">
+//             <div className="flex items-center space-x-3">
+//               <FaUser className="w-8 h-8" />
+//               <div>
+//                 <h2 className="text-2xl font-bold">Detail Pengunjung</h2>
+//                 <p className="text-blue-100">Edit data sebelum digunakan</p>
+//               </div>
+//             </div>
+//             <button
+//               onClick={onClose}
+//               className="p-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-colors"
+//             >
+//               <FaTimes className="w-6 h-6" />
+//             </button>
+//           </div>
+//         </div>
+
+//         {/* Content */}
+//         <div className="p-6 overflow-y-auto max-h-[60vh]">
+//           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+//             {/* Foto Section */}
+//             <div className="lg:col-span-1">
+//               <div className="bg-gray-50 rounded-xl p-4 border-2 border-gray-200">
+//                 <h3 className="font-semibold text-gray-800 mb-3 flex items-center">
+//                   <FaCamera className="mr-2 text-blue-500" />
+//                   Foto Pengunjung
+//                 </h3>
+//                 {pengunjung.photo_pengunjung ? (
+//                   <div className="text-center">
+//                     <img
+//                       src={pengunjung.photo_pengunjung}
+//                       alt={pengunjung.nama}
+//                       className="w-32 h-32 rounded-lg object-cover mx-auto border-2 border-gray-300"
+//                     />
+//                     <p className="text-sm text-gray-600 mt-2">Foto tersedia</p>
+//                   </div>
+//                 ) : (
+//                   <div className="text-center py-8">
+//                     <div className="w-32 h-32 rounded-lg bg-gray-200 flex items-center justify-center mx-auto border-2 border-dashed border-gray-300">
+//                       <FaUser className="text-gray-400 text-3xl" />
+//                     </div>
+//                     <p className="text-sm text-gray-500 mt-2">Tidak ada foto</p>
+//                   </div>
+//                 )}
+//               </div>
+
+//               {/* Info WBP */}
+//               {pengunjung.warga_binaan && (
+//                 <div className="bg-green-50 rounded-xl p-4 border-2 border-green-200 mt-4">
+//                   <h3 className="font-semibold text-green-800 mb-2 flex items-center">
+//                     <FaUser className="mr-2 text-green-600" />
+//                     Warga Binaan
+//                   </h3>
+//                   <div className="space-y-2 text-sm">
+//                     <div>
+//                       <span className="font-medium text-gray-700">Nama:</span>
+//                       <p className="text-gray-800">{pengunjung.warga_binaan.nama}</p>
+//                     </div>
+//                     <div>
+//                       <span className="font-medium text-gray-700">ID:</span>
+//                       <p className="text-gray-800">{pengunjung.warga_binaan.id}</p>
+//                     </div>
+//                   </div>
+//                 </div>
+//               )}
+//             </div>
+
+//             {/* Form Edit Section */}
+//             <div className="lg:col-span-2">
+//               <form onSubmit={handleSubmit} className="space-y-4">
+//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       Nama Pengunjung *
+//                     </label>
+//                     <input
+//                       type="text"
+//                       name="nama"
+//                       value={editData.nama}
+//                       onChange={handleInputChange}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//                       required
+//                     />
+//                   </div>
+
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       NIK *
+//                     </label>
+//                     <input
+//                       type="text"
+//                       name="nik"
+//                       value={editData.nik}
+//                       onChange={handleInputChange}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//                       required
+//                     />
+//                   </div>
+
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       Nomor HP *
+//                     </label>
+//                     <input
+//                       type="tel"
+//                       name="hp"
+//                       value={editData.hp}
+//                       onChange={handleInputChange}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//                       required
+//                     />
+//                   </div>
+
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       Hubungan Keluarga *
+//                     </label>
+//                     <input
+//                       type="text"
+//                       name="hubungan_keluarga"
+//                       value={editData.hubungan_keluarga}
+//                       onChange={handleInputChange}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//                       required
+//                     />
+//                   </div>
+
+//                   <div className="md:col-span-2">
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       Alamat *
+//                     </label>
+//                     <textarea
+//                       name="alamat"
+//                       value={editData.alamat}
+//                       onChange={handleInputChange}
+//                       rows="3"
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+//                       required
+//                     />
+//                   </div>
+
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       Tujuan Kunjungan *
+//                     </label>
+//                     <select
+//                       name="tujuan"
+//                       value={editData.tujuan}
+//                       onChange={handleInputChange}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//                     >
+//                       <option value="Berkunjung">Berkunjung</option>
+//                       <option value="Menitip barang">Menitip Barang</option>
+//                     </select>
+//                   </div>
+
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       Kode Pengunjung
+//                     </label>
+//                     <input
+//                       type="text"
+//                       value={pengunjung.kode || ""}
+//                       readOnly
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-600"
+//                     />
+//                   </div>
+//                 </div>
+
+//                 {/* Info Tambahan */}
+//                 <div className="bg-blue-50 rounded-xl p-4 border-2 border-blue-200">
+//                   <h4 className="font-semibold text-blue-800 mb-2 flex items-center">
+//                     <FaInfoCircle className="mr-2" />
+//                     Informasi
+//                   </h4>
+//                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+//                     <div>
+//                       <span className="font-medium text-gray-700">Tanggal Dibuat:</span>
+//                       <p className="text-gray-600">
+//                         {new Date(pengunjung.createdAt).toLocaleDateString('id-ID')}
+//                       </p>
+//                     </div>
+//                     <div>
+//                       <span className="font-medium text-gray-700">Status:</span>
+//                       <p className={`font-medium ${
+//                         pengunjung.status === 'Valid, Divalidasi Oleh P2U' 
+//                           ? 'text-green-600' 
+//                           : 'text-yellow-600'
+//                       }`}>
+//                         {pengunjung.status || 'Tidak Valid'}
+//                       </p>
+//                     </div>
+//                     <div>
+//                       <span className="font-medium text-gray-700">Antrian:</span>
+//                       <p className="text-gray-600">{pengunjung.antrian || '-'}</p>
+//                     </div>
+//                     <div>
+//                       <span className="font-medium text-gray-700">Total Pengikut:</span>
+//                       <p className="text-gray-600">{pengunjung.total_pengikut || 0}</p>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </form>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Footer */}
+//         <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
+//           <div className="flex justify-between items-center">
+//             <button
+//               type="button"
+//               onClick={onClose}
+//               className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors flex items-center"
+//             >
+//               <FaTimes className="mr-2" />
+//               Batal
+//             </button>
+            
+//             <div className="flex space-x-3">
+//               <button
+//                 type="button"
+//                 onClick={() => {
+//                   setEditData({
+//                     nama: pengunjung.nama || "",
+//                     nik: pengunjung.nik || "",
+//                     hp: pengunjung.hp || "",
+//                     alamat: pengunjung.alamat || "",
+//                     hubungan_keluarga: pengunjung.hubungan_keluarga || "",
+//                     tujuan: pengunjung.tujuan || "Berkunjung",
+//                   });
+//                 }}
+//                 className="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors flex items-center"
+//               >
+//                 <FaArrowLeft className="mr-2" />
+//                 Reset
+//               </button>
+              
+//               <button
+//                 type="button"
+//                 onClick={onUse}
+//                 className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center"
+//               >
+//                 <FaCheck className="mr-2" />
+//                 Gunakan Data
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
 // // Komponen BarcodeScanner untuk AddPengunjungForm
 // const BarcodeScanner = ({ onScan, onClose }) => {
 //   useEffect(() => {
@@ -4754,6 +4404,7 @@
 //   );
 // };
 
+// // Virtual Keyboard Component (tetap sama seperti sebelumnya)
 // const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChange, onEnter }) => {
 //   const [isShift, setIsShift] = useState(false);
 //   const [isSymbol, setIsSymbol] = useState(false);
@@ -5171,7 +4822,7 @@
 //   );
 // };
 
-// // Komponen untuk Print Antrian
+// // Komponen untuk Print Antrian (tetap sama)
 // const PrintAntrian = ({ pengunjung, antrian, onClose }) => {
 //   const printRef = useRef();
 //   const [selectedPrinter, setSelectedPrinter] = useState('default');
@@ -5376,10 +5027,36 @@
 //   );
 // };
 
-// // Komponen FloatingActionButtons yang diperbaiki
-// const FloatingActionButtons = ({ onCheckData, onScrollUp, onScrollDown, isExpanded, onToggleExpand }) => {
+// // Komponen FloatingActionButtons (tetap sama)
+// const FloatingActionButtons = ({ 
+//   onCheckData, 
+//   onScrollUp, 
+//   onScrollDown, 
+//   isExpanded, 
+//   onToggleExpand,
+//   onToggleKeyboard,
+//   isKeyboardEnabled 
+// }) => {
 //   return (
 //     <div className="fixed right-6 bottom-6 z-40 flex flex-col items-end space-y-3">
+//       {/* Tombol untuk toggle keyboard */}
+//       <button
+//         onClick={onToggleKeyboard}
+//         className={`group relative p-4 rounded-full shadow-2xl focus:outline-none focus:ring-4 transition-all duration-300 transform hover:scale-110 ${
+//           isKeyboardEnabled 
+//             ? 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-300' 
+//             : 'bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-300'
+//         }`}
+//         title={`${isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual`}
+//       >
+//         <FaKeyboard className="w-6 h-6" />
+        
+//         <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+//           {isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual
+//           <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-8 border-transparent border-l-gray-800"></div>
+//         </div>
+//       </button>
+
 //       <button
 //         onClick={onCheckData}
 //         className="group relative bg-gradient-to-r from-yellow-500 to-orange-500 text-white p-4 rounded-full shadow-2xl hover:from-yellow-600 hover:to-orange-600 focus:outline-none focus:ring-4 focus:ring-yellow-300 transition-all duration-300 transform hover:scale-110 animate-pulse"
@@ -5432,6 +5109,7 @@
 //   );
 // };
 
+// // Komponen utama AddPengunjungForm dengan integrasi SearchSection
 // const AddPengunjungForm = ({ onClose }) => {
 //   const { createPengunjung, createDataPengunjung, fetchWbpList, wbpList, updatePengunjung, fetchPengunjungData, pengunjungData, updateAntrian, fetchPengunjung, pengunjungs } = useDataStore();
 //   const [formData, setFormData] = useState({
@@ -5504,12 +5182,52 @@
 //   const [showPrintDialog, setShowPrintDialog] = useState(false);
 //   const [printData, setPrintData] = useState(null);
 
+//   // State untuk toggle keyboard
+//   const [isKeyboardEnabled, setIsKeyboardEnabled] = useState(true);
+
 //   const navigate = useNavigate();
 //   const authUser = JSON.parse(localStorage.getItem('authUser'));
 //   const [isExpanded, setIsExpanded] = useState(true);
   
 //   // Ref untuk form container
 //   const formContainerRef = useRef(null);
+
+//   // Load keyboard preference dari localStorage saat komponen dimount
+//   useEffect(() => {
+//     const savedKeyboardPreference = localStorage.getItem('virtualKeyboardEnabled');
+//     if (savedKeyboardPreference !== null) {
+//       setIsKeyboardEnabled(JSON.parse(savedKeyboardPreference));
+//     }
+//   }, []);
+
+//   // Simpan keyboard preference ke localStorage saat berubah
+//   const toggleKeyboard = () => {
+//     const newState = !isKeyboardEnabled;
+//     setIsKeyboardEnabled(newState);
+//     localStorage.setItem('virtualKeyboardEnabled', JSON.stringify(newState));
+//     toast.success(`Keyboard virtual ${newState ? 'diaktifkan' : 'dinonaktifkan'}`);
+//   };
+
+//   // Fungsi untuk menggunakan data dari pencarian
+//   const handleUseDataForNewVisit = (pengunjungData) => {
+//     setFormData({
+//       ...formData,
+//       nama: pengunjungData.nama || "",
+//       nik: pengunjungData.nik || "",
+//       alamat: pengunjungData.alamat || "",
+//       hp: pengunjungData.hp || "",
+//       jenis_kelamin: pengunjungData.jenis_kelamin || "",
+//       hubungan_keluarga: pengunjungData.hubungan_keluarga || "",
+//       tujuan: pengunjungData.tujuan || "Berkunjung",
+//       wbp_id: pengunjungData.wbp_id || "",
+//     });
+
+//     if (pengunjungData.warga_binaan) {
+//       setSearchWbp(pengunjungData.warga_binaan.nama);
+//     }
+
+//     toast.success(`Data ${pengunjungData.nama} berhasil dimuat!`);
+//   };
 
 //   // Fungsi untuk validasi kunjungan yang diperbaiki
 //   const validateKunjungan = () => {
@@ -5664,7 +5382,7 @@
 //           setTimeout(() => {
 //             element.focus();
             
-//             if (isPc && !isSelect && !isFile) {
+//             if (isPc && !isSelect && !isFile && isKeyboardEnabled) {
 //               let inputType = fieldName;
 //               let currentValue = '';
               
@@ -6035,19 +5753,49 @@
 //     return total;
 //   };
 
-//   const handleInputChange = (e) => {
-//     const { name, value } = e.target;
-//     const updatedFormData = {
-//       ...formData,
-//       [name]: value,
-//     };
+//   // Tambahkan fungsi generateNIK di dalam komponen AddPengunjungForm (setelah deklarasi state)
+// const generateNIK = () => {
+//   // Generate 16 digit random number untuk NIK
+//   const randomNIK = Math.random().toString().substring(2, 18).padEnd(16, '0');
+//   return randomNIK;
+// };
+
+// // Modifikasi handleInputChange untuk validasi NIK
+// const handleInputChange = (e) => {
+//   const { name, value } = e.target;
+  
+//   // Validasi khusus untuk field NIK
+//   if (name === 'nik') {
+//     // Hanya allow angka dan karakter '-'
+//     const cleanedValue = value.replace(/[^\d-]/g, '');
     
-//     if (name.includes('pengikut_') && name !== 'total_pengikut') {
-//       updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//     // Jika value hanya mengandung '-' atau '0', kosongkan
+//     if (cleanedValue === '-' || cleanedValue === '0') {
+//       setFormData(prev => ({
+//         ...prev,
+//         [name]: ''
+//       }));
+//       return;
 //     }
     
-//     setFormData(updatedFormData);
+//     setFormData(prev => ({
+//       ...prev,
+//       [name]: cleanedValue
+//     }));
+//     return;
+//   }
+  
+//   const updatedFormData = {
+//     ...formData,
+//     [name]: value,
 //   };
+  
+//   if (name.includes('pengikut_') && name !== 'total_pengikut') {
+//     updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//   }
+  
+//   setFormData(updatedFormData);
+// };
 
 //   // Fungsi untuk langsung update input field dari keyboard
 //   const handleInputUpdate = (key) => {
@@ -6101,7 +5849,7 @@
 
 //   // Handler untuk membuka virtual keyboard dengan input tertentu
 //   const handleInputFocus = (inputType, currentValue = '') => {
-//     if (!isPc) return;
+//     if (!isPc || !isKeyboardEnabled) return; // Cek apakah keyboard diaktifkan
     
 //     setActiveInput(inputType);
 //     setKeyboardValue(currentValue);
@@ -6480,6 +6228,8 @@
 //           setAntrian(null);
 //         }}
 //         onClose={onClose}
+//         isKeyboardEnabled={isKeyboardEnabled}
+//         toggleKeyboard={toggleKeyboard}
 //       />
 //     );
 //   }
@@ -6546,7 +6296,7 @@
 
 //   return (
 //     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-purple-50 p-6">
-//       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all hover:scale-105">
+//       <div className="w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all hover:scale-105">
 //         {/* Header */}
 //         <div className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
 //           <div className="w-full">
@@ -6563,8 +6313,15 @@
 //           </p>
 //         </div>
 
-//         {/* Form */}
+//         {/* Content */}
 //         <div className="p-8">
+//           {/* Search Section */}
+//           <SearchSection 
+//             onSelectPengunjung={selectPengunjung}
+//             onUseForNewVisit={handleUseDataForNewVisit}
+//             pengunjungs={pengunjungs || []}
+//           />
+
 //           {error && (
 //             <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700">
 //               {error}
@@ -7195,6 +6952,8 @@
 //         onScrollDown={scrollToBottom}
 //         isExpanded={isExpanded}
 //         onToggleExpand={toggleExpand}
+//         onToggleKeyboard={toggleKeyboard}
+//         isKeyboardEnabled={isKeyboardEnabled}
 //       />
 
 //       {/* Modal untuk preview gambar besar */}
@@ -7235,8 +6994,8 @@
 //         title="Scan Barcode WBP"
 //       />
 
-//       {/* Virtual Keyboard */}
-//       {showVirtualKeyboard && (
+//       {/* Virtual Keyboard - hanya muncul jika diaktifkan */}
+//       {showVirtualKeyboard && isKeyboardEnabled && (
 //         <VirtualKeyboard 
 //           onKeyPress={handleVirtualKeyPress}
 //           onClose={() => setShowVirtualKeyboard(false)}
@@ -7259,8 +7018,8 @@
 //   );
 // };
 
-// // Komponen wrapper untuk EditPengunjungForm
-// const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose }) => {
+// // Komponen wrapper untuk EditPengunjungForm (tetap sama seperti sebelumnya)
+// const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose, isKeyboardEnabled: parentKeyboardEnabled, toggleKeyboard: parentToggleKeyboard }) => {
 //   const { updatePengunjung } = useDataStore();
 //   const [formData, setFormData] = useState({
 //     nama: newPengunjung.nama || "",
@@ -7297,6 +7056,29 @@
 //   const [isPc, setIsPc] = useState(false);
 
 //   const navigate = useNavigate();
+
+//   // State untuk keyboard enabled di EditPengunjungFormWrapper
+//   const [isKeyboardEnabled, setIsKeyboardEnabled] = useState(parentKeyboardEnabled !== undefined ? parentKeyboardEnabled : true);
+
+//   // Sync dengan parent component jika prop berubah
+//   useEffect(() => {
+//     if (parentKeyboardEnabled !== undefined) {
+//       setIsKeyboardEnabled(parentKeyboardEnabled);
+//     }
+//   }, [parentKeyboardEnabled]);
+
+//   const toggleKeyboard = () => {
+//     const newState = !isKeyboardEnabled;
+//     setIsKeyboardEnabled(newState);
+//     localStorage.setItem('virtualKeyboardEnabled', JSON.stringify(newState));
+    
+//     // Jika ada parentToggleKeyboard, panggil juga
+//     if (parentToggleKeyboard) {
+//       parentToggleKeyboard();
+//     } else {
+//       toast.success(`Keyboard virtual ${newState ? 'diaktifkan' : 'dinonaktifkan'}`);
+//     }
+//   };
 
 //   useEffect(() => {
 //     const checkDevice = () => {
@@ -7441,7 +7223,7 @@
 //   };
 
 //   const handleInputFocus = (inputType, currentValue = '') => {
-//     if (!isPc) return;
+//     if (!isPc || !isKeyboardEnabled) return; // Cek apakah keyboard diaktifkan
     
 //     setActiveInput(inputType);
 //     setKeyboardValue(currentValue);
@@ -7554,7 +7336,7 @@
 //                <div className="flex items-center justify-between">
 //                  <label className="block text-sm font-medium text-gray-700 flex items-center">
 //                    <svg className="w-4 h-4 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+//                      <path strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
 //                    </svg>
 //                    Jumlah Pengikut
 //                  </label>
@@ -7994,6 +7776,24 @@
 //         </div>
 //       </div>
 
+//       {/* Floating Action Button untuk Keyboard di EditPengunjungFormWrapper */}
+//       <button
+//         onClick={toggleKeyboard}
+//         className={`fixed right-6 bottom-6 z-40 group relative p-4 rounded-full shadow-2xl focus:outline-none focus:ring-4 transition-all duration-300 transform hover:scale-110 ${
+//           isKeyboardEnabled 
+//             ? 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-300' 
+//             : 'bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-300'
+//         }`}
+//         title={`${isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual`}
+//       >
+//         <FaKeyboard className="w-6 h-6" />
+        
+//         <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+//           {isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual
+//           <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-8 border-transparent border-l-gray-800"></div>
+//         </div>
+//       </button>
+
 //       <ImageModal
 //         isOpen={showModalKtp}
 //         onClose={() => setShowModalKtp(false)}
@@ -8015,7 +7815,8 @@
 //         title="Barcode/QR Code"
 //       />
 
-//       {showVirtualKeyboard && (
+//       {/* Virtual Keyboard - hanya muncul jika diaktifkan */}
+//       {showVirtualKeyboard && isKeyboardEnabled && (
 //         <VirtualKeyboard 
 //           onKeyPress={handleVirtualKeyPress}
 //           onClose={() => setShowVirtualKeyboard(false)}
@@ -8032,40 +7833,47 @@
 // export default AddPengunjungForm;
 
 
-
-
 import React, { useState, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import useDataStore from "../../store/useDataStore";
-import { FaUser, FaIdCard, FaPhone, FaHome, FaVenusMars, FaQrcode, FaUpload, FaSpinner, FaHome as FaHomeIcon, FaTimes, FaEye, FaCamera, FaBarcode, FaSearch, FaKeyboard, FaPrint, FaInfoCircle } from "react-icons/fa";
+import { FaUser, FaIdCard, FaPhone, FaHome, FaVenusMars, FaQrcode, FaUpload, FaSpinner, FaHome as FaHomeIcon, FaTimes, FaEye, FaCamera, FaBarcode, FaSearch, FaKeyboard, FaPrint, FaInfoCircle, FaEdit, FaCheck, FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "lucide-react";
 import CreateBarangTitipanModal from "../UpdatePengunjung/CreateBarangTitipanModal";
-import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
+// import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
+// import { useSpeechToText } from "./hooks";
+import VoiceToTextButton from "./VoiceToTextButton";
+import SearchSection from "./SearchSection";
+import BarcodeScanner from "./BarcodeScanner";
+import VirtualKeyboard from "./VirtualKeyboard";
+import PrintAntrian from "./PrintAntrian";
+import FloatingActionButtons from "./FloatingActionButtons";
+import EditPengunjungFormWrapper from "./EditPengunjungFormWrapper";
+import ScannerModal from "./ScannerModal";
 
-// Komponen VoiceToTextButton yang reusable
-const VoiceToTextButton = ({ 
-  onTranscript, 
-  onStart, 
-  onStop, 
-  isListening,
-  className = "" 
-}) => {
-  return (
-    <button
-      type="button"
-      onClick={isListening ? onStop : onStart}
-      className={`p-2 rounded-full transition-all duration-300 ${
-        isListening 
-          ? 'bg-red-500 text-white animate-pulse' 
-          : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-      } ${className}`}
-      title={isListening ? "Menghentikan rekaman" : "Mulai rekaman suara"}
-    >
-      {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}
-    </button>
-  );
-};
+// // Komponen VoiceToTextButton yang reusable
+// const VoiceToTextButton = ({ 
+//   onTranscript, 
+//   onStart, 
+//   onStop, 
+//   isListening,
+//   className = "" 
+// }) => {
+//   return (
+//     <button
+//       type="button"
+//       onClick={isListening ? onStop : onStart}
+//       className={`p-2 rounded-full transition-all duration-300 ${
+//         isListening 
+//           ? 'bg-red-500 text-white animate-pulse' 
+//           : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+//       } ${className}`}
+//       title={isListening ? "Menghentikan rekaman" : "Mulai rekaman suara"}
+//     >
+//       {isListening ? <FaMicrophoneSlash /> : <FaMicrophone />}
+//     </button>
+//   );
+// };
 
 // Custom hook untuk speech recognition
 const useSpeechToText = () => {
@@ -8162,834 +7970,1527 @@ const useSpeechToText = () => {
   };
 };
 
-// Komponen BarcodeScanner untuk AddPengunjungForm
-const BarcodeScanner = ({ onScan, onClose }) => {
-  useEffect(() => {
-    // Dynamically import html5-qrcode
-    import('html5-qrcode').then(({ Html5QrcodeScanner }) => {
-      const scanner = new Html5QrcodeScanner('qr-reader', {
-        qrbox: {
-          width: 250,
-          height: 250,
-        },
-        fps: 10,
-        rememberLastUsedCamera: true,
-        supportedScanTypes: null,
-      });
+// // Komponen Search Section yang Diperbarui
+// const SearchSection = ({ 
+//   onSelectPengunjung, 
+//   onUseForNewVisit,
+//   pengunjungs 
+// }) => {
+//   const { searchAllPengunjung } = useDataStore();
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [searchType, setSearchType] = useState("nama"); // 'nama', 'kode', 'id'
+//   const [searchTujuan, setSearchTujuan] = useState("");
+//   const [searchResults, setSearchResults] = useState([]);
+//   const [selectedPengunjung, setSelectedPengunjung] = useState(null);
+//   const [showDetailModal, setShowDetailModal] = useState(false);
+//   const [isSearching, setIsSearching] = useState(false);
 
-      let isScanning = true;
+//   // Fungsi pencarian yang menggunakan backend
+//   const performSearch = async () => {
+//     if (!searchQuery.trim()) {
+//       setSearchResults([]);
+//       return;
+//     }
 
-      const onScanSuccess = (decodedText) => {
-        if (isScanning) {
-          onScan(decodedText);
-          scanner.clear().then(() => {
-            console.log("Scanner cleared successfully");
-          }).catch((err) => {
-            console.warn("Error clearing scanner:", err);
-          });
-          onClose();
-          isScanning = false;
-        }
-      };
+//     setIsSearching(true);
+    
+//     try {
+//       let query = searchQuery;
+      
+//       // Jika tipe pencarian adalah ID, pastikan formatnya benar
+//       if (searchType === 'id') {
+//         query = searchQuery.replace(/\D/g, ''); // Hanya angka
+//       }
+      
+//       // Jika tipe pencarian adalah kode, uppercase
+//       if (searchType === 'kode') {
+//         query = searchQuery.toUpperCase();
+//       }
+      
+//       const results = await searchAllPengunjung(query);
+      
+//       // Filter tambahan berdasarkan tujuan jika dipilih
+//       let filteredResults = results;
+//       if (searchTujuan) {
+//         filteredResults = results.filter(pengunjung => 
+//           pengunjung.tujuan === searchTujuan
+//         );
+//       }
+      
+//       setSearchResults(filteredResults);
+//     } catch (error) {
+//       console.error("Error searching pengunjung:", error);
+//       toast.error("Gagal melakukan pencarian");
+//       setSearchResults([]);
+//     } finally {
+//       setIsSearching(false);
+//     }
+//   };
 
-      const onScanError = (error) => {
-        if (error && !error.message?.includes('NotFoundException')) {
-          console.warn("Scan error:", error);
-        }
-      };
+//   // Reset search
+//   const resetSearch = () => {
+//     setSearchQuery("");
+//     setSearchType("nama");
+//     setSearchTujuan("");
+//     setSearchResults([]);
+//   };
 
-      setTimeout(() => {
-        if (isScanning) {
-          scanner.render(onScanSuccess, onScanError);
-        }
-      }, 100);
+//   // Handle select pengunjung untuk detail
+//   const handleSelectPengunjung = (pengunjung) => {
+//     setSelectedPengunjung(pengunjung);
+//     setShowDetailModal(true);
+//   };
 
-      return () => {
-        isScanning = false;
-        setTimeout(() => {
-          scanner.clear().catch((err) => {
-            console.warn("Error in cleanup:", err);
-          });
-        }, 100);
-      };
-    }).catch((error) => {
-      console.error("Failed to load html5-qrcode:", error);
-      onClose();
-    });
+//   // Handle use data untuk kunjungan baru
+//   const handleUseData = () => {
+//     if (selectedPengunjung) {
+//       onUseForNewVisit(selectedPengunjung);
+//       setShowDetailModal(false);
+//       resetSearch();
+//     }
+//   };
 
-  }, [onScan, onClose]);
+//   return (
+//     <div className="mb-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl border-2 border-blue-200 shadow-lg">
+//       <div className="flex items-center justify-between mb-4">
+//         <h3 className="text-xl font-bold text-gray-800 flex items-center">
+//           <FaSearch className="mr-3 text-blue-600" />
+//           Cari Data Pengunjung Sebelumnya
+//         </h3>
+//         <button
+//           onClick={resetSearch}
+//           className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors text-sm"
+//         >
+//           Reset
+//         </button>
+//       </div>
 
-  return (
-    <div className="text-center">
-      <div className="mb-4">
-        <p className="text-gray-600">Arahkan kamera ke barcode</p>
-      </div>
-      <div id="qr-reader" className="mx-auto" style={{ width: '100%', maxWidth: '300px' }}></div>
-      <button 
-        onClick={onClose}
-        className="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
-      >
-        Tutup Scanner
-      </button>
-    </div>
-  );
-};
+//       {/* Search Input dan Filter */}
+//       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+//         <div>
+//           <label className="block text-sm font-medium text-gray-700 mb-2">
+//             Cari Berdasarkan
+//           </label>
+//           <select
+//             value={searchType}
+//             onChange={(e) => setSearchType(e.target.value)}
+//             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//           >
+//             <option value="nama">Nama</option>
+//             <option value="kode">Kode</option>
+//             <option value="id">ID</option>
+//             <option value="nik">NIK</option>
+//           </select>
+//         </div>
 
-// Komponen ScannerModal untuk AddPengunjungForm
-const ScannerModal = ({ isOpen, onClose, onScan, title = "Scan Barcode" }) => {
-  const [isVisible, setIsVisible] = useState(false);
+//         <div className="md:col-span-2">
+//           <label className="block text-sm font-medium text-gray-700 mb-2">
+//             Kata Kunci Pencarian
+//           </label>
+//           <div className="relative">
+//             <input
+//               type="text"
+//               value={searchQuery}
+//               onChange={(e) => setSearchQuery(e.target.value)}
+//               placeholder={
+//                 searchType === 'nama' ? "Masukkan nama pengunjung..." :
+//                 searchType === 'kode' ? "Masukkan kode pengunjung..." :
+//                 searchType === 'id' ? "Masukkan ID pengunjung..." :
+//                 "Masukkan NIK pengunjung..."
+//               }
+//               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//               onKeyPress={(e) => e.key === 'Enter' && performSearch()}
+//             />
+//             <button
+//               onClick={performSearch}
+//               className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition-colors"
+//             >
+//               <FaSearch className="w-4 h-4" />
+//             </button>
+//           </div>
+//         </div>
 
-  useEffect(() => {
-    if (isOpen) {
-      const timer = setTimeout(() => {
-        setIsVisible(true);
-      }, 100);
-      return () => clearTimeout(timer);
-    } else {
-      setIsVisible(false);
-    }
-  }, [isOpen]);
+//         <div>
+//           <label className="block text-sm font-medium text-gray-700 mb-2">
+//             Filter Tujuan
+//           </label>
+//           <select
+//             value={searchTujuan}
+//             onChange={(e) => setSearchTujuan(e.target.value)}
+//             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//           >
+//             <option value="">Semua Tujuan</option>
+//             <option value="Berkunjung">Berkunjung</option>
+//             <option value="Menitip barang">Menitip Barang</option>
+//           </select>
+//         </div>
+//       </div>
 
-  const handleScan = (decodedText) => {
-    onScan(decodedText);
-  };
+//       {/* Search Results */}
+//       {isSearching && (
+//         <div className="text-center py-8">
+//           <FaSpinner className="animate-spin mx-auto text-blue-500 text-2xl mb-2" />
+//           <p className="text-gray-600">Mencari data pengunjung...</p>
+//         </div>
+//       )}
 
-  const handleClose = () => {
-    setIsVisible(false);
-    setTimeout(() => {
-      onClose();
-    }, 200);
-  };
+//       {searchResults.length > 0 && (
+//         <div className="mb-4">
+//           <div className="flex justify-between items-center mb-3">
+//             <p className="text-sm text-gray-600">
+//               Ditemukan {searchResults.length} data pengunjung
+//             </p>
+//           </div>
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-h-96 overflow-y-auto p-2">
+//             {searchResults.map((pengunjung, index) => (
+//               <div
+//                 key={pengunjung.id || index}
+//                 onClick={() => handleSelectPengunjung(pengunjung)}
+//                 className="bg-white rounded-xl border-2 border-gray-200 hover:border-blue-400 hover:shadow-lg transition-all duration-300 cursor-pointer p-4"
+//               >
+//                 <div className="flex items-start space-x-3">
+//                   {/* Foto Pengunjung */}
+//                   <div className="flex-shrink-0">
+//                     {pengunjung.photo_pengunjung ? (
+//                       <img
+//                         src={pengunjung.photo_pengunjung}
+//                         alt={pengunjung.nama}
+//                         className="w-16 h-16 rounded-lg object-cover border-2 border-gray-300"
+//                       />
+//                     ) : (
+//                       <div className="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center border-2 border-gray-300">
+//                         <FaUser className="text-gray-400 text-xl" />
+//                       </div>
+//                     )}
+//                   </div>
 
-  if (!isOpen) return null;
+//                   {/* Info Pengunjung */}
+//                   <div className="flex-1 min-w-0">
+//                     <h4 className="font-semibold text-gray-800 truncate">
+//                       {pengunjung.nama}
+//                     </h4>
+//                     <div className="space-y-1 mt-2">
+//                       <div className="flex items-center text-sm text-gray-600">
+//                         <FaUser className="mr-2 text-green-500" />
+//                         <span className="truncate">
+//                           {pengunjung.warga_binaan?.nama || 'Tidak ada WBP'}
+//                         </span>
+//                       </div>
+//                       <div className="flex items-center text-sm text-gray-600">
+//                         <FaQrcode className="mr-2 text-blue-500" />
+//                         <span>Kode: {pengunjung.kode}</span>
+//                       </div>
+//                       <div className="flex items-center text-sm">
+//                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+//                           pengunjung.tujuan === 'Berkunjung' 
+//                             ? 'bg-green-100 text-green-800' 
+//                             : 'bg-orange-100 text-orange-800'
+//                         }`}>
+//                           {pengunjung.tujuan}
+//                         </span>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       )}
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg p-6 w-full max-w-md">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-bold text-gray-800">{title}</h2>
-          <button
-            onClick={handleClose}
-            className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-          >
-            <FaTimes className="w-6 h-6" />
-          </button>
-        </div>
+//       {searchQuery && searchResults.length === 0 && !isSearching && (
+//         <div className="text-center py-8 bg-white rounded-lg border-2 border-dashed border-gray-300">
+//           <FaSearch className="mx-auto text-gray-400 text-3xl mb-3" />
+//           <p className="text-gray-600">Tidak ditemukan data pengunjung</p>
+//           <p className="text-sm text-gray-500 mt-1">
+//             Coba dengan kata kunci lain atau ubah filter tujuan
+//           </p>
+//         </div>
+//       )}
+
+//       {/* Detail Modal - Diperbarui dengan tombol Gunakan */}
+//       {showDetailModal && selectedPengunjung && (
+//         <DetailModal
+//           pengunjung={selectedPengunjung}
+//           onClose={() => setShowDetailModal(false)}
+//           onUse={handleUseData}
+//         />
+//       )}
+//     </div>
+//   );
+// };
+
+// // Komponen Detail Modal yang Diperbarui
+// const DetailModal = ({ pengunjung, onClose, onUse }) => {
+//   const [editData, setEditData] = useState({
+//     nama: pengunjung.nama || "",
+//     nik: pengunjung.nik || "",
+//     hp: pengunjung.hp || "",
+//     alamat: pengunjung.alamat || "",
+//     hubungan_keluarga: pengunjung.hubungan_keluarga || "",
+//     tujuan: pengunjung.tujuan || "Berkunjung",
+//     kode: pengunjung.kode || "",
+//     pengikut_laki_laki: pengunjung.pengikut_laki_laki || 0,
+//     pengikut_perempuan: pengunjung.pengikut_perempuan || 0,
+//     pengikut_anak_anak: pengunjung.pengikut_anak_anak || 0,
+//     pengikut_bayi: pengunjung.pengikut_bayi || 0,
+//     total_pengikut: pengunjung.total_pengikut || 0,
+//   });
+
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     setEditData(prev => ({
+//       ...prev,
+//       [name]: value
+//     }));
+//   };
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+//     onUse();
+//   };
+
+//   // Hitung total pengikut
+//   const calculateTotalPengikut = (data) => {
+//     return (
+//       parseInt(data.pengikut_laki_laki || 0) +
+//       parseInt(data.pengikut_perempuan || 0) +
+//       parseInt(data.pengikut_anak_anak || 0) +
+//       parseInt(data.pengikut_bayi || 0)
+//     );
+//   };
+
+//   const handlePengikutChange = (field, operation) => {
+//     setEditData(prev => {
+//       const currentValue = parseInt(prev[field] || 0);
+//       const newValue = operation === 'increment' ? currentValue + 1 : Math.max(0, currentValue - 1);
+      
+//       const updatedData = {
+//         ...prev,
+//         [field]: newValue
+//       };
+      
+//       // Update total pengikut
+//       updatedData.total_pengikut = calculateTotalPengikut(updatedData);
+      
+//       return updatedData;
+//     });
+//   };
+
+//   return (
+//     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+//       <div className="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+//         {/* Header */}
+//         <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
+//           <div className="flex justify-between items-center">
+//             <div className="flex items-center space-x-3">
+//               <FaUser className="w-8 h-8" />
+//               <div>
+//                 <h2 className="text-2xl font-bold">Detail Pengunjung</h2>
+//                 <p className="text-blue-100">Edit data sebelum digunakan</p>
+//               </div>
+//             </div>
+//             <button
+//               onClick={onClose}
+//               className="p-2 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-colors"
+//             >
+//               <FaTimes className="w-6 h-6" />
+//             </button>
+//           </div>
+//         </div>
+
+//         {/* Content */}
+//         <div className="p-6 overflow-y-auto max-h-[60vh]">
+//           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+//             {/* Foto Section */}
+//             <div className="lg:col-span-1">
+//               <div className="bg-gray-50 rounded-xl p-4 border-2 border-gray-200">
+//                 <h3 className="font-semibold text-gray-800 mb-3 flex items-center">
+//                   <FaCamera className="mr-2 text-blue-500" />
+//                   Foto Pengunjung
+//                 </h3>
+//                 {pengunjung.photo_pengunjung ? (
+//                   <div className="text-center">
+//                     <img
+//                       src={pengunjung.photo_pengunjung}
+//                       alt={pengunjung.nama}
+//                       className="w-32 h-32 rounded-lg object-cover mx-auto border-2 border-gray-300"
+//                     />
+//                     <p className="text-sm text-gray-600 mt-2">Foto tersedia</p>
+//                   </div>
+//                 ) : (
+//                   <div className="text-center py-8">
+//                     <div className="w-32 h-32 rounded-lg bg-gray-200 flex items-center justify-center mx-auto border-2 border-dashed border-gray-300">
+//                       <FaUser className="text-gray-400 text-3xl" />
+//                     </div>
+//                     <p className="text-sm text-gray-500 mt-2">Tidak ada foto</p>
+//                   </div>
+//                 )}
+//               </div>
+
+//               {/* Info WBP */}
+//               {pengunjung.warga_binaan && (
+//                 <div className="bg-green-50 rounded-xl p-4 border-2 border-green-200 mt-4">
+//                   <h3 className="font-semibold text-green-800 mb-2 flex items-center">
+//                     <FaUser className="mr-2 text-green-600" />
+//                     Warga Binaan
+//                   </h3>
+//                   <div className="space-y-2 text-sm">
+//                     <div>
+//                       <span className="font-medium text-gray-700">Nama:</span>
+//                       <p className="text-gray-800">{pengunjung.warga_binaan.nama}</p>
+//                     </div>
+//                     <div>
+//                       <span className="font-medium text-gray-700">ID:</span>
+//                       <p className="text-gray-800">{pengunjung.warga_binaan.id}</p>
+//                     </div>
+//                   </div>
+//                 </div>
+//               )}
+//             </div>
+
+//             {/* Form Edit Section */}
+//             <div className="lg:col-span-2">
+//               <form onSubmit={handleSubmit} className="space-y-4">
+//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       Nama Pengunjung *
+//                     </label>
+//                     <input
+//                       type="text"
+//                       name="nama"
+//                       value={editData.nama}
+//                       onChange={handleInputChange}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//                       required
+//                     />
+//                   </div>
+
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       NIK *
+//                     </label>
+//                     <input
+//                       type="text"
+//                       name="nik"
+//                       value={editData.nik}
+//                       onChange={handleInputChange}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//                       required
+//                     />
+//                   </div>
+
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       Nomor HP *
+//                     </label>
+//                     <input
+//                       type="tel"
+//                       name="hp"
+//                       value={editData.hp}
+//                       onChange={handleInputChange}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//                       required
+//                     />
+//                   </div>
+
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       Hubungan Keluarga *
+//                     </label>
+//                     <input
+//                       type="text"
+//                       name="hubungan_keluarga"
+//                       value={editData.hubungan_keluarga}
+//                       onChange={handleInputChange}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//                       required
+//                     />
+//                   </div>
+
+//                   <div className="md:col-span-2">
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       Alamat *
+//                     </label>
+//                     <textarea
+//                       name="alamat"
+//                       value={editData.alamat}
+//                       onChange={handleInputChange}
+//                       rows="3"
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+//                       required
+//                     />
+//                   </div>
+
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       Tujuan Kunjungan *
+//                     </label>
+//                     <select
+//                       name="tujuan"
+//                       value={editData.tujuan}
+//                       onChange={handleInputChange}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//                     >
+//                       <option value="Berkunjung">Berkunjung</option>
+//                       <option value="Menitip barang">Menitip Barang</option>
+//                     </select>
+//                   </div>
+
+//                   <div>
+//                     <label className="block text-sm font-medium text-gray-700 mb-2">
+//                       Kode Pengunjung
+//                     </label>
+//                     <input
+//                       type="text"
+//                       value={editData.kode}
+//                       onChange={handleInputChange}
+//                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+//                     />
+//                   </div>
+//                 </div>
+
+//                 {/* Section Jumlah Pengikut */}
+//                 <div className="bg-gray-50 rounded-xl p-4 border-2 border-gray-200">
+//                   <h3 className="font-semibold text-gray-800 mb-3 flex items-center justify-between">
+//                     <span className="flex items-center">
+//                       <FaUser className="mr-2 text-blue-500" />
+//                       Jumlah Pengikut
+//                     </span>
+//                     <span className="text-sm font-normal bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+//                       Total: {editData.total_pengikut}
+//                     </span>
+//                   </h3>
+                  
+//                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+//                     {/* Laki-laki */}
+//                     <div className="bg-white rounded-lg p-3 border border-gray-200">
+//                       <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
+//                         Laki-laki
+//                       </label>
+//                       <div className="flex items-center justify-center space-x-2">
+//                         <button
+//                           type="button"
+//                           onClick={() => handlePengikutChange('pengikut_laki_laki', 'decrement')}
+//                           className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+//                         >
+//                           -
+//                         </button>
+//                         <span className="text-lg font-semibold min-w-8 text-center">
+//                           {editData.pengikut_laki_laki}
+//                         </span>
+//                         <button
+//                           type="button"
+//                           onClick={() => handlePengikutChange('pengikut_laki_laki', 'increment')}
+//                           className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
+//                         >
+//                           +
+//                         </button>
+//                       </div>
+//                     </div>
+
+//                     {/* Perempuan */}
+//                     <div className="bg-white rounded-lg p-3 border border-gray-200">
+//                       <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
+//                         Perempuan
+//                       </label>
+//                       <div className="flex items-center justify-center space-x-2">
+//                         <button
+//                           type="button"
+//                           onClick={() => handlePengikutChange('pengikut_perempuan', 'decrement')}
+//                           className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+//                         >
+//                           -
+//                         </button>
+//                         <span className="text-lg font-semibold min-w-8 text-center">
+//                           {editData.pengikut_perempuan}
+//                         </span>
+//                         <button
+//                           type="button"
+//                           onClick={() => handlePengikutChange('pengikut_perempuan', 'increment')}
+//                           className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
+//                         >
+//                           +
+//                         </button>
+//                       </div>
+//                     </div>
+
+//                     {/* Anak-anak */}
+//                     <div className="bg-white rounded-lg p-3 border border-gray-200">
+//                       <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
+//                         Anak-anak
+//                       </label>
+//                       <div className="flex items-center justify-center space-x-2">
+//                         <button
+//                           type="button"
+//                           onClick={() => handlePengikutChange('pengikut_anak_anak', 'decrement')}
+//                           className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+//                         >
+//                           -
+//                         </button>
+//                         <span className="text-lg font-semibold min-w-8 text-center">
+//                           {editData.pengikut_anak_anak}
+//                         </span>
+//                         <button
+//                           type="button"
+//                           onClick={() => handlePengikutChange('pengikut_anak_anak', 'increment')}
+//                           className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
+//                         >
+//                           +
+//                         </button>
+//                       </div>
+//                     </div>
+
+//                     {/* Bayi */}
+//                     <div className="bg-white rounded-lg p-3 border border-gray-200">
+//                       <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
+//                         Bayi
+//                       </label>
+//                       <div className="flex items-center justify-center space-x-2">
+//                         <button
+//                           type="button"
+//                           onClick={() => handlePengikutChange('pengikut_bayi', 'decrement')}
+//                           className="w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600 transition-colors"
+//                         >
+//                           -
+//                         </button>
+//                         <span className="text-lg font-semibold min-w-8 text-center">
+//                           {editData.pengikut_bayi}
+//                         </span>
+//                         <button
+//                           type="button"
+//                           onClick={() => handlePengikutChange('pengikut_bayi', 'increment')}
+//                           className="w-8 h-8 bg-green-500 text-white rounded-full flex items-center justify-center hover:bg-green-600 transition-colors"
+//                         >
+//                           +
+//                         </button>
+//                       </div>
+//                     </div>
+//                   </div>
+//                 </div>
+
+//                 {/* Info Tambahan */}
+//                 <div className="bg-blue-50 rounded-xl p-4 border-2 border-blue-200">
+//                   <h4 className="font-semibold text-blue-800 mb-2 flex items-center">
+//                     <FaInfoCircle className="mr-2" />
+//                     Informasi
+//                   </h4>
+//                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+//                     <div>
+//                       <span className="font-medium text-gray-700">Tanggal Dibuat:</span>
+//                       <p className="text-gray-600">
+//                         {new Date(pengunjung.createdAt).toLocaleDateString('id-ID')}
+//                       </p>
+//                     </div>
+//                     <div>
+//                       <span className="font-medium text-gray-700">Status:</span>
+//                       <p className={`font-medium ${
+//                         pengunjung.status === 'Valid, Divalidasi Oleh P2U' 
+//                           ? 'text-green-600' 
+//                           : 'text-yellow-600'
+//                       }`}>
+//                         {pengunjung.status || 'Tidak Valid'}
+//                       </p>
+//                     </div>
+//                     <div>
+//                       <span className="font-medium text-gray-700">Antrian:</span>
+//                       <p className="text-gray-600">{pengunjung.antrian || '-'}</p>
+//                     </div>
+//                     <div>
+//                       <span className="font-medium text-gray-700">Total Pengikut:</span>
+//                       <p className="text-gray-600">{editData.total_pengikut}</p>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </form>
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* Footer */}
+//         <div className="bg-gray-50 px-6 py-4 border-t border-gray-200">
+//           <div className="flex justify-between items-center">
+//             <button
+//               type="button"
+//               onClick={onClose}
+//               className="px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors flex items-center"
+//             >
+//               <FaTimes className="mr-2" />
+//               Batal
+//             </button>
+            
+//             <div className="flex space-x-3">
+//               <button
+//                 type="button"
+//                 onClick={() => {
+//                   setEditData({
+//                     nama: pengunjung.nama || "",
+//                     nik: pengunjung.nik || "",
+//                     hp: pengunjung.hp || "",
+//                     alamat: pengunjung.alamat || "",
+//                     hubungan_keluarga: pengunjung.hubungan_keluarga || "",
+//                     tujuan: pengunjung.tujuan || "Berkunjung",
+//                     kode: pengunjung.kode || "",
+//                     pengikut_laki_laki: pengunjung.pengikut_laki_laki || 0,
+//                     pengikut_perempuan: pengunjung.pengikut_perempuan || 0,
+//                     pengikut_anak_anak: pengunjung.pengikut_anak_anak || 0,
+//                     pengikut_bayi: pengunjung.pengikut_bayi || 0,
+//                     total_pengikut: pengunjung.total_pengikut || 0,
+//                   });
+//                 }}
+//                 className="px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors flex items-center"
+//               >
+//                 <FaArrowLeft className="mr-2" />
+//                 Reset
+//               </button>
+              
+//               <button
+//                 type="button"
+//                 onClick={onUse}
+//                 className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center"
+//               >
+//                 <FaCheck className="mr-2" />
+//                 Gunakan Data
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// // Komponen BarcodeScanner untuk AddPengunjungForm
+// const BarcodeScanner = ({ onScan, onClose }) => {
+//   useEffect(() => {
+//     // Dynamically import html5-qrcode
+//     import('html5-qrcode').then(({ Html5QrcodeScanner }) => {
+//       const scanner = new Html5QrcodeScanner('qr-reader', {
+//         qrbox: {
+//           width: 250,
+//           height: 250,
+//         },
+//         fps: 10,
+//         rememberLastUsedCamera: true,
+//         supportedScanTypes: null,
+//       });
+
+//       let isScanning = true;
+
+//       const onScanSuccess = (decodedText) => {
+//         if (isScanning) {
+//           onScan(decodedText);
+//           scanner.clear().then(() => {
+//             console.log("Scanner cleared successfully");
+//           }).catch((err) => {
+//             console.warn("Error clearing scanner:", err);
+//           });
+//           onClose();
+//           isScanning = false;
+//         }
+//       };
+
+//       const onScanError = (error) => {
+//         if (error && !error.message?.includes('NotFoundException')) {
+//           console.warn("Scan error:", error);
+//         }
+//       };
+
+//       setTimeout(() => {
+//         if (isScanning) {
+//           scanner.render(onScanSuccess, onScanError);
+//         }
+//       }, 100);
+
+//       return () => {
+//         isScanning = false;
+//         setTimeout(() => {
+//           scanner.clear().catch((err) => {
+//             console.warn("Error in cleanup:", err);
+//           });
+//         }, 100);
+//       };
+//     }).catch((error) => {
+//       console.error("Failed to load html5-qrcode:", error);
+//       onClose();
+//     });
+
+//   }, [onScan, onClose]);
+
+//   return (
+//     <div className="text-center">
+//       <div className="mb-4">
+//         <p className="text-gray-600">Arahkan kamera ke barcode</p>
+//       </div>
+//       <div id="qr-reader" className="mx-auto" style={{ width: '100%', maxWidth: '300px' }}></div>
+//       <button 
+//         onClick={onClose}
+//         className="mt-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
+//       >
+//         Tutup Scanner
+//       </button>
+//     </div>
+//   );
+// };
+
+// // Komponen ScannerModal untuk AddPengunjungForm
+// const ScannerModal = ({ isOpen, onClose, onScan, title = "Scan Barcode" }) => {
+//   const [isVisible, setIsVisible] = useState(false);
+
+//   useEffect(() => {
+//     if (isOpen) {
+//       const timer = setTimeout(() => {
+//         setIsVisible(true);
+//       }, 100);
+//       return () => clearTimeout(timer);
+//     } else {
+//       setIsVisible(false);
+//     }
+//   }, [isOpen]);
+
+//   const handleScan = (decodedText) => {
+//     onScan(decodedText);
+//   };
+
+//   const handleClose = () => {
+//     setIsVisible(false);
+//     setTimeout(() => {
+//       onClose();
+//     }, 200);
+//   };
+
+//   if (!isOpen) return null;
+
+//   return (
+//     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+//       <div className="bg-white rounded-lg p-6 w-full max-w-md">
+//         <div className="flex justify-between items-center mb-4">
+//           <h2 className="text-xl font-bold text-gray-800">{title}</h2>
+//           <button
+//             onClick={handleClose}
+//             className="p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+//           >
+//             <FaTimes className="w-6 h-6" />
+//           </button>
+//         </div>
         
-        {isVisible && (
-          <BarcodeScanner onScan={handleScan} onClose={handleClose} />
-        )}
-      </div>
-    </div>
-  );
-};
+//         {isVisible && (
+//           <BarcodeScanner onScan={handleScan} onClose={handleClose} />
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
 
-const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChange, onEnter }) => {
-  const [isShift, setIsShift] = useState(false);
-  const [isSymbol, setIsSymbol] = useState(false);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [isPc, setIsPc] = useState(false);
-  const keyboardRef = useRef(null);
-  const containerRef = useRef(null);
+// // Virtual Keyboard Component
+// const VirtualKeyboard = ({ onKeyPress, onClose, value, activeInput, onInputChange, onEnter }) => {
+//   const [isShift, setIsShift] = useState(false);
+//   const [isSymbol, setIsSymbol] = useState(false);
+//   const [position, setPosition] = useState({ x: 0, y: 0 });
+//   const [isDragging, setIsDragging] = useState(false);
+//   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+//   const [isPc, setIsPc] = useState(false);
+//   const keyboardRef = useRef(null);
+//   const containerRef = useRef(null);
 
-  const alphaRows = [
-    ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
-    ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
-    ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
-  ];
+//   const alphaRows = [
+//     ['q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'],
+//     ['a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'],
+//     ['z', 'x', 'c', 'v', 'b', 'n', 'm'],
+//   ];
 
-  const symbolRows = [
-    ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
-    ['-', '_', '@', '#', '$', '%', '&', '*', '(', ')'],
-    ['.', ',', '!', '?', ':', ';', '"', "'"],
-  ];
+//   const symbolRows = [
+//     ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'],
+//     ['-', '_', '@', '#', '$', '%', '&', '*', '(', ')'],
+//     ['.', ',', '!', '?', ':', ';', '"', "'"],
+//   ];
 
-  const currentRows = isSymbol ? symbolRows : alphaRows;
+//   const currentRows = isSymbol ? symbolRows : alphaRows;
 
-  // Deteksi perangkat saat komponen dimuat
-  useEffect(() => {
-    const checkDevice = () => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent);
-      const isTablet = /tablet|ipad/i.test(userAgent);
-      const isPcDevice = !isMobile && !isTablet;
+//   // Deteksi perangkat saat komponen dimuat
+//   useEffect(() => {
+//     const checkDevice = () => {
+//       const userAgent = navigator.userAgent.toLowerCase();
+//       const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent);
+//       const isTablet = /tablet|ipad/i.test(userAgent);
+//       const isPcDevice = !isMobile && !isTablet;
       
-      setIsPc(isPcDevice);
-    };
+//       setIsPc(isPcDevice);
+//     };
 
-    checkDevice();
-  }, []);
+//     checkDevice();
+//   }, []);
 
-  // Handle click outside untuk menutup keyboard
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (keyboardRef.current && !keyboardRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
+//   // Handle click outside untuk menutup keyboard
+//   useEffect(() => {
+//     const handleClickOutside = (event) => {
+//       if (keyboardRef.current && !keyboardRef.current.contains(event.target)) {
+//         onClose();
+//       }
+//     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    document.addEventListener('touchstart', handleClickOutside);
+//     document.addEventListener('mousedown', handleClickOutside);
+//     document.addEventListener('touchstart', handleClickOutside);
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
-    };
-  }, [onClose]);
+//     return () => {
+//       document.removeEventListener('mousedown', handleClickOutside);
+//       document.removeEventListener('touchstart', handleClickOutside);
+//     };
+//   }, [onClose]);
 
-  const handleDragStart = (clientX, clientY) => {
-    if (!keyboardRef.current) return;
+//   const handleDragStart = (clientX, clientY) => {
+//     if (!keyboardRef.current) return;
     
-    setIsDragging(true);
-    const rect = keyboardRef.current.getBoundingClientRect();
+//     setIsDragging(true);
+//     const rect = keyboardRef.current.getBoundingClientRect();
     
-    setDragOffset({
-      x: clientX - rect.left,
-      y: clientY - rect.top
-    });
-  };
+//     setDragOffset({
+//       x: clientX - rect.left,
+//       y: clientY - rect.top
+//     });
+//   };
 
-  const handleMouseDown = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    handleDragStart(e.clientX, e.clientY);
-  };
+//   const handleMouseDown = (e) => {
+//     e.preventDefault();
+//     e.stopPropagation();
+//     handleDragStart(e.clientX, e.clientY);
+//   };
 
-  const handleTouchStart = (e) => {
-    e.stopPropagation();
-    const touch = e.touches[0];
-    handleDragStart(touch.clientX, touch.clientY);
-  };
+//   const handleTouchStart = (e) => {
+//     e.stopPropagation();
+//     const touch = e.touches[0];
+//     handleDragStart(touch.clientX, touch.clientY);
+//   };
 
-  const handleDragMove = (clientX, clientY) => {
-    if (!isDragging || !keyboardRef.current) return;
+//   const handleDragMove = (clientX, clientY) => {
+//     if (!isDragging || !keyboardRef.current) return;
     
-    const newX = clientX - dragOffset.x;
-    const newY = clientY - dragOffset.y;
+//     const newX = clientX - dragOffset.x;
+//     const newY = clientY - dragOffset.y;
     
-    const keyboardWidth = keyboardRef.current.offsetWidth;
-    const keyboardHeight = keyboardRef.current.offsetHeight;
-    const maxX = window.innerWidth - keyboardWidth;
-    const maxY = window.innerHeight - keyboardHeight;
+//     const keyboardWidth = keyboardRef.current.offsetWidth;
+//     const keyboardHeight = keyboardRef.current.offsetHeight;
+//     const maxX = window.innerWidth - keyboardWidth;
+//     const maxY = window.innerHeight - keyboardHeight;
     
-    setPosition({
-      x: Math.max(10, Math.min(newX, maxX - 10)),
-      y: Math.max(10, Math.min(newY, maxY - 10))
-    });
-  };
+//     setPosition({
+//       x: Math.max(10, Math.min(newX, maxX - 10)),
+//       y: Math.max(10, Math.min(newY, maxY - 10))
+//     });
+//   };
 
-  const handleMouseMove = (e) => {
-    handleDragMove(e.clientX, e.clientY);
-  };
+//   const handleMouseMove = (e) => {
+//     handleDragMove(e.clientX, e.clientY);
+//   };
 
-  const handleTouchMove = (e) => {
-    const touch = e.touches[0];
-    handleDragMove(touch.clientX, touch.clientY);
-    e.preventDefault();
-  };
+//   const handleTouchMove = (e) => {
+//     const touch = e.touches[0];
+//     handleDragMove(touch.clientX, touch.clientY);
+//     e.preventDefault();
+//   };
 
-  const handleDragEnd = () => {
-    setIsDragging(false);
-  };
+//   const handleDragEnd = () => {
+//     setIsDragging(false);
+//   };
 
-  useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleDragEnd);
-      document.addEventListener('touchmove', handleTouchMove, { passive: false });
-      document.addEventListener('touchend', handleDragEnd);
-      document.addEventListener('touchcancel', handleDragEnd);
+//   useEffect(() => {
+//     if (isDragging) {
+//       document.addEventListener('mousemove', handleMouseMove);
+//       document.addEventListener('mouseup', handleDragEnd);
+//       document.addEventListener('touchmove', handleTouchMove, { passive: false });
+//       document.addEventListener('touchend', handleDragEnd);
+//       document.addEventListener('touchcancel', handleDragEnd);
       
-      document.body.style.overflow = 'hidden';
-      document.body.style.userSelect = 'none';
-      document.body.style.webkitUserSelect = 'none';
-    }
+//       document.body.style.overflow = 'hidden';
+//       document.body.style.userSelect = 'none';
+//       document.body.style.webkitUserSelect = 'none';
+//     }
 
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleDragEnd);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', handleDragEnd);
-      document.removeEventListener('touchcancel', handleDragEnd);
+//     return () => {
+//       document.removeEventListener('mousemove', handleMouseMove);
+//       document.removeEventListener('mouseup', handleDragEnd);
+//       document.removeEventListener('touchmove', handleTouchMove);
+//       document.removeEventListener('touchend', handleDragEnd);
+//       document.removeEventListener('touchcancel', handleDragEnd);
       
-      document.body.style.overflow = '';
-      document.body.style.userSelect = '';
-      document.body.style.webkitUserSelect = '';
-    };
-  }, [isDragging, dragOffset]);
+//       document.body.style.overflow = '';
+//       document.body.style.userSelect = '';
+//       document.body.style.webkitUserSelect = '';
+//     };
+//   }, [isDragging, dragOffset]);
 
-  useEffect(() => {
-    if (!isPc) return;
+//   useEffect(() => {
+//     if (!isPc) return;
 
-    const updateInitialPosition = () => {
-      if (keyboardRef.current) {
-        const keyboardWidth = keyboardRef.current.offsetWidth;
-        const keyboardHeight = keyboardRef.current.offsetHeight;
+//     const updateInitialPosition = () => {
+//       if (keyboardRef.current) {
+//         const keyboardWidth = keyboardRef.current.offsetWidth;
+//         const keyboardHeight = keyboardRef.current.offsetHeight;
         
-        setPosition({
-          x: (window.innerWidth - keyboardWidth) / 2,
-          y: window.innerHeight - keyboardHeight - 20
-        });
-      }
-    };
+//         setPosition({
+//           x: (window.innerWidth - keyboardWidth) / 2,
+//           y: window.innerHeight - keyboardHeight - 20
+//         });
+//       }
+//     };
 
-    setTimeout(updateInitialPosition, 100);
+//     setTimeout(updateInitialPosition, 100);
     
-    window.addEventListener('resize', updateInitialPosition);
-    return () => window.removeEventListener('resize', updateInitialPosition);
-  }, [isPc]);
+//     window.addEventListener('resize', updateInitialPosition);
+//     return () => window.removeEventListener('resize', updateInitialPosition);
+//   }, [isPc]);
 
-  const handleKeyClick = (key) => {
-    const finalKey = isShift ? key.toUpperCase() : key;
-    onKeyPress(finalKey);
-    if (onInputChange) {
-      onInputChange(finalKey);
-    }
-  };
+//   const handleKeyClick = (key) => {
+//     const finalKey = isShift ? key.toUpperCase() : key;
+//     onKeyPress(finalKey);
+//     if (onInputChange) {
+//       onInputChange(finalKey);
+//     }
+//   };
 
-  const handleSpecialKey = (action) => {
-    switch (action) {
-      case 'shift':
-        setIsShift(!isShift);
-        break;
-      case 'symbol':
-        setIsSymbol(!isSymbol);
-        setIsShift(false);
-        break;
-      case 'space':
-        onKeyPress(' ');
-        if (onInputChange) onInputChange(' ');
-        break;
-      case 'backspace':
-        onKeyPress('backspace');
-        if (onInputChange) onInputChange('backspace');
-        break;
-      case 'enter':
-        onKeyPress('enter');
-        if (onEnter) onEnter();
-        break;
-      case 'clear':
-        onKeyPress('clear');
-        if (onInputChange) onInputChange('clear');
-        break;
-      case 'tab':
-        onKeyPress('tab');
-        break;
-      default:
-        break;
-    }
-  };
+//   const handleSpecialKey = (action) => {
+//     switch (action) {
+//       case 'shift':
+//         setIsShift(!isShift);
+//         break;
+//       case 'symbol':
+//         setIsSymbol(!isSymbol);
+//         setIsShift(false);
+//         break;
+//       case 'space':
+//         onKeyPress(' ');
+//         if (onInputChange) onInputChange(' ');
+//         break;
+//       case 'backspace':
+//         onKeyPress('backspace');
+//         if (onInputChange) onInputChange('backspace');
+//         break;
+//       case 'enter':
+//         onKeyPress('enter');
+//         if (onEnter) onEnter();
+//         break;
+//       case 'clear':
+//         onKeyPress('clear');
+//         if (onInputChange) onInputChange('clear');
+//         break;
+//       case 'tab':
+//         onKeyPress('tab');
+//         break;
+//       default:
+//         break;
+//     }
+//   };
 
-  const getInputLabel = () => {
-    switch (activeInput) {
-      case 'wbp':
-        return 'Cari Warga Binaan';
-      case 'pengunjung':
-        return 'Cari Pengunjung';
-      case 'nama':
-        return 'Input Nama';
-      case 'nik':
-        return 'Input NIK';
-      case 'hp':
-        return 'Input Nomor HP';
-      case 'alamat':
-        return 'Input Alamat';
-      case 'hubungan_keluarga':
-        return 'Input Hubungan Keluarga';
-      case 'kode':
-        return 'Input Kode';
-      case 'tujuan':
-        return 'Pilih Tujuan';
-      default:
-        return 'Virtual Keyboard';
-    }
-  };
+//   const getInputLabel = () => {
+//     switch (activeInput) {
+//       case 'wbp':
+//         return 'Cari Warga Binaan';
+//       case 'pengunjung':
+//         return 'Cari Pengunjung';
+//       case 'nama':
+//         return 'Input Nama';
+//       case 'nik':
+//         return 'Input NIK';
+//       case 'hp':
+//         return 'Input Nomor HP';
+//       case 'alamat':
+//         return 'Input Alamat';
+//       case 'hubungan_keluarga':
+//         return 'Input Hubungan Keluarga';
+//       case 'kode':
+//         return 'Input Kode';
+//       case 'tujuan':
+//         return 'Pilih Tujuan';
+//       default:
+//         return 'Virtual Keyboard';
+//     }
+//   };
 
-  if (!isPc) {
-    return null;
-  }
+//   if (!isPc) {
+//     return null;
+//   }
 
-  return (
-    <div 
-      ref={containerRef}
-      className="fixed inset-0 bg-black bg-opacity-20 flex items-end justify-center z-50 p-4 pointer-events-none"
-      style={{ touchAction: 'none' }}
-    >
-      <div 
-        ref={keyboardRef}
-        className="bg-transparent rounded-2xl transform transition-all duration-300 pointer-events-auto"
-        style={{
-          position: 'fixed',
-          left: `${position.x}px`,
-          top: `${position.y}px`,
-          cursor: isDragging ? 'grabbing' : 'grab',
-          touchAction: 'none',
-          zIndex: 1000,
-          width: '35vw',
-          minWidth: '500px',
-          maxWidth: '600px',
-          border: '3px solid #3b82f6',
-          boxShadow: `
-            0 0 0 1px rgba(59, 130, 246, 0.5),
-            0 10px 30px rgba(0, 0, 0, 0.3),
-            0 0 20px rgba(59, 130, 246, 0.4)
-          `,
-        }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onTouchStart={(e) => e.stopPropagation()}
-      >
-        <div 
-          className="keyboard-draggable bg-gradient-to-r from-blue-500 to-purple-500 rounded-t-xl p-4 text-white cursor-grab active:cursor-grabbing touch-none border-b-4 border-blue-700"
-          onMouseDown={handleMouseDown}
-          onTouchStart={handleTouchStart}
-          style={{ touchAction: 'none' }}
-        >
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-3">
-              <FaKeyboard className="w-6 h-6" />
-              <div>
-                <h3 className="font-bold text-lg">{getInputLabel()}</h3>
-                <p className="text-blue-100 text-sm flex items-center">
-                  <span className="inline-block w-3 h-3 bg-white bg-opacity-50 rounded-full mr-1 animate-pulse"></span>
-                  Drag untuk memindahkan • Gunakan keyboard virtual
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-3 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all touch-friendly min-w-[44px] min-h-[44px] flex items-center justify-center border-2 border-white border-opacity-30"
-              style={{ touchAction: 'manipulation' }}
-            >
-              <FaTimes className="w-5 h-5" />
-            </button>
-          </div>
+//   return (
+//     <div 
+//       ref={containerRef}
+//       className="fixed inset-0 bg-black bg-opacity-20 flex items-end justify-center z-50 p-4 pointer-events-none"
+//       style={{ touchAction: 'none' }}
+//     >
+//       <div 
+//         ref={keyboardRef}
+//         className="bg-transparent rounded-2xl transform transition-all duration-300 pointer-events-auto"
+//         style={{
+//           position: 'fixed',
+//           left: `${position.x}px`,
+//           top: `${position.y}px`,
+//           cursor: isDragging ? 'grabbing' : 'grab',
+//           touchAction: 'none',
+//           zIndex: 1000,
+//           width: '35vw',
+//           minWidth: '500px',
+//           maxWidth: '600px',
+//           border: '3px solid #3b82f6',
+//           boxShadow: `
+//             0 0 0 1px rgba(59, 130, 246, 0.5),
+//             0 10px 30px rgba(0, 0, 0, 0.3),
+//             0 0 20px rgba(59, 130, 246, 0.4)
+//           `,
+//         }}
+//         onMouseDown={(e) => e.stopPropagation()}
+//         onTouchStart={(e) => e.stopPropagation()}
+//       >
+//         <div 
+//           className="keyboard-draggable bg-gradient-to-r from-blue-500 to-purple-500 rounded-t-xl p-4 text-white cursor-grab active:cursor-grabbing touch-none border-b-4 border-blue-700"
+//           onMouseDown={handleMouseDown}
+//           onTouchStart={handleTouchStart}
+//           style={{ touchAction: 'none' }}
+//         >
+//           <div className="flex justify-between items-center">
+//             <div className="flex items-center space-x-3">
+//               <FaKeyboard className="w-6 h-6" />
+//               <div>
+//                 <h3 className="font-bold text-lg">{getInputLabel()}</h3>
+//                 <p className="text-blue-100 text-sm flex items-center">
+//                   <span className="inline-block w-3 h-3 bg-white bg-opacity-50 rounded-full mr-1 animate-pulse"></span>
+//                   Drag untuk memindahkan • Gunakan keyboard virtual
+//                 </p>
+//               </div>
+//             </div>
+//             <button
+//               onClick={onClose}
+//               className="p-3 bg-white bg-opacity-20 rounded-lg hover:bg-opacity-30 transition-all touch-friendly min-w-[44px] min-h-[44px] flex items-center justify-center border-2 border-white border-opacity-30"
+//               style={{ touchAction: 'manipulation' }}
+//             >
+//               <FaTimes className="w-5 h-5" />
+//             </button>
+//           </div>
           
-          <div className="mt-2 flex justify-center">
-            <div className="w-20 h-1 bg-white bg-opacity-50 rounded-full"></div>
-          </div>
-        </div>
+//           <div className="mt-2 flex justify-center">
+//             <div className="w-20 h-1 bg-white bg-opacity-50 rounded-full"></div>
+//           </div>
+//         </div>
 
-        <div className="p-4 bg-gray-50 bg-opacity-60 border-b-2 border-gray-300">
-          <div className="bg-white bg-opacity-80 rounded-xl p-4 shadow-inner border-2 border-gray-200">
-            <div className="text-sm text-gray-500 mb-2 flex justify-between">
-              <span>Input Preview:</span>
-              <span className="text-blue-500 font-medium">{value.length} karakter</span>
-            </div>
-            <div className="text-lg font-mono min-h-[28px] p-2 bg-gray-50 bg-opacity-70 rounded-lg border-2 border-blue-300">
-              {value || <span className="text-gray-400">Ketik menggunakan keyboard virtual...</span>}
-              <span className="ml-1 animate-pulse text-blue-500">|</span>
-            </div>
-          </div>
-        </div>
+//         <div className="p-4 bg-gray-50 bg-opacity-60 border-b-2 border-gray-300">
+//           <div className="bg-white bg-opacity-80 rounded-xl p-4 shadow-inner border-2 border-gray-200">
+//             <div className="text-sm text-gray-500 mb-2 flex justify-between">
+//               <span>Input Preview:</span>
+//               <span className="text-blue-500 font-medium">{value.length} karakter</span>
+//             </div>
+//             <div className="text-lg font-mono min-h-[28px] p-2 bg-gray-50 bg-opacity-70 rounded-lg border-2 border-blue-300">
+//               {value || <span className="text-gray-400">Ketik menggunakan keyboard virtual...</span>}
+//               <span className="ml-1 animate-pulse text-blue-500">|</span>
+//             </div>
+//           </div>
+//         </div>
 
-        <div className="p-4 bg-transparent" style={{ touchAction: 'manipulation' }}>
-          {currentRows.map((row, rowIndex) => (
-            <div key={rowIndex} className="flex justify-center mb-2 space-x-1">
-              {row.map((key) => (
-                <button
-                  key={key}
-                  onClick={() => handleKeyClick(key)}
-                  className="flex-1 max-w-[60px] h-14 bg-white bg-opacity-95 rounded-xl transition-all duration-300 font-medium text-gray-700 touch-friendly relative overflow-hidden group"
-                  style={{ 
-                    minWidth: '44px',
-                    minHeight: '44px',
-                    touchAction: 'manipulation'
-                  }}
-                >
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-400 to-gray-600 border-[3px] border-gray-500 shadow-sm"></div>
+//         <div className="p-4 bg-transparent" style={{ touchAction: 'manipulation' }}>
+//           {currentRows.map((row, rowIndex) => (
+//             <div key={rowIndex} className="flex justify-center mb-2 space-x-1">
+//               {row.map((key) => (
+//                 <button
+//                   key={key}
+//                   onClick={() => handleKeyClick(key)}
+//                   className="flex-1 max-w-[60px] h-14 bg-white bg-opacity-95 rounded-xl transition-all duration-300 font-medium text-gray-700 touch-friendly relative overflow-hidden group"
+//                   style={{ 
+//                     minWidth: '44px',
+//                     minHeight: '44px',
+//                     touchAction: 'manipulation'
+//                   }}
+//                 >
+//                   <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-gray-400 to-gray-600 border-[3px] border-gray-500 shadow-sm"></div>
                   
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-sm group-hover:blur-0"></div>
+//                   <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-all duration-500 blur-sm group-hover:blur-0"></div>
                   
-                  <div className="absolute inset-[3px] rounded-lg bg-white bg-opacity-95 flex items-center justify-center z-10 group-hover:bg-opacity-100 transition-all duration-300">
-                    {isShift && !isSymbol ? key.toUpperCase() : key}
-                  </div>
+//                   <div className="absolute inset-[3px] rounded-lg bg-white bg-opacity-95 flex items-center justify-center z-10 group-hover:bg-opacity-100 transition-all duration-300">
+//                     {isShift && !isSymbol ? key.toUpperCase() : key}
+//                   </div>
                   
-                  <div className="absolute inset-0 rounded-xl shadow-lg shadow-blue-500/0 group-hover:shadow-blue-500/40 group-hover:shadow-xl transition-all duration-300"></div>
-                </button>
-              ))}
-            </div>
-          ))}
+//                   <div className="absolute inset-0 rounded-xl shadow-lg shadow-blue-500/0 group-hover:shadow-blue-500/40 group-hover:shadow-xl transition-all duration-300"></div>
+//                 </button>
+//               ))}
+//             </div>
+//           ))}
 
-          <div className="flex justify-center space-x-1 mt-4">
-            <button
-              onClick={() => handleSpecialKey('shift')}
-              className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly border-2 ${
-                isShift 
-                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-200 border-blue-600' 
-                  : 'bg-white bg-opacity-90 text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400'
-              }`}
-              style={{ 
-                minHeight: '44px',
-                touchAction: 'manipulation'
-              }}
-            >
-              ⇧ SHIFT
-            </button>
+//           <div className="flex justify-center space-x-1 mt-4">
+//             <button
+//               onClick={() => handleSpecialKey('shift')}
+//               className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly border-2 ${
+//                 isShift 
+//                   ? 'bg-blue-500 text-white shadow-lg shadow-blue-200 border-blue-600' 
+//                   : 'bg-white bg-opacity-90 text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400'
+//               }`}
+//               style={{ 
+//                 minHeight: '44px',
+//                 touchAction: 'manipulation'
+//               }}
+//             >
+//               ⇧ SHIFT
+//             </button>
 
-            <button
-              onClick={() => handleSpecialKey('symbol')}
-              className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly border-2 ${
-                isSymbol 
-                  ? 'bg-purple-500 text-white shadow-lg shadow-purple-200 border-purple-600' 
-                  : 'bg-white bg-opacity-90 text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400'
-              }`}
-              style={{ 
-                minHeight: '44px',
-                touchAction: 'manipulation'
-              }}
-            >
-              {isSymbol ? 'ABC' : '123'}
-            </button>
+//             <button
+//               onClick={() => handleSpecialKey('symbol')}
+//               className={`flex-1 max-w-[120px] h-14 rounded-xl font-medium transition-all touch-friendly border-2 ${
+//                 isSymbol 
+//                   ? 'bg-purple-500 text-white shadow-lg shadow-purple-200 border-purple-600' 
+//                   : 'bg-white bg-opacity-90 text-gray-700 border-gray-300 hover:bg-gray-100 hover:border-gray-400'
+//               }`}
+//               style={{ 
+//                 minHeight: '44px',
+//                 touchAction: 'manipulation'
+//               }}
+//             >
+//               {isSymbol ? 'ABC' : '123'}
+//             </button>
 
-            <button
-              onClick={() => handleSpecialKey('space')}
-              className="flex-1 max-w-[200px] h-14 bg-white bg-opacity-90 border-2 border-gray-300 rounded-xl hover:bg-gray-100 hover:border-gray-400 active:bg-gray-200 transition-all touch-friendly text-gray-600 font-medium"
-              style={{ 
-                minHeight: '44px',
-                touchAction: 'manipulation'
-              }}
-            >
-              SPACE
-            </button>
+//             <button
+//               onClick={() => handleSpecialKey('space')}
+//               className="flex-1 max-w-[200px] h-14 bg-white bg-opacity-90 border-2 border-gray-300 rounded-xl hover:bg-gray-100 hover:border-gray-400 active:bg-gray-200 transition-all touch-friendly text-gray-600 font-medium"
+//               style={{ 
+//                 minHeight: '44px',
+//                 touchAction: 'manipulation'
+//               }}
+//             >
+//               SPACE
+//             </button>
 
-            <button
-              onClick={() => handleSpecialKey('backspace')}
-              className="flex-1 max-w-[120px] h-14 bg-red-500 text-white rounded-xl hover:bg-red-600 active:bg-red-700 transition-all touch-friendly font-medium shadow-lg shadow-red-200 border-2 border-red-600"
-              style={{ 
-                minHeight: '44px',
-                touchAction: 'manipulation'
-              }}
-            >
-              ⌫ DELETE
-            </button>
-          </div>
+//             <button
+//               onClick={() => handleSpecialKey('backspace')}
+//               className="flex-1 max-w-[120px] h-14 bg-red-500 text-white rounded-xl hover:bg-red-600 active:bg-red-700 transition-all touch-friendly font-medium shadow-lg shadow-red-200 border-2 border-red-600"
+//               style={{ 
+//                 minHeight: '44px',
+//                 touchAction: 'manipulation'
+//               }}
+//             >
+//               ⌫ DELETE
+//             </button>
+//           </div>
 
-          <div className="flex justify-center space-x-2 mt-3">
-            <button
-              onClick={() => handleSpecialKey('clear')}
-              className="flex-1 max-w-[140px] h-12 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-all touch-friendly font-medium border-2 border-orange-600"
-              style={{ 
-                minHeight: '44px',
-                touchAction: 'manipulation'
-              }}
-            >
-              🗑️ CLEAR
-            </button>
+//           <div className="flex justify-center space-x-2 mt-3">
+//             <button
+//               onClick={() => handleSpecialKey('clear')}
+//               className="flex-1 max-w-[140px] h-12 bg-orange-500 text-white rounded-xl hover:bg-orange-600 transition-all touch-friendly font-medium border-2 border-orange-600"
+//               style={{ 
+//                 minHeight: '44px',
+//                 touchAction: 'manipulation'
+//               }}
+//             >
+//               🗑️ CLEAR
+//             </button>
             
-            <button
-              onClick={() => handleSpecialKey('enter')}
-              className="flex-1 max-w-[140px] h-12 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all touch-friendly font-medium border-2 border-green-600 shadow-lg shadow-green-200"
-              style={{ 
-                minHeight: '44px',
-                touchAction: 'manipulation'
-              }}
-            >
-              ↵ ENTER
-            </button>
-          </div>
-        </div>
+//             <button
+//               onClick={() => handleSpecialKey('enter')}
+//               className="flex-1 max-w-[140px] h-12 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all touch-friendly font-medium border-2 border-green-600 shadow-lg shadow-green-200"
+//               style={{ 
+//                 minHeight: '44px',
+//                 touchAction: 'manipulation'
+//               }}
+//             >
+//               ↵ ENTER
+//             </button>
+//           </div>
+//         </div>
 
-        <div className="bg-gray-100 bg-opacity-70 rounded-b-xl p-3 border-t-2 border-gray-300">
-          <div className="text-center text-sm text-gray-600">
-            💡 Tips: Drag header untuk memindahkan • SHIFT untuk huruf kapital • 123 untuk simbol
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
+//         <div className="bg-gray-100 bg-opacity-70 rounded-b-xl p-3 border-t-2 border-gray-300">
+//           <div className="text-center text-sm text-gray-600">
+//             💡 Tips: Drag header untuk memindahkan • SHIFT untuk huruf kapital • 123 untuk simbol
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
-// Komponen untuk Print Antrian
-const PrintAntrian = ({ pengunjung, antrian, onClose }) => {
-  const printRef = useRef();
-  const [selectedPrinter, setSelectedPrinter] = useState('default');
-  const [printers, setPrinters] = useState([]);
+// // Komponen untuk Print Antrian
+// const PrintAntrian = ({ pengunjung, antrian, onClose }) => {
+//   const printRef = useRef();
+//   const [selectedPrinter, setSelectedPrinter] = useState('default');
+//   const [printers, setPrinters] = useState([]);
 
-  useEffect(() => {
-    setPrinters([
-      { name: 'default', description: 'Printer Default Sistem' },
-      { name: 'browser', description: 'Dialog Print Browser' }
-    ]);
-  }, []);
+//   useEffect(() => {
+//     setPrinters([
+//       { name: 'default', description: 'Printer Default Sistem' },
+//       { name: 'browser', description: 'Dialog Print Browser' }
+//     ]);
+//   }, []);
 
-  const handlePrint = () => {
-    if (selectedPrinter === 'browser') {
-      window.print();
-    } else {
-      const printContent = printRef.current;
-      const printWindow = window.open('', '_blank');
+//   const handlePrint = () => {
+//     if (selectedPrinter === 'browser') {
+//       window.print();
+//     } else {
+//       const printContent = printRef.current;
+//       const printWindow = window.open('', '_blank');
       
-      printWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-          <head>
-            <title>Print Antrian - ${antrian}</title>
-            <style>
-              @media print {
-                @page { margin: 0; }
-                html, body { 
-                  margin: 0; 
-                  padding: 0; 
-                }
-                .ticket-container {
-                  width: 65mm;
-                  height: 76mm;
-                  border: 1px dashed #000;
-                  margin: 0;
-                  padding: 1mm;
-                  page-break-after: always;
-                }
+//       printWindow.document.write(`
+//         <!DOCTYPE html>
+//         <html>
+//           <head>
+//             <title>Print Antrian - ${antrian}</title>
+//             <style>
+//               @media print {
+//                 @page { margin: 0; }
+//                 html, body { 
+//                   margin: 0; 
+//                   padding: 0; 
+//                 }
+//                 .ticket-container {
+//                   width: 65mm;
+//                   height: 76mm;
+//                   border: 1px dashed #000;
+//                   margin: 0;
+//                   padding: 1mm;
+//                   page-break-after: always;
+//                 }
                 
-                .header { text-align: center; margin-bottom: 5mm; }
-                .title { font-size: 16pt; font-weight: bold; margin-bottom: 1mm; }
-                .subtitle { font-size: 12pt; margin-bottom: 0; }
-                .antrian-section { text-align: center; margin: 1mm 0; }
-                .antrian-number { font-size: 38pt; font-weight: bold; }
-                .barcode-section { text-align: center; margin: 0; }
-                .barcode { width: 20mm; height: 20mm; }
-                .kode { font-size: 10pt; margin-top: 1mm; }
-                .info-section { margin: 1mm 0; }
-                .info { font-size: 9pt; margin-bottom: 1mm; text-align: center; }
-                .footer { text-align: center; }
-                .footer-text { font-size: 8pt; }
-              }
-            </style>
-          </head>
-          <body>
-            <div class="ticket-container">
-              <div class="header">
-                <div class="title">NOMOR ANTRIAN</div>
-                <div class="subtitle">Sistem Kunjungan Digital BATARI</div>
-                <div class="subtitle">Rutan Kelas II B Bantaeng</div>
-              </div>
+//                 .header { text-align: center; margin-bottom: 5mm; }
+//                 .title { font-size: 16pt; font-weight: bold; margin-bottom: 1mm; }
+//                 .subtitle { font-size: 12pt; margin-bottom: 0; }
+//                 .antrian-section { text-align: center; margin: 1mm 0; }
+//                 .antrian-number { font-size: 38pt; font-weight: bold; }
+//                 .barcode-section { text-align: center; margin: 0; }
+//                 .barcode { width: 20mm; height: 20mm; }
+//                 .kode { font-size: 10pt; margin-top: 1mm; }
+//                 .info-section { margin: 1mm 0; }
+//                 .info { font-size: 9pt; margin-bottom: 1mm; text-align: center; }
+//                 .footer { text-align: center; }
+//                 .footer-text { font-size: 8pt; }
+//               }
+//             </style>
+//           </head>
+//           <body>
+//             <div class="ticket-container">
+//               <div class="header">
+//                 <div class="title">NOMOR ANTRIAN</div>
+//                 <div class="subtitle">Sistem Kunjungan Digital BATARI</div>
+//                 <div class="subtitle">Rutan Kelas II B Bantaeng</div>
+//               </div>
               
-              <div class="antrian-section">
-                <div class="antrian-number">${antrian}</div>
-              </div>
+//               <div class="antrian-section">
+//                 <div class="antrian-number">${antrian}</div>
+//               </div>
               
-              <div class="barcode-section">
-                <img src="${pengunjung.barcode || ''}" alt="Barcode" class="barcode" />
-                <div class="kode">Kode: ${pengunjung.kode}</div>
-              </div>
+//               <div class="barcode-section">
+//                 <img src="${pengunjung.barcode || ''}" alt="Barcode" class="barcode" />
+//                 <div class="kode">Kode: ${pengunjung.kode}</div>
+//               </div>
               
-              <div class="info-section">
-                <div class="info">
-                  Tanggal: ${new Date().toLocaleDateString('id-ID')}
-                </div>
-                <div class="info">
-                  WBP: ${pengunjung.nama || 'Tidak tersedia'}
-                </div>
-              </div>
+//               <div class="info-section">
+//                 <div class="info">
+//                   Tanggal: ${new Date().toLocaleDateString('id-ID')}
+//                 </div>
+//                 <div class="info">
+//                   WBP: ${pengunjung.nama || 'Tidak tersedia'}
+//                 </div>
+//               </div>
               
-              <div class="footer">
-                <div class="footer-text">Tunggu hingga nomor antrian dipanggil</div>
-              </div>
-            </div>
-          </body>
-        </html>
-      `);
+//               <div class="footer">
+//                 <div class="footer-text">Tunggu hingga nomor antrian dipanggil</div>
+//               </div>
+//             </div>
+//           </body>
+//         </html>
+//       `);
       
-      printWindow.document.close();
-      printWindow.focus();
+//       printWindow.document.close();
+//       printWindow.focus();
       
-      setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-      }, 500);
-    }
-  };
+//       setTimeout(() => {
+//         printWindow.print();
+//         printWindow.close();
+//       }, 500);
+//     }
+//   };
 
-  const handleDirectPrint = () => {
-    handlePrint();
-    toast.success("Sedang mencetak nomor antrian...");
+//   const handleDirectPrint = () => {
+//     handlePrint();
+//     toast.success("Sedang mencetak nomor antrian...");
     
-    if (window.updateNewPengunjungWithAntrian) {
-      window.updateNewPengunjungWithAntrian({
-        ...pengunjung,
-        antrian: antrian
-      });
-    }
-  };
+//     if (window.updateNewPengunjungWithAntrian) {
+//       window.updateNewPengunjungWithAntrian({
+//         ...pengunjung,
+//         antrian: antrian
+//       });
+//     }
+//   };
 
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
-        <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-xl font-semibold">Print Nomor Antrian</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            <FaTimes className="w-6 h-6" />
-          </button>
-        </div>
+//   return (
+//     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50">
+//       <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+//         <div className="flex justify-between items-center p-4 border-b">
+//           <h2 className="text-xl font-semibold">Print Nomor Antrian</h2>
+//           <button
+//             onClick={onClose}
+//             className="text-gray-500 hover:text-gray-700"
+//           >
+//             <FaTimes className="w-6 h-6" />
+//           </button>
+//         </div>
         
-        <div className="p-4">
-          <div 
-            ref={printRef}
-            className="bg-white border-2 border-dashed border-gray-300 p-4 mb-4 mx-auto"
-            style={{ width: '80mm', height: '80mm' }}
-          >
-            <div className="text-center border-b border-gray-300 pb-2 mb-2">
-              <div className="text-lg font-bold">NOMOR ANTRIAN</div>
-              <div className="text-xs text-gray-600">Sistem Kunjungan Digital BATARI</div>
-              <div className="text-xs text-gray-600">Rutan Kelas II B Bantaeng</div>
-            </div>
+//         <div className="p-4">
+//           <div 
+//             ref={printRef}
+//             className="bg-white border-2 border-dashed border-gray-300 p-4 mb-4 mx-auto"
+//             style={{ width: '80mm', height: '80mm' }}
+//           >
+//             <div className="text-center border-b border-gray-300 pb-2 mb-2">
+//               <div className="text-lg font-bold">NOMOR ANTRIAN</div>
+//               <div className="text-xs text-gray-600">Sistem Kunjungan Digital BATARI</div>
+//               <div className="text-xs text-gray-600">Rutan Kelas II B Bantaeng</div>
+//             </div>
             
-            <div className="text-center my-2">
-              <div className="text-4xl font-bold text-blue-600">{antrian}</div>
-            </div>
+//             <div className="text-center my-2">
+//               <div className="text-4xl font-bold text-blue-600">{antrian}</div>
+//             </div>
             
-            <div className="text-center border-t border-gray-300 pt-1 mt-1">
-              {pengunjung.barcode && (
-                <img 
-                  src={pengunjung.barcode} 
-                  alt="Barcode" 
-                  className="w-16 h-16 mx-auto" 
-                />
-              )}
-              <div className="text-xs text-gray-600 ">Kode: {pengunjung.kode}</div>
-            </div>
+//             <div className="text-center border-t border-gray-300 pt-1 mt-1">
+//               {pengunjung.barcode && (
+//                 <img 
+//                   src={pengunjung.barcode} 
+//                   alt="Barcode" 
+//                   className="w-16 h-16 mx-auto" 
+//                 />
+//               )}
+//               <div className="text-xs text-gray-600 ">Kode: {pengunjung.kode}</div>
+//             </div>
             
-            <div className="text-center text-[10px] text-gray-700 mt-0">
-              <div>Tanggal: {new Date().toLocaleDateString('id-ID')}</div>
-              <div className="mt-0">pengunjung: {pengunjung.nama || 'Tidak tersedia'}</div>
-            </div>
+//             <div className="text-center text-[10px] text-gray-700 mt-0">
+//               <div>Tanggal: {new Date().toLocaleDateString('id-ID')}</div>
+//               <div className="mt-0">pengunjung: {pengunjung.nama || 'Tidak tersedia'}</div>
+//             </div>
             
-            <div className="text-center text-[10px] text-gray-500 mt-1">
-              <div>Tunggu hingga nomor antrian dipanggil</div>
-            </div>
-          </div>
+//             <div className="text-center text-[10px] text-gray-500 mt-1">
+//               <div>Tunggu hingga nomor antrian dipanggil</div>
+//             </div>
+//           </div>
 
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Pilih Printer:
-            </label>
-            <select
-              value={selectedPrinter}
-              onChange={(e) => setSelectedPrinter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              {printers.map((printer) => (
-                <option key={printer.name} value={printer.name}>
-                  {printer.description}
-                </option>
-              ))}
-            </select>
-          </div>
+//           <div className="mb-4">
+//             <label className="block text-sm font-medium text-gray-700 mb-2">
+//               Pilih Printer:
+//             </label>
+//             <select
+//               value={selectedPrinter}
+//               onChange={(e) => setSelectedPrinter(e.target.value)}
+//               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//             >
+//               {printers.map((printer) => (
+//                 <option key={printer.name} value={printer.name}>
+//                   {printer.description}
+//                 </option>
+//               ))}
+//             </select>
+//           </div>
 
-          <div className="text-xs text-gray-500 mb-4">
-            <strong>Catatan:</strong> Pilih "Dialog Print Browser" untuk memilih printer secara manual, 
-            atau "Printer Default Sistem" untuk print langsung ke printer default.
-          </div>
-        </div>
+//           <div className="text-xs text-gray-500 mb-4">
+//             <strong>Catatan:</strong> Pilih "Dialog Print Browser" untuk memilih printer secara manual, 
+//             atau "Printer Default Sistem" untuk print langsung ke printer default.
+//           </div>
+//         </div>
         
-        <div className="flex justify-end p-4 border-t gap-2">
-          <button
-            onClick={onClose}
-            className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
-          >
-            Tutup
-          </button>
-          <button
-            onClick={handleDirectPrint}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors flex items-center"
-          >
-            <FaPrint className="mr-2" />
-            Print Sekarang
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
+//         <div className="flex justify-end p-4 border-t gap-2">
+//           <button
+//             onClick={onClose}
+//             className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
+//           >
+//             Tutup
+//           </button>
+//           <button
+//             onClick={handleDirectPrint}
+//             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors flex items-center"
+//           >
+//             <FaPrint className="mr-2" />
+//             Print Sekarang
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
 
-// Komponen FloatingActionButtons yang diperbaiki dengan tombol keyboard
-const FloatingActionButtons = ({ 
-  onCheckData, 
-  onScrollUp, 
-  onScrollDown, 
-  isExpanded, 
-  onToggleExpand,
-  onToggleKeyboard,
-  isKeyboardEnabled 
-}) => {
-  return (
-    <div className="fixed right-6 bottom-6 z-40 flex flex-col items-end space-y-3">
-      {/* Tombol untuk toggle keyboard */}
-      <button
-        onClick={onToggleKeyboard}
-        className={`group relative p-4 rounded-full shadow-2xl focus:outline-none focus:ring-4 transition-all duration-300 transform hover:scale-110 ${
-          isKeyboardEnabled 
-            ? 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-300' 
-            : 'bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-300'
-        }`}
-        title={`${isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual`}
-      >
-        <FaKeyboard className="w-6 h-6" />
+// // Komponen FloatingActionButtons
+// const FloatingActionButtons = ({ 
+//   onCheckData, 
+//   onScrollUp, 
+//   onScrollDown, 
+//   isExpanded, 
+//   onToggleExpand,
+//   onToggleKeyboard,
+//   isKeyboardEnabled 
+// }) => {
+//   return (
+//     <div className="fixed right-6 bottom-6 z-40 flex flex-col items-end space-y-3">
+//       {/* Tombol untuk toggle keyboard */}
+//       <button
+//         onClick={onToggleKeyboard}
+//         className={`group relative p-4 rounded-full shadow-2xl focus:outline-none focus:ring-4 transition-all duration-300 transform hover:scale-110 ${
+//           isKeyboardEnabled 
+//             ? 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-300' 
+//             : 'bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-300'
+//         }`}
+//         title={`${isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual`}
+//       >
+//         <FaKeyboard className="w-6 h-6" />
         
-        <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-          {isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual
-          <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-8 border-transparent border-l-gray-800"></div>
-        </div>
-      </button>
+//         <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+//           {isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual
+//           <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-8 border-transparent border-l-gray-800"></div>
+//         </div>
+//       </button>
 
-      <button
-        onClick={onCheckData}
-        className="group relative bg-gradient-to-r from-yellow-500 to-orange-500 text-white p-4 rounded-full shadow-2xl hover:from-yellow-600 hover:to-orange-600 focus:outline-none focus:ring-4 focus:ring-yellow-300 transition-all duration-300 transform hover:scale-110 animate-pulse"
-        title="Cek Kelengkapan Data"
-      >
-        <FaSearch className="w-6 h-6" />
+//       <button
+//         onClick={onCheckData}
+//         className="group relative bg-gradient-to-r from-yellow-500 to-orange-500 text-white p-4 rounded-full shadow-2xl hover:from-yellow-600 hover:to-orange-600 focus:outline-none focus:ring-4 focus:ring-yellow-300 transition-all duration-300 transform hover:scale-110 animate-pulse"
+//         title="Cek Kelengkapan Data"
+//       >
+//         <FaSearch className="w-6 h-6" />
         
-        <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-          Cek Kelengkapan Data
-          <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-8 border-transparent border-l-gray-800"></div>
-        </div>
-      </button>
+//         <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+//           Cek Kelengkapan Data
+//           <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-8 border-transparent border-l-gray-800"></div>
+//         </div>
+//       </button>
 
-      <div className={`flex flex-col space-y-3 transition-all duration-300 ${isExpanded ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
-        <button
-          onClick={onScrollUp}
-          className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105"
-          title="Scroll ke Atas"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-          </svg>
-        </button>
+//       <div className={`flex flex-col space-y-3 transition-all duration-300 ${isExpanded ? 'opacity-100 scale-100' : 'opacity-0 scale-50 pointer-events-none'}`}>
+//         <button
+//           onClick={onScrollUp}
+//           className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105"
+//           title="Scroll ke Atas"
+//         >
+//           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+//           </svg>
+//         </button>
         
-        <button
-          onClick={onScrollDown}
-          className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105"
-          title="Scroll ke Bawah"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-      </div>
+//         <button
+//           onClick={onScrollDown}
+//           className="bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 transform hover:scale-105"
+//           title="Scroll ke Bawah"
+//         >
+//           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+//           </svg>
+//         </button>
+//       </div>
 
-      <button
-        onClick={onToggleExpand}
-        className={`mt-2 p-2 rounded-full transition-all duration-300 ${
-          isExpanded 
-            ? 'bg-gray-600 text-white rotate-45' 
-            : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-        }`}
-        title={isExpanded ? "Tutup Menu" : "Buka Menu Scroll"}
-      >
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-        </svg>
-      </button>
-    </div>
-  );
-};
+//       <button
+//         onClick={onToggleExpand}
+//         className={`mt-2 p-2 rounded-full transition-all duration-300 ${
+//           isExpanded 
+//             ? 'bg-gray-600 text-white rotate-45' 
+//             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+//         }`}
+//         title={isExpanded ? "Tutup Menu" : "Buka Menu Scroll"}
+//       >
+//         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+//         </svg>
+//       </button>
+//     </div>
+//   );
+// };
 
+// Komponen utama AddPengunjungForm dengan integrasi SearchSection yang diperbarui
 const AddPengunjungForm = ({ onClose }) => {
-  const { createPengunjung, createDataPengunjung, fetchWbpList, wbpList, updatePengunjung, fetchPengunjungData, pengunjungData, updateAntrian, fetchPengunjung, pengunjungs } = useDataStore();
+  const { createPengunjung, createDataPengunjung, fetchWbpList, wbpList, updatePengunjung, fetchPengunjungData, pengunjungData, updateAntrian, fetchPengunjung, pengunjungs, createFromExisting } = useDataStore();
   const [formData, setFormData] = useState({
     wbp_id: "",
     nama: "",
@@ -9085,6 +9586,9 @@ const AddPengunjungForm = ({ onClose }) => {
     localStorage.setItem('virtualKeyboardEnabled', JSON.stringify(newState));
     toast.success(`Keyboard virtual ${newState ? 'diaktifkan' : 'dinonaktifkan'}`);
   };
+
+  // Fungsi untuk menggunakan data dari pencarian - DIPERBAIKI
+// Fungsi untuk menggunakan data dari pencarian - DIPERBAIKI dengan debug
 
   // Fungsi untuk validasi kunjungan yang diperbaiki
   const validateKunjungan = () => {
@@ -9425,8 +9929,6 @@ const AddPengunjungForm = ({ onClose }) => {
     fetchData();
   }, [fetchWbpList, fetchPengunjungData, fetchPengunjung]);
 
-  console.log("pengunjungs", pengunjungs);
-
   // Handle click outside untuk dropdown pengunjung
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -9610,63 +10112,49 @@ const AddPengunjungForm = ({ onClose }) => {
     return total;
   };
 
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   const updatedFormData = {
-  //     ...formData,
-  //     [name]: value,
-  //   };
-    
-  //   if (name.includes('pengikut_') && name !== 'total_pengikut') {
-  //     updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-  //   }
-    
-  //   setFormData(updatedFormData);
-  // };
+  // Tambahkan fungsi generateNIK di dalam komponen AddPengunjungForm
+  const generateNIK = () => {
+    // Generate 16 digit random number untuk NIK
+    const randomNIK = Math.random().toString().substring(2, 18).padEnd(16, '0');
+    return randomNIK;
+  };
 
-  // Tambahkan fungsi generateNIK di dalam komponen AddPengunjungForm (setelah deklarasi state)
-const generateNIK = () => {
-  // Generate 16 digit random number untuk NIK
-  const randomNIK = Math.random().toString().substring(2, 18).padEnd(16, '0');
-  return randomNIK;
-};
-
-// Modifikasi handleInputChange untuk validasi NIK
-const handleInputChange = (e) => {
-  const { name, value } = e.target;
-  
-  // Validasi khusus untuk field NIK
-  if (name === 'nik') {
-    // Hanya allow angka dan karakter '-'
-    const cleanedValue = value.replace(/[^\d-]/g, '');
+  // Modifikasi handleInputChange untuk validasi NIK
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
     
-    // Jika value hanya mengandung '-' atau '0', kosongkan
-    if (cleanedValue === '-' || cleanedValue === '0') {
+    // Validasi khusus untuk field NIK
+    if (name === 'nik') {
+      // Hanya allow angka dan karakter '-'
+      const cleanedValue = value.replace(/[^\d-]/g, '');
+      
+      // Jika value hanya mengandung '-' atau '0', kosongkan
+      if (cleanedValue === '-' || cleanedValue === '0') {
+        setFormData(prev => ({
+          ...prev,
+          [name]: ''
+        }));
+        return;
+      }
+      
       setFormData(prev => ({
         ...prev,
-        [name]: ''
+        [name]: cleanedValue
       }));
       return;
     }
     
-    setFormData(prev => ({
-      ...prev,
-      [name]: cleanedValue
-    }));
-    return;
-  }
-  
-  const updatedFormData = {
-    ...formData,
-    [name]: value,
+    const updatedFormData = {
+      ...formData,
+      [name]: value,
+    };
+    
+    if (name.includes('pengikut_') && name !== 'total_pengikut') {
+      updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+    }
+    
+    setFormData(updatedFormData);
   };
-  
-  if (name.includes('pengikut_') && name !== 'total_pengikut') {
-    updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-  }
-  
-  setFormData(updatedFormData);
-};
 
   // Fungsi untuk langsung update input field dari keyboard
   const handleInputUpdate = (key) => {
@@ -9938,6 +10426,88 @@ const handleInputChange = (e) => {
     }
   };
 
+  const handleUseDataForNewVisit = async (pengunjungData) => {
+  try {
+    setIsSubmitting(true);
+    
+    
+    // Siapkan data untuk createFromExisting
+    const formDataToSend = new FormData();
+    
+    // Gunakan data yang sudah diedit untuk menentukan source
+    let sourceType = 'id';
+    let sourceValue = pengunjungData.id;
+    
+    if (!sourceValue && pengunjungData.kode) {
+      sourceType = 'kode';
+      sourceValue = pengunjungData.kode;
+    } else if (!sourceValue && pengunjungData.nama) {
+      sourceType = 'nama';
+      sourceValue = pengunjungData.nama;
+    }
+    
+    formDataToSend.append('source_type', sourceType);
+    formDataToSend.append('source_value', sourceValue);
+    
+    // Gunakan data yang diedit untuk field lainnya
+    formDataToSend.append('tujuan', pengunjungData.tujuan || "Berkunjung");
+    formDataToSend.append('nama', pengunjungData.nama || "");
+    formDataToSend.append('alamat', pengunjungData.alamat || "");
+    formDataToSend.append('nik', pengunjungData.nik || "");
+    formDataToSend.append('hp', pengunjungData.hp || "");
+    formDataToSend.append('hubungan_keluarga', pengunjungData.hubungan_keluarga || "");
+    formDataToSend.append('kode', pengunjungData.kode || "");
+    
+    // Tambahkan data pengikut jika ada
+    if (pengunjungData.pengikut_laki_laki !== undefined) {
+      formDataToSend.append('pengikut_laki_laki', pengunjungData.pengikut_laki_laki);
+    }
+    if (pengunjungData.pengikut_perempuan !== undefined) {
+      formDataToSend.append('pengikut_perempuan', pengunjungData.pengikut_perempuan);
+    }
+    if (pengunjungData.pengikut_anak_anak !== undefined) {
+      formDataToSend.append('pengikut_anak_anak', pengunjungData.pengikut_anak_anak);
+    }
+    if (pengunjungData.pengikut_bayi !== undefined) {
+      formDataToSend.append('pengikut_bayi', pengunjungData.pengikut_bayi);
+    }
+    if (pengunjungData.total_pengikut !== undefined) {
+      formDataToSend.append('total_pengikut', pengunjungData.total_pengikut);
+    }
+    
+    // DEBUG: Tampilkan data yang akan dikirim
+    console.log("=== DATA YANG AKAN DIKIRIM KE BACKEND ===");
+    for (let [key, value] of formDataToSend.entries()) {
+      console.log(key + ": " + value);
+    }
+    console.log("=============================================");
+    
+    // Panggil createFromExisting
+    const createdPengunjung = await createFromExisting(formDataToSend, setError);
+    
+    if (createdPengunjung) {
+      toast.success("Kunjungan berhasil dibuat dari data existing!");
+      
+      await handleGenerateAntrian(createdPengunjung.id);
+
+      // Navigasi berdasarkan tujuan
+      if (createdPengunjung.tujuan === "Berkunjung") {
+        navigate(`/pengunjung/${createdPengunjung.id}`);
+      } else if (createdPengunjung.tujuan === "Menitip barang") {
+        navigate(`/label/${createdPengunjung.id}`);
+      } else {
+        navigate(`/pengunjung/${createdPengunjung.id}`);
+      }
+    }
+  } catch (error) {
+    console.error("Error creating from existing:", error);
+    toast.error("Gagal membuat kunjungan dari data existing");
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -10019,7 +10589,6 @@ const handleInputChange = (e) => {
               antrian: nomorAntrian
             });
             
-            // setShowPrintDialog(true);
             setShowEditForm(true);
           } else {
             setShowEditForm(true);
@@ -10084,6 +10653,38 @@ const handleInputChange = (e) => {
     setShowEditForm(true);
   };
 
+  // Tambahkan fungsi ini ke dalam komponen AddPengunjungForm
+  const handleCheckEmptyFields = () => {
+    scrollToEmptyInputOrSubmit();
+  };
+
+  // Tambahkan juga fungsi untuk WBP validation khusus
+  const checkWbpField = () => {
+    if (!formData.wbp_id) {
+      const wbpInput = document.querySelector('#search-wbp-input');
+      if (wbpInput) {
+        wbpInput.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center',
+          inline: 'nearest'
+        });
+        
+        wbpInput.style.borderColor = '#ef4444';
+        wbpInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
+        
+        setTimeout(() => {
+          wbpInput.style.borderColor = '';
+          wbpInput.style.boxShadow = '';
+        }, 3000);
+        
+        wbpInput.focus();
+        toast.error('Harap pilih Warga Binaan terlebih dahulu!');
+        return true;
+      }
+    }
+    return false;
+  };
+
   // Jika showEditForm true dan newPengunjung ada, tampilkan EditPengunjungForm
   if (showEditForm && newPengunjung) {
     return (
@@ -10133,41 +10734,9 @@ const handleInputChange = (e) => {
     );
   };
 
-  // Tambahkan fungsi ini ke dalam komponen AddPengunjungForm
-  const handleCheckEmptyFields = () => {
-    scrollToEmptyInputOrSubmit();
-  };
-
-  // Tambahkan juga fungsi untuk WBP validation khusus
-  const checkWbpField = () => {
-    if (!formData.wbp_id) {
-      const wbpInput = document.querySelector('#search-wbp-input');
-      if (wbpInput) {
-        wbpInput.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'center',
-          inline: 'nearest'
-        });
-        
-        wbpInput.style.borderColor = '#ef4444';
-        wbpInput.style.boxShadow = '0 0 0 3px rgba(239, 68, 68, 0.1)';
-        
-        setTimeout(() => {
-          wbpInput.style.borderColor = '';
-          wbpInput.style.boxShadow = '';
-        }, 3000);
-        
-        wbpInput.focus();
-        toast.error('Harap pilih Warga Binaan terlebih dahulu!');
-        return true;
-      }
-    }
-    return false;
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 to-purple-50 p-6">
-      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all hover:scale-105">
+      <div className="w-full max-w-6xl bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all hover:scale-105">
         {/* Header */}
         <div className="p-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white">
           <div className="w-full">
@@ -10184,8 +10753,15 @@ const handleInputChange = (e) => {
           </p>
         </div>
 
-        {/* Form */}
+        {/* Content */}
         <div className="p-8">
+          {/* Search Section yang Diperbarui */}
+          <SearchSection 
+            onSelectPengunjung={selectPengunjung}
+            onUseForNewVisit={handleUseDataForNewVisit}
+            pengunjungs={pengunjungs || []}
+          />
+
           {error && (
             <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700">
               {error}
@@ -10882,816 +11458,816 @@ const handleInputChange = (e) => {
   );
 };
 
-// Komponen wrapper untuk EditPengunjungForm
-const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose, isKeyboardEnabled: parentKeyboardEnabled, toggleKeyboard: parentToggleKeyboard }) => {
-  const { updatePengunjung } = useDataStore();
-  const [formData, setFormData] = useState({
-    nama: newPengunjung.nama || "",
-    jenis_kelamin: newPengunjung.jenis_kelamin || "",
-    nik: newPengunjung.nik || "",
-    alamat: newPengunjung.alamat || "",
-    hp: newPengunjung.hp || "",
-    hubungan_keluarga: newPengunjung.hubungan_keluarga || "",
-    tujuan: newPengunjung.tujuan || "Berkunjung",
-    kode: newPengunjung.kode || "",
-    pengikut_laki_laki: newPengunjung.pengikut_laki_laki || 0,
-    pengikut_perempuan: newPengunjung.pengikut_perempuan || 0,
-    pengikut_anak_anak: newPengunjung.pengikut_anak_anak || 0,
-    pengikut_bayi: newPengunjung.pengikut_bayi || 0,
-    total_pengikut: newPengunjung.total_pengikut || 0,
-  });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+// // Komponen wrapper untuk EditPengunjungForm
+// const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose, isKeyboardEnabled: parentKeyboardEnabled, toggleKeyboard: parentToggleKeyboard }) => {
+//   const { updatePengunjung } = useDataStore();
+//   const [formData, setFormData] = useState({
+//     nama: newPengunjung.nama || "",
+//     jenis_kelamin: newPengunjung.jenis_kelamin || "",
+//     nik: newPengunjung.nik || "",
+//     alamat: newPengunjung.alamat || "",
+//     hp: newPengunjung.hp || "",
+//     hubungan_keluarga: newPengunjung.hubungan_keluarga || "",
+//     tujuan: newPengunjung.tujuan || "Berkunjung",
+//     kode: newPengunjung.kode || "",
+//     pengikut_laki_laki: newPengunjung.pengikut_laki_laki || 0,
+//     pengikut_perempuan: newPengunjung.pengikut_perempuan || 0,
+//     pengikut_anak_anak: newPengunjung.pengikut_anak_anak || 0,
+//     pengikut_bayi: newPengunjung.pengikut_bayi || 0,
+//     total_pengikut: newPengunjung.total_pengikut || 0,
+//   });
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState("");
+//   const [isModalOpen, setIsModalOpen] = useState(false);
   
-  const [showVirtualKeyboard, setShowVirtualKeyboard] = useState(false);
-  const [activeInput, setActiveInput] = useState(null);
-  const [keyboardValue, setKeyboardValue] = useState('');
+//   const [showVirtualKeyboard, setShowVirtualKeyboard] = useState(false);
+//   const [activeInput, setActiveInput] = useState(null);
+//   const [keyboardValue, setKeyboardValue] = useState('');
   
-  const [ambilAntrian, setAmbilAntrian] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+//   const [ambilAntrian, setAmbilAntrian] = useState(false);
+//   const [isAdmin, setIsAdmin] = useState(false);
 
-  const [isDataSaved, setIsDataSaved] = useState(false);
+//   const [isDataSaved, setIsDataSaved] = useState(false);
 
-  const [showModalKtp, setShowModalKtp] = useState(false);
-  const [showModalPengunjung, setShowModalPengunjung] = useState(false);
-  const [showModalBarcode, setShowModalBarcode] = useState(false);
+//   const [showModalKtp, setShowModalKtp] = useState(false);
+//   const [showModalPengunjung, setShowModalPengunjung] = useState(false);
+//   const [showModalBarcode, setShowModalBarcode] = useState(false);
 
-  const [isPc, setIsPc] = useState(false);
+//   const [isPc, setIsPc] = useState(false);
 
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
 
-  // State untuk keyboard enabled di EditPengunjungFormWrapper
-  const [isKeyboardEnabled, setIsKeyboardEnabled] = useState(parentKeyboardEnabled !== undefined ? parentKeyboardEnabled : true);
+//   // State untuk keyboard enabled di EditPengunjungFormWrapper
+//   const [isKeyboardEnabled, setIsKeyboardEnabled] = useState(parentKeyboardEnabled !== undefined ? parentKeyboardEnabled : true);
 
-  // Sync dengan parent component jika prop berubah
-  useEffect(() => {
-    if (parentKeyboardEnabled !== undefined) {
-      setIsKeyboardEnabled(parentKeyboardEnabled);
-    }
-  }, [parentKeyboardEnabled]);
+//   // Sync dengan parent component jika prop berubah
+//   useEffect(() => {
+//     if (parentKeyboardEnabled !== undefined) {
+//       setIsKeyboardEnabled(parentKeyboardEnabled);
+//     }
+//   }, [parentKeyboardEnabled]);
 
-  const toggleKeyboard = () => {
-    const newState = !isKeyboardEnabled;
-    setIsKeyboardEnabled(newState);
-    localStorage.setItem('virtualKeyboardEnabled', JSON.stringify(newState));
+//   const toggleKeyboard = () => {
+//     const newState = !isKeyboardEnabled;
+//     setIsKeyboardEnabled(newState);
+//     localStorage.setItem('virtualKeyboardEnabled', JSON.stringify(newState));
     
-    // Jika ada parentToggleKeyboard, panggil juga
-    if (parentToggleKeyboard) {
-      parentToggleKeyboard();
-    } else {
-      toast.success(`Keyboard virtual ${newState ? 'diaktifkan' : 'dinonaktifkan'}`);
-    }
-  };
+//     // Jika ada parentToggleKeyboard, panggil juga
+//     if (parentToggleKeyboard) {
+//       parentToggleKeyboard();
+//     } else {
+//       toast.success(`Keyboard virtual ${newState ? 'diaktifkan' : 'dinonaktifkan'}`);
+//     }
+//   };
 
-  useEffect(() => {
-    const checkDevice = () => {
-      const userAgent = navigator.userAgent.toLowerCase();
-      const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent);
-      const isTablet = /tablet|ipad/i.test(userAgent);
-      const isPcDevice = !isMobile && !isTablet;
+//   useEffect(() => {
+//     const checkDevice = () => {
+//       const userAgent = navigator.userAgent.toLowerCase();
+//       const isMobile = /mobile|android|iphone|ipad|phone/i.test(userAgent);
+//       const isTablet = /tablet|ipad/i.test(userAgent);
+//       const isPcDevice = !isMobile && !isTablet;
       
-      setIsPc(isPcDevice);
-    };
+//       setIsPc(isPcDevice);
+//     };
 
-    checkDevice();
-  }, []);
+//     checkDevice();
+//   }, []);
 
-  const authUser = JSON.parse(localStorage.getItem('authUser'));
+//   const authUser = JSON.parse(localStorage.getItem('authUser'));
 
-  useEffect(() => {
-    const authUser = JSON.parse(localStorage.getItem('authUser'));
-    if (authUser && authUser.user && authUser.user.role === 'admin') {
-      setIsAdmin(true);
-    }
+//   useEffect(() => {
+//     const authUser = JSON.parse(localStorage.getItem('authUser'));
+//     if (authUser && authUser.user && authUser.user.role === 'admin') {
+//       setIsAdmin(true);
+//     }
     
-    const initialTotal = calculateTotalPengikut(formData);
-    setFormData(prev => ({
-      ...prev,
-      total_pengikut: initialTotal
-    }));
-  }, []);
+//     const initialTotal = calculateTotalPengikut(formData);
+//     setFormData(prev => ({
+//       ...prev,
+//       total_pengikut: initialTotal
+//     }));
+//   }, []);
 
-  const hasPengikutChanges = () => {
-    return (
-      formData.pengikut_laki_laki !== newPengunjung.pengikut_laki_laki ||
-      formData.pengikut_perempuan !== newPengunjung.pengikut_perempuan ||
-      formData.pengikut_anak_anak !== newPengunjung.pengikut_anak_anak ||
-      formData.pengikut_bayi !== newPengunjung.pengikut_bayi ||
-      formData.total_pengikut !== newPengunjung.total_pengikut
-    );
-  };
+//   const hasPengikutChanges = () => {
+//     return (
+//       formData.pengikut_laki_laki !== newPengunjung.pengikut_laki_laki ||
+//       formData.pengikut_perempuan !== newPengunjung.pengikut_perempuan ||
+//       formData.pengikut_anak_anak !== newPengunjung.pengikut_anak_anak ||
+//       formData.pengikut_bayi !== newPengunjung.pengikut_bayi ||
+//       formData.total_pengikut !== newPengunjung.total_pengikut
+//     );
+//   };
 
-  const savePengunjungData = async () => {
-    setLoading(true);
-    setError("");
+//   const savePengunjungData = async () => {
+//     setLoading(true);
+//     setError("");
 
-    try {
-      await updatePengunjung(newPengunjung.id, formData);
-      toast.success("Data pengunjung berhasil diperbarui!");
-      setIsDataSaved(true);
-      return true;
-    } catch (error) {
-      console.error("Error: ", error);
-      setError("Gagal memperbarui data pengunjung. Silakan coba lagi.");
-      toast.error("Gagal memperbarui data pengunjung.");
-      return false;
-    } finally {
-      setLoading(false);
-    }
-  };
+//     try {
+//       await updatePengunjung(newPengunjung.id, formData);
+//       toast.success("Data pengunjung berhasil diperbarui!");
+//       setIsDataSaved(true);
+//       return true;
+//     } catch (error) {
+//       console.error("Error: ", error);
+//       setError("Gagal memperbarui data pengunjung. Silakan coba lagi.");
+//       toast.error("Gagal memperbarui data pengunjung.");
+//       return false;
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
 
-  const finish = async () => {
-    if (hasPengikutChanges() && !isDataSaved) {
-      const shouldSave = window.confirm(
-        "Data jumlah pengikut telah berubah. Apakah Anda ingin menyimpan perubahan sebelum melanjutkan?"
-      );
+//   const finish = async () => {
+//     if (hasPengikutChanges() && !isDataSaved) {
+//       const shouldSave = window.confirm(
+//         "Data jumlah pengikut telah berubah. Apakah Anda ingin menyimpan perubahan sebelum melanjutkan?"
+//       );
       
-      if (shouldSave) {
-        const success = await savePengunjungData();
-        if (!success) {
-          const continueAnyway = window.confirm(
-            "Gagal menyimpan data. Apakah Anda ingin melanjutkan tanpa menyimpan perubahan?"
-          );
-          if (!continueAnyway) {
-            return;
-          }
-        }
-      }
-    }
+//       if (shouldSave) {
+//         const success = await savePengunjungData();
+//         if (!success) {
+//           const continueAnyway = window.confirm(
+//             "Gagal menyimpan data. Apakah Anda ingin melanjutkan tanpa menyimpan perubahan?"
+//           );
+//           if (!continueAnyway) {
+//             return;
+//           }
+//         }
+//       }
+//     }
 
-    if (!ambilAntrian && formData.tujuan === "Menitip barang") {
-      navigate(`/label/${newPengunjung.id}`);
-    } else if (!ambilAntrian && formData.tujuan === "Berkunjung") {
-      navigate(`/pengunjung/${newPengunjung.id}`);
-    } else {
-      navigate('/');
-    }
-  };
+//     if (!ambilAntrian && formData.tujuan === "Menitip barang") {
+//       navigate(`/label/${newPengunjung.id}`);
+//     } else if (!ambilAntrian && formData.tujuan === "Berkunjung") {
+//       navigate(`/pengunjung/${newPengunjung.id}`);
+//     } else {
+//       navigate('/');
+//     }
+//   };
 
-  const handleVirtualKeyPress = (key) => {
-    if (key === 'backspace') {
-      setKeyboardValue(prev => prev.slice(0, -1));
-      handleInputUpdate('backspace');
-    } else if (key === 'enter') {
-      setShowVirtualKeyboard(false);
-    } else if (key === 'space') {
-      setKeyboardValue(prev => prev + ' ');
-      handleInputUpdate(' ');
-    } else if (key === 'clear') {
-      setKeyboardValue('');
-      handleInputUpdate('clear');
-    } else if (key === 'tab') {
-      // Switch between inputs
-    } else {
-      setKeyboardValue(prev => prev + key);
-      handleInputUpdate(key);
-    }
-  };
+//   const handleVirtualKeyPress = (key) => {
+//     if (key === 'backspace') {
+//       setKeyboardValue(prev => prev.slice(0, -1));
+//       handleInputUpdate('backspace');
+//     } else if (key === 'enter') {
+//       setShowVirtualKeyboard(false);
+//     } else if (key === 'space') {
+//       setKeyboardValue(prev => prev + ' ');
+//       handleInputUpdate(' ');
+//     } else if (key === 'clear') {
+//       setKeyboardValue('');
+//       handleInputUpdate('clear');
+//     } else if (key === 'tab') {
+//       // Switch between inputs
+//     } else {
+//       setKeyboardValue(prev => prev + key);
+//       handleInputUpdate(key);
+//     }
+//   };
 
-  const handleInputUpdate = (key) => {
-    let newValue = '';
+//   const handleInputUpdate = (key) => {
+//     let newValue = '';
     
-    if (key === 'backspace') {
-      newValue = keyboardValue.slice(0, -1);
-    } else if (key === 'clear') {
-      newValue = '';
-    } else if (key === ' ') {
-      newValue = keyboardValue + ' ';
-    } else {
-      newValue = keyboardValue + key;
-    }
+//     if (key === 'backspace') {
+//       newValue = keyboardValue.slice(0, -1);
+//     } else if (key === 'clear') {
+//       newValue = '';
+//     } else if (key === ' ') {
+//       newValue = keyboardValue + ' ';
+//     } else {
+//       newValue = keyboardValue + key;
+//     }
 
-    switch (activeInput) {
-      case 'nama':
-        setFormData(prev => ({ ...prev, nama: newValue }));
-        break;
-      case 'nik':
-        setFormData(prev => ({ ...prev, nik: newValue }));
-        break;
-      case 'hp':
-        setFormData(prev => ({ ...prev, hp: newValue }));
-        break;
-      case 'alamat':
-        setFormData(prev => ({ ...prev, alamat: newValue }));
-        break;
-      case 'hubungan_keluarga':
-        setFormData(prev => ({ ...prev, hubungan_keluarga: newValue }));
-        break;
-      case 'kode':
-        setFormData(prev => ({ ...prev, kode: newValue }));
-        break;
-      default:
-        break;
-    }
-  };
+//     switch (activeInput) {
+//       case 'nama':
+//         setFormData(prev => ({ ...prev, nama: newValue }));
+//         break;
+//       case 'nik':
+//         setFormData(prev => ({ ...prev, nik: newValue }));
+//         break;
+//       case 'hp':
+//         setFormData(prev => ({ ...prev, hp: newValue }));
+//         break;
+//       case 'alamat':
+//         setFormData(prev => ({ ...prev, alamat: newValue }));
+//         break;
+//       case 'hubungan_keluarga':
+//         setFormData(prev => ({ ...prev, hubungan_keluarga: newValue }));
+//         break;
+//       case 'kode':
+//         setFormData(prev => ({ ...prev, kode: newValue }));
+//         break;
+//       default:
+//         break;
+//     }
+//   };
 
-  const handleInputFocus = (inputType, currentValue = '') => {
-    if (!isPc || !isKeyboardEnabled) return; // Cek apakah keyboard diaktifkan
+//   const handleInputFocus = (inputType, currentValue = '') => {
+//     if (!isPc || !isKeyboardEnabled) return; // Cek apakah keyboard diaktifkan
     
-    setActiveInput(inputType);
-    setKeyboardValue(currentValue);
-    setShowVirtualKeyboard(true);
-  };
+//     setActiveInput(inputType);
+//     setKeyboardValue(currentValue);
+//     setShowVirtualKeyboard(true);
+//   };
 
-  const ImageModal = ({ isOpen, onClose, imageUrl, title }) => {
-    if (!isOpen) return null;
+//   const ImageModal = ({ isOpen, onClose, imageUrl, title }) => {
+//     if (!isOpen) return null;
 
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-lg max-w-4xl max-h-full overflow-auto">
-          <div className="flex justify-between items-center p-4 border-b">
-            <h3 className="text-lg font-semibold">{title}</h3>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700"
-            >
-              <FaTimes size={24} />
-            </button>
-          </div>
-          <div className="p-4">
-            <img
-              src={imageUrl}
-              alt={title}
-              className="w-full h-auto max-h-96 object-contain"
-            />
-          </div>
-        </div>
-      </div>
-    );
-  };
+//     return (
+//       <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+//         <div className="bg-white rounded-lg max-w-4xl max-h-full overflow-auto">
+//           <div className="flex justify-between items-center p-4 border-b">
+//             <h3 className="text-lg font-semibold">{title}</h3>
+//             <button
+//               onClick={onClose}
+//               className="text-gray-500 hover:text-gray-700"
+//             >
+//               <FaTimes size={24} />
+//             </button>
+//           </div>
+//           <div className="p-4">
+//             <img
+//               src={imageUrl}
+//               alt={title}
+//               className="w-full h-auto max-h-96 object-contain"
+//             />
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   };
 
-  const calculateTotalPengikut = (data) => {
-    const total = 
-      parseInt(data.pengikut_laki_laki || 0) +
-      parseInt(data.pengikut_perempuan || 0) +
-      parseInt(data.pengikut_anak_anak || 0) +
-      parseInt(data.pengikut_bayi || 0);
-    return total;
-  };
+//   const calculateTotalPengikut = (data) => {
+//     const total = 
+//       parseInt(data.pengikut_laki_laki || 0) +
+//       parseInt(data.pengikut_perempuan || 0) +
+//       parseInt(data.pengikut_anak_anak || 0) +
+//       parseInt(data.pengikut_bayi || 0);
+//     return total;
+//   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    const updatedFormData = {
-      ...formData,
-      [name]: value,
-    };
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     const updatedFormData = {
+//       ...formData,
+//       [name]: value,
+//     };
     
-    if (name.includes('pengikut_') && name !== 'total_pengikut') {
-      updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-      setIsDataSaved(false);
-    }
+//     if (name.includes('pengikut_') && name !== 'total_pengikut') {
+//       updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//       setIsDataSaved(false);
+//     }
     
-    setFormData(updatedFormData);
-  };
+//     setFormData(updatedFormData);
+//   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const success = await savePengunjungData();
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     const success = await savePengunjungData();
     
-    if (success) {
-      setTimeout(() => {
-        if (onClose) onClose();
-      }, 1000);
-    }
-  };
+//     if (success) {
+//       setTimeout(() => {
+//         if (onClose) onClose();
+//       }, 1000);
+//     }
+//   };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 p-4">
-      <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl p-8 transition-all hover:shadow-3xl">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">
-            ✏️ Edit Data Pengunjung Baru
-          </h1>
-          <div className="space-x-2">
-            <button
-              onClick={onBack}
-              className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-            >
-              ← Tambah Lagi
-            </button>
-            <button
-              onClick={finish}
-              className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg transition-colors"
-            >
-              Selesai
-            </button>
-          </div>
-        </div>
+//   return (
+//     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 p-4">
+//       <div className="w-full max-w-4xl bg-white rounded-2xl shadow-2xl p-8 transition-all hover:shadow-3xl">
+//         <div className="flex items-center justify-between mb-8">
+//           <h1 className="text-3xl font-bold text-gray-800">
+//             ✏️ Edit Data Pengunjung Baru
+//           </h1>
+//           <div className="space-x-2">
+//             <button
+//               onClick={onBack}
+//               className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+//             >
+//               ← Tambah Lagi
+//             </button>
+//             <button
+//               onClick={finish}
+//               className="px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-lg transition-colors"
+//             >
+//               Selesai
+//             </button>
+//           </div>
+//         </div>
 
-        {error && (
-          <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded">
-            {error}
-          </div>
-        )}
+//         {error && (
+//           <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded">
+//             {error}
+//           </div>
+//         )}
 
-        {hasPengikutChanges() && !isDataSaved && (
-          <div className="mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 text-yellow-700 rounded">
-            <p className="flex items-center">
-              <FaInfoCircle className="mr-2" />
-              <strong>Perhatian:</strong> Data jumlah pengikut telah berubah. Pastikan untuk menyimpan perubahan sebelum menekan tombol "Selesai".
-            </p>
-          </div>
-        )}
+//         {hasPengikutChanges() && !isDataSaved && (
+//           <div className="mb-6 p-4 bg-yellow-50 border-l-4 border-yellow-500 text-yellow-700 rounded">
+//             <p className="flex items-center">
+//               <FaInfoCircle className="mr-2" />
+//               <strong>Perhatian:</strong> Data jumlah pengikut telah berubah. Pastikan untuk menyimpan perubahan sebelum menekan tombol "Selesai".
+//             </p>
+//           </div>
+//         )}
 
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-1">
-          <div className="space-y-4">
-            <div className="space-y-4">            
-               <div className="flex items-center justify-between">
-                 <label className="block text-sm font-medium text-gray-700 flex items-center">
-                   <svg className="w-4 h-4 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                   </svg>
-                   Jumlah Pengikut
-                 </label>
-                 <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg">
-                   Total: <span className="font-bold text-purple-600">{formData.total_pengikut}</span>
-                 </div>
-               </div>
-               <div className="grid grid-cols-2 gap-4">
-                 {/* Laki-laki */}
-                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-                   <div className="flex items-center justify-between mb-3">
-                     <div className="flex items-center space-x-2">
-                       <span className="text-2xl">👨</span>
-                       <span className="font-semibold text-gray-800">Laki-laki</span>
-                     </div>
-                     <div className="px-3 py-1 bg-white rounded-lg border border-blue-200 shadow-sm">
-                       <span className="text-sm font-bold text-blue-600">
-                         {formData.pengikut_laki_laki}
-                       </span>
-                     </div>
-                   </div>
+//         <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-1">
+//           <div className="space-y-4">
+//             <div className="space-y-4">            
+//                <div className="flex items-center justify-between">
+//                  <label className="block text-sm font-medium text-gray-700 flex items-center">
+//                    <svg className="w-4 h-4 mr-2 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                      <path strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+//                    </svg>
+//                    Jumlah Pengikut
+//                  </label>
+//                  <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-lg">
+//                    Total: <span className="font-bold text-purple-600">{formData.total_pengikut}</span>
+//                  </div>
+//                </div>
+//                <div className="grid grid-cols-2 gap-4">
+//                  {/* Laki-laki */}
+//                  <div className="bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+//                    <div className="flex items-center justify-between mb-3">
+//                      <div className="flex items-center space-x-2">
+//                        <span className="text-2xl">👨</span>
+//                        <span className="font-semibold text-gray-800">Laki-laki</span>
+//                      </div>
+//                      <div className="px-3 py-1 bg-white rounded-lg border border-blue-200 shadow-sm">
+//                        <span className="text-sm font-bold text-blue-600">
+//                          {formData.pengikut_laki_laki}
+//                        </span>
+//                      </div>
+//                    </div>
 
-                   <div className="flex items-center justify-between space-x-2">
-                     <button
-                      type="button"
-                      onClick={() => {
-                        const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
-                        if (currentValue > 0) {
-                          const updatedFormData = {
-                            ...formData,
-                            pengikut_laki_laki: currentValue - 1
-                          };
-                          updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                          setFormData(updatedFormData);
-                        }
-                      }}
-                      className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
-                        parseInt(formData.pengikut_laki_laki) > 0 
-                          ? 'bg-white text-blue-600 hover:bg-blue-50 border-2 border-blue-200 hover:border-blue-300' 
-                          : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
-                      } focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95`}
-                      disabled={parseInt(formData.pengikut_laki_laki) <= 0}
-                    >
-                      <div className="flex items-center justify-center space-x-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                        </svg>
-                        <span>Kurang</span>
-                      </div>
-                    </button>
+//                    <div className="flex items-center justify-between space-x-2">
+//                      <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
+//                         if (currentValue > 0) {
+//                           const updatedFormData = {
+//                             ...formData,
+//                             pengikut_laki_laki: currentValue - 1
+//                           };
+//                           updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                           setFormData(updatedFormData);
+//                         }
+//                       }}
+//                       className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
+//                         parseInt(formData.pengikut_laki_laki) > 0 
+//                           ? 'bg-white text-blue-600 hover:bg-blue-50 border-2 border-blue-200 hover:border-blue-300' 
+//                           : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
+//                       } focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95`}
+//                       disabled={parseInt(formData.pengikut_laki_laki) <= 0}
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+//                         </svg>
+//                         <span>Kurang</span>
+//                       </div>
+//                     </button>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
-                        const updatedFormData = {
-                          ...formData,
-                          pengikut_laki_laki: currentValue + 1
-                        };
-                        updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                        setFormData(updatedFormData);
-                      }}
-                      className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-blue-600 hover:bg-blue-50 border-2 border-blue-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95"
-                    >
-                      <div className="flex items-center justify-center space-x-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                        </svg>
-                        <span>Tambah</span>
-                      </div>
-                    </button>
-                  </div>
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_laki_laki: currentValue + 1
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-blue-600 hover:bg-blue-50 border-2 border-blue-200 hover:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500 active:scale-95"
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+//                         </svg>
+//                         <span>Tambah</span>
+//                       </div>
+//                     </button>
+//                   </div>
 
-                  <div className="flex space-x-2 mt-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const updatedFormData = {
-                          ...formData,
-                          pengikut_laki_laki: 0
-                        };
-                        updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                        setFormData(updatedFormData);
-                      }}
-                      className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      Reset
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
-                        const updatedFormData = {
-                          ...formData,
-                          pengikut_laki_laki: currentValue + 5
-                        };
-                        updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                        setFormData(updatedFormData);
-                      }}
-                      className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      +5
-                    </button>
-                  </div>
-                </div>
+//                   <div className="flex space-x-2 mt-3">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_laki_laki: 0
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       Reset
+//                     </button>
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_laki_laki) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_laki_laki: currentValue + 5
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       +5
+//                     </button>
+//                   </div>
+//                 </div>
 
-                {/* Perempuan */}
-                <div className="bg-gradient-to-br from-pink-50 to-pink-100 border-2 border-pink-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-2xl">👩</span>
-                      <span className="font-semibold text-gray-800">Perempuan</span>
-                    </div>
-                    <div className="px-3 py-1 bg-white rounded-lg border border-pink-200 shadow-sm">
-                      <span className="text-sm font-bold text-pink-600">
-                        {formData.pengikut_perempuan}
-                      </span>
-                    </div>
-                  </div>
+//                 {/* Perempuan */}
+//                 <div className="bg-gradient-to-br from-pink-50 to-pink-100 border-2 border-pink-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+//                   <div className="flex items-center justify-between mb-3">
+//                     <div className="flex items-center space-x-2">
+//                       <span className="text-2xl">👩</span>
+//                       <span className="font-semibold text-gray-800">Perempuan</span>
+//                     </div>
+//                     <div className="px-3 py-1 bg-white rounded-lg border border-pink-200 shadow-sm">
+//                       <span className="text-sm font-bold text-pink-600">
+//                         {formData.pengikut_perempuan}
+//                       </span>
+//                     </div>
+//                   </div>
 
-                  <div className="flex items-center justify-between space-x-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const currentValue = parseInt(formData.pengikut_perempuan) || 0;
-                        if (currentValue > 0) {
-                          const updatedFormData = {
-                            ...formData,
-                            pengikut_perempuan: currentValue - 1
-                          };
-                          updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                          setFormData(updatedFormData);
-                        }
-                      }}
-                      className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
-                        parseInt(formData.pengikut_perempuan) > 0 
-                          ? 'bg-white text-pink-600 hover:bg-pink-50 border-2 border-pink-200 hover:border-pink-300' 
-                          : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
-                      } focus:outline-none focus:ring-2 focus:ring-pink-500 active:scale-95`}
-                      disabled={parseInt(formData.pengikut_perempuan) <= 0}
-                    >
-                      <div className="flex items-center justify-center space-x-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                        </svg>
-                        <span>Kurang</span>
-                      </div>
-                    </button>
+//                   <div className="flex items-center justify-between space-x-2">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_perempuan) || 0;
+//                         if (currentValue > 0) {
+//                           const updatedFormData = {
+//                             ...formData,
+//                             pengikut_perempuan: currentValue - 1
+//                           };
+//                           updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                           setFormData(updatedFormData);
+//                         }
+//                       }}
+//                       className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
+//                         parseInt(formData.pengikut_perempuan) > 0 
+//                           ? 'bg-white text-pink-600 hover:bg-pink-50 border-2 border-pink-200 hover:border-pink-300' 
+//                           : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
+//                       } focus:outline-none focus:ring-2 focus:ring-pink-500 active:scale-95`}
+//                       disabled={parseInt(formData.pengikut_perempuan) <= 0}
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+//                         </svg>
+//                         <span>Kurang</span>
+//                       </div>
+//                     </button>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const currentValue = parseInt(formData.pengikut_perempuan) || 0;
-                        const updatedFormData = {
-                          ...formData,
-                          pengikut_perempuan: currentValue + 1
-                        };
-                        updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                        setFormData(updatedFormData);
-                      }}
-                      className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-pink-600 hover:bg-pink-50 border-2 border-pink-200 hover:border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-500 active:scale-95"
-                    >
-                      <div className="flex items-center justify-center space-x-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                        </svg>
-                        <span>Tambah</span>
-                      </div>
-                    </button>
-                  </div>
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_perempuan) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_perempuan: currentValue + 1
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-pink-600 hover:bg-pink-50 border-2 border-pink-200 hover:border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-500 active:scale-95"
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+//                         </svg>
+//                         <span>Tambah</span>
+//                       </div>
+//                     </button>
+//                   </div>
 
-                  <div className="flex space-x-2 mt-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const updatedFormData = {
-                          ...formData,
-                          pengikut_perempuan: 0
-                        };
-                        updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                        setFormData(updatedFormData);
-                      }}
-                      className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      Reset
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const currentValue = parseInt(formData.pengikut_perempuan) || 0;
-                        const updatedFormData = {
-                          ...formData,
-                          pengikut_perempuan: currentValue + 5
-                        };
-                        updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                        setFormData(updatedFormData);
-                      }}
-                      className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      +5
-                    </button>
-                  </div>
-                </div>
+//                   <div className="flex space-x-2 mt-3">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_perempuan: 0
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       Reset
+//                     </button>
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_perempuan) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_perempuan: currentValue + 5
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       +5
+//                     </button>
+//                   </div>
+//                 </div>
 
-                {/* Anak-anak */}
-                <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-2xl">🧒</span>
-                      <span className="font-semibold text-gray-800">Anak-anak</span>
-                    </div>
-                    <div className="px-3 py-1 bg-white rounded-lg border border-green-200 shadow-sm">
-                      <span className="text-sm font-bold text-green-600">
-                        {formData.pengikut_anak_anak}
-                      </span>
-                    </div>
-                  </div>
+//                 {/* Anak-anak */}
+//                 <div className="bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+//                   <div className="flex items-center justify-between mb-3">
+//                     <div className="flex items-center space-x-2">
+//                       <span className="text-2xl">🧒</span>
+//                       <span className="font-semibold text-gray-800">Anak-anak</span>
+//                     </div>
+//                     <div className="px-3 py-1 bg-white rounded-lg border border-green-200 shadow-sm">
+//                       <span className="text-sm font-bold text-green-600">
+//                         {formData.pengikut_anak_anak}
+//                       </span>
+//                     </div>
+//                   </div>
 
-                  <div className="flex items-center justify-between space-x-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const currentValue = parseInt(formData.pengikut_anak_anak) || 0;
-                        if (currentValue > 0) {
-                          const updatedFormData = {
-                            ...formData,
-                            pengikut_anak_anak: currentValue - 1
-                          };
-                          updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                          setFormData(updatedFormData);
-                        }
-                      }}
-                      className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
-                        parseInt(formData.pengikut_anak_anak) > 0 
-                          ? 'bg-white text-green-600 hover:bg-green-50 border-2 border-green-200 hover:border-green-300' 
-                          : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
-                      } focus:outline-none focus:ring-2 focus:ring-green-500 active:scale-95`}
-                      disabled={parseInt(formData.pengikut_anak_anak) <= 0}
-                    >
-                      <div className="flex items-center justify-center space-x-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                        </svg>
-                        <span>Kurang</span>
-                      </div>
-                    </button>
+//                   <div className="flex items-center justify-between space-x-2">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_anak_anak) || 0;
+//                         if (currentValue > 0) {
+//                           const updatedFormData = {
+//                             ...formData,
+//                             pengikut_anak_anak: currentValue - 1
+//                           };
+//                           updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                           setFormData(updatedFormData);
+//                         }
+//                       }}
+//                       className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
+//                         parseInt(formData.pengikut_anak_anak) > 0 
+//                           ? 'bg-white text-green-600 hover:bg-green-50 border-2 border-green-200 hover:border-green-300' 
+//                           : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
+//                       } focus:outline-none focus:ring-2 focus:ring-green-500 active:scale-95`}
+//                       disabled={parseInt(formData.pengikut_anak_anak) <= 0}
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+//                         </svg>
+//                         <span>Kurang</span>
+//                       </div>
+//                     </button>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const currentValue = parseInt(formData.pengikut_anak_anak) || 0;
-                        const updatedFormData = {
-                          ...formData,
-                          pengikut_anak_anak: currentValue + 1
-                        };
-                        updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                        setFormData(updatedFormData);
-                      }}
-                      className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-green-600 hover:bg-green-50 border-2 border-green-200 hover:border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 active:scale-95"
-                    >
-                      <div className="flex items-center justify-center space-x-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                        </svg>
-                        <span>Tambah</span>
-                      </div>
-                    </button>
-                  </div>
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_anak_anak) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_anak_anak: currentValue + 1
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-green-600 hover:bg-green-50 border-2 border-green-200 hover:border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 active:scale-95"
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+//                         </svg>
+//                         <span>Tambah</span>
+//                       </div>
+//                     </button>
+//                   </div>
 
-                  <div className="flex space-x-2 mt-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const updatedFormData = {
-                          ...formData,
-                          pengikut_anak_anak: 0
-                        };
-                        updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                        setFormData(updatedFormData);
-                      }}
-                      className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      Reset
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const currentValue = parseInt(formData.pengikut_anak_anak) || 0;
-                        const updatedFormData = {
-                          ...formData,
-                          pengikut_anak_anak: currentValue + 5
-                        };
-                        updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                        setFormData(updatedFormData);
-                      }}
-                      className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      +5
-                    </button>
-                  </div>
-                </div>
+//                   <div className="flex space-x-2 mt-3">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_anak_anak: 0
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       Reset
+//                     </button>
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_anak_anak) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_anak_anak: currentValue + 5
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       +5
+//                     </button>
+//                   </div>
+//                 </div>
 
-                {/* Bayi */}
-                <div className="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-2xl">👶</span>
-                      <span className="font-semibold text-gray-800">Bayi</span>
-                    </div>
-                    <div className="px-3 py-1 bg-white rounded-lg border border-purple-200 shadow-sm">
-                      <span className="text-sm font-bold text-purple-600">
-                        {formData.pengikut_bayi}
-                      </span>
-                    </div>
-                  </div>
+//                 {/* Bayi */}
+//                 <div className="bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-200 rounded-2xl p-4 transition-all duration-300 hover:shadow-lg hover:scale-[1.02]">
+//                   <div className="flex items-center justify-between mb-3">
+//                     <div className="flex items-center space-x-2">
+//                       <span className="text-2xl">👶</span>
+//                       <span className="font-semibold text-gray-800">Bayi</span>
+//                     </div>
+//                     <div className="px-3 py-1 bg-white rounded-lg border border-purple-200 shadow-sm">
+//                       <span className="text-sm font-bold text-purple-600">
+//                         {formData.pengikut_bayi}
+//                       </span>
+//                     </div>
+//                   </div>
 
-                  <div className="flex items-center justify-between space-x-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const currentValue = parseInt(formData.pengikut_bayi) || 0;
-                        if (currentValue > 0) {
-                          const updatedFormData = {
-                            ...formData,
-                            pengikut_bayi: currentValue - 1
-                          };
-                          updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                          setFormData(updatedFormData);
-                        }
-                      }}
-                      className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
-                        parseInt(formData.pengikut_bayi) > 0 
-                          ? 'bg-white text-purple-600 hover:bg-purple-50 border-2 border-purple-200 hover:border-purple-300' 
-                          : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
-                      } focus:outline-none focus:ring-2 focus:ring-purple-500 active:scale-95`}
-                      disabled={parseInt(formData.pengikut_bayi) <= 0}
-                    >
-                      <div className="flex items-center justify-center space-x-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-                        </svg>
-                        <span>Kurang</span>
-                      </div>
-                    </button>
+//                   <div className="flex items-center justify-between space-x-2">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_bayi) || 0;
+//                         if (currentValue > 0) {
+//                           const updatedFormData = {
+//                             ...formData,
+//                             pengikut_bayi: currentValue - 1
+//                           };
+//                           updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                           setFormData(updatedFormData);
+//                         }
+//                       }}
+//                       className={`flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm ${
+//                         parseInt(formData.pengikut_bayi) > 0 
+//                           ? 'bg-white text-purple-600 hover:bg-purple-50 border-2 border-purple-200 hover:border-purple-300' 
+//                           : 'bg-gray-100 text-gray-400 border-2 border-gray-200 cursor-not-allowed'
+//                       } focus:outline-none focus:ring-2 focus:ring-purple-500 active:scale-95`}
+//                       disabled={parseInt(formData.pengikut_bayi) <= 0}
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
+//                         </svg>
+//                         <span>Kurang</span>
+//                       </div>
+//                     </button>
 
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const currentValue = parseInt(formData.pengikut_bayi) || 0;
-                        const updatedFormData = {
-                          ...formData,
-                          pengikut_bayi: currentValue + 1
-                        };
-                        updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                        setFormData(updatedFormData);
-                      }}
-                      className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-purple-600 hover:bg-purple-50 border-2 border-purple-200 hover:border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 active:scale-95"
-                    >
-                      <div className="flex items-center justify-center space-x-1">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                        </svg>
-                        <span>Tambah</span>
-                      </div>
-                    </button>
-                  </div>
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_bayi) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_bayi: currentValue + 1
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-3 rounded-xl transition-all duration-200 font-semibold text-sm bg-white text-purple-600 hover:bg-purple-50 border-2 border-purple-200 hover:border-purple-300 focus:outline-none focus:ring-2 focus:ring-purple-500 active:scale-95"
+//                     >
+//                       <div className="flex items-center justify-center space-x-1">
+//                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+//                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+//                         </svg>
+//                         <span>Tambah</span>
+//                       </div>
+//                     </button>
+//                   </div>
 
-                  <div className="flex space-x-2 mt-3">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const updatedFormData = {
-                          ...formData,
-                          pengikut_bayi: 0
-                        };
-                        updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                        setFormData(updatedFormData);
-                      }}
-                      className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      Reset
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        const currentValue = parseInt(formData.pengikut_bayi) || 0;
-                        const updatedFormData = {
-                          ...formData,
-                          pengikut_bayi: currentValue + 5
-                        };
-                        updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
-                        setFormData(updatedFormData);
-                      }}
-                      className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                    >
-                      +5
-                    </button>
-                  </div>
-                </div>
-              </div>              
-            </div>
+//                   <div className="flex space-x-2 mt-3">
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_bayi: 0
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       Reset
+//                     </button>
+//                     <button
+//                       type="button"
+//                       onClick={() => {
+//                         const currentValue = parseInt(formData.pengikut_bayi) || 0;
+//                         const updatedFormData = {
+//                           ...formData,
+//                           pengikut_bayi: currentValue + 5
+//                         };
+//                         updatedFormData.total_pengikut = calculateTotalPengikut(updatedFormData);
+//                         setFormData(updatedFormData);
+//                       }}
+//                       className="flex-1 py-2 text-xs text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+//                     >
+//                       +5
+//                     </button>
+//                   </div>
+//                 </div>
+//               </div>              
+//             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-70 mt-4"
-            >
-              {loading ? (
-                <span className="flex items-center justify-center">
-                  <FaSpinner className="animate-spin mr-2" />
-                  Memproses...
-                </span>
-              ) : (
-                "💾 Simpan Perubahan"
-              )}
-            </button>
-          </div>
-        </form>
+//             <button
+//               type="submit"
+//               disabled={loading}
+//               className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-70 mt-4"
+//             >
+//               {loading ? (
+//                 <span className="flex items-center justify-center">
+//                   <FaSpinner className="animate-spin mr-2" />
+//                   Memproses...
+//                 </span>
+//               ) : (
+//                 "💾 Simpan Perubahan"
+//               )}
+//             </button>
+//           </div>
+//         </form>
 
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="w-full py-3 mt-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-70"
-        >
-          + Tambah Barang Titipan
-        </button>
+//         <button
+//           onClick={() => setIsModalOpen(true)}
+//           className="w-full py-3 mt-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all transform hover:scale-[1.02] disabled:opacity-70"
+//         >
+//           + Tambah Barang Titipan
+//         </button>
 
-        <CreateBarangTitipanModal
-          isOpen={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-          pengunjungs={newPengunjung}
-        />
+//         <CreateBarangTitipanModal
+//           isOpen={isModalOpen}
+//           onClose={() => setIsModalOpen(false)}
+//           pengunjungs={newPengunjung}
+//         />
 
-        <div className="mt-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
-          <p className="text-blue-700 text-sm">
-            <strong>Catatan:</strong> Data pengunjung telah berhasil disimpan. Anda dapat mengedit data di atas jika diperlukan, atau klik "Selesai" untuk menutup form.
-          </p>
-        </div>
-      </div>
+//         <div className="mt-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded">
+//           <p className="text-blue-700 text-sm">
+//             <strong>Catatan:</strong> Data pengunjung telah berhasil disimpan. Anda dapat mengedit data di atas jika diperlukan, atau klik "Selesai" untuk menutup form.
+//           </p>
+//         </div>
+//       </div>
 
-      {/* Floating Action Button untuk Keyboard di EditPengunjungFormWrapper */}
-      <button
-        onClick={toggleKeyboard}
-        className={`fixed right-6 bottom-6 z-40 group relative p-4 rounded-full shadow-2xl focus:outline-none focus:ring-4 transition-all duration-300 transform hover:scale-110 ${
-          isKeyboardEnabled 
-            ? 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-300' 
-            : 'bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-300'
-        }`}
-        title={`${isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual`}
-      >
-        <FaKeyboard className="w-6 h-6" />
+//       {/* Floating Action Button untuk Keyboard di EditPengunjungFormWrapper */}
+//       <button
+//         onClick={toggleKeyboard}
+//         className={`fixed right-6 bottom-6 z-40 group relative p-4 rounded-full shadow-2xl focus:outline-none focus:ring-4 transition-all duration-300 transform hover:scale-110 ${
+//           isKeyboardEnabled 
+//             ? 'bg-green-500 text-white hover:bg-green-600 focus:ring-green-300' 
+//             : 'bg-gray-500 text-white hover:bg-gray-600 focus:ring-gray-300'
+//         }`}
+//         title={`${isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual`}
+//       >
+//         <FaKeyboard className="w-6 h-6" />
         
-        <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-          {isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual
-          <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-8 border-transparent border-l-gray-800"></div>
-        </div>
-      </button>
+//         <div className="absolute right-full mr-3 top-1/2 transform -translate-y-1/2 px-3 py-2 bg-gray-800 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+//           {isKeyboardEnabled ? 'Nonaktifkan' : 'Aktifkan'} Keyboard Virtual
+//           <div className="absolute left-full top-1/2 transform -translate-y-1/2 border-8 border-transparent border-l-gray-800"></div>
+//         </div>
+//       </button>
 
-      <ImageModal
-        isOpen={showModalKtp}
-        onClose={() => setShowModalKtp(false)}
-        imageUrl={newPengunjung.photo_ktp}
-        title="Foto KTP"
-      />
+//       <ImageModal
+//         isOpen={showModalKtp}
+//         onClose={() => setShowModalKtp(false)}
+//         imageUrl={newPengunjung.photo_ktp}
+//         title="Foto KTP"
+//       />
       
-      <ImageModal
-        isOpen={showModalPengunjung}
-        onClose={() => setShowModalPengunjung(false)}
-        imageUrl={newPengunjung.photo_pengunjung}
-        title="Foto Pengunjung"
-      />
+//       <ImageModal
+//         isOpen={showModalPengunjung}
+//         onClose={() => setShowModalPengunjung(false)}
+//         imageUrl={newPengunjung.photo_pengunjung}
+//         title="Foto Pengunjung"
+//       />
 
-      <ImageModal
-        isOpen={showModalBarcode}
-        onClose={() => setShowModalBarcode(false)}
-        imageUrl={newPengunjung.barcode}
-        title="Barcode/QR Code"
-      />
+//       <ImageModal
+//         isOpen={showModalBarcode}
+//         onClose={() => setShowModalBarcode(false)}
+//         imageUrl={newPengunjung.barcode}
+//         title="Barcode/QR Code"
+//       />
 
-      {/* Virtual Keyboard - hanya muncul jika diaktifkan */}
-      {showVirtualKeyboard && isKeyboardEnabled && (
-        <VirtualKeyboard 
-          onKeyPress={handleVirtualKeyPress}
-          onClose={() => setShowVirtualKeyboard(false)}
-          value={keyboardValue}
-          activeInput={activeInput}
-          onInputChange={handleInputUpdate}
-        />
-      )}
+//       {/* Virtual Keyboard - hanya muncul jika diaktifkan */}
+//       {showVirtualKeyboard && isKeyboardEnabled && (
+//         <VirtualKeyboard 
+//           onKeyPress={handleVirtualKeyPress}
+//           onClose={() => setShowVirtualKeyboard(false)}
+//           value={keyboardValue}
+//           activeInput={activeInput}
+//           onInputChange={handleInputUpdate}
+//         />
+//       )}
       
-    </div>
-  );
-};
+//     </div>
+//   );
+// };
 
 export default AddPengunjungForm;

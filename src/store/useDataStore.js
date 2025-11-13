@@ -1239,6 +1239,83 @@ const useDataStore = create((set, get) => ({
         }
     },
 
+    // Tambahkan fungsi ini ke dalam useDataStore
+    createFromExisting: async(formData, setError) => {
+        const token = get().token;
+        if (!token) {
+            const errorMsg = "Token not found. Please login again.";
+            set({ error: errorMsg });
+            if (setError) setError(errorMsg);
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                "https://batarirtnbantaeng.cloud/api/pengunjung/create-from-existing",
+                formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const newPengunjung = response.data.data;
+
+            // Update state dengan data baru
+            set((state) => ({
+                pengunjungs: [...state.pengunjungs, newPengunjung],
+                pengunjungData: [...state.pengunjungData, newPengunjung],
+            }));
+
+            toast.success("Kunjungan berhasil dibuat dari data existing!");
+            return newPengunjung;
+
+        } catch (error) {
+            console.error("Create from existing error:", error);
+
+            let errorMessage = "Terjadi kesalahan saat membuat kunjungan dari data existing.";
+
+            if (error.response) {
+                errorMessage = error.response.data.message || errorMessage;
+            } else if (error.request) {
+                errorMessage = "Tidak ada respons dari server. Periksa koneksi internet Anda.";
+            }
+
+            toast.error(errorMessage);
+
+            if (setError) {
+                setError(errorMessage);
+            }
+            throw error;
+        }
+    },
+
+    // Tambahkan juga fungsi searchAllPengunjung
+    searchAllPengunjung: async(searchQuery) => {
+        try {
+            const token = get().token;
+            if (!token) {
+                console.error("Token not found. Unable to search pengunjung.");
+                return;
+            }
+
+            const response = await axios.get(
+                `https://batarirtnbantaeng.cloud/api/pengunjung/search-all?search=${encodeURIComponent(searchQuery)}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            return response.data.data;
+
+        } catch (error) {
+            console.error("Search pengunjung error:", error);
+            throw error;
+        }
+    },
+
     // Fungsi untuk update nomor antrian (menggunakan body)
     // updateAntrian: async(id, antrian) => {
     //     set({ loading: true, error: null }); // Set loading state
