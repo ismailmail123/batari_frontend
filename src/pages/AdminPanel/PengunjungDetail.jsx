@@ -4281,10 +4281,12 @@ import useAuthStore from "../../store/useAuthStore";
 import { FaHome } from "react-icons/fa";
 import IconUser from "../../assets/avatar.jpg";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import toast from "react-hot-toast";
 
 const PengunjungDetail = () => {
   const { id } = useParams();
-  const { fetchPengunjungByCode, pengunjungByCode, verify } = useDataStore();
+  const { fetchPengunjungByCode, pengunjungByCode, verify, updateBarangTitipan,
+  deleteBarangTitipan  } = useDataStore();
   const { authUser } = useAuthStore();
   const componentRef = useRef();
   const labelTitipanRef = useRef();
@@ -4293,6 +4295,13 @@ const PengunjungDetail = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
   const [includeAntrian, setIncludeAntrian] = useState(false); // State untuk checkbox
+  const [editingBarang, setEditingBarang] = useState(null);
+const [editFormData, setEditFormData] = useState({
+  jenis_barang: '',
+  jumlah: '',
+  keterangan: ''
+});
+const [showEditModal, setShowEditModal] = useState(false);
   const mmToPt = (mm) => mm * 2.83465;
 
   useEffect(() => {
@@ -4343,6 +4352,47 @@ const PengunjungDetail = () => {
         setIsLoading(false);
       });
   };
+
+  const handleEditBarang = (barang) => {
+  setEditingBarang(barang);
+  setEditFormData({
+    jenis_barang: barang.jenis_barang,
+    jumlah: barang.jumlah,
+    keterangan: barang.keterangan || ''
+  });
+  setShowEditModal(true);
+};
+
+// Fungsi untuk handle update barang
+const handleUpdateBarang = async (e) => {
+  e.preventDefault();
+  if (!editingBarang) return;
+
+  try {
+    await updateBarangTitipan(editingBarang.id, editFormData);
+    setShowEditModal(false);
+    setEditingBarang(null);
+    // Refresh data
+    fetchPengunjungByCode(id);
+    toast.success("Barang titipan berhasil diupdate!");
+  } catch (error) {
+    console.error("Error updating barang titipan:", error);
+  }
+};
+
+// Fungsi untuk handle delete barang
+const handleDeleteBarang = async (barangId) => {
+  if (window.confirm('Apakah Anda yakin ingin menghapus barang titipan ini?')) {
+    try {
+      await deleteBarangTitipan(barangId);
+      // Refresh data
+      fetchPengunjungByCode(id);
+      toast.success("Barang titipan berhasil dihapus!");
+    } catch (error) {
+      console.error("Error deleting barang titipan:", error);
+    }
+  }
+};
 
   const navigate = useNavigate();
 
@@ -6043,7 +6093,7 @@ const handlePrintThermalNow = () => {
           </div>
 
           {/* TABEL BARANG TITIPAN */}
-          <div className="overflow-x-auto mt-8">
+          {/* <div className="overflow-x-auto mt-8">
             <h4 className="font-bold text-lg mb-4 text-center underline">
               BARANG YANG DITITIPKAN
             </h4>
@@ -6079,7 +6129,69 @@ const handlePrintThermalNow = () => {
                 )}
               </tbody>
             </table>
-          </div>
+          </div> */}
+          {/* TABEL BARANG TITIPAN */}
+<div className="overflow-x-auto mt-8">
+  <h4 className="font-bold text-lg mb-4 text-center underline">
+    BARANG YANG DITITIPKAN
+  </h4>
+  <table className="min-w-full bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+    <thead className="bg-blue-800 text-white">
+      <tr>
+        <th className="border px-4 py-3 font-semibold">No</th>
+        <th className="border px-4 py-3 font-semibold">Jenis Barang</th>
+        <th className="border px-4 py-3 font-semibold">Jumlah</th>
+        <th className="border px-4 py-3 font-semibold">Keterangan</th>
+        <th className="border px-4 py-3 font-semibold">Tanggal Dititipkan</th>
+        {(authUser.user.role === "admin" || authUser.user.role === "p2u") && (
+          <th className="border px-4 py-3 font-semibold">Aksi</th>
+        )}
+      </tr>
+    </thead>
+    <tbody>
+      {pengunjungByCode.barang_titipan?.length > 0 ? (
+        pengunjungByCode?.barang_titipan.map((barang, index) => (
+          <tr key={barang.id} className="text-center hover:bg-gray-50 transition-colors">
+            <td className="border px-4 py-2 font-medium">{index + 1}</td>
+            <td className="border px-4 py-2">{barang.jenis_barang}</td>
+            <td className="border px-4 py-2 font-semibold">{barang.jumlah}</td>
+            <td className="border px-4 py-2">{barang.keterangan}</td>
+            <td className="border px-4 py-2 text-gray-600">
+              {new Date(barang.createdAt).toLocaleDateString("id-ID")}
+            </td>
+            {(authUser.user.role === "admin" || authUser.user.role === "p2u") && (
+              <td className="border px-4 py-2">
+                <div className="flex justify-center space-x-2">
+                  <button
+                    onClick={() => handleEditBarang(barang)}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm transition-colors"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteBarang(barang.id)}
+                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm transition-colors"
+                  >
+                    Hapus
+                  </button>
+                </div>
+              </td>
+            )}
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td 
+            colSpan={(authUser.user.role === "admin" || authUser.user.role === "p2u") ? "6" : "5"} 
+            className="border px-4 py-4 text-center text-gray-500 bg-gray-50"
+          >
+            Tidak ada barang titipan
+          </td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+</div>
 
           <div className="text-center m-0">
             <p className="text-sm text-gray-500 mt-2">
@@ -6392,6 +6504,77 @@ const handlePrintThermalNow = () => {
           </div>
         </div>
       )}
+
+      {/* Modal Edit Barang Titipan */}
+{showEditModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 z-50">
+    <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
+      <div className="flex justify-between items-center p-4 border-b">
+        <h2 className="text-xl font-semibold">Edit Barang Titipan</h2>
+        <button
+          onClick={() => setShowEditModal(false)}
+          className="text-gray-500 hover:text-gray-700"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <form onSubmit={handleUpdateBarang} className="p-4">
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Jenis Barang
+          </label>
+          <input
+            type="text"
+            value={editFormData.jenis_barang}
+            onChange={(e) => setEditFormData({...editFormData, jenis_barang: e.target.value})}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Jumlah
+          </label>
+          <input
+            type="number"
+            value={editFormData.jumlah}
+            onChange={(e) => setEditFormData({...editFormData, jumlah: e.target.value})}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Keterangan
+          </label>
+          <textarea
+            value={editFormData.keterangan}
+            onChange={(e) => setEditFormData({...editFormData, keterangan: e.target.value})}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            rows="3"
+          />
+        </div>
+        <div className="flex justify-end space-x-2">
+          <button
+            type="button"
+            onClick={() => setShowEditModal(false)}
+            className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+          >
+            Batal
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          >
+            Simpan Perubahan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
     </div>
   );
 };

@@ -230,8 +230,8 @@ const useDataStore = create((set, get) => ({
             set({
                 pengunjungById: response.data.data,
             });
-
             return response.data.data;
+
         } catch (error) {
             console.error("Fetch pengunjung by code error:", error);
             throw error;
@@ -1364,6 +1364,84 @@ const useDataStore = create((set, get) => ({
             set({ error: error.response.data.message || 'Terjadi kesalahan saat mengupdate antrian.' });
         } finally {
             set({ loading: false });
+        }
+    },
+
+
+    updateBarangTitipan: async(id, titipanData, setError) => {
+        const token = get().token;
+        if (!token) {
+            throw new Error("Token not found. Unable to update barang titipan data.");
+        }
+
+        try {
+            const response = await axios.put(
+                `https://batarirtnbantaeng.cloud/api/barang-titipan/${id}`,
+                titipanData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const updatedBarangTitipan = response.data.data;
+
+            // Update state pengunjungByCode jika ada barang titipan yang diupdate
+            set((state) => ({
+                pengunjungByCode: state.pengunjungByCode ? {
+                    ...state.pengunjungByCode,
+                    barang_titipan: state.pengunjungByCode.barang_titipan.map(item =>
+                        item.id === id ? updatedBarangTitipan : item
+                    )
+                } : state.pengunjungByCode
+            }));
+
+            toast.success("Barang titipan berhasil diupdate!");
+            return updatedBarangTitipan;
+
+        } catch (error) {
+            console.error("Update barang titipan error:", error);
+
+            const errorMessage = error.response.data.message || "Terjadi kesalahan saat mengupdate barang titipan.";
+            toast.error(errorMessage);
+
+            if (setError) {
+                setError(errorMessage);
+            }
+            throw error;
+        }
+    },
+
+    // Fungsi untuk delete barang titipan
+    deleteBarangTitipan: async(id) => {
+        const token = get().token;
+        if (!token) {
+            throw new Error("Token not found. Unable to delete barang titipan.");
+        }
+
+        try {
+            await axios.delete(`https://batarirtnbantaeng.cloud/api/barang-titipan/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            // Hapus dari state pengunjungByCode
+            set((state) => ({
+                pengunjungByCode: state.pengunjungByCode ? {
+                    ...state.pengunjungByCode,
+                    barang_titipan: state.pengunjungByCode.barang_titipan.filter(item => item.id !== id)
+                } : state.pengunjungByCode
+            }));
+
+            toast.success("Barang titipan berhasil dihapus!");
+
+        } catch (error) {
+            console.error("Delete barang titipan error:", error);
+
+            const errorMessage = error.response.data.message || "Terjadi kesalahan saat menghapus barang titipan.";
+            toast.error(errorMessage);
+            throw error;
         }
     },
 
