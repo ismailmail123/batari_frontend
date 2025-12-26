@@ -43,7 +43,7 @@ import useAuthStore from '../store/useAuthStore'; // Import store untuk akses to
 
 // Buat instance axios
 export const axiosInstance = axios.create({
-    baseURL: "https://batarirtnbantaeng.cloud/api",
+    baseURL: "https://batarirtnbantaeng.cloud/tabeom/api",
     withCredentials: true, // Izinkan pengiriman credentials (cookie/token)
 });
 

@@ -14,7 +14,7 @@ const useAuthStore = create(
             signup: async(data) => {
                 set({ isSigningUp: true });
                 try {
-                    const res = await axios.post("https://batarirtnbantaeng.cloud/api/auth/register", data);
+                    const res = await axios.post("https://batarirtnbantaeng.cloud/tabeom/api/auth/register", data);
                     set({ authUser: res.data });
                     localStorage.setItem("authUser", JSON.stringify(res.data)); // Simpan data user di local storage
                     return res.data; // Kembalikan data response
@@ -30,7 +30,7 @@ const useAuthStore = create(
             verify: async(data) => {
                 set({ isSigningUp: true });
                 try {
-                    const res = await axios.post("https://batarirtnbantaeng.cloud/api/auth/verify-email", data);
+                    const res = await axios.post("https://batarirtnbantaeng.cloud/tabeom/api/auth/verify-email", data);
                     set({ authUser: res.data });
                     localStorage.setItem("authUser", JSON.stringify(res.data)); // Simpan data user di local storage
                 } catch (error) {
@@ -44,7 +44,7 @@ const useAuthStore = create(
             login: async(data) => {
                 set({ isLoggingIn: true });
                 try {
-                    const res = await axios.post("https://batarirtnbantaeng.cloud/api/auth/login", data);
+                    const res = await axios.post("https://batarirtnbantaeng.cloud/tabeom/api/auth/login", data);
                     if (res.data && res.data.data) {
                         set({ authUser: res.data.data });
                         localStorage.setItem("authUser", JSON.stringify(res.data.data)); // Simpan data user di local storage
@@ -63,7 +63,7 @@ const useAuthStore = create(
             // Fungsi untuk logout
             logout: async() => {
                 try {
-                    await axios.post("https://batarirtnbantaeng.cloud/api/auth/logout"); // Panggil API logout
+                    await axios.post("https://batarirtnbantaeng.cloud/tabeom/api/auth/logout"); // Panggil API logout
                     set({ authUser: null }); // Reset state authUser ke null
                     localStorage.removeItem("authUser"); // Hapus data user dari local storage
                     localStorage.removeItem("token"); // Hapus data user dari local storage
@@ -79,7 +79,7 @@ const useAuthStore = create(
             updateProfile: async(data) => {
                 set({ isUpdatingProfile: true });
                 try {
-                    const res = await axios.put("https://batarirtnbantaeng.cloud/api/auth/update-profile", data);
+                    const res = await axios.put("https://batarirtnbantaeng.cloud/tabeom/api/auth/update-profile", data);
                     set({ authUser: res.data });
                     localStorage.setItem("authUser", JSON.stringify(res.data)); // Simpan data user di local storage
                     toast.success("Profile updated successfully");
