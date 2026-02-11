@@ -31,7 +31,7 @@ const NavbarWbp = () => {
   //   const handleLogout = async () => {
   //     try {
   //         // Panggil endpoint logout di backend
-  //         const response = await fetch("https://batarirtnbantaeng.cloud/v1/logout", {
+  //         const response = await fetch("http://localhost:8001/v1/logout", {
   //             method: "POST",
   //             headers: {
   //                 "Content-Type": "application/json",
