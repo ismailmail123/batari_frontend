@@ -74,7 +74,7 @@ const LoginPage = () => {
   });
   const encodedState = encodeURIComponent(state);
   
-  window.location.href = `http://localhost:8001auth/google?state=${encodedState}&role=${selectedRole}`;
+  window.location.href = `https://batarirtnbantaeng.cloud/tabeomauth/google?state=${encodedState}&role=${selectedRole}`;
 };
 
 
