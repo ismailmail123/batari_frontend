@@ -16,6 +16,8 @@ const useDataStore = create((set, get) => ({
     wbpList: [],
     antrians: [],
     errorMessage: "",
+    currentPage: 1,
+    totalPage: 1,
 
     // Set pesan error
     setErrorMessage: (message) => set({ errorMessage: message }),
@@ -23,7 +25,7 @@ const useDataStore = create((set, get) => ({
     // Fungsi untuk login dan menyimpan token di local storage
     login: async(credentials, navigate, setError) => {
         try {
-            const response = await axios.post("https://batarirtnbantaeng.cloud/tabeom/api/auth/auth", credentials);
+            const response = await axios.post("http://localhost:8001/api/auth/auth", credentials);
             const data = response.data;
             set({ user: data.data });
             localStorage.setItem("token", data.token); // Simpan token di local storage
@@ -58,7 +60,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/tabeom/api/users", {
+            const response = await axios.get("http://localhost:8001/api/users", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -76,7 +78,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/pengunjung-data", {
+            const response = await axios.get("http://localhost:8001/api/pengunjung/pengunjung-data", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -98,7 +100,7 @@ const useDataStore = create((set, get) => ({
 
         try {
             const response = await axios.post(
-                "https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/pengunjung-data",
+                "http://localhost:8001/api/pengunjung/pengunjung-data",
                 formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -147,7 +149,7 @@ const useDataStore = create((set, get) => ({
             }
 
             const response = await axios.put(
-                `https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/pengunjung-data/${kode}`,
+                `http://localhost:8001/api/pengunjung/pengunjung-data/${kode}`,
                 formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -197,7 +199,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get(`https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/pengunjung-data/bykode/${kode}`, {
+            const response = await axios.get(`http://localhost:8001/api/pengunjung/pengunjung-data/bykode/${kode}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -219,7 +221,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get(`https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/${id}`, {
+            const response = await axios.get(`http://localhost:8001/api/pengunjung/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -248,7 +250,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axios.post("https://batarirtnbantaeng.cloud/tabeom/api/wargabinaan/upload-excel", formData, {
+            const response = await axios.post("http://localhost:8001/api/wargabinaan/upload-excel", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
                     Authorization: `Bearer ${token}`,
@@ -295,7 +297,7 @@ const useDataStore = create((set, get) => ({
 
             set({ loading: true, error: null });
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/tabeom/api/wargabinaan", {
+            const response = await axios.get("http://localhost:8001/api/wargabinaan", {
                 params: { page, limit },
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -326,7 +328,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axios.get(`https://batarirtnbantaeng.cloud/tabeom/api/wargabinaan/${wbpId}`, {
+            const response = await axios.get(`http://localhost:8001/api/wargabinaan/${wbpId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -346,7 +348,7 @@ const useDataStore = create((set, get) => ({
                 throw new Error("User data not found. Unable to update wbp data.");
             }
 
-            const response = await axios.put(`https://batarirtnbantaeng.cloud/tabeom/api/wargabinaan/${wbpId}`, newData, {
+            const response = await axios.put(`http://localhost:8001/api/wargabinaan/${wbpId}`, newData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -373,7 +375,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axios.delete(`https://batarirtnbantaeng.cloud/tabeom/api/wargabinaan/${wbpId}`, {
+            const response = await axios.delete(`http://localhost:8001/api/wargabinaan/${wbpId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -407,7 +409,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/tabeom/api/wargabinaan/list", {
+            const response = await axios.get("http://localhost:8001/api/wargabinaan/list", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -419,23 +421,52 @@ const useDataStore = create((set, get) => ({
     },
 
     // Fungsi untuk mengambil data pengunjung
-    fetchPengunjung: async() => {
-        try {
-            const token = get().token;
-            if (!token) {
-                console.error("Token not found. Unable to fetch pengunjungs.");
-                return;
-            }
+    // fetchPengunjung: async() => {
+    //     try {
+    //         const token = get().token;
+    //         if (!token) {
+    //             console.error("Token not found. Unable to fetch pengunjungs.");
+    //             return;
+    //         }
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/tabeom/api/pengunjung", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            set({ pengunjungs: response.data.data });
-        } catch (error) {
-            console.error("Fetch pengunjungs error:", error);
-        }
+    //         const response = await axios.get("http://localhost:8001/api/pengunjung", {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //         });
+    //         set({ pengunjungs: response.data.data });
+    //     } catch (error) {
+    //         console.error("Fetch pengunjungs error:", error);
+    //     }
+    // },
+
+    fetchPengunjung: async({ page = 1, limit = 10, append = false } = {}) => {
+        const token = get().token;
+
+        // ✅ STOP kalau sudah halaman terakhir
+        if (append && get().currentPage >= get().totalPage) return;
+
+        const res = await axios.get(
+            `http://localhost:8001/api/pengunjung?page=${page}&limit=${limit}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            }
+        );
+
+        const { data, current_page, total_page } = res.data;
+
+        set((state) => ({
+            pengunjungs: append ? [
+                ...state.pengunjungs,
+                // ✅ anti duplikat
+                ...data.filter(
+                    (item) =>
+                    !state.pengunjungs.some((old) => old.id === item.id)
+                )
+            ] : data,
+
+            currentPage: current_page,
+            totalPage: total_page
+        }));
     },
 
     // Fungsi untuk mengambil data pengunjung berdasarkan kode
@@ -447,7 +478,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get(`https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/${id}`, {
+            const response = await axios.get(`http://localhost:8001/api/pengunjung/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -468,7 +499,7 @@ const useDataStore = create((set, get) => ({
                 throw new Error("Token not found. Unable to update pengunjung data.");
             }
 
-            const response = await axios.put(`https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/${id}`, newData, {
+            const response = await axios.put(`http://localhost:8001/api/pengunjung/${id}`, newData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -492,7 +523,7 @@ const useDataStore = create((set, get) => ({
             }
 
             // Kirim permintaan GET ke endpoint backend
-            const response = await axios.get("https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/antrian-terakhir", {
+            const response = await axios.get("http://localhost:8001/api/pengunjung/antrian-terakhir", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -595,7 +626,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axios.post("https://batarirtnbantaeng.cloud/tabeom/api/wargabinaan", pengunjungData, {
+            const response = await axios.post("http://localhost:8001/api/wargabinaan", pengunjungData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -826,7 +857,7 @@ const useDataStore = create((set, get) => ({
                 return;
             }
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/user", {
+            const response = await axios.get("http://localhost:8001/api/pengunjung/user", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -895,7 +926,7 @@ const useDataStore = create((set, get) => ({
             return;
         }
         try {
-            const res = await axios.post("https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/kode-verifikasi", data, {
+            const res = await axios.post("http://localhost:8001/api/pengunjung/kode-verifikasi", data, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -994,7 +1025,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axios.post("https://batarirtnbantaeng.cloud/tabeom/api/barang-titipan", titipanData, {
+            const response = await axios.post("http://localhost:8001/api/barang-titipan", titipanData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1065,7 +1096,7 @@ const useDataStore = create((set, get) => ({
     //     }
 
     //     try {
-    //         const response = await axios.post("https://batarirtnbantaeng.cloud/tabeom/api/pengunjung", formData, {
+    //         const response = await axios.post("http://localhost:8001/api/pengunjung", formData, {
     //             headers: {
     //                 "Content-Type": "multipart/form-data", // Untuk upload file
     //                 Authorization: `Bearer ${token}`,
@@ -1106,7 +1137,7 @@ const useDataStore = create((set, get) => ({
 
     //     try {
     //         const response = await axios.post(
-    //             "https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/pengunjung-data",
+    //             "http://localhost:8001/api/pengunjung/pengunjung-data",
     //             formData, {
     //                 headers: {
     //                     "Content-Type": "multipart/form-data",
@@ -1159,7 +1190,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            const response = await axios.post("https://batarirtnbantaeng.cloud/tabeom/api/pengunjung", wbpData, {
+            const response = await axios.post("http://localhost:8001/api/pengunjung", wbpData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1207,7 +1238,7 @@ const useDataStore = create((set, get) => ({
 
         try {
             const response = await axios.post(
-                "https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/create-from-existing",
+                "http://localhost:8001/api/pengunjung/create-from-existing",
                 formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
@@ -1257,7 +1288,7 @@ const useDataStore = create((set, get) => ({
             }
 
             const response = await axios.get(
-                `https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/search-all?search=${encodeURIComponent(searchQuery)}`, {
+                `http://localhost:8001/api/pengunjung/search-all?search=${encodeURIComponent(searchQuery)}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -1344,7 +1375,7 @@ const useDataStore = create((set, get) => ({
             return;
         }
         try {
-            const response = await axios.put('https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/update-antrian', { id }, {
+            const response = await axios.put('http://localhost:8001/api/pengunjung/update-antrian', { id }, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -1376,7 +1407,7 @@ const useDataStore = create((set, get) => ({
 
         try {
             const response = await axios.put(
-                `https://batarirtnbantaeng.cloud/tabeom/api/barang-titipan/${id}`,
+                `http://localhost:8001/api/barang-titipan/${id}`,
                 titipanData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -1420,7 +1451,7 @@ const useDataStore = create((set, get) => ({
         }
 
         try {
-            await axios.delete(`https://batarirtnbantaeng.cloud/tabeom/api/barang-titipan/${id}`, {
+            await axios.delete(`http://localhost:8001/api/barang-titipan/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
