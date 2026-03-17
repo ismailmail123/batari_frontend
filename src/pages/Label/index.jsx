@@ -38,7 +38,7 @@ const PengunjungLabel = () => {
   const [showLabelPreview, setShowLabelPreview] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
-  const [includeAntrian, setIncludeAntrian] = useState(false); // State untuk checkbox
+  const [includeAntrian, setIncludeAntrian] = useState(true); // State untuk checkbox
   const [editingBarang, setEditingBarang] = useState(null);
   const [editFormData, setEditFormData] = useState({
     jenis_barang: "",
