@@ -935,14 +935,14 @@ const styles = StyleSheet.create({
   },
 
   listItem: {
-    marginLeft: 30,
+    marginLeft: 15,
     marginBottom: 4,
     textAlign: "justify",
     fontSize: 11,
   },
 
   subListItem: {
-    marginLeft: 25,
+    marginLeft: 10,
     marginBottom: 3,
     textAlign: "justify",
     fontSize: 11,
@@ -1300,7 +1300,8 @@ const PDFLaporan = ({ data }) => {
           <Text style={styles.listItem}>1. Undang-Undang RI Nomor 22 Tahun 2022 tentang Pemasyarakatan;</Text>
           <Text style={styles.listItem}>2. Peraturan Pemerintah Nomor 32 Tahun 1999 tentang Hak Warga Binaan;</Text>
           <Text style={styles.listItem}>3. Peraturan Menteri Hukum dan HAM Nomor 18 Tahun 2015 tentang Organisasi dan Tata Kerja Rutan;</Text>
-          <Text style={styles.listItem}>4. Surat Edaran Dirjen PAS Nomor: PAS-394.PK.01.04.03 Tahun {tanggal.tahunOnly} tentang Layanan Kunjungan Idul Fitri 1447 H.</Text>
+          <Text style={styles.listItem}>4. Surat Edaran Dirjen PAS Nomor: PAS-UM.01.01-87 Tanggal 14 Maret Tahun 2026 Tentang Penguatan 
+            Pelaksanaan Pengamanan dan Layanan Kunjungan Idul Fitri 1447 H.</Text>
         </View>
 
         {/* E. KEGIATAN YANG DILAKSANAKAN */}
