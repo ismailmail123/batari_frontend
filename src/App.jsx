@@ -14,6 +14,8 @@
 
 import Routers from "./routes";
 import { Toaster } from "react-hot-toast";
+import usePrinterStore from "./store/usePrinterStore";
+import PrinterSelector from "./components/PrinterSelector";
 
 const App = () => {
   return (
@@ -104,6 +106,7 @@ const App = () => {
       </style>
       <Routers />    
       <Toaster />
+      <PrinterSelector />
     </div>
   );
 };

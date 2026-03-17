@@ -4281,12 +4281,14 @@ import useAuthStore from "../../store/useAuthStore";
 import { FaHome } from "react-icons/fa";
 import IconUser from "../../assets/avatar.jpg";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import usePrinterStore from "../../store/usePrinterStore"; 
 import toast from "react-hot-toast";
 
 const PengunjungDetail = () => {
   const { id } = useParams();
   const { fetchPengunjungByCode, pengunjungByCode, verify, updateBarangTitipan,
   deleteBarangTitipan  } = useDataStore();
+  const { printerType } = usePrinterStore();
   const { authUser } = useAuthStore();
   const componentRef = useRef();
   const labelTitipanRef = useRef();
@@ -4294,7 +4296,7 @@ const PengunjungDetail = () => {
   const [showLabelPreview, setShowLabelPreview] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isPrinting, setIsPrinting] = useState(false);
-  const [includeAntrian, setIncludeAntrian] = useState(false); // State untuk checkbox
+  const [includeAntrian, setIncludeAntrian] = useState(true); // State untuk checkbox
   const [editingBarang, setEditingBarang] = useState(null);
 const [editFormData, setEditFormData] = useState({
   jenis_barang: '',
@@ -5940,6 +5942,230 @@ const handlePrintThermalNow = () => {
     }
   };
 
+  // FUNGSI PRINT LABEL TITIPAN UKURAN A6
+const handlePrintLabelA6 = () => {
+  if (!pengunjungByCode?.barang_titipan?.length) {
+    alert('Tidak ada barang titipan untuk dicetak.');
+    return;
+  }
+  
+  setIsPrinting(true);
+  
+  // Ukuran A6 dalam mm: 105mm x 148mm (landscape)
+  // Untuk portrait: 148mm x 105mm
+  const labelContent = `
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Label Titipan A6 - ${pengunjungByCode?.nama || ''}</title>
+    <style>
+      @media print {
+        @page {
+          size: A6 landscape;
+          margin: 5mm;
+        }
+        html, body { 
+          margin: 0; 
+          padding: 0;
+          font-family: Arial, sans-serif;
+        }
+        .a6-container {
+          width: 100%;
+          min-height: 100%;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 3mm;
+          justify-content: flex-start;
+          align-items: flex-start;
+        }
+        
+        .label-a6 {
+          width: 90mm;
+          height: 60mm;
+          border: 1px solid #000;
+          padding: 3mm;
+          margin: 0;
+          page-break-inside: avoid;
+          position: relative;
+          box-sizing: border-box;
+          display: inline-block;
+        }
+        
+        .label-header {
+          text-align: center;
+          margin-bottom: 2mm;
+        }
+        .label-title {
+          font-size: 14px;
+          font-weight: bold;
+          text-decoration: underline;
+          margin-bottom: 1mm;
+        }
+        .label-antrian {
+          font-size: 11px;
+          font-weight: bold;
+          color: #d00;
+          background-color: #f0f0f0;
+          padding: 1mm;
+          border-radius: 2mm;
+          margin-bottom: 1mm;
+          text-align: center;
+        }
+        .label-row {
+          display: flex;
+          margin-bottom: 0.8mm;
+          font-size: 10px;
+        }
+        .label-key {
+          width: 40%;
+          font-weight: bold;
+          white-space: nowrap;
+        }
+        .label-value {
+          width: 60%;
+          word-wrap: break-word;
+        }
+        .label-barcode {
+          position: absolute;
+          bottom: 3mm;
+          right: 3mm;
+        }
+        .barcode-img {
+          width: 35px;
+          height: 35px;
+        }
+        .page-break {
+          page-break-after: always;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="a6-container">
+      ${
+        includeAntrian && pengunjungByCode?.antrian ? `
+          <!-- Halaman Antrian Ukuran A6 -->
+          <div class="label-a6">
+            <div class="label-header">
+              <div class="label-title">NOMOR ANTRIAN</div>
+              <div style="font-size: 9px; margin-bottom: 1mm;">Sistem Kunjungan Digital BATARI</div>
+              <div style="font-size: 9px;">Rutan Kelas II B Bantaeng</div>
+            </div>
+            
+            <div style="text-align: center; margin: 3mm 0;">
+              <span style="font-size: 48px; font-weight: bold; color: #d00;">${getLastThreeDigits(pengunjungByCode.antrian)}</span>
+            </div>
+            
+            <div style="text-align: center; margin: 2mm 0;">
+              ${pengunjungByCode?.barcode ? `<img src="${pengunjungByCode.barcode}" alt="Barcode" style="width: 40px; height: 40px;" />` : ''}
+              <div style="font-size: 8px; margin-top: 1mm;">Kode: ${pengunjungByCode.kode}</div>
+            </div>
+            
+            <div style="margin-top: 3mm;">
+              <div style="font-size: 9px; margin-bottom: 1mm;">Tanggal: ${new Date().toLocaleDateString('id-ID')}</div>
+              <div style="font-size: 9px;">Pengunjung: ${pengunjungByCode?.nama || ''}</div>
+            </div>
+            
+            <div style="position: absolute; bottom: 3mm; left: 0; right: 0; text-align: center; font-size: 7px;">
+              Tunggu hingga nomor antrian dipanggil
+            </div>
+          </div>
+        ` : ''
+      }
+      
+      ${
+        pengunjungByCode?.barang_titipan?.length > 0
+          ? pengunjungByCode.barang_titipan
+              .map(
+                (titipan) => `
+                <div class="label-a6">
+                  <div class="label-header">
+                    <div class="label-title">LABEL TITIPAN</div>
+                    <div style="font-size: 11px; font-weight: bold;">${titipan?.jenis_barang?.toUpperCase()}</div>
+                  </div>
+                  
+                  ${
+                    includeAntrian && pengunjungByCode?.antrian
+                      ? `
+                      <div class="label-antrian">
+                        No. Antrian: ${getLastThreeDigits(pengunjungByCode.antrian)}
+                      </div>
+                      `
+                      : ''
+                  }
+                  
+                  <div class="label-row">
+                    <span class="label-key">Nama WBP</span>
+                    <span class="label-value">: ${titipan.warga_binaan?.nama || pengunjungByCode?.warga_binaan?.nama || ""}</span>
+                  </div>
+                  
+                  <div class="label-row">
+                    <span class="label-key">Status WBP</span>
+                    <span class="label-value">: ${titipan.warga_binaan?.keterangan || pengunjungByCode?.warga_binaan?.keterangan || ""}</span>
+                  </div>
+                  
+                  <div class="label-row">
+                    <span class="label-key">Alamat WBP</span>
+                    <span class="label-value">: ${titipan.warga_binaan?.alamat || pengunjungByCode?.warga_binaan?.alamat || ""}</span>
+                  </div>
+                  
+                  <div class="label-row">
+                    <span class="label-key">Pengirim</span>
+                    <span class="label-value">: ${pengunjungByCode?.nama || ""}</span>
+                  </div>
+                  
+                  <div class="label-row">
+                    <span class="label-key">Alamat</span>
+                    <span class="label-value">: ${pengunjungByCode?.alamat || ""}</span>
+                  </div>
+                  
+                  <div class="label-row">
+                    <span class="label-key">Jenis Barang</span>
+                    <span class="label-value">: ${titipan.jenis_barang}</span>
+                  </div>
+                  
+                  <div class="label-row">
+                    <span class="label-key">Jumlah</span>
+                    <span class="label-value">: ${titipan.jumlah}</span>
+                  </div>
+                  
+                  <div class="label-barcode">
+                    ${pengunjungByCode?.barcode ? `<img src="${pengunjungByCode.barcode}" alt="Barcode" class="barcode-img" />` : ''}
+                  </div>
+                </div>
+              `
+              )
+            .join("")
+          : `
+            <div class="label-a6" style="display: flex; justify-content: center; align-items: center;">
+              <div style="text-align: center; font-size: 14px;">Tidak ada barang titipan</div>
+            </div>
+          `
+      }
+    </div>
+  </body>
+</html>
+  `;
+
+  // Buka jendela baru untuk print label A6
+  const printWindow = window.open('', '_blank', 'width=500,height=700');
+  if (printWindow) {
+    printWindow.document.write(labelContent);
+    printWindow.document.close();
+    
+    setTimeout(() => {
+      printWindow.print();
+      setTimeout(() => {
+        printWindow.close();
+        setIsPrinting(false);
+      }, 500);
+    }, 500);
+  } else {
+    alert('Popup diblokir! Silakan izinkan popup untuk mencetak label A6.');
+    setIsPrinting(false);
+  }
+};
+
   // Handle Export Label Titipan PDF
   const handleDownloadLabelPDF = async () => {
     try {
@@ -6278,6 +6504,26 @@ const handlePrintThermalNow = () => {
                   Perbarui
                 </button>
                 {/* TOMBOL PRINT LANGSUNG KARTU KUNJUNGAN */}
+              {/* <button
+                onClick={handlePrintNow}
+                disabled={isPrinting}
+                className="bg-green-600 text-white px-4 py-2 rounded text-bold hover:bg-green-700 disabled:opacity-50"
+              >
+                {isPrinting ? "Mencetak..." : "Print Kartu Kunjungan"}
+              </button> */}
+
+                {/* TOMBOL PRINT THERMAL LANGSUNG */}
+                {/* <button
+                  onClick={handlePrintThermalNow}
+                  disabled={isPrinting}
+                  className="bg-gray-700 text-white px-4 py-2 rounded text-bold hover:bg-gray-800 disabled:opacity-50"
+                >
+                  {isPrinting ? "Mencetak..." : "Print Kartu Kunjungan Thermal"}
+                </button> */}
+                
+
+                {/* TOMBOL CETAK BERDASARKAN JENIS PRINTER */}
+            {printerType === "chatridge" ? (
               <button
                 onClick={handlePrintNow}
                 disabled={isPrinting}
@@ -6285,28 +6531,40 @@ const handlePrintThermalNow = () => {
               >
                 {isPrinting ? "Mencetak..." : "Print Kartu Kunjungan"}
               </button>
-
-                {/* TOMBOL PRINT THERMAL LANGSUNG */}
-                <button
-                  onClick={handlePrintThermalNow}
-                  disabled={isPrinting}
-                  className="bg-gray-700 text-white px-4 py-2 rounded text-bold hover:bg-gray-800 disabled:opacity-50"
-                >
-                  {isPrinting ? "Mencetak..." : "Print Kartu Kunjungan Thermal"}
-                </button>
+              
+            ) : (
+              <button
+                onClick={handlePrintThermalNow}
+                disabled={isPrinting}
+                className="bg-gray-700 text-white px-4 py-2 rounded text-bold hover:bg-gray-800 disabled:opacity-50"
+              >
+                {isPrinting ? "Mencetak..." : "Print Kartu Kunjungan Thermal"}
+              </button>
+            )}
                 
                 {/* TOMBOL PRINT LANGSUNG LABEL TITIPAN */}
                 {pengunjungByCode.barang_titipan?.length > 0 && (
                   <>
-                    <button
+                  {printerType === "chatridge" ? (
+                  <button
+  onClick={handlePrintLabelA6}
+  disabled={isPrinting}
+  className="bg-purple-600 text-white px-4 py-2 rounded text-bold hover:bg-purple-700 disabled:opacity-50"
+>
+  {isPrinting ? "Mencetak..." : "Print Label A6"}
+</button>) : (
+  <button
                       onClick={handlePrintLabelNow}
                       disabled={isPrinting}
                       className="bg-orange-600 text-white px-4 py-2 rounded text-bold hover:bg-orange-700 disabled:opacity-50"
                     >
                       {isPrinting ? "Mencetak..." : "Print Label"}
                     </button>
+)}
                     
-                    <button
+                    
+                    
+                    {/* <button
                       onClick={() => setShowLabelPreview(true)}
                       className="bg-orange-500 text-white px-4 py-2 rounded text-bold hover:bg-orange-600"
                     >
@@ -6318,7 +6576,7 @@ const handlePrintThermalNow = () => {
                       className="bg-red-600 text-white px-4 py-2 rounded text-bold hover:bg-red-700"
                     >
                       Export Label PDF
-                    </button>
+                    </button> */}
                   </>
                 )}
               </>
