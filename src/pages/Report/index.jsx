@@ -1617,7 +1617,9 @@ console.log("REKAP PENGUNJUNG (Total orang):", rekapPengunjung)
                     startDate,
                     endDate,
                     pdfFormData,
-                    totalData: filteredPengunjungs.length
+                    totalData: filteredPengunjungs.length,
+                    totalWargaBinaan: wargaBinaanDikunjungi.totalWargaBinaan
+                    
                   }} />
                 </PDFViewer>
               </div>
@@ -1718,9 +1720,9 @@ console.log("REKAP PENGUNJUNG (Total orang):", rekapPengunjung)
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
               <div className="space-y-8">
                 <div className="bg-white p-6 rounded-lg shadow-lg">
-                  <h2 className="text-xl font-semibold mb-4">Rekap Pengunjung</h2>
+                  <h2 className="text-xl font-semibold mb-4">Rekap Pembesuk</h2>
                   <div className="space-y-2">
-                    <p className="font-bold text-lg">Total Pengunjung: {rekapPengunjung.totalPengunjung} orang</p>
+                    <p className="font-bold text-lg">Total Pembesuk: {rekapPengunjung.totalPengunjung} orang</p>
   <div className="space-y-2">
     <p className="font-bold text-lg">Total Warga Binaan Yang Dibesuk: {wargaBinaanDikunjungi.totalWargaBinaan} orang</p>
     <p className="ml-4 text-green-600">✓ Narapidana Aktif: {wargaBinaanDikunjungi.narapidanaAktif} orang</p>

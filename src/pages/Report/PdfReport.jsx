@@ -1065,6 +1065,8 @@ const PDFLaporan = ({ data }) => {
   // Menggunakan Date.now() untuk mendapatkan timestamp hari ini
   const now = Date.now();
   const tanggal = formatTanggal(now);
+
+  console.log("Data yang diterima di PDFLaporan:", data);
   
   const {
     totals = {},
@@ -1379,7 +1381,7 @@ const PDFLaporan = ({ data }) => {
             <Text style={[styles.dataSubTitle, { marginTop: 8 }]}>4. Kunjungan Hari Ke-{hariKunjungan} dimulai Pukul {jamKunjungan}.</Text>
 
             <Text style={[styles.dataSubTitle, { marginTop: 8 }]}>
-              5. Jumlah WBP yang dikunjungi : {filteredPengunjungs.length} orang
+              5. Jumlah WBP yang dikunjungi : {data.totalWargaBinaan} orang
             </Text>
           </View>
         </View>
