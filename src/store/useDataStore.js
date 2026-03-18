@@ -19,6 +19,10 @@ const useDataStore = create((set, get) => ({
     currentPage: 1,
     totalPage: 1,
 
+    // State untuk menyimpan semua data user (karena backend belum support pagination)
+    allPengunjungUser: [],
+    isLoadingUser: false,
+
     // Set pesan error
     setErrorMessage: (message) => set({ errorMessage: message }),
 
@@ -440,33 +444,117 @@ const useDataStore = create((set, get) => ({
     //     }
     // },
 
+    // fetchPengunjung: async({ page = 1, limit = 10, append = false } = {}) => {
+    //     const token = get().token;
+    //     if (!token) {
+    //         console.error("Token not found. Unable to fetch pengunjungs.");
+    //         return;
+    //     }
+    //     // Cek apakah sudah di halaman terakhir
+    //     const { currentPage, totalPage } = get();
+    //     if (append && currentPage >= totalPage) {
+    //         return;
+    //     }
+
+    //     set({ loading: true, error: null });
+
+    //     try {
+    //         const response = await axios.get(
+    //             `https://batarirtnbantaeng.cloud/tabeom/api/pengunjung?page=${page}&limit=${limit}`, {
+    //                 headers: { Authorization: `Bearer ${token}` }
+    //             }
+    //         );
+
+    //         const { data, current_page, total_page } = response.data;
+
+    //         set((state) => ({
+    //             pengunjungs: append ? [...state.pengunjungs, ...data] : data,
+    //             currentPage: current_page,
+    //             totalPage: total_page,
+    //             loading: false
+    //         }));
+
+    //     } catch (error) {
+    //         console.error("Fetch pengunjung error:", error);
+    //         set({
+    //             error: error.response.data.message || "Failed to fetch pengunjung",
+    //             loading: false
+    //         });
+    //     }
+    // },
+    // FUNGSI UNTUK ADMIN/P2U - DENGAN LIMIT YANG DAPAT DIATUR
     fetchPengunjung: async({ page = 1, limit = 10, append = false } = {}) => {
         const token = get().token;
 
-        // ✅ STOP kalau sudah halaman terakhir
-        if (append && get().currentPage >= get().totalPage) return;
+        // Cek apakah sudah di halaman terakhir
+        const { currentPage, totalPage } = get();
+        if (append && currentPage >= totalPage) {
+            return;
+        }
 
-        const res = await axios.get(
-            `https://batarirtnbantaeng.cloud/tabeom/api/pengunjung?page=${page}&limit=${limit}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            }
-        );
+        set({ loading: true, error: null });
 
-        const { data, current_page, total_page } = res.data;
+        try {
+            const response = await axios.get(
+                `https://batarirtnbantaeng.cloud/tabeom/api/pengunjung?page=${page}&limit=${limit}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            );
 
-        set((state) => ({
-            pengunjungs: append ? [
-                ...state.pengunjungs,
-                // ✅ anti duplikat
-                ...data.filter(
-                    (item) =>
-                    !state.pengunjungs.some((old) => old.id === item.id)
-                )
-            ] : data,
+            const { data, current_page, total_page, total_data } = response.data;
 
-            currentPage: current_page,
-            totalPage: total_page
-        }));
+            set((state) => ({
+                pengunjungs: append ? [...state.pengunjungs, ...data] : data,
+                currentPage: current_page,
+                totalPage: total_page,
+                totalData: total_data,
+                loading: false
+            }));
+
+        } catch (error) {
+            console.error("Fetch pengunjung error:", error);
+            set({
+                error: error.response.data.message || "Failed to fetch pengunjung",
+                loading: false
+            });
+        }
+    },
+
+    // FUNGSI UNTUK USER - DENGAN LIMIT YANG DAPAT DIATUR
+    fetchPengunjungUser: async({ page = 1, limit = 10, append = false } = {}) => {
+        const token = get().token;
+
+        const { userCurrentPage, userTotalPage } = get();
+        if (append && userCurrentPage >= userTotalPage) {
+            return;
+        }
+
+        set({ loadingUser: true, error: null });
+
+        try {
+            const response = await axios.get(
+                `https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/user?page=${page}&limit=${limit}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                }
+            );
+
+            const { data, current_page, total_page, total_data } = response.data;
+
+            set((state) => ({
+                pengunjungUser: append ? [...state.pengunjungUser, ...data] : data,
+                userCurrentPage: current_page,
+                userTotalPage: total_page,
+                userTotalData: total_data,
+                loadingUser: false
+            }));
+
+        } catch (error) {
+            console.error("Fetch pengunjung user error:", error);
+            set({
+                error: error.response.data.message || "Failed to fetch pengunjung user",
+                loadingUser: false
+            });
+        }
     },
 
     // Fungsi untuk mengambil data pengunjung berdasarkan kode
@@ -848,25 +936,25 @@ const useDataStore = create((set, get) => ({
     //         console.error("Fetch pengunjungs error:", error);
     //     }
     // },
-    fetchPengunjungUser: async() => {
-        try {
-            const token = get().token;
-            if (!token) {
-                console.error("Token not found. Unable to fetch wargabinaans.");
-                set({ error: "User data not found. Please login again." });
-                return;
-            }
+    // fetchPengunjungUser: async() => {
+    //     try {
+    //         const token = get().token;
+    //         if (!token) {
+    //             console.error("Token not found. Unable to fetch wargabinaans.");
+    //             set({ error: "User data not found. Please login again." });
+    //             return;
+    //         }
 
-            const response = await axios.get("https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/user", {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-            set({ pengunjungUser: response.data.data });
-        } catch (error) {
-            console.error("Fetch pengunjungs error:", error);
-        }
-    },
+    //         const response = await axios.get("https://batarirtnbantaeng.cloud/tabeom/api/pengunjung/user", {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //         });
+    //         set({ pengunjungUser: response.data.data });
+    //     } catch (error) {
+    //         console.error("Fetch pengunjungs error:", error);
+    //     }
+    // },
 
     // verify: async(data) => {
     //     try {
@@ -1548,6 +1636,27 @@ const useDataStore = create((set, get) => ({
     //         return null; // Kembalikan null jika terjadi error
     //     }
     // },
+
+    // Reset pagination untuk admin
+    resetPengunjungPagination: () => {
+        set({
+            pengunjungs: [],
+            currentPage: 1,
+            totalPage: 1,
+            totalData: 0
+        });
+    },
+
+    // Reset pagination untuk user
+    resetPengunjungUserPagination: () => {
+        set({
+            pengunjungUser: [],
+            userCurrentPage: 1,
+            userTotalPage: 1,
+            userTotalData: 0
+        });
+    },
+
 
 }));
 

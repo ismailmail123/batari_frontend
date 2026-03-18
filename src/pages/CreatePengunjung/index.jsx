@@ -9592,7 +9592,7 @@ const AddPengunjungForm = ({ onClose }) => {
 
   // Fungsi untuk validasi kunjungan yang diperbaiki
   const validateKunjungan = () => {
-    if (formData.tujuan === "Berkunjung") {
+    if (formData.tujuan === "Berkunjung" || formData.tujuan === "Berkunjung dan menitip") {
       // Cek apakah pengunjung sudah memiliki kunjungan aktif hari ini
       const today = new Date().toISOString().split('T')[0];
       
@@ -9605,7 +9605,7 @@ const AddPengunjungForm = ({ onClose }) => {
       const existingKunjungan = dataArray.find(p => {
         const isSameNik = p.nik === formData.nik;
         const isSameNama = p.nama === formData.nama;
-        const isBerkunjung = p.tujuan === "Berkunjung";
+        const isBerkunjung = p.tujuan === "Berkunjung" || p.tujuan === "Berkunjung dan menitip";
         const pDate = p.created_at?.split('T')[0]; // Ambil bagian tanggal dari created_at
         const isToday = pDate === today;
         
@@ -10258,7 +10258,7 @@ const AddPengunjungForm = ({ onClose }) => {
       jenis_kelamin: pengunjung.jenis_kelamin || "",
       hubungan_keluarga: pengunjung.hubungan_keluarga || "",
       kode: pengunjung.kode || "",
-      tujuan: pengunjung.tujuan || "Berkunjung",
+      tujuan: pengunjung.tujuan || "Berkunjung" || "Berkunjung dan menitip",
     };
 
     if (pengunjung.warga_binaan) {
@@ -10450,7 +10450,7 @@ const AddPengunjungForm = ({ onClose }) => {
     formDataToSend.append('source_value', sourceValue);
     
     // Gunakan data yang diedit untuk field lainnya
-    formDataToSend.append('tujuan', pengunjungData.tujuan || "Berkunjung");
+    formDataToSend.append('tujuan', pengunjungData.tujuan || "Berkunjung dan menitip");
     formDataToSend.append('nama', pengunjungData.nama || "");
     formDataToSend.append('alamat', pengunjungData.alamat || "");
     formDataToSend.append('nik', pengunjungData.nik || "");
@@ -10491,7 +10491,7 @@ const AddPengunjungForm = ({ onClose }) => {
       await handleGenerateAntrian(createdPengunjung.id);
 
       // Navigasi berdasarkan tujuan
-      if (createdPengunjung.tujuan === "Berkunjung") {
+      if (createdPengunjung.tujuan === "Berkunjung" || createdPengunjung.tujuan === "Berkunjung dan menitip") {
         navigate(`/pengunjung/${createdPengunjung.id}`);
       } else if (createdPengunjung.tujuan === "Menitip barang") {
         navigate(`/label/${createdPengunjung.id}`);
@@ -10613,7 +10613,7 @@ const AddPengunjungForm = ({ onClose }) => {
           alamat: "",
           hp: "",
           hubungan_keluarga: "",
-          tujuan: "Berkunjung",
+          tujuan: "Berkunjung dan menitip",
           kode: "",
           barcode: null,
           pengikut_laki_laki: 0,
@@ -10769,16 +10769,14 @@ const AddPengunjungForm = ({ onClose }) => {
           )}
 
           {/* Informasi Validasi - DIPERBAIKI */}
-          {formData.tujuan === "Berkunjung" && (
+          {formData.tujuan === "Berkunjung" || formData.tujuan === "Berkunjung dan menitip" ? (
             <div className="mb-6 p-4 bg-blue-50 border-l-4 border-blue-500 rounded-lg">
               <p className="text-blue-700 text-sm flex items-center">
                 <FaInfoCircle className="mr-2" />
                 <strong>Informasi:</strong> Untuk tujuan "Berkunjung", setiap pengunjung hanya dapat melakukan 1 kali pendaftaran per hari berdasarkan NIK atau nama.
               </p>
             </div>
-          )}
-
-          {formData.tujuan === "Menitip barang" && (
+          ) : (
             <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-500 rounded-lg">
               <p className="text-green-700 text-sm flex items-center">
                 <FaInfoCircle className="mr-2" />
@@ -10786,6 +10784,10 @@ const AddPengunjungForm = ({ onClose }) => {
               </p>
             </div>
           )}
+
+          {/* {formData.tujuan === "Menitip barang" && (
+            
+          )} */}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Informasi WBP Terpilih */}
@@ -11218,6 +11220,7 @@ const AddPengunjungForm = ({ onClose }) => {
               >
                 <option value="">Pilih Jenis Tujuan</option>
                 <option value="Berkunjung">Berkunjung</option>
+                <option value="Berkunjung dan menitip">Berkunjung dan menitip</option>
                 <option value="Menitip barang">Menitip barang</option>
               </select>
             </div>

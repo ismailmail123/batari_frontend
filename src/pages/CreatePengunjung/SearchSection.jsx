@@ -192,6 +192,7 @@ const SearchSection = ({
           >
             <option value="">Semua Tujuan</option>
             <option value="Berkunjung">Berkunjung</option>
+            <option value="Berkunjung dan menitip">Berkunjung dan Menitip</option>
             <option value="Menitip barang">Menitip Barang</option>
           </select>
         </div>
@@ -269,7 +270,7 @@ const SearchSection = ({
                       </div>
                       <div className="flex items-center text-sm">
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          pengunjung.tujuan === 'Berkunjung' 
+                          pengunjung.tujuan === 'Berkunjung' || pengunjung.tujuan === 'Berkunjung dan menitip' 
                             ? 'bg-green-100 text-green-800' 
                             : 'bg-orange-100 text-orange-800'
                         }`}>

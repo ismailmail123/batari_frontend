@@ -2507,6 +2507,7 @@ const EditPengunjungForm = () => {
                     >
                       <option value="">Pilih Tujuan Kunjungan</option>
                       <option value="Berkunjung">Berkunjung</option>
+                      <option value="Berkunjung dan menitip">Berkunjung dan Menitip</option>
                       <option value="Menitip barang">Menitip Barang</option>
                     </select>
                   </div>

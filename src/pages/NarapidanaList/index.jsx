@@ -94,6 +94,7 @@ const WargabinaanList = () => {
               <option value="tanggal_lahir">Tanggal Lahir</option>
               <option value="jenis_kelamin">Jenis Kelamin</option>
               <option value="status">Status</option>
+              <option value="keterangan">Keterangan</option>
             </select>
           </div>
         </div>

@@ -12,7 +12,7 @@ const DetailModal = ({ pengunjung, onClose, onUse }) => {
     hp: pengunjung.hp || "",
     alamat: pengunjung.alamat || "",
     hubungan_keluarga: pengunjung.hubungan_keluarga || "",
-    tujuan: pengunjung.tujuan || "Berkunjung",
+    tujuan: pengunjung.tujuan || "Berkunjung" || "Berkunjung dan menitip",
     kode: pengunjung.kode || "",
     pengikut_laki_laki: pengunjung.pengikut_laki_laki || 0,
     pengikut_perempuan: pengunjung.pengikut_perempuan || 0,
@@ -227,6 +227,7 @@ const DetailModal = ({ pengunjung, onClose, onUse }) => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                     >
                       <option value="Berkunjung">Berkunjung</option>
+                      <option value="Berkunjung dan menitip">Berkunjung dan Menitip</option>
                       <option value="Menitip barang">Menitip Barang</option>
                     </select>
                   </div>
@@ -425,7 +426,7 @@ const DetailModal = ({ pengunjung, onClose, onUse }) => {
                     hp: pengunjung.hp || "",
                     alamat: pengunjung.alamat || "",
                     hubungan_keluarga: pengunjung.hubungan_keluarga || "",
-                    tujuan: pengunjung.tujuan || "Berkunjung",
+                    tujuan: pengunjung.tujuan || "Berkunjung" || "Berkunjung dan menitip",
                     kode: pengunjung.kode || "",
                     pengikut_laki_laki: pengunjung.pengikut_laki_laki || 0,
                     pengikut_perempuan: pengunjung.pengikut_perempuan || 0,

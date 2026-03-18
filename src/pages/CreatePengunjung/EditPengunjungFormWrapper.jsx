@@ -15,7 +15,7 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose, isKeyboardE
     alamat: newPengunjung.alamat || "",
     hp: newPengunjung.hp || "",
     hubungan_keluarga: newPengunjung.hubungan_keluarga || "",
-    tujuan: newPengunjung.tujuan || "Berkunjung",
+    tujuan: newPengunjung.tujuan || "Berkunjung" || "Berkunjung dan menitip",
     kode: newPengunjung.kode || "",
     pengikut_laki_laki: newPengunjung.pengikut_laki_laki || 0,
     pengikut_perempuan: newPengunjung.pengikut_perempuan || 0,
@@ -145,7 +145,7 @@ const EditPengunjungFormWrapper = ({ newPengunjung, onBack, onClose, isKeyboardE
 
     if (!ambilAntrian && formData.tujuan === "Menitip barang") {
       navigate(`/label/${newPengunjung.id}`);
-    } else if (!ambilAntrian && formData.tujuan === "Berkunjung") {
+    } else if (!ambilAntrian && (formData.tujuan === "Berkunjung" || formData.tujuan === "Berkunjung dan menitip")) {
       navigate(`/pengunjung/${newPengunjung.id}`);
     } else {
       navigate('/');
