@@ -901,6 +901,7 @@ const Report = () => {
         endDate,
         pdfFormData: formData,
         totalData: filteredPengunjungs.length,
+        totalWargaBinaan: new Set(filteredPengunjungs.map(p => p.warga_binaan?.id)).size,
         limit,
         page
       };
@@ -1618,7 +1619,8 @@ console.log("REKAP PENGUNJUNG (Total orang):", rekapPengunjung)
                     endDate,
                     pdfFormData,
                     totalData: filteredPengunjungs.length,
-                    totalWargaBinaan: wargaBinaanDikunjungi.totalWargaBinaan
+                    // totalWargaBinaan: wargaBinaanDikunjungi.totalWargaBinaan
+                    totalWargaBinaan: new Set(filteredPengunjungs.map(p => p.warga_binaan?.id)).size,
                     
                   }} />
                 </PDFViewer>
