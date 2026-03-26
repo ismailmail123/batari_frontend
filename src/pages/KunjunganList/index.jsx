@@ -459,7 +459,7 @@ const PengunjungList = () => {
     totalData,
     userTotalData,
     resetPengunjungPagination,
-    r3t24NpUrJMNunMMASmhAM953bFGeLXzN7
+    resetPengunjungUserPagination
   } = useDataStore();
   
   // State untuk pencarian dan filter
@@ -500,7 +500,7 @@ const PengunjungList = () => {
         await fetchPengunjung({ page: 1, limit, append: false });
       } else if (authUser.user?.role === 'user') {
         console.log(`Loading user data with limit ${userLimit}...`);
-        r3t24NpUrJMNunMMASmhAM953bFGeLXzN7();
+        resetPengunjungUserPagination();
         setUserPage(1);
         await fetchPengunjungUser({ page: 1, limit: userLimit, append: false });
       }
@@ -542,7 +542,7 @@ const PengunjungList = () => {
     if (newLimit === userLimit) return;
     
     setUserLimit(newLimit);
-    r3t24NpUrJMNunMMASmhAM953bFGeLXzN7();
+    resetPengunjungUserPagination();
     setUserPage(1);
     fetchPengunjungUser({ page: 1, limit: newLimit, append: false });
   };
